@@ -10,7 +10,6 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
-import Logo from "../../assets/logo/logo.png";
 import backgroundImage from "../../assets/PDFTemplate/background.png";
 import governmentLogo from "../../assets/logo/governmentHospitalLogo.png";
 import PopRegular from "../../assets/Fonts/Poppins-Regular.ttf";
@@ -40,7 +39,7 @@ interface patientDetails {
 }
 
 interface ReportPDFProps {
-  reportDate: string | Date;
+  reportDate: any;
 }
 
 const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
@@ -533,7 +532,23 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                             Diet
                           </Text>
                           <Text style={{ width: "70%", color: "#000" }}>
-                            : -
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "12"
+                              )
+                              .map((element: any) => {
+                                const result = scoreVerify.filter(
+                                  (soc: any) => soc.refQCategoryId === "12"
+                                );
+                                return (
+                                  <ScoreVerify
+                                    userScoreVerify={result}
+                                    refScore={element.refPTScore}
+                                    status={true}
+                                  />
+                                );
+                              })}
                           </Text>
                         </View>
 
@@ -969,7 +984,8 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                         ) : null}
                                       </>
                                     );
-                                  })}/min
+                                  })}
+                                /min
                               </Text>
                             </View>
 
@@ -1011,7 +1027,8 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                         ) : null}
                                       </>
                                     );
-                                  })}/min
+                                  })}
+                                /min
                               </Text>
                             </View>
 
@@ -1048,20 +1065,23 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                         ) : null}
                                       </>
                                     );
-                                  })}/{score
-                                    .filter(
-                                      (element: any) =>
-                                        element.refQCategoryId === "91"
-                                    )
-                                    .map((element: any, index: any) => {
-                                      return (
-                                        <>
-                                          {index === 0 ? (
-                                            <>{element.refPTScore}</>
-                                          ) : null}
-                                        </>
-                                      );
-                                    })} mm of Hg
+                                  })}
+                                /
+                                {score
+                                  .filter(
+                                    (element: any) =>
+                                      element.refQCategoryId === "91"
+                                  )
+                                  .map((element: any, index: any) => {
+                                    return (
+                                      <>
+                                        {index === 0 ? (
+                                          <>{element.refPTScore}</>
+                                        ) : null}
+                                      </>
+                                    );
+                                  })}{" "}
+                                mm of Hg
                               </Text>
                             </View>
                           </View>
@@ -1247,7 +1267,14 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              90
+                              {score
+                                .filter(
+                                  (element: any) =>
+                                    element.refQCategoryId === "203"
+                                )
+                                .map((element: any) => {
+                                  return <Text>{element.refPTScore}</Text>;
+                                })}{" "}
                             </Text>
                             <Text
                               style={{
@@ -1261,7 +1288,14 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              130
+                              {score
+                                .filter(
+                                  (element: any) =>
+                                    element.refQCategoryId === "204"
+                                )
+                                .map((element: any) => {
+                                  return <Text>{element.refPTScore}</Text>;
+                                })}{" "}
                             </Text>
                             <Text
                               style={{
@@ -1275,7 +1309,14 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              98
+                              {score
+                                .filter(
+                                  (element: any) =>
+                                    element.refQCategoryId === "202"
+                                )
+                                .map((element: any) => {
+                                  return <Text>{element.refPTScore}</Text>;
+                                })}{" "}
                             </Text>
                             <Text
                               style={{
@@ -1288,7 +1329,14 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              5
+                              {score
+                                .filter(
+                                  (element: any) =>
+                                    element.refQCategoryId === "207"
+                                )
+                                .map((element: any) => {
+                                  return <Text>{element.refPTScore}</Text>;
+                                })}{" "}
                             </Text>
                           </View>
 
@@ -1325,7 +1373,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              20-06-2023
+                              {reportDate}
                             </Text>
                             <Text
                               style={{
@@ -1338,7 +1386,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              20-06-2023
+                              {reportDate}
                             </Text>
                             <Text
                               style={{
@@ -1351,7 +1399,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              20-06-2023
+                              {reportDate}
                             </Text>
                             <Text
                               style={{
@@ -1363,7 +1411,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              20-06-2023
+                              {reportDate}
                             </Text>
                           </View>
                         </View>
@@ -1432,11 +1480,105 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                               return categoryLabels.length > 0
                                 ? categoryLabels.join(" / ")
-                                : null;
+                                : null; // Return null if no matching categories
                             })
                             .filter(Boolean) // Remove null or empty results
-                            .join(" / ")}
+                            .join(" / ") || "No categories available"}{" "}
+                          {/* Add fallback here */}
                         </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Line */}
+                  <View
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "-20px",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "92%",
+                        borderBottom: "1px solid #1a70b0",
+                      }}
+                    >
+                      <Text> </Text>
+                    </View>
+                  </View>
+
+                  {/* Disease Status */}
+                  <View style={{ width: "100%", padding: "20px 0px" }}>
+                    <View
+                      style={{
+                        padding: "0px 20px",
+                        width: "100%",
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <View style={{ width: "28%", marginTop: "5px" }}>
+                        <Text
+                          style={{
+                            width: "100%",
+                            fontSize: "13px",
+                            fontFamily: "PopBold",
+                            backgroundColor: "#39b44a",
+                            color: "#fff",
+                            padding: "5px",
+                            margin: "0px 10px",
+                            borderRadius: "50%",
+                            textAlign: "center",
+                          }}
+                        >
+                          Disease Status
+                        </Text>
+                      </View>
+                      <View style={{ width: "68%" }}>
+                        <View
+                          style={{
+                            width: "100%",
+                            fontSize: "11px",
+                            textAlign: "center",
+                            color: "#000",
+                            fontFamily: "PopRegular",
+                            display: "flex",
+                            flexDirection: "row",
+                            paddingBottom: "5px",
+                          }}
+                        >
+                          <Text style={{ color: "#1a70b0" }}>Diabetic</Text>
+                          <Text>
+                            {" "}
+                            -{" "}
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "237"
+                              )
+                              .map((element: any) => {
+                                return <Text>{element.refPTScore}</Text>;
+                              })}{" "}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            width: "100%",
+                            fontSize: "11px",
+                            textAlign: "center",
+                            color: "#000",
+                            fontFamily: "PopRegular",
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <Text style={{ color: "#1a70b0" }}>Hypertensive</Text>
+                          <Text> - No Diabetes</Text>
+                        </View>
                       </View>
                     </View>
                   </View>
