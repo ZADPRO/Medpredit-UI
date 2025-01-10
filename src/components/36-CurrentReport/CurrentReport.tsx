@@ -71,6 +71,20 @@ const CurrentReport: React.FC = () => {
   const [hdl, setHdl] = useState<any[]>([]);
   const [ldl, setLdl] = useState<any[]>([]);
   const [tchdl, setTchdl] = useState<any[]>([]);
+  const [kr, setKr] = useState<any[]>([]);
+  const [kl, setKl] = useState<any[]>([]);
+  const [echo, setEcho] = useState<any[]>([]);
+  const [cortico, setCortico] = useState<any[]>([]);
+  const [bloodurea, setBloodurea] = useState<any[]>([]);
+  const [serum, SetSerum] = useState<any[]>([]);
+
+  const [egfr, setEgfr] = useState<any[]>([]);
+
+  const [urinesugar, setUrinesugar] = useState<any[]>([]);
+
+  const [urinealbumin, setUrinealbumin] = useState<any[]>([]);
+
+  const [urineketones, setUrineketones] = useState<any[]>([]);
 
   useEffect(() => {
     const tokenString = localStorage.getItem("userDetails");
@@ -143,6 +157,20 @@ const CurrentReport: React.FC = () => {
             setHdl(data.hdl);
             setLdl(data.ldl);
             setTchdl(data.tchdl);
+            setKr(data.kr);
+            setKl(data.kl);
+            setEcho(data.echo);
+            setCortico(data.cortico);
+            setBloodurea(data.bloodurea);
+
+            SetSerum(data.serum);
+            setEgfr(data.egfr);
+
+            setUrinesugar(data.urinesugar);
+
+            setUrinealbumin(data.urinealbumin);
+
+            setUrineketones(data.urineketones);
           });
       } catch (error) {
         console.error("Error parsing token:", error);
@@ -1269,9 +1297,6 @@ const CurrentReport: React.FC = () => {
                                                                           answer.refQCategoryId ===
                                                                           insights.refQCategoryId.toString() ? (
                                                                             <>
-                                                                              {
-                                                                                answer.refQCategoryId
-                                                                              }
                                                                               {answer.refQCategoryId ===
                                                                               "21" ? (
                                                                                 <>
@@ -1385,7 +1410,6 @@ const CurrentReport: React.FC = () => {
                                                                                   {
                                                                                     element.refCategoryLabel
                                                                                   }
-                                                                                  sdasd
                                                                                 </div>
                                                                                 <div
                                                                                   style={{
@@ -1414,6 +1438,66 @@ const CurrentReport: React.FC = () => {
                                                                                               NULL
                                                                                             </>
                                                                                           )}
+
+                                                                                          <>
+                                                                                            {allCategory.map(
+                                                                                              (
+                                                                                                val
+                                                                                              ) =>
+                                                                                                val.refQSubCategory ===
+                                                                                                answer.refQCategoryId.toString() ? (
+                                                                                                  <>
+                                                                                                    <div
+                                                                                                      style={{
+                                                                                                        marginTop:
+                                                                                                          "10px",
+                                                                                                        color:
+                                                                                                          "red",
+                                                                                                      }}
+                                                                                                    >
+                                                                                                      {
+                                                                                                        val.refCategoryLabel
+                                                                                                      }
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                      style={{
+                                                                                                        marginTop:
+                                                                                                          "5px",
+                                                                                                      }}
+                                                                                                    >
+                                                                                                      {allScore.map(
+                                                                                                        (
+                                                                                                          ans
+                                                                                                        ) =>
+                                                                                                          ans.refQCategoryId ===
+                                                                                                          val.refQCategoryId.toString() ? (
+                                                                                                            <>
+                                                                                                              {answer
+                                                                                                                .refPTScore
+                                                                                                                .length >
+                                                                                                              0 ? (
+                                                                                                                <>
+                                                                                                                  {
+                                                                                                                    ans.refPTScore
+                                                                                                                  }
+                                                                                                                </>
+                                                                                                              ) : (
+                                                                                                                <>
+                                                                                                                  NULL
+                                                                                                                </>
+                                                                                                              )}
+                                                                                                            </>
+                                                                                                          ) : null
+                                                                                                      )}
+                                                                                                    </div>
+                                                                                                  </>
+                                                                                                ) : (
+                                                                                                  <>
+
+                                                                                                  </>
+                                                                                                )
+                                                                                            )}
+                                                                                          </>
                                                                                         </>
                                                                                       ) : null
                                                                                   )}
@@ -1426,6 +1510,7 @@ const CurrentReport: React.FC = () => {
                                                                             )
                                                                         )}
                                                                       </>
+                                                                      <Divider />
                                                                     </div>
                                                                   </div>
                                                                 </>
@@ -1438,7 +1523,8 @@ const CurrentReport: React.FC = () => {
                                                         203 ||
                                                         204 ||
                                                         205 ||
-                                                        206 ? (
+                                                        206 ||
+                                                        224 ? (
                                                           <>
                                                             <Graph
                                                               data={
@@ -1475,6 +1561,24 @@ const CurrentReport: React.FC = () => {
                                                                   : category.refQCategoryId ===
                                                                     217
                                                                   ? tchdl
+                                                                  : category.refQCategoryId ===
+                                                                    218
+                                                                  ? bloodurea
+                                                                  : category.refQCategoryId ===
+                                                                    219
+                                                                  ? serum
+                                                                  : category.refQCategoryId ===
+                                                                    220
+                                                                  ? egfr
+                                                                  : category.refQCategoryId ===
+                                                                    221
+                                                                  ? urinesugar
+                                                                  : category.refQCategoryId ===
+                                                                    222
+                                                                  ? urinealbumin
+                                                                  : category.refQCategoryId ===
+                                                                    223
+                                                                  ? urineketones
                                                                   : null
                                                               }
                                                               label={
@@ -1511,8 +1615,48 @@ const CurrentReport: React.FC = () => {
                                                                   : category.refQCategoryId ===
                                                                     217
                                                                   ? "TC: HDL ratio"
+                                                                  : category.refQCategoryId ===
+                                                                    218
+                                                                  ? "Blood urea"
+                                                                  : category.refQCategoryId ===
+                                                                    219
+                                                                  ? "Serum creatinine"
+                                                                  : category.refQCategoryId ===
+                                                                    220
+                                                                  ? "eGFR"
+                                                                  : category.refQCategoryId ===
+                                                                    221
+                                                                  ? "Urine- sugar"
+                                                                  : category.refQCategoryId ===
+                                                                    222
+                                                                  ? "Urine Albumin"
+                                                                  : category.refQCategoryId ===
+                                                                    223
+                                                                  ? "Urine ketones"
                                                                   : ""
                                                               }
+                                                            />
+                                                          </>
+                                                        ) : null}
+
+                                                        {category.refQCategoryId ===
+                                                        224 ? (
+                                                          <>
+                                                            <Graph
+                                                              data={kr}
+                                                              label="Kidney Right"
+                                                            />
+                                                            <Graph
+                                                              data={kl}
+                                                              label="Kidney Left"
+                                                            />
+                                                            <Graph
+                                                              data={echo}
+                                                              label="Echogenicity"
+                                                            />
+                                                            <Graph
+                                                              data={cortico}
+                                                              label="Cortico Medulary Differentiation"
                                                             />
                                                           </>
                                                         ) : null}

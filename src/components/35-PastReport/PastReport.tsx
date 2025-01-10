@@ -25,6 +25,7 @@ import { Divider } from "primereact/divider";
 import { ScoreVerify } from "../../ScoreVerify";
 import { FaChevronRight, FaUserDoctor } from "react-icons/fa6";
 import ReportPDF from "../../pages/ReportPDF/ReportPDF";
+import Graph from "../../pages/Graph/Graph";
 
 const PastReport: React.FC = () => {
   const history = useHistory();
@@ -59,6 +60,32 @@ const PastReport: React.FC = () => {
   const [stressAnswer, setStressAnswer] = useState<any[]>([]);
 
   const [treatmentDetails, setTreatmentDetails] = useState<any[]>([]);
+
+  const [rbs, setRbs] = useState<any[]>([]);
+  const [fbs, setFbs] = useState<any[]>([]);
+  const [ppbs, setPpbs] = useState<any[]>([]);
+  const [ogtt, setOgtt] = useState<any[]>([]);
+  const [gct, setGct] = useState<any[]>([]);
+  const [hba1c, setHba1c] = useState<any[]>([]);
+  const [fastingcholesterol, setFastingcholesterol] = useState<any[]>([]);
+  const [fastingtriglycerides, setFastingtriglycerides] = useState<any[]>([]);
+  const [hdl, setHdl] = useState<any[]>([]);
+  const [ldl, setLdl] = useState<any[]>([]);
+  const [tchdl, setTchdl] = useState<any[]>([]);
+  const [kr, setKr] = useState<any[]>([]);
+  const [kl, setKl] = useState<any[]>([]);
+  const [echo, setEcho] = useState<any[]>([]);
+  const [cortico, setCortico] = useState<any[]>([]);
+  const [bloodurea, setBloodurea] = useState<any[]>([]);
+  const [serum, SetSerum] = useState<any[]>([]);
+
+  const [egfr, setEgfr] = useState<any[]>([]);
+
+  const [urinesugar, setUrinesugar] = useState<any[]>([]);
+
+  const [urinealbumin, setUrinealbumin] = useState<any[]>([]);
+
+  const [urineketones, setUrineketones] = useState<any[]>([]);
 
   useEffect(() => {
     const tokenString = localStorage.getItem("userDetails");
@@ -111,6 +138,32 @@ const PastReport: React.FC = () => {
               patientId: data.patientDetail.patientId,
               patientName: data.patientDetail.patientName,
             });
+
+            setRbs(data.rbs);
+            setFbs(data.fbs);
+            setPpbs(data.ppbs);
+            setOgtt(data.ogtt);
+            setGct(data.gct);
+            setHba1c(data.hba1c);
+            setFastingcholesterol(data.fastingcholesterol);
+            setFastingtriglycerides(data.fastingtriglycerides);
+            setHdl(data.hdl);
+            setLdl(data.ldl);
+            setTchdl(data.tchdl);
+            setKr(data.kr);
+            setKl(data.kl);
+            setEcho(data.echo);
+            setCortico(data.cortico);
+            setBloodurea(data.bloodurea);
+
+            SetSerum(data.serum);
+            setEgfr(data.egfr);
+
+            setUrinesugar(data.urinesugar);
+
+            setUrinealbumin(data.urinealbumin);
+
+            setUrineketones(data.urineketones);
 
             setAllScoreVerify(data.allScoreVerify);
 
@@ -1315,6 +1368,66 @@ const PastReport: React.FC = () => {
                                                                                               NULL
                                                                                             </>
                                                                                           )}
+
+                                                                                          <>
+                                                                                            {allCategory.map(
+                                                                                              (
+                                                                                                val
+                                                                                              ) =>
+                                                                                                val.refQSubCategory ===
+                                                                                                answer.refQCategoryId.toString() ? (
+                                                                                                  <>
+                                                                                                    <div
+                                                                                                      style={{
+                                                                                                        marginTop:
+                                                                                                          "10px",
+                                                                                                        color:
+                                                                                                          "red",
+                                                                                                      }}
+                                                                                                    >
+                                                                                                      {
+                                                                                                        val.refCategoryLabel
+                                                                                                      }
+                                                                                                    </div>
+                                                                                                    <div
+                                                                                                      style={{
+                                                                                                        marginTop:
+                                                                                                          "5px",
+                                                                                                      }}
+                                                                                                    >
+                                                                                                      {allScore.map(
+                                                                                                        (
+                                                                                                          ans
+                                                                                                        ) =>
+                                                                                                          ans.refQCategoryId ===
+                                                                                                          val.refQCategoryId.toString() ? (
+                                                                                                            <>
+                                                                                                              {answer
+                                                                                                                .refPTScore
+                                                                                                                .length >
+                                                                                                              0 ? (
+                                                                                                                <>
+                                                                                                                  {
+                                                                                                                    ans.refPTScore
+                                                                                                                  }
+                                                                                                                </>
+                                                                                                              ) : (
+                                                                                                                <>
+                                                                                                                  NULL
+                                                                                                                </>
+                                                                                                              )}
+                                                                                                            </>
+                                                                                                          ) : null
+                                                                                                      )}
+                                                                                                    </div>
+                                                                                                  </>
+                                                                                                ) : (
+                                                                                                  <>
+
+                                                                                                  </>
+                                                                                                )
+                                                                                            )}
+                                                                                          </>
                                                                                         </>
                                                                                       ) : null
                                                                                   )}
@@ -1327,6 +1440,7 @@ const PastReport: React.FC = () => {
                                                                             )
                                                                         )}
                                                                       </>
+                                                                      <Divider />
                                                                     </div>
                                                                   </div>
                                                                 </>
@@ -1334,6 +1448,148 @@ const PastReport: React.FC = () => {
                                                             </>
                                                           )
                                                         )}
+                                                        {category.refQCategoryId ===
+                                                          202 ||
+                                                        203 ||
+                                                        204 ||
+                                                        205 ||
+                                                        206 ||
+                                                        224 ? (
+                                                          <>
+                                                            <Graph
+                                                              data={
+                                                                category.refQCategoryId ===
+                                                                202
+                                                                  ? rbs
+                                                                  : category.refQCategoryId ===
+                                                                    203
+                                                                  ? fbs
+                                                                  : category.refQCategoryId ===
+                                                                    204
+                                                                  ? ppbs
+                                                                  : category.refQCategoryId ===
+                                                                    205
+                                                                  ? ogtt
+                                                                  : category.refQCategoryId ===
+                                                                    206
+                                                                  ? gct
+                                                                  : category.refQCategoryId ===
+                                                                    207
+                                                                  ? hba1c
+                                                                  : category.refQCategoryId ===
+                                                                    213
+                                                                  ? fastingcholesterol
+                                                                  : category.refQCategoryId ===
+                                                                    214
+                                                                  ? fastingtriglycerides
+                                                                  : category.refQCategoryId ===
+                                                                    215
+                                                                  ? hdl
+                                                                  : category.refQCategoryId ===
+                                                                    216
+                                                                  ? ldl
+                                                                  : category.refQCategoryId ===
+                                                                    217
+                                                                  ? tchdl
+                                                                  : category.refQCategoryId ===
+                                                                    218
+                                                                  ? bloodurea
+                                                                  : category.refQCategoryId ===
+                                                                    219
+                                                                  ? serum
+                                                                  : category.refQCategoryId ===
+                                                                    220
+                                                                  ? egfr
+                                                                  : category.refQCategoryId ===
+                                                                    221
+                                                                  ? urinesugar
+                                                                  : category.refQCategoryId ===
+                                                                    222
+                                                                  ? urinealbumin
+                                                                  : category.refQCategoryId ===
+                                                                    223
+                                                                  ? urineketones
+                                                                  : null
+                                                              }
+                                                              label={
+                                                                category.refQCategoryId ===
+                                                                202
+                                                                  ? "RBS (CBS)"
+                                                                  : category.refQCategoryId ===
+                                                                    203
+                                                                  ? "FBS"
+                                                                  : category.refQCategoryId ===
+                                                                    204
+                                                                  ? "PPBS"
+                                                                  : category.refQCategoryId ===
+                                                                    205
+                                                                  ? "OGTT"
+                                                                  : category.refQCategoryId ===
+                                                                    206
+                                                                  ? "GCT"
+                                                                  : category.refQCategoryId ===
+                                                                    207
+                                                                  ? "HBA1c"
+                                                                  : category.refQCategoryId ===
+                                                                    213
+                                                                  ? "Fasting Total Cholesterol"
+                                                                  : category.refQCategoryId ===
+                                                                    214
+                                                                  ? "Fasting total Triglycerides"
+                                                                  : category.refQCategoryId ===
+                                                                    215
+                                                                  ? "HDL - Cholesterol"
+                                                                  : category.refQCategoryId ===
+                                                                    216
+                                                                  ? "LDL - Cholesterol"
+                                                                  : category.refQCategoryId ===
+                                                                    217
+                                                                  ? "TC: HDL ratio"
+                                                                  : category.refQCategoryId ===
+                                                                    218
+                                                                  ? "Blood urea"
+                                                                  : category.refQCategoryId ===
+                                                                    219
+                                                                  ? "Serum creatinine"
+                                                                  : category.refQCategoryId ===
+                                                                    220
+                                                                  ? "eGFR"
+                                                                  : category.refQCategoryId ===
+                                                                    221
+                                                                  ? "Urine- sugar"
+                                                                  : category.refQCategoryId ===
+                                                                    222
+                                                                  ? "Urine Albumin"
+                                                                  : category.refQCategoryId ===
+                                                                    223
+                                                                  ? "Urine ketones"
+                                                                  : ""
+                                                              }
+                                                            />
+                                                          </>
+                                                        ) : null}
+
+                                                        {category.refQCategoryId ===
+                                                        224 ? (
+                                                          <>
+                                                            <Graph
+                                                              data={kr}
+                                                              label="Kidney Right"
+                                                            />
+                                                            <Graph
+                                                              data={kl}
+                                                              label="Kidney Left"
+                                                            />
+                                                            <Graph
+                                                              data={echo}
+                                                              label="Echogenicity"
+                                                            />
+                                                            <Graph
+                                                              data={cortico}
+                                                              label="Cortico Medulary Differentiation"
+                                                            />
+                                                          </>
+                                                        ) : null}
                                                       </div>
                                                     </div>
                                                   </IonAccordion>

@@ -4,7 +4,6 @@ import { Calendar } from "primereact/calendar";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
 import decrypt from "../../helper";
-import { elements } from "chart.js";
 import { IonAlert } from "@ionic/react";
 
 interface GraphValuesProps {
@@ -34,7 +33,7 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   const tokenObject = JSON.parse(tokenString);
   const token = tokenObject.token;
   const category: any = localStorage.getItem("getQuestions");
-  const categoryId: any = JSON.parse(category).id;
+  let categoryId: any = JSON.parse(category).id;
 
   const [data, setData] = useState<
     {
@@ -123,6 +122,40 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   };
 
   useEffect(() => {
+    console.log("====================================");
+    console.log(label);
+    console.log("====================================");
+
+    let temp: any = label.questionId;
+
+    if (temp === 330 && localStorage.getItem("testQuestion") === "329") {
+      categoryId = "225";
+    }
+
+    if (temp === 336 && localStorage.getItem("testQuestion") === "335") {
+      categoryId = "228";
+    }
+
+    if (temp === 340 && localStorage.getItem("testQuestion") === "339") {
+      categoryId = "231";
+    }
+
+    if (temp === 340 && localStorage.getItem("testQuestion") === "338") {
+      categoryId = "231";
+    }
+
+    if (temp === 345 && localStorage.getItem("testQuestion") === "343") {
+      categoryId = "234";
+    }
+
+    if (temp === 345 && localStorage.getItem("testQuestion") === "342") {
+      categoryId = "234";
+    }
+
+    if (temp === 345 && localStorage.getItem("testQuestion") === "344") {
+      categoryId = "234";
+    }
+
     if (tokenString) {
       try {
         axios
