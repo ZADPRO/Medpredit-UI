@@ -21,6 +21,8 @@ import PopBoldItalic from "../../assets/Fonts/Poppins-BoldItalic.ttf";
 import PopSemiboldItalic from "../../assets/Fonts/Poppins-SemiBoldItalic.ttf";
 import { ScoreVerify } from "../../ScoreVerify";
 
+import backgroundImage1 from "../../assets/PDFTemplate/background-1.png";
+
 interface DoctorDetails {
   refHospitalName: any;
   refHospitalAddress: any;
@@ -42,11 +44,13 @@ interface patientDetails {
 }
 
 interface ReportPDFProps {
-  reportDate: string | Date; // Adjust type depending on what you're passing
+  reportDate: any; // Adjust type depending on what you're passing
 }
 
 const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
   const tokenString: any = localStorage.getItem("userDetails");
+
+  const [Loading, setLoading] = useState(false);
 
   const tokenObject = JSON.parse(tokenString);
   const token = tokenObject.token;
@@ -1277,7 +1281,14 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            90
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "203"
+                              )
+                              .map((element: any) => {
+                                return <Text>{element.refPTScore}</Text>;
+                              })}{" "}
                           </Text>
                           <Text
                             style={{
@@ -1291,7 +1302,14 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            130
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "204"
+                              )
+                              .map((element: any) => {
+                                return <Text>{element.refPTScore}</Text>;
+                              })}{" "}
                           </Text>
                           <Text
                             style={{
@@ -1305,7 +1323,14 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            98
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "202"
+                              )
+                              .map((element: any) => {
+                                return <Text>{element.refPTScore}</Text>;
+                              })}{" "}
                           </Text>
                           <Text
                             style={{
@@ -1318,7 +1343,14 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            5
+                            {score
+                              .filter(
+                                (element: any) =>
+                                  element.refQCategoryId === "207"
+                              )
+                              .map((element: any) => {
+                                return <Text>{element.refPTScore}</Text>;
+                              })}{" "}
                           </Text>
                         </View>
 
@@ -1355,7 +1387,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            20-06-2023
+                            {reportDate}
                           </Text>
                           <Text
                             style={{
@@ -1368,7 +1400,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            20-06-2023
+                            {reportDate}
                           </Text>
                           <Text
                             style={{
@@ -1381,7 +1413,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            20-06-2023
+                            {reportDate}
                           </Text>
                           <Text
                             style={{
@@ -1393,7 +1425,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               paddingLeft: "5px",
                             }}
                           >
-                            20-06-2023
+                            {reportDate}
                           </Text>
                         </View>
                       </View>
@@ -1462,11 +1494,146 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                             return categoryLabels.length > 0
                               ? categoryLabels.join(" / ")
-                              : null;
+                              : null; // Return null if no matching categories
                           })
                           .filter(Boolean) // Remove null or empty results
-                          .join(" / ")}
+                          .join(" / ") || "No categories available"}{" "}
+                        {/* Add fallback here */}
                       </Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Line */}
+                <View
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "-20px",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: "92%",
+                      borderBottom: "1px solid #1a70b0",
+                    }}
+                  >
+                    <Text> </Text>
+                  </View>
+                </View>
+
+                {/* Disease Status */}
+                <View style={{ width: "100%", padding: "20px 0px" }}>
+                  <View
+                    style={{
+                      padding: "0px 20px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "28%",
+                        height: "80px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          width: "100%",
+                          fontSize: "13px",
+                          fontFamily: "PopBold",
+                          backgroundColor: "#39b44a",
+                          color: "#fff",
+                          padding: "5px",
+                          margin: "0px 10px",
+                          borderRadius: "50%",
+                          textAlign: "center",
+                        }}
+                      >
+                        Disease Status
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        width: "68%",
+                        height: "80px",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: "100%",
+                          fontSize: "11px",
+                          textAlign: "center",
+                          color: "#000",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          flexDirection: "row",
+                          paddingBottom: "5px",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "#1a70b0",
+                            width: "22%",
+                            textAlign: "left",
+                          }}
+                        >
+                          Diabetic
+                        </Text>
+                        <Text style={{ width: "3%", textAlign: "left" }}>
+                          -
+                        </Text>
+                        <Text style={{ width: "75%", textAlign: "left" }}>
+                          {score
+                            .filter(
+                              (element: any) => element.refQCategoryId === "237"
+                            )
+                            .map((element: any) => {
+                              return <Text>{element.refPTScore}</Text>;
+                            })}{" "}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: "100%",
+                          fontSize: "11px",
+                          textAlign: "center",
+                          color: "#000",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          flexDirection: "row",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            color: "#1a70b0",
+                            width: "22%",
+                            textAlign: "left",
+                          }}
+                        >
+                          Hypertensive
+                        </Text>
+                        <Text style={{ width: "3%", textAlign: "left" }}>
+                          -
+                        </Text>
+                        <Text style={{ width: "75%", textAlign: "left" }}>
+                          {score
+                            .filter(
+                              (element: any) => element.refQCategoryId === "238"
+                            )
+                            .map((element: any) => {
+                              return <Text>{element.refPTScore}</Text>;
+                            })}{" "}
+                        </Text>
+                      </View>
                     </View>
                   </View>
                 </View>
@@ -1494,6 +1661,306 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
             </View>
           </View>
         </Page>
+
+        <Page size="A4">
+          <View style={{ position: "relative", width: "100%", height: "100%" }}>
+            <Image
+              src={backgroundImage1}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+            <View style={{ padding: 20 }}>
+              <View
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "flex-end",
+                }}
+              >
+                {/* Date */}
+                <View>
+                  <Text
+                    style={{
+                      fontSize: "12px",
+                      color: "#636466",
+                      fontFamily: "PopBold",
+                      marginBottom: "20px",
+                    }}
+                  >
+                    {generateDate}
+                  </Text>
+                </View>
+
+                {/* Hospital Details */}
+                <View
+                  style={{
+                    width: "55%",
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end",
+                    flexDirection: "row",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: "20%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Image src={governmentLogo} style={{ width: "80%" }} />
+                  </View>
+                  <View style={{ width: "80%" }}>
+                    <Text
+                      style={{
+                        fontFamily: "PopBold",
+                        fontSize: "11.5px",
+                        color: "#1b71b1",
+                      }}
+                    >
+                      Government Mohan Kumaramangalam
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "PopBold",
+                        fontSize: "11.5px",
+                        color: "#1b71b1",
+                      }}
+                    >
+                      Medical College Hospital
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "PopBold",
+                        fontSize: "11.5px",
+                        color: "#1b71b1",
+                      }}
+                    >
+                      Department of Community Medicine
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: "PopBold",
+                        fontSize: "11.5px",
+                        color: "#1b71b1",
+                      }}
+                    >
+                      GMKMCH Salem
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Patient And Doctor Details */}
+
+                <View
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    padding: "0px 20px",
+                    paddingTop: "20px",
+                    marginTop: "10px",
+                  }}
+                >
+                  {/* Patient Details */}
+                  <View
+                    style={{
+                      width: "50%",
+                      height: "100px",
+                      backgroundColor: "#1b71b1",
+                      borderRadius: "10px",
+                      padding: "0px 20px",
+                      display: "flex",
+                      rowGap: "4px",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {/* Patient ID */}
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        fontSize: "12px",
+                        color: "#fff",
+                      }}
+                    >
+                      <Text style={{ fontFamily: "PopBold" }}>Patient ID </Text>
+                      <Text style={{ fontFamily: "PopRegular" }}>
+                        : {patientDetails?.refUserCustId}
+                      </Text>
+                    </View>
+
+                    {/* Patient Name */}
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        fontSize: "12px",
+                        color: "#fff",
+                      }}
+                    >
+                      <Text style={{ fontFamily: "PopBold" }}>Name </Text>
+                      <Text style={{ fontFamily: "PopRegular" }}>
+                        : {patientDetails?.refUserFname}{" "}
+                        {patientDetails?.refUserLname}
+                      </Text>
+                    </View>
+
+                    {/* Age */}
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        fontSize: "12px",
+                        color: "#fff",
+                      }}
+                    >
+                      <Text style={{ fontFamily: "PopBold" }}>Age </Text>
+                      <Text style={{ fontFamily: "PopRegular" }}>
+                        : {calculateAge(patientDetails?.refDOB)}
+                      </Text>
+                    </View>
+
+                    {/* Gender */}
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        fontSize: "12px",
+                        color: "#fff",
+                      }}
+                    >
+                      <Text style={{ fontFamily: "PopBold" }}>Gender </Text>
+                      <Text style={{ fontFamily: "PopRegular" }}>
+                        : {patientDetails?.refGender}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {/* Doctor Details */}
+                  <View
+                    style={{
+                      width: "45%",
+                      height: "100px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "flex-start",
+                    }}
+                  >
+                    {/* Doctor Name */}
+
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: "9.5px",
+                          fontFamily: "PopRegular",
+                        }}
+                      >
+                        Dr. {doctorDetails?.refUserFname}{" "}
+                        {doctorDetails?.refUserLname}{" "}
+                        {doctorDetails?.refEducationSpec} (Community Med)
+                      </Text>
+                    </View>
+
+                    {/* Doctor Designation */}
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: "9.5px",
+                          fontFamily: "PopRegular",
+                        }}
+                      >
+                        {doctorDetails?.refCRDesignation}
+                      </Text>
+                    </View>
+
+                    {/* Reg No */}
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: "9.5px",
+                          fontFamily: "PopRegular",
+                        }}
+                      >
+                        Reg No: {doctorDetails?.refMCINo}
+                      </Text>
+                    </View>
+
+                    {/* Mail Id */}
+                    <View>
+                      <Text
+                        style={{
+                          fontSize: "9.5px",
+                          fontFamily: "PopRegular",
+                        }}
+                      >
+                        Mail id : {doctorDetails?.refUserEmail}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Line */}
+                <View
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "-10px",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: "92%",
+                      borderBottom: "1px solid #1a70b0",
+                    }}
+                  >
+                    <Text> </Text>
+                  </View>
+                </View>
+
+                {/* Medication Report */}
+                <View
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "10px",
+                    flexDirection: "column",
+                  }}
+                >
+                  <Text
+                    style={{
+                      width: "25%",
+                      fontSize: "13px",
+                      fontFamily: "PopBold",
+                      backgroundColor: "#39b44a",
+                      color: "#fff",
+                      padding: "5px",
+                      margin: "0px 10px",
+                      borderRadius: "50%",
+                      textAlign: "center",
+                    }}
+                  >
+                    Medication
+                  </Text>
+                  <View style={{ width: "100%", padding: "0 10px" }}>
+                    <Text>Table</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </Page>
       </Document>
     );
 
@@ -1508,6 +1975,8 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
     // Clean up the link element
     URL.revokeObjectURL(link.href);
+
+    setLoading(false);
   };
 
   return (
@@ -2056,23 +2525,40 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
           </Page>
         </Document>
       </PDFViewer> */}
-      <button
-        onClick={() => {
-          handleDownloadPDF();
-        }}
+      {Loading ? (
+        <><button
         style={{
+          background: "linear-gradient(160deg, #077556, #2f9f97)",
+          fontSize: "16px",
+          color: "#fff",
           width: "100%",
           height: "3rem",
-          // margin: "5px 0px",
+          margin: "5px 0px",
           borderRadius: "5px",
-          background: "linear-gradient(160deg, #077556, #2f9f97)",
-          color: "#fff",
-          fontSize: "16px",
-          cursor: "pointer",
         }}
       >
-        Download Report
-      </button>
+        <i className="pi pi-spin pi-spinner"></i>
+      </button></>
+      ) : (
+        <button
+          onClick={() => {
+            handleDownloadPDF();
+            setLoading(true);
+          }}
+          style={{
+            width: "100%",
+            height: "3rem",
+            // margin: "5px 0px",
+            borderRadius: "5px",
+            background: "linear-gradient(160deg, #077556, #2f9f97)",
+            color: "#fff",
+            fontSize: "16px",
+            cursor: "pointer",
+          }}
+        >
+          Download Report
+        </button>
+      )}
     </div>
   );
 };

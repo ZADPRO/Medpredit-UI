@@ -27,9 +27,6 @@ import searchUser from "../../assets/images/SeacrhUser.png";
 const Tab2: React.FC = () => {
   const history = useHistory();
 
-  const sortModal = useRef<HTMLIonModalElement>(null);
-  const filterModal = useRef<HTMLIonModalElement>(null);
-
   const contentRef = useRef<HTMLIonContentElement>(null);
 
   const [patientsData, setPatientData] = useState([]);
@@ -167,7 +164,22 @@ const Tab2: React.FC = () => {
           }}
         >
           {loadingStatus ? (
-            <>Loading</>
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  height: "90vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <i
+                  className="pi pi-spin pi-spinner"
+                  style={{ fontSize: "2rem", color: "#1a70b0" }}
+                ></i>
+              </div>
+            </>
           ) : (
             <>
               {patientsData.length === 0 ? (

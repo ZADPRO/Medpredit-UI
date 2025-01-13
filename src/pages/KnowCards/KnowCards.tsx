@@ -99,6 +99,10 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
               refQCategoryId: refQCategoryId,
             });
           } else {
+            localStorage.setItem(
+              "getCategory",
+              JSON.stringify({ id: refQCategoryId, label: refCategoryLabel })
+            );
             history.push(`/questions/${refCategoryLabel}/${refQCategoryId}`);
           }
         });

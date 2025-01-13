@@ -19,6 +19,8 @@ const SubCategories: React.FC = () => {
     categroyName: string;
   }>();
 
+  const [loadingStatus, setLoadingStatus] = useState(true);
+
   useEffect(() => {
     const getCategory = {
       id: categoryId,
@@ -39,6 +41,9 @@ const SubCategories: React.FC = () => {
     const patientId = localStorage.getItem("currentPatientId");
 
     if (tokenString) {
+      if (history.location.pathname.split("/")[1] === "subCategories") {
+        setLoadingStatus(true);
+      }
       try {
         const tokenObject = JSON.parse(tokenString);
         const token = tokenObject.token;
@@ -71,7 +76,8 @@ const SubCategories: React.FC = () => {
 
             setCategories(data.data);
 
-            console.log("----------->", data.data);
+            setLoadingStatus(false);
+            console.log("----------->Val", data.data);
           });
       } catch (error) {
         console.error("Error parsing token:", error);
@@ -112,11 +118,32 @@ const SubCategories: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <SubCards
-          data={categories}
-          categoryId={categoryId}
-          categroyName={categroyName}
-        />
+        {loadingStatus ? (
+          <>
+            <div
+              style={{
+                width: "100%",
+                height: "90vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <i
+                className="pi pi-spin pi-spinner"
+                style={{ fontSize: "2rem", color: "#1a70b0" }}
+              ></i>
+            </div>
+          </>
+        ) : (
+          <>
+            <SubCards
+              data={categories}
+              categoryId={categoryId}
+              categroyName={categroyName}
+            />
+          </>
+        )}
       </IonContent>
     </IonPage>
   );

@@ -73,17 +73,27 @@ const Tab4: React.FC = () => {
       const tokenObject = JSON.parse(tokenString);
       const token = tokenObject.token;
 
-      Axios.get(`${import.meta.env.VITE_API_URL}/getProfile`, {
-        headers: {
-          Authorization: token,
-          "Content-Type": "application/json",
+      Axios.post(
+        `${import.meta.env.VITE_API_URL}/getProfile`,
+        {
+          hospitalId: localStorage.getItem("hospitalId"),
         },
-      }).then((response) => {
+        {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        }
+      ).then((response) => {
         const data = decrypt(
           response.data[1],
           response.data[0],
           import.meta.env.VITE_ENCRYPTION_KEY
         );
+
+        console.log("====================================");
+        console.log(data);
+        console.log("====================================");
 
         if (data.status) {
           setUserData({

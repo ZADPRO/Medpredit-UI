@@ -28,6 +28,9 @@ const KnowAboutPatient: React.FC = () => {
     patientId: string;
   }>();
 
+  const [loadingStatus, setLoadingStatus] = useState(true);
+  const [reportLoading, setReportLoading] = useState(true);
+
   useEffect(() => {
     const getSubCategory = {
       id: patientId,
@@ -60,6 +63,8 @@ const KnowAboutPatient: React.FC = () => {
     refTotalScore: number;
     createdAt: string;
   }
+
+  const [overAllLoading, setOverAllLoading] = useState(true);
 
   useEffect(() => {
     if (tokenString) {
@@ -107,6 +112,7 @@ const KnowAboutPatient: React.FC = () => {
               subMainCategory(4);
               getReport();
             }
+            setOverAllLoading(false);
           });
       } catch (error) {
         console.error("Error fetching patient data:", error);
@@ -116,6 +122,7 @@ const KnowAboutPatient: React.FC = () => {
 
   const subMainCategory = async (categoryId: number) => {
     try {
+      setLoadingStatus(true);
       const subCategory = await axios.post(
         `${import.meta.env.VITE_API_URL}/getSubMainCategory`,
         {
@@ -143,6 +150,7 @@ const KnowAboutPatient: React.FC = () => {
         setSubCategoryData(data.data);
         setLatestReport(data.latestreportDate);
         console.log("################", data.latestreportDate);
+        setLoadingStatus(false);
       }
     } catch (error) {
       console.error("Error fetching subcategories:", error);
@@ -151,6 +159,8 @@ const KnowAboutPatient: React.FC = () => {
 
   const handleSegmentChange = (value: any) => {
     setSelectedValue(value);
+
+    localStorage.setItem("getMainCat", value);
 
     const selectedCategory = categories.find(
       (category) => category.refCategoryLabel === value
@@ -167,6 +177,7 @@ const KnowAboutPatient: React.FC = () => {
   };
 
   const getReport = async () => {
+    setReportLoading(true);
     try {
       axios
         .post(
@@ -233,6 +244,13 @@ const KnowAboutPatient: React.FC = () => {
               id: data.categoryId,
               label: data.categoryLabel,
             });
+
+            setMainNav({
+              id: data.mainId,
+              label: data.mainLabel,
+            });
+
+            setReportLoading(false);
           }
         });
     } catch (error) {
@@ -249,283 +267,367 @@ const KnowAboutPatient: React.FC = () => {
     label: "",
   });
 
+  const [mainNav, setMainNav] = useState({
+    id: "",
+    label: "",
+  });
+
   return (
     <IonPage>
-      <IonHeader mode="ios">
-        <IonToolbar className="pt-1 pb-1" mode="ios">
-          <IonButtons
-            onClick={() => {
-              history.goBack();
-            }}
-            slot="start"
-          >
-            <IonBackButton mode="md" defaultHref="/patient"></IonBackButton>
-          </IonButtons>
-          <IonTitle>{patient}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonToolbar>
-          <IonSegment
-            value={selectedValue}
-            scrollable={true}
-            onIonChange={(e) => handleSegmentChange(e.detail.value!)}
-          >
-            <IonSegmentButton
-              key="knowabout"
-              value="knowabout"
-              contentId="knowabout"
+      {overAllLoading ? (
+        <>
+          <IonContent>
+            <div
+              style={{
+                width: "100%",
+                height: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <IonLabel>Know About Patient</IonLabel>
-            </IonSegmentButton>
-            {categories.map((category) => (
-              <IonSegmentButton
-                key={category.refQCategoryId}
-                value={category.refCategoryLabel}
-                contentId={category.refCategoryLabel}
+              <i
+                className="pi pi-spin pi-spinner"
+                style={{ fontSize: "2rem", color: "#1a70b0" }}
+              ></i>
+            </div>
+          </IonContent>
+        </>
+      ) : (
+        <>
+          <IonHeader mode="ios">
+            <IonToolbar className="pt-1 pb-1" mode="ios">
+              <IonButtons
+                onClick={() => {
+                  history.goBack();
+                }}
+                slot="start"
               >
-                <IonLabel>{category.refCategoryLabel}</IonLabel>
-              </IonSegmentButton>
-            ))}
-          </IonSegment>
-        </IonToolbar>
-        <div>
-          {selectedValue === "knowabout" ? (
-            <>
-              <IonSegmentContent key="knowabout" id="knowabout">
-                <div
-                  style={{
-                    width: "100%",
-                    height: "85vh",
-                    overflow: "auto",
-                    padding: "0px 10px",
-                  }}
+                <IonBackButton mode="md" defaultHref="/patient"></IonBackButton>
+              </IonButtons>
+              <IonTitle>{patient}</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <IonToolbar>
+              <IonSegment
+                value={selectedValue}
+                scrollable={true}
+                onIonChange={(e) => handleSegmentChange(e.detail.value!)}
+              >
+                <IonSegmentButton
+                  key="knowabout"
+                  value="knowabout"
+                  contentId="knowabout"
                 >
-                  {currentReport ? (
-                    <></>
-                  ) : (
-                    <>
-                      <Divider layout="horizontal">
-                        <div
-                          style={{
-                            color: "#939185",
-                            fontWeight: "500",
-                          }}
-                        >
-                          Current Report
-                        </div>
-                      </Divider>
-
-                      <div
-                        onClick={() => {
-                          history.push(
-                            `/questions/${navCategory.label}/${navCategory.id}`
-                          );
-                        }}
-                        style={{
-                          width: "100%",
-                          background: "#FFDE4D",
-                          borderRadius: "5px",
-                          height: "50px",
-                          padding: "10px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div style={{ fontSize: "14px" }}>
-                          <i
-                            className="pi pi-clock"
-                            style={{ paddingRight: "10px" }}
-                          ></i>
-                          Pending (Complete the Report)
-                        </div>
-                        <div>
-                          <i
-                            className="pi pi-angle-right"
-                            style={{ fontSize: "1.5rem" }}
-                          ></i>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
-                  {currentReport === "report" ? (
-                    <>
-                      <Divider layout="horizontal">
-                        <div
-                          style={{
-                            color: "#939185",
-                            fontWeight: "500",
-                          }}
-                        >
-                          Current Report
-                        </div>
-                      </Divider>
-
-                      <div
-                        onClick={() => {
-                          history.push(
-                            `/currentReport/${patient}/${patientId}`
-                          );
-                        }}
-                        style={{
-                          width: "100%",
-                          background: "#5DB996",
-                          borderRadius: "5px",
-                          height: "50px",
-                          padding: "10px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <div style={{ fontSize: "14px" }}>
-                          <i
-                            className="pi pi-check"
-                            style={{ paddingRight: "10px" }}
-                          ></i>
-                          Questions Completed (Generate Report)
-                        </div>
-                        <div>
-                          <i
-                            className="pi pi-angle-right"
-                            style={{ fontSize: "1.5rem" }}
-                          ></i>
-                        </div>
-                      </div>
-                    </>
-                  ) : null}
-
-                  <Divider layout="horizontal">
-                    <div
-                      style={{
-                        color: "#939185",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Past Report
-                    </div>
-                  </Divider>
-                  {allReports.length > 0 ? (
-                    <>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: "12px",
-                        }}
-                      >
-                        {allReports.map((allreport, index) => (
-                          <div
-                            key={index}
-                            style={{
-                              width: "100%",
-                              background: "#e6e6e6",
-                              borderRadius: "5px",
-                              height: "120px",
-                              padding: "10px",
-                            }}
-                            onClick={() => {
-                              history.push(
-                                `/pastreport/${allreport.createdAt}`
-                              );
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "5px",
-                                flexDirection: "column",
-                                height: "80px",
-                              }}
-                            >
-                              <div
-                                style={{ fontSize: "16px", fontWeight: "700" }}
-                              >
-                                Dr. {allreport.doctorname}
-                              </div>
-                              <div
-                                style={{ fontSize: "16px", fontWeight: "700" }}
-                              >
-                                {allreport.hospitalname}
-                              </div>
-                              <div
-                                style={{ fontSize: "14px", fontWeight: "500" }}
-                              >
-                                {allreport.hospitaladdress},{" "}
-                                {allreport.hospitalpincode}
-                              </div>
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                gap: "10px",
-                                height: "20px",
-                                justifyContent: "space-between",
-                              }}
-                            >
-                              {/* <div>Score: {allreport.refTotalScore}%</div> */}
-                              <div></div>
-                              <div>Date: {allreport.createdAt}</div>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
+                  <IonLabel>Know About Patient</IonLabel>
+                </IonSegmentButton>
+                {categories.map((category) => (
+                  <IonSegmentButton
+                    key={category.refQCategoryId}
+                    value={category.refCategoryLabel}
+                    contentId={category.refCategoryLabel}
+                  >
+                    <IonLabel>{category.refCategoryLabel}</IonLabel>
+                  </IonSegmentButton>
+                ))}
+              </IonSegment>
+            </IonToolbar>
+            <div>
+              {selectedValue === "knowabout" ? (
+                <>
+                  {reportLoading ? (
                     <>
                       <div
                         style={{
                           width: "100%",
+                          height: "70vh",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          flexDirection: "column",
                         }}
                       >
-                        <img
-                          style={{ height: "40vh" }}
-                          src={report}
-                          alt="patient"
-                        />
-                        <div
-                          style={{
-                            marginTop: "10px",
-                            fontWeight: "500",
-                            fontSize: "20px",
-                            color: "#939185",
-                          }}
-                        >
-                          No Reports Found
-                        </div>
+                        <i
+                          className="pi pi-spin pi-spinner"
+                          style={{ fontSize: "2rem", color: "#1a70b0" }}
+                        ></i>
                       </div>
                     </>
+                  ) : (
+                    <IonSegmentContent key="knowabout" id="knowabout">
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "85vh",
+                          overflow: "auto",
+                          padding: "0px 10px",
+                        }}
+                      >
+                        {currentReport ? (
+                          <></>
+                        ) : (
+                          <>
+                            <Divider layout="horizontal">
+                              <div
+                                style={{
+                                  color: "#939185",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                Current Report
+                              </div>
+                            </Divider>
+
+                            <div
+                              onClick={() => {
+                                history.push(
+                                  `/questions/${navCategory.label}/${navCategory.id}`
+                                );
+                                const getCategory = {
+                                  id: mainNav.id,
+                                  label: mainNav.label,
+                                };
+
+                                localStorage.setItem(
+                                  "getCategory",
+                                  JSON.stringify(getCategory)
+                                );
+                              }}
+                              style={{
+                                width: "100%",
+                                background: "#FFDE4D",
+                                borderRadius: "5px",
+                                height: "50px",
+                                padding: "10px",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div style={{ fontSize: "14px" }}>
+                                <i
+                                  className="pi pi-clock"
+                                  style={{ paddingRight: "10px" }}
+                                ></i>
+                                Pending (Complete the Report)
+                              </div>
+                              <div>
+                                <i
+                                  className="pi pi-angle-right"
+                                  style={{ fontSize: "1.5rem" }}
+                                ></i>
+                              </div>
+                            </div>
+                          </>
+                        )}
+
+                        {currentReport === "report" ? (
+                          <>
+                            <Divider layout="horizontal">
+                              <div
+                                style={{
+                                  color: "#939185",
+                                  fontWeight: "500",
+                                }}
+                              >
+                                Current Report
+                              </div>
+                            </Divider>
+
+                            <div
+                              onClick={() => {
+                                history.push(
+                                  `/currentReport/${patient}/${patientId}`
+                                );
+                              }}
+                              style={{
+                                width: "100%",
+                                background: "#5DB996",
+                                borderRadius: "5px",
+                                height: "50px",
+                                padding: "10px",
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            >
+                              <div style={{ fontSize: "14px" }}>
+                                <i
+                                  className="pi pi-check"
+                                  style={{ paddingRight: "10px" }}
+                                ></i>
+                                Questions Completed (Generate Report)
+                              </div>
+                              <div>
+                                <i
+                                  className="pi pi-angle-right"
+                                  style={{ fontSize: "1.5rem" }}
+                                ></i>
+                              </div>
+                            </div>
+                          </>
+                        ) : null}
+
+                        <Divider layout="horizontal">
+                          <div
+                            style={{
+                              color: "#939185",
+                              fontWeight: "500",
+                            }}
+                          >
+                            Past Report
+                          </div>
+                        </Divider>
+                        {allReports.length > 0 ? (
+                          <>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "12px",
+                              }}
+                            >
+                              {allReports.map((allreport, index) => (
+                                <div
+                                  key={index}
+                                  style={{
+                                    width: "100%",
+                                    background: "#e6e6e6",
+                                    borderRadius: "5px",
+                                    height: "120px",
+                                    padding: "10px",
+                                  }}
+                                  onClick={() => {
+                                    history.push(
+                                      `/pastreport/${allreport.createdAt}`
+                                    );
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "5px",
+                                      flexDirection: "column",
+                                      height: "80px",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        fontSize: "16px",
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      Dr. {allreport.doctorname}
+                                    </div>
+                                    <div
+                                      style={{
+                                        fontSize: "16px",
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      {allreport.hospitalname}
+                                    </div>
+                                    <div
+                                      style={{
+                                        fontSize: "14px",
+                                        fontWeight: "500",
+                                      }}
+                                    >
+                                      {allreport.hospitaladdress},{" "}
+                                      {allreport.hospitalpincode}
+                                    </div>
+                                  </div>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "10px",
+                                      height: "20px",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    {/* <div>Score: {allreport.refTotalScore}%</div> */}
+                                    <div></div>
+                                    <div>Date: {allreport.createdAt}</div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              style={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <img
+                                style={{ height: "40vh" }}
+                                src={report}
+                                alt="patient"
+                              />
+                              <div
+                                style={{
+                                  marginTop: "10px",
+                                  fontWeight: "500",
+                                  fontSize: "20px",
+                                  color: "#939185",
+                                }}
+                              >
+                                No Reports Found
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </IonSegmentContent>
                   )}
-                </div>
-              </IonSegmentContent>
-            </>
-          ) : (
-            <>
-              {categories.map((category) => (
-                <IonSegmentContent
-                  key={category.refQCategoryId}
-                  id={category.refCategoryLabel}
-                >
-                  {selectedValue === category.refCategoryLabel && (
-                    <>
-                      <KnowCards
-                        cardData={subCategoryData}
-                        latestReport={latestReport}
-                      />
-                    </>
-                  )}
-                </IonSegmentContent>
-              ))}
-            </>
-          )}
-        </div>
-      </IonContent>
+                </>
+              ) : (
+                <>
+                  {categories.map((category) => (
+                    <IonSegmentContent
+                      key={category.refQCategoryId}
+                      id={category.refCategoryLabel}
+                    >
+                      {selectedValue === category.refCategoryLabel && (
+                        <>
+                          {loadingStatus ? (
+                            <>
+                              <div
+                                style={{
+                                  width: "100%",
+                                  height: "70vh",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <i
+                                  className="pi pi-spin pi-spinner"
+                                  style={{ fontSize: "2rem", color: "#1a70b0" }}
+                                ></i>
+                              </div>
+                            </>
+                          ) : (
+                            <KnowCards
+                              cardData={subCategoryData}
+                              latestReport={latestReport}
+                            />
+                          )}
+                        </>
+                      )}
+                    </IonSegmentContent>
+                  ))}
+                </>
+              )}
+            </div>
+          </IonContent>
+        </>
+      )}
     </IonPage>
   );
 };

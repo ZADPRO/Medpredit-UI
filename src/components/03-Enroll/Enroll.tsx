@@ -29,6 +29,7 @@ import decrypt from "../../helper";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
+import { Button } from "primereact/button";
 
 interface HospitalData {
   refHospitalName: any;
@@ -58,6 +59,8 @@ const Enroll: React.FC = () => {
     password: "",
   });
 
+  const [loadingStatus, setLoadingStatus] = useState(false);
+
   useEffect(() => {
     setPresentingElement(page.current);
   }, []);
@@ -74,6 +77,7 @@ const Enroll: React.FC = () => {
   };
 
   const handleSignIn = async () => {
+    setLoadingStatus(true);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/user/singin`,
@@ -85,6 +89,8 @@ const Enroll: React.FC = () => {
         response.data[0],
         import.meta.env.VITE_ENCRYPTION_KEY
       );
+
+      setLoadingStatus(false);
 
       if (data.status) {
         if (data.roleType === 1) {
@@ -138,6 +144,7 @@ const Enroll: React.FC = () => {
       console.error("Error during Sign In:", error);
       setToastMessage("An error occurred. Please try again.");
       setShowToast(true);
+      setLoadingStatus(false);
     }
   };
 
@@ -145,6 +152,8 @@ const Enroll: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     isSignIn: boolean = false
   ) => {
+    setToastMessage("");
+    setShowToast(false);
     const { name, value } = e.target;
     if (isSignIn) {
       setSignInData((prev) => ({ ...prev, [name]: value }));
@@ -295,14 +304,26 @@ const Enroll: React.FC = () => {
                   />
                 </div>
               </div>
-              {errorMessage && <IonText color="danger">{errorMessage}</IonText>}{" "}
-              <button
-                className="ion-margin-top ion-margin-bottom"
-                onClick={handleSignIn}
-                style={{ background: "#1c70b0" }}
-              >
-                Sign In
-              </button>
+              {showToast && <IonText color="danger">{errorMessage}</IonText>}{" "}
+              {!loadingStatus ? (
+                <>
+                  <button
+                    className="ion-margin-top ion-margin-bottom"
+                    onClick={handleSignIn}
+                    style={{ background: "#1c70b0", height: "40px" }}
+                  >
+                    Sign In
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="ion-margin-top ion-margin-bottom"
+                  onClick={handleSignIn}
+                  style={{ background: "#1c70b0", height: "40px" }}
+                >
+                  <i className="pi pi-spin pi-spinner"></i>
+                </button>
+              )}
             </div>
             <img
               style={{ height: "30vh", width: "100%", objectFit: "cover" }}

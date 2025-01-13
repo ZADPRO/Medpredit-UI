@@ -261,9 +261,10 @@ const Questions: React.FC = () => {
     }
   };
 
+  const [loadingStatus, setLoadingStatus] = useState(false);
   const submitResponse = () => {
     console.log(submittedAnswer);
-
+    setLoadingStatus(true);
     try {
       axios
         .post(
@@ -300,6 +301,7 @@ const Questions: React.FC = () => {
               // history.push(
               //   `/subCategories/${getQuestionsToken.id}/${getQuestionsToken.label}`
               // );
+              setLoadingStatus(false);
               history.goBack();
               setSubmittedAnswer([]);
             } else {
@@ -308,6 +310,7 @@ const Questions: React.FC = () => {
           }
         });
     } catch (error) {
+      setLoadingStatus(false);
       console.error("Error submitting responses:", error);
     }
   };
@@ -700,24 +703,42 @@ const Questions: React.FC = () => {
       </IonContent>
       <IonFooter>
         <IonToolbar>
-          <button
-            disabled={submitButton}
-            onClick={submitResponse}
-            style={{
-              width: "100%",
-              height: "3rem",
-              margin: "5px 0px",
-              borderRadius: "5px",
-              background: submitButton
-                ? "linear-gradient(160deg, #d3d3d3, #e0e0e0)" // Gray for disabled
-                : "linear-gradient(160deg, #077556, #2f9f97)", // Green for enabled
-              color: submitButton ? "#a0a0a0" : "#fff", // Lighter text color for disabled
-              fontSize: "16px",
-              cursor: submitButton ? "not-allowed" : "pointer", // Change cursor for disabled
-            }}
-          >
-            Submit
-          </button>
+          {loadingStatus ? (
+            <>
+              <button
+                style={{
+                  background: "linear-gradient(160deg, #077556, #2f9f97)",
+                  fontSize: "16px",
+                  color: "#fff",
+                  width: "100%",
+                  height: "3rem",
+                  margin: "5px 0px",
+                  borderRadius: "5px",
+                }}
+              >
+                <i className="pi pi-spin pi-spinner"></i>
+              </button>
+            </>
+          ) : (
+            <button
+              disabled={submitButton}
+              onClick={submitResponse}
+              style={{
+                width: "100%",
+                height: "3rem",
+                margin: "5px 0px",
+                borderRadius: "5px",
+                background: submitButton
+                  ? "linear-gradient(160deg, #d3d3d3, #e0e0e0)" // Gray for disabled
+                  : "linear-gradient(160deg, #077556, #2f9f97)", // Green for enabled
+                color: submitButton ? "#a0a0a0" : "#fff", // Lighter text color for disabled
+                fontSize: "16px",
+                cursor: submitButton ? "not-allowed" : "pointer", // Change cursor for disabled
+              }}
+            >
+              Submit
+            </button>
+          )}
         </IonToolbar>
       </IonFooter>
     </IonPage>
