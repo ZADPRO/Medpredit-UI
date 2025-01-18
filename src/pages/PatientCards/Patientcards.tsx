@@ -6,6 +6,7 @@ import {
   IonPage,
   IonRadio,
   IonRadioGroup,
+  IonRippleEffect,
 } from "@ionic/react";
 import { Divider } from "primereact/divider";
 import React, { useEffect, useRef, useState } from "react";
@@ -362,7 +363,7 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                 />
 
                 <div
-                  className="patientCard"
+                  className="patientCard ion-activatable ripple-parent rectangle"
                   onClick={
                     () =>
                       handledoctorPatientCard(
@@ -373,6 +374,7 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                     // handleCardClick(patient.refUserCustId, patient.refUserId)
                   }
                 >
+                  <IonRippleEffect></IonRippleEffect>
                   <img src={imageUrl} alt={`Patient ${patientFname}`} />
                   <div className="cardContents">
                     <div className="patiendDetails">
@@ -451,7 +453,9 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                               alignItems: "center",
                               padding: "20px",
                             }}
+                            className="ion-activatable ripple-parent rectangle"
                           >
+                            <IonRippleEffect></IonRippleEffect>
                             Dr. {doctor.DoctorFirstName} {doctor.DoctorLastName}
                           </div>
                         </div>

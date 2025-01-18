@@ -9,6 +9,7 @@ import {
   IonIcon,
   IonLabel,
   IonPage,
+  IonRippleEffect,
   IonSegment,
   IonSegmentButton,
   IonSegmentContent,
@@ -91,7 +92,9 @@ const Tab5: React.FC = () => {
               onClick={() => {
                 setActiveDisease(1);
               }}
+              className="ion-activatable ripple-parent rectangle"
             >
+              <IonRippleEffect></IonRippleEffect>
               <img
                 src={activeDisease != 1 ? diabetesImg : diabetesWhite}
                 width={70}
@@ -126,7 +129,9 @@ const Tab5: React.FC = () => {
               onClick={() => {
                 setActiveDisease(2);
               }}
+              className="ion-activatable ripple-parent rectangle"
             >
+              <IonRippleEffect></IonRippleEffect>
               <img
                 src={activeDisease != 2 ? hypertension : hypertensionWhite}
                 width={60}
@@ -161,7 +166,9 @@ const Tab5: React.FC = () => {
               onClick={() => {
                 setActiveDisease(3);
               }}
+              className="ion-activatable ripple-parent rectangle"
             >
+              <IonRippleEffect></IonRippleEffect>
               <img
                 src={activeDisease != 3 ? coronary : coronaryWhite}
                 width={60}
@@ -196,7 +203,9 @@ const Tab5: React.FC = () => {
               onClick={() => {
                 setActiveDisease(4);
               }}
+              className="ion-activatable ripple-parent rectangle"
             >
+              <IonRippleEffect></IonRippleEffect>
               <img src={activeDisease != 4 ? stroke : strokeWhite} width={60} />
               <div
                 style={{

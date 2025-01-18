@@ -1,5 +1,11 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
 * {
-    scrollbar-width: none;
-  }
+  scrollbar-width: none;
+}
+
+.ripple-parent {
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}

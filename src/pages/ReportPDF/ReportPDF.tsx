@@ -91,6 +91,8 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
     return age;
   }
 
+  const [treatementDetails, setTreatementDetails]: any = useState([]);
+
   useEffect(() => {
     if (tokenString) {
       try {
@@ -124,6 +126,8 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
               setScoreVerify(data.scoreVerifyResult);
               setGenerateDate(data.generateDate);
               setAllCategory(data.categoryResult);
+
+              setTreatementDetails(data.treatmentDetails);
             }
           });
       } catch (error) {
@@ -1441,7 +1445,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                         fontSize: "10px",
                         display: "flex",
                         flexDirection: "row",
-                        height: "30px",
+                        height: "38px",
                         alignItems: "center",
                       }}
                     >
@@ -1619,7 +1623,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                             textAlign: "left",
                           }}
                         >
-                          Hypertensive
+                          Hypertension
                         </Text>
                         <Text style={{ width: "3%", textAlign: "left" }}>
                           -
@@ -1934,7 +1938,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "10px",
+                    marginTop: "15px",
                     flexDirection: "column",
                   }}
                 >
@@ -1953,8 +1957,988 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                   >
                     Medication
                   </Text>
-                  <View style={{ width: "100%", padding: "0 10px" }}>
-                    <Text>Table</Text>
+                  <View
+                    style={{
+                      width: "100%",
+                      padding: "0 20px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "100%",
+
+                        display: "flex",
+                        flexDirection: "row",
+                        borderRadius: "4px",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <View
+                        style={{
+                          width: "6%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                          borderLeft: "1px solid #000",
+                          borderRight: "1px solid #000",
+                          borderTopLeftRadius: "4px",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>S.No</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "12%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Medicine</Text>
+                          <Text>Name</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "15%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Category</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "8%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text style={{ padding: "2px" }}>Strength</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "7%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>RoA</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "9%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>RoF</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "7%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>FN</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "7%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>AN</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "7%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Eve</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "7%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Night</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "10%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Duration</Text>
+                          <Text>(days)</Text>
+                        </View>
+                      </View>
+                      <View
+                        style={{
+                          width: "5%",
+                          height: "38px",
+                          fontSize: "9px",
+                          color: "#1b71b1",
+                          fontFamily: "PopRegular",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          borderRight: "1px solid #000",
+                          borderTop: "1px solid #000",
+                          borderBottom: "1px solid #000",
+                          borderTopRightRadius: "4px",
+                        }}
+                      >
+                        <View
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Text>Qty</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    {treatementDetails.map((element: any, index: any) => (
+                      <>
+                        {index === treatementDetails.length - 1 ? (
+                          <View
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "row",
+                              borderRadius: "4px",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "6%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderLeft: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                                borderBottomLeftRadius: "4px",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{index + 1}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "12%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDMedName}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "15%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "3px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                <Text>{element.refTDCat}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "8%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDStrength}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDROA}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "9%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDRTF}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDMorningDosage
+                                    ? element.refTDMorningDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDAfternoonDosage
+                                    ? element.refTDAfternoonDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDEveningDosage
+                                    ? element.refTDEveningDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDNightDosage
+                                    ? element.refTDNightDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "10%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {getDaysInMonth(
+                                    element.refTDDurationMonth,
+                                    element.refTDDurationYear
+                                  )}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "5%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                                borderBottomRightRadius: "4px",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text></Text>
+                              </View>
+                            </View>
+                          </View>
+                        ) : (
+                          <View
+                            style={{
+                              width: "100%",
+                              display: "flex",
+                              flexDirection: "row",
+                              borderRadius: "4px",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "6%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderLeft: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                                // borderBottomLeftRadius: "4px",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{index + 1}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "12%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDMedName}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "15%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  padding: "3px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                <Text>{element.refTDCat}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "8%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDStrength}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDROA}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "9%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>{element.refTDRTF}</Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDMorningDosage
+                                    ? element.refTDMorningDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDAfternoonDosage
+                                    ? element.refTDAfternoonDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDEveningDosage
+                                    ? element.refTDEveningDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "7%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderRight: "1px solid #000",
+                                borderBottom: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {element.refTDNightDosage
+                                    ? element.refTDNightDosage
+                                    : "-"}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "10%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text>
+                                  {getDaysInMonth(
+                                    element.refTDDurationMonth,
+                                    element.refTDDurationYear
+                                  )}
+                                </Text>
+                              </View>
+                            </View>
+                            <View
+                              style={{
+                                width: "5%",
+                                height: "38px",
+                                fontSize: "8px",
+                                color: "#000",
+                                fontFamily: "PopRegular",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderBottom: "1px solid #000",
+                                borderRight: "1px solid #000",
+                                // borderBottomRightRadius: "4px",
+                              }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <Text></Text>
+                              </View>
+                            </View>
+                          </View>
+                        )}
+                      </>
+                    ))}
                   </View>
                 </View>
               </View>
@@ -1978,6 +2962,11 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
     setLoading(false);
   };
+
+  function getDaysInMonth(month: any, year: any) {
+    // Month is zero-based (0 = January, 1 = February, etc.)
+    return new Date(year, month, 0).getDate();
+  }
 
   return (
     <div>
@@ -2526,19 +3515,21 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
         </Document>
       </PDFViewer> */}
       {Loading ? (
-        <><button
-        style={{
-          background: "linear-gradient(160deg, #077556, #2f9f97)",
-          fontSize: "16px",
-          color: "#fff",
-          width: "100%",
-          height: "3rem",
-          margin: "5px 0px",
-          borderRadius: "5px",
-        }}
-      >
-        <i className="pi pi-spin pi-spinner"></i>
-      </button></>
+        <>
+          <button
+            style={{
+              background: "linear-gradient(160deg, #077556, #2f9f97)",
+              fontSize: "16px",
+              color: "#fff",
+              width: "100%",
+              height: "3rem",
+              margin: "5px 0px",
+              borderRadius: "5px",
+            }}
+          >
+            <i className="pi pi-spin pi-spinner"></i>
+          </button>
+        </>
       ) : (
         <button
           onClick={() => {

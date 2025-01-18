@@ -1,4 +1,4 @@
-import { IonAlert } from "@ionic/react";
+import { IonAlert, IonRippleEffect } from "@ionic/react";
 import { Divider } from "primereact/divider";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
@@ -200,7 +200,7 @@ const SubCards: React.FC<SubCardsProps> = ({
       {data.map((card) => (
         <div key={card.refQCategoryId}>
           <div
-            className="subCards"
+            className="subCards ion-activatable ripple-parent rectangle"
             onClick={() => {
               if (card.refScore === null) {
                 handleCardClick(card.refQCategoryId, card.refCategoryLabel);
@@ -216,6 +216,7 @@ const SubCards: React.FC<SubCardsProps> = ({
             }}
             style={{ cursor: "pointer" }}
           >
+            <IonRippleEffect></IonRippleEffect>
             <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
             <div className="cardConts">
               <div className="cardHeader">

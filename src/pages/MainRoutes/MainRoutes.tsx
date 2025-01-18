@@ -56,6 +56,7 @@ import TesingPdf from "../TestingPdf/TestingPdf";
 
 import knowabout from "../../assets/logo/knowabout.png";
 import knowaboutOutline from "../../assets/logo/knowaboutOutline.png";
+import PatientSignUp from "../../components/05-SingUp/PatientSignUp";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -277,6 +278,10 @@ const MainRoutes: React.FC = () => {
           <CurrentReport />
         </Route>
 
+        <Route path="/patientSignUp">
+          <PatientSignUp />
+        </Route>
+
         <Route path="/testingPdf">
           <TesingPdf reportDate={"13-01-2025"} />
         </Route>
@@ -295,7 +300,7 @@ const MainRoutes: React.FC = () => {
             <IonTabButton tab={element.name} href={element.path}>
               {element.name === "Disease" ? (
                 <img
-                  style={{ width: "40px", paddingTop: "5px" }}
+                  style={{ width: "38px", paddingTop: "5px" }}
                   src={
                     history.location.pathname === "/disease"
                       ? element.sharpIcon

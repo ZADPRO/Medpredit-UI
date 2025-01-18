@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonPage, IonRippleEffect } from "@ionic/react";
 import React from "react";
 
 import "./Intro.css";
@@ -26,17 +26,27 @@ const Intro: React.FC = () => {
             <p className="welcomeIntro">
               Welcome to <span> MEDPREDiT</span>
             </p>
+            <p className="description">Thank you for choosing Medpredit !</p>
             <p className="description">
-              This app brings your health information together in one place.{" "}
-            </p>
-            <p className="description">
-              You can see important changes or alerts, get insights from your
-              data, and learn about essential topics
+              Using advanced technology and intelligent algorithms, Medpredit
+              analyzes your medical data to provide real-time insights into your
+              health, conditions, and treatments.
             </p>
             <button
               onClick={() => handleNavigateSwipe("/login")}
-              className="getStartedButton"
+              style={{
+                width: "90%",
+                height: "3rem",
+                margin: "5px 0px",
+                borderRadius: "5px",
+                background: "#1c70b0", // Green for enabled
+                color: "#fff", // Lighter text color for disabled
+                fontSize: "16px",
+                cursor: "pointer", // Change cursor for disabled
+              }}
+              className="ion-activatable ripple-parent rectangle"
             >
+              <IonRippleEffect></IonRippleEffect>
               Get Started
             </button>
           </div>

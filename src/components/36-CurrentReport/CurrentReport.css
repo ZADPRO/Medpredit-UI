@@ -1,6 +1,6 @@
 /* Modal Styles */
 ion-modal#doctorDetailsGraph {
-  --width: 80%;
+  --width: 90%;
   --height: auto;
   --border-radius: 6px;
   --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);

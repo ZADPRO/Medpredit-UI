@@ -14,6 +14,7 @@ import {
   IonList,
   IonModal,
   IonPage,
+  IonRippleEffect,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -126,6 +127,11 @@ const PastReport: React.FC = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
 
+
+            console.log('====================================');
+            console.log(data);
+            console.log('====================================');
+
             setDoctorDetail({
               doctorName: data.doctorDetail.doctorName,
               doctorId: data.doctorDetail.doctorId,
@@ -178,8 +184,6 @@ const PastReport: React.FC = () => {
             setStressAnswer(data.stressAnswer);
 
             setLoadingStatus(false);
-
-            console.log(data);
           });
       } catch (error) {
         console.error("Error parsing token:", error);
@@ -315,7 +319,11 @@ const PastReport: React.FC = () => {
                 </div>
 
                 {/* Close Button */}
-                <button className="doctor-modal-close-btn" onClick={closeModal}>
+                <button
+                  className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
+                  onClick={closeModal}
+                >
+                  <IonRippleEffect></IonRippleEffect>
                   Close
                 </button>
               </div>

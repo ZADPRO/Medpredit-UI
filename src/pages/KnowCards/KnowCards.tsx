@@ -14,7 +14,7 @@ import renalcomplication from "../../assets/images/renalcomplication.jpg";
 
 import "./KnowCards.css";
 import decrypt from "../../helper";
-import { IonAlert } from "@ionic/react";
+import { IonAlert, IonRippleEffect } from "@ionic/react";
 
 interface CardData {
   refQCategoryId: number;
@@ -255,7 +255,8 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                   }
                 }}
               >
-                <div className="knowCard">
+                <div className="knowCard ion-activatable ripple-parent rectangle">
+                  <IonRippleEffect></IonRippleEffect>
                   <img
                     style={{
                       borderTopRightRadius: "10px",

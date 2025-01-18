@@ -169,9 +169,7 @@ const AddFamilyUser: React.FC = () => {
             import.meta.env.VITE_ENCRYPTION_KEY
           );
 
-
           console.log(data);
-          
 
           if (data.status) {
             setFormData({
@@ -209,8 +207,6 @@ const AddFamilyUser: React.FC = () => {
     return (
       formData.refUserFname &&
       formData.refUserLname &&
-      formData.refUserEmail &&
-      formData.refUserPassword &&
       formData.refGender &&
       formData.refDOB &&
       formData.refMaritalStatus &&

@@ -8,7 +8,7 @@ import home2 from "../../assets/images/home2.jpg";
 import home3 from "../../assets/images/home3.jpg";
 
 import "./Login.css";
-import { IonContent, IonIcon, IonPage } from "@ionic/react";
+import { IonContent, IonIcon, IonPage, IonRippleEffect } from "@ionic/react";
 import { chevronBackCircle, chevronForwardCircle } from "ionicons/icons";
 import { useHistory } from "react-router";
 
@@ -48,8 +48,13 @@ const Login: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
-        <div className="skipButton">
-          <p onClick={() => handleSkip("/enroll")}>Skip</p>
+        <div className="skipButton ">
+          <p
+            className="ion-activatable ripple-parent rectangle"
+            onClick={() => handleSkip("/enroll")}
+          >
+            <IonRippleEffect></IonRippleEffect>Skip
+          </p>
         </div>
         <Carousel
           autoPlay={false}
@@ -70,11 +75,14 @@ const Login: React.FC = () => {
               <p className="heading">
                 Discover <span>Experienced Doctors</span>
               </p>
-              <p className="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                architecto deserunt sint alias odio voluptate vero et,
-                recusandae sunt aut? Facere ex nisi dolorum architecto facilis
-                illo eligendi ab fuga?
+              <p style={{ textAlign: "center" }} className="description">
+                MedPredit makes it easy to find top-rated doctors, read reviews,
+                and book consultations across specialties—all in one app.
+              </p>
+              <p style={{marginTop:"10px"}}  className="description">
+              Take
+                control of your health and choose the right doctor anytime,
+                anywhere. Your well-being is our priority!
               </p>
             </div>
           </div>
@@ -82,13 +90,16 @@ const Login: React.FC = () => {
             <img src={home2} className="carouselImage" />
             <div className="contents">
               <p className="heading">
-                <span>Learn About</span> Your Doctors
+                <span>Learn About</span> <div>Your Doctors</div>
               </p>
               <p className="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                architecto deserunt sint alias odio voluptate vero et,
-                recusandae sunt aut? Facere ex nisi dolorum architecto facilis
-                illo eligendi ab fuga?
+                MedPredit simplifies and secures medical data management,
+                reducing administrative tasks so you can focus more on what
+                matters most—your patients.
+              </p>
+              <p style={{marginTop:"10px"}}  className="description">
+                Spend less time on data and more time providing exceptional care
+                with our efficient and secure app.
               </p>
             </div>
           </div>
@@ -99,10 +110,10 @@ const Login: React.FC = () => {
                 <span>Effortless</span> Data Maintainence
               </p>
               <p className="description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                architecto deserunt sint alias odio voluptate vero et,
-                recusandae sunt aut? Facere ex nisi dolorum architecto facilis
-                illo eligendi ab fuga?
+                Explore doctor profiles to review qualifications, specialties,
+                experience, and patient reviews. Make informed decisions about
+                your care, knowing you have trusted healthcare professionals
+                guiding your health journey with expertise and dedication.
               </p>
             </div>
           </div>

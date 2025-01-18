@@ -8,6 +8,7 @@ import {
   IonItem,
   IonModal,
   IonPage,
+  IonRippleEffect,
   IonText,
   IonToast,
   IonToolbar,
@@ -231,7 +232,8 @@ const Enroll: React.FC = () => {
                       fontSize: "16px",
                     }}
                   >
-                    <div className="hospitalsDiv flex w-full align-items-center">
+                    <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
                       <img height={80} src={hospital} alt="" />
                       <div className="contents ml-3">
                         <div>{hospitalData.refHospitalName}</div>
@@ -256,12 +258,7 @@ const Enroll: React.FC = () => {
           }}
         >
           <div className="signinPage" style={{ height: "100vh" }}>
-            <img
-              src={logo}
-              alt=""
-              width="200px"
-              className="ion-padding-bottom"
-            />
+            <img src={logo} alt="" width="200px" />
             <div>
               <p className="signinHeader text-center ion-padding-top ion-padding-bottom">
                 Sign In
@@ -273,7 +270,10 @@ const Enroll: React.FC = () => {
               <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}
             </div>
 
-            <div className="formContentSignIn ion-padding-top">
+            <div
+              style={{ marginTop: "-30px" }}
+              className="formContentSignIn ion-padding-top"
+            >
               <div className="input-container">
                 <div className="p-inputgroup flex-1">
                   <span className="p-inputgroup-addon">
@@ -297,21 +297,34 @@ const Enroll: React.FC = () => {
                     name="password"
                     placeholder="Enter Password"
                     toggleMask
+                    feedback={false}
+                    tabIndex={1}
                     required
                     style={{ inlineSize: "100%", boxSizing: "border-box" }}
                     value={signInData.password}
                     onChange={(e) => handleInputChange(e, true)}
                   />
                 </div>
+                {/* <div
+                  style={{
+                    textAlign: "left",
+                    fontSize: "1rem",
+                    fontWeight: "500",
+                    color: "#1c70b0",
+                  }}
+                >
+                  Forget Password ?
+                </div> */}
               </div>
               {showToast && <IonText color="danger">{errorMessage}</IonText>}{" "}
               {!loadingStatus ? (
                 <>
                   <button
-                    className="ion-margin-top ion-margin-bottom"
+                    className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
                     onClick={handleSignIn}
                     style={{ background: "#1c70b0", height: "40px" }}
                   >
+                    <IonRippleEffect></IonRippleEffect>
                     Sign In
                   </button>
                 </>
@@ -325,8 +338,21 @@ const Enroll: React.FC = () => {
                 </button>
               )}
             </div>
+            {/* <div
+              style={{
+                textAlign: "center",
+                fontSize: "1rem",
+                fontWeight: "700",
+                marginTop: "-20px",
+              }}
+              onClick={() => {
+                history.push("/patientSignUp");
+              }}
+            >
+              Don't have an Account ? Sign Up
+            </div> */}
             <img
-              style={{ height: "30vh", width: "100%", objectFit: "cover" }}
+              style={{ height: "28vh", width: "100%", objectFit: "cover" }}
               src={home1}
               alt=""
             />

@@ -84,3 +84,8 @@ ion-checkbox::part(container) {
 .changePasswordBtn .button-native {
   background-color: transparent;
 }
+
+/* ION TAB ROUTE HEIGHT */
+ion-tab-bar {
+  height: 7vh;
+}

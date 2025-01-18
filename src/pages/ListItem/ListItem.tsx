@@ -1,9 +1,11 @@
 import React from "react";
-import { IonIcon } from "@ionic/react";
+import { IonIcon, IonRippleEffect } from "@ionic/react";
 import { useHistory } from "react-router";
+import { FaChevronRight } from "react-icons/fa";
+import { MdOutlinePassword } from "react-icons/md";
 
 interface ListItemProps {
-  icon: string;
+  icon: any;
   label: string;
   location: string;
 }
@@ -11,17 +13,58 @@ interface ListItemProps {
 const ListItem: React.FC<ListItemProps> = ({ icon, label, location }) => {
   const history = useHistory();
   return (
-    <div onClick={() => {}} className="listItems">
-      <div
-        onClick={() => {
-          history.push(`${location}`);
-        }}
-        className="listContent"
-      >
-        <IonIcon icon={icon} />
-        <p>{label}</p>
+    <div
+      style={{
+        paddingLeft: "3vh",
+        paddingRight: "3vh",
+        paddingTop: "10px",
+        paddingBottom: "10px",
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+      className="ion-activatable ripple-parent rectangle"
+      onClick={() => {
+        history.push(`${location}`);
+      }}
+    >
+      <IonRippleEffect></IonRippleEffect>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <div
+          style={{
+            width: "40px",
+            height: "40px",
+            background: "green",
+            fontSize: "1.4rem",
+            color: "#fff",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "50%",
+          }}
+        >
+          {icon}
+        </div>
+        <div
+          style={{
+            paddingLeft: "10px",
+            fontSize: "16px",
+            fontWeight: "600",
+            color: "#505050",
+          }}
+        >
+          {label}
+        </div>
       </div>
-      <IonIcon className="chevronIcon" icon="chevronForwardOutline" />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          fontSize: "1rem",
+          color: "#bdbdbd",
+        }}
+      >
+        <FaChevronRight />
+      </div>
     </div>
   );
 };

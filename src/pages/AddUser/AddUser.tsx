@@ -4,9 +4,12 @@ import {
   IonBackButton,
   IonButtons,
   IonContent,
+  IonDatetime,
   IonHeader,
   IonIcon,
+  IonModal,
   IonPage,
+  IonSearchbar,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -25,6 +28,7 @@ import { Calendar } from "primereact/calendar";
 import axios from "axios";
 
 import decrypt, { formatDate } from "../../helper";
+import { Divider } from "primereact/divider";
 
 const AddUser: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +38,7 @@ const AddUser: React.FC = () => {
     refUserPassword: "",
     refGender: null as string | null,
     refMaritalStatus: null as string | null,
-    refDOB: null as Date | null,
+    refDOB: null as any | null,
     refEducation: "",
     refProfession: "",
     refSector: "",
@@ -56,10 +60,17 @@ const AddUser: React.FC = () => {
   ];
 
   const occupationcategoryOtp: string[] = [
-    "Skilled",
-    "Semi-Skilled",
-    "Unskilled",
+    "Professional",
+    "Semi- Profession",
+    "Clerical, shop-owner, farmer",
+    "Skilled worker",
+    "Semi-skilled worker",
+    "Unskilled worker",
+    "Homemaker",
+    "Unemployed",
+    "Student",
   ];
+
   const refMaritalStatus: string[] = ["Married", "Unmarried"];
 
   const carouselRef = useRef<any>(null);
@@ -104,6 +115,11 @@ const AddUser: React.FC = () => {
     });
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+
   const handleDateChange = (e: any) => {
     const date = e.value as Date;
 
@@ -111,15 +127,14 @@ const AddUser: React.FC = () => {
       ...formData,
       refDOB: date,
     });
+    closeModal();
   };
 
   const handleSaveData = async () => {
     if (currentIndex === 0) {
       goToNextSlide();
     } else if (currentIndex === 1) {
-      const formattedDate = formData.refDOB
-        ? formatDate(formData.refDOB)
-        : null;
+      const formattedDate = formData.refDOB ? formData.refDOB : null;
 
       const userData = {
         ...formData,
@@ -208,6 +223,8 @@ const AddUser: React.FC = () => {
     );
   };
 
+  const modalRef = useRef(null);
+
   return (
     <IonPage>
       <IonHeader mode="ios">
@@ -279,10 +296,14 @@ const AddUser: React.FC = () => {
                 <i className="pi pi-lock"></i>
               </span>
               <Password
+                toggleMask
+                feedback={false}
+                tabIndex={1}
                 placeholder="Password"
                 name="refUserPassword"
                 value={formData.refUserPassword}
                 onChange={handleInputChange}
+                style={{ marginInlineStart: "0%", marginInlineEnd: "0%" }}
               />
             </div>
 
@@ -301,15 +322,84 @@ const AddUser: React.FC = () => {
               </div>
 
               <div className="p-inputgroup flex-1">
-                <Calendar
-                  value={formData.refDOB}
+                <InputText
+                  value={formData.refDOB ? formData.refDOB.split("T")[0] : ""}
                   placeholder="Date of Birth"
                   className="w-full"
                   name="refDOB"
-                  onChange={handleDateChange}
-                  dateFormat="dd/mm/yy"
+                  onClick={openModal}
                 />
               </div>
+
+              <IonModal
+                isOpen={isOpen}
+                id="doctorDetailsGraph"
+                initialBreakpoint={1}
+                onDidDismiss={closeModal}
+                animated={false}
+              >
+                <div style={{ width: "100%", background: "#f4f5f7" }}>
+                  <IonDatetime
+                    presentation="date"
+                    preferWheel={true}
+                    value={formData.refDOB}
+                    onIonChange={(e) => {
+                      const selectedDate = e.detail.value;
+                      setFormData({
+                        ...formData,
+                        refDOB: selectedDate,
+                      });
+                    }}
+                  ></IonDatetime>
+                  <Divider />
+                  <div
+                    style={{
+                      background: "#f4f5f7",
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      width: "100%",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <div
+                      onClick={() => {
+                        setFormData({
+                          ...formData,
+                          refDOB: "",
+                        });
+                        closeModal();
+                      }}
+                      style={{
+                        width: "40%",
+                        background: "#505050",
+                        padding: "15px",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#fff",
+                        borderRadius: "10px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Clear
+                    </div>
+                    <div
+                      onClick={closeModal}
+                      style={{
+                        width: "40%",
+                        background: "green",
+                        padding: "15px",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#fff",
+                        borderRadius: "10px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Set
+                    </div>
+                  </div>
+                </div>
+              </IonModal>
 
               <div className="p-inputgroup flex-1">
                 <Dropdown
@@ -429,13 +519,13 @@ const AddUser: React.FC = () => {
           </div>
         </Carousel>
         <div className="carouselButtonsForm">
-          <button
-            className="carouselButtonForm"
-            onClick={goToPreviousSlide}
-            disabled={currentIndex === 0}
-          >
-            <IonIcon icon={chevronBackCircle}></IonIcon>
-          </button>
+          {currentIndex === 0 ? (
+            <div></div>
+          ) : (
+            <button className="carouselButtonForm" onClick={goToPreviousSlide}>
+              <IonIcon icon={chevronBackCircle}></IonIcon>
+            </button>
+          )}
           <div className="carouselIndicatorsForm">
             {slides.map((_, index) => (
               <span

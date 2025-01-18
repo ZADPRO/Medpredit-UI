@@ -5,6 +5,7 @@ import {
   IonHeader,
   IonLabel,
   IonPage,
+  IonRippleEffect,
   IonSegment,
   IonSegmentButton,
   IonSegmentContent,
@@ -198,6 +199,10 @@ const KnowAboutPatient: React.FC = () => {
             response.data[0],
             import.meta.env.VITE_ENCRYPTION_KEY
           );
+
+          console.log('====================================');
+          console.log("########", data);
+          console.log('====================================');
 
           console.log("Data", data);
 
@@ -502,7 +507,9 @@ const KnowAboutPatient: React.FC = () => {
                                       `/pastreport/${allreport.createdAt}`
                                     );
                                   }}
+                                  className="ion-activatable ripple-parent rectangle"
                                 >
+                                  <IonRippleEffect></IonRippleEffect>
                                   <div
                                     style={{
                                       display: "flex",
