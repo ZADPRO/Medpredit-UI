@@ -338,7 +338,7 @@ const Enroll: React.FC = () => {
                 </button>
               )}
             </div>
-            {/* <div
+            <div
               style={{
                 textAlign: "center",
                 fontSize: "1rem",
@@ -350,7 +350,7 @@ const Enroll: React.FC = () => {
               }}
             >
               Don't have an Account ? Sign Up
-            </div> */}
+            </div>
             <img
               style={{ height: "28vh", width: "100%", objectFit: "cover" }}
               src={home1}

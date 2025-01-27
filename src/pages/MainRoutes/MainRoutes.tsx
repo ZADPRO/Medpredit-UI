@@ -57,6 +57,11 @@ import TesingPdf from "../TestingPdf/TestingPdf";
 import knowabout from "../../assets/logo/knowabout.png";
 import knowaboutOutline from "../../assets/logo/knowaboutOutline.png";
 import PatientSignUp from "../../components/05-SingUp/PatientSignUp";
+import Configure from "../../components/23-Configure/Configure";
+import StaffSignup from "../StaffSignup/StaffSignup";
+import ManageAssistant from "../ManageAssistant/ManageAssistant";
+import MapAssistant from "../ManageAssistant/MapAssistant";
+import ManageDoctor from "../ManageDoctor/ManageDoctor";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -165,10 +170,58 @@ const MainRoutes: React.FC = () => {
       sharpIcon: knowaboutOutline,
     },
     {
-      name: "Advice",
-      path: "/advice",
-      outlineIcon: bookOutline,
-      sharpIcon: bookSharp,
+      name: "Profile",
+      path: "/settings",
+      outlineIcon: personOutline,
+      sharpIcon: personSharp,
+    },
+  ];
+
+  const doctorAdmin = [
+    {
+      name: "Home",
+      path: "/home",
+      outlineIcon: homeOutline,
+      sharpIcon: homeSharp,
+    },
+    {
+      name: "Patient",
+      path: "/patient",
+      outlineIcon: personAddOutline,
+      sharpIcon: personAddSharp,
+    },
+    {
+      name: "Disease",
+      path: "/disease",
+      outlineIcon: knowabout,
+      sharpIcon: knowaboutOutline,
+    },
+    {
+      name: "Configure",
+      path: "/configure",
+      outlineIcon: settingsOutline,
+      sharpIcon: settingsSharp,
+    },
+    {
+      name: "Profile",
+      path: "/settings",
+      outlineIcon: personOutline,
+      sharpIcon: personSharp,
+    },
+  ];
+
+  const Admin = [
+    {
+      name: "Home",
+      path: "/home",
+      outlineIcon: homeOutline,
+      sharpIcon: homeSharp,
+    },
+    {
+      name: "Configure",
+      path: "/configure",
+      outlineIcon: settingsOutline,
+      sharpIcon: settingsSharp,
     },
     {
       name: "Profile",
@@ -285,6 +338,26 @@ const MainRoutes: React.FC = () => {
         <Route path="/testingPdf">
           <TesingPdf reportDate={"13-01-2025"} />
         </Route>
+
+        <Route path="/configure">
+          <Configure />
+        </Route>
+
+        <Route path="/addDoctor">
+          <StaffSignup />
+        </Route>
+
+        <Route path="/manageAssistant">
+          <ManageAssistant />
+        </Route>
+
+        <Route path="/mapAssistant/:assistantId/:assistantName/:assistantCustId">
+          <MapAssistant />
+        </Route>
+
+        <Route path="/manageDoctor">
+          <ManageDoctor />
+        </Route>
       </IonRouterOutlet>
 
       {showTabBar && (
@@ -295,6 +368,10 @@ const MainRoutes: React.FC = () => {
             ? assistant
             : roleType === 3
             ? patient
+            : roleType === 4
+            ? doctorAdmin
+            : roleType === 5
+            ? Admin
             : []
           ).map((element) => (
             <IonTabButton tab={element.name} href={element.path}>

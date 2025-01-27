@@ -35,7 +35,6 @@ const NumberInputBoxT6: React.FC<NumberInputBoxT6Props> = ({
     onEdit(label.questionType, value, forwardQId);
   };
 
-
   return (
     <div className="questionsOutline">
       <form

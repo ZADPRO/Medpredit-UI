@@ -54,6 +54,11 @@ const Patientcards: React.FC<PatientcardsProps> = ({
     null
   );
 
+
+  console.log('====================================');
+  console.log(patientsData);
+  console.log('====================================');
+
   const handleModalOpen = (patientId: number) => {
     setOpenModalPatientId(patientId); // Set the patient ID of the modal to open
   };
@@ -325,7 +330,7 @@ const Patientcards: React.FC<PatientcardsProps> = ({
         const imageUrl = patient.imageUrl || userImage;
         return (
           <>
-            {parsedDetails.roleType === 1 ? (
+            {parsedDetails.roleType === 1 || parsedDetails.roleType === 4 ? (
               <div key={index}>
                 <IonAlert
                   isOpen={isAlertOpen}
@@ -419,47 +424,51 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                       >
                         Choose Your Doctor
                       </div>
-                      {doctors.map((doctor, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            height: "55vh",
-                            overflow: "auto",
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "10px",
-                          }}
-                          onClick={async () => {
-                            setSelectedDoctor(doctor.refDoctorId);
-                            handleAssistantPatientCard(
-                              patient.refUserId,
-                              patient.refUserCustId,
-                              doctor.refDoctorId,
-                              patient.refGender
-                            );
-                            setOpenModalPatientId(null);
-                            localStorage.setItem(
-                              "currentDoctorId",
-                              doctor.refDoctorId
-                            );
-                          }}
-                        >
+                      <div style={{ height: "55vh" }}>
+                        {doctors.map((doctor, index) => (
                           <div
+                            key={index}
                             style={{
-                              height: "50px",
-                              background: "#e6e6e6",
-                              borderRadius: "5px",
+                              overflow: "auto",
                               display: "flex",
-                              alignItems: "center",
-                              padding: "20px",
+                              flexDirection: "column",
+                              gap: "10px",
+                              paddingBottom: "10px",
                             }}
-                            className="ion-activatable ripple-parent rectangle"
+                            onClick={async () => {
+                              setSelectedDoctor(doctor.refDoctorId);
+                              handleAssistantPatientCard(
+                                patient.refUserId,
+                                patient.refUserCustId,
+                                doctor.refDoctorId,
+                                patient.refGender
+                              );
+                              setOpenModalPatientId(null);
+                              localStorage.setItem(
+                                "currentDoctorId",
+                                doctor.refDoctorId
+                              );
+                            }}
                           >
-                            <IonRippleEffect></IonRippleEffect>
-                            Dr. {doctor.DoctorFirstName} {doctor.DoctorLastName}
+                            <div
+                              style={{
+                                height: "50px",
+                                background: "#e6e6e6",
+                                borderRadius: "5px",
+                                display: "flex",
+                                alignItems: "center",
+                                padding: "20px",
+                              }}
+                              className="ion-activatable ripple-parent rectangle"
+                            >
+                              <IonRippleEffect></IonRippleEffect>
+                              Dr. {doctor.DoctorFirstName}{" "}
+                              {doctor.DoctorLastName}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
+
                       <div
                         style={{
                           height: "8vh",

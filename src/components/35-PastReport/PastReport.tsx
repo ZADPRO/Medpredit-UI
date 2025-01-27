@@ -127,10 +127,9 @@ const PastReport: React.FC = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
 
-
-            console.log('====================================');
+            console.log("====================================");
             console.log(data);
-            console.log('====================================');
+            console.log("====================================");
 
             setDoctorDetail({
               doctorName: data.doctorDetail.doctorName,

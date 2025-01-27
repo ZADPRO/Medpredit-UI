@@ -11,6 +11,8 @@ import {
   Text,
   View,
 } from "@react-pdf/renderer";
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { isPlatform } from '@ionic/react';
 import Logo from "../../assets/logo/logo.png";
 import backgroundImage from "../../assets/PDFTemplate/background.png";
 import governmentLogo from "../../assets/logo/governmentHospitalLogo.png";
@@ -2949,16 +2951,46 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
     );
 
     // Generate PDF as Blob
-    const pdfBlob = await pdf(doc).toBlob();
+  const pdfBlob = await pdf(doc).toBlob();
 
-    // Create a link element and trigger download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(pdfBlob);
-    link.download = `${patientDetails?.refUserCustId}_${score[0].refPTcreatedDate}.pdf`;
-    link.click();
+  // Convert Blob to Base64 string
+  const reader = new FileReader();
+  reader.readAsDataURL(pdfBlob);
+  reader.onloadend = async () => {
+    const base64String = reader.result as string;
 
-    // Clean up the link element
-    URL.revokeObjectURL(link.href);
+    // Remove the prefix (data:image/png;base64,) to get just the Base64 content
+    const base64Data = base64String.split(',')[1];
+
+    try {
+      // Platform-specific path handling
+      if (isPlatform('android')) {
+        // For Android, save to external storage (Downloads folder)
+        const fileName = `${patientDetails?.refUserCustId}_${score[0].refPTcreatedDate}.pdf`;
+        const path = '/storage/emulated/0/Download/' + fileName;
+
+        await Filesystem.writeFile({
+          path: path,
+          data: base64Data,
+          directory: Directory.External,
+        });
+
+        console.log('File saved to Downloads folder on Android.');
+      } else if (isPlatform('ios')) {
+        // For iOS, save to Documents or use a share sheet
+        const fileName = `${patientDetails?.refUserCustId}_${score[0].refPTcreatedDate}.pdf`;
+        await Filesystem.writeFile({
+          path: fileName,
+          data: base64Data,
+          directory: Directory.Documents,
+        });
+
+        console.log('File saved to Documents folder on iOS.');
+      }
+    } catch (error) {
+      console.error('Error saving file:', error);
+    }
+  };
 
     setLoading(false);
   };

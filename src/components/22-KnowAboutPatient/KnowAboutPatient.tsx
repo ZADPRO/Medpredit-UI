@@ -200,9 +200,9 @@ const KnowAboutPatient: React.FC = () => {
             import.meta.env.VITE_ENCRYPTION_KEY
           );
 
-          console.log('====================================');
+          console.log("====================================");
           console.log("########", data);
-          console.log('====================================');
+          console.log("====================================");
 
           console.log("Data", data);
 
