@@ -23,7 +23,7 @@ interface CardData {
 
 interface KnowCardsValues {
   cardData: CardData[];
-  latestReport: any;
+  latestReport: any[];
 }
 
 const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
@@ -63,56 +63,81 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
     }
   };
 
-  const checkSore = (refQCategoryId: any, refCategoryLabel: any) => {
-    const tokenString = localStorage.getItem("userDetails");
+  function addDaysToDate(isoDate: string, daysToAdd: number): string {
+    console.log(isoDate, daysToAdd);
 
-    if (tokenString) {
-      try {
-        const tokenObject = JSON.parse(tokenString);
-        const token = tokenObject.token;
+    const date = new Date(isoDate);
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toISOString().split("T")[0]; // Return only YYYY-MM-DD format
+  }
 
-        Axios.post(
-          `${import.meta.env.VITE_API_URL}/getQuestionScore `,
-          {
-            patientId: localStorage.getItem("currentPatientId"),
-            categoryId: refQCategoryId,
-          },
-          {
-            headers: {
-              Authorization: token,
-              "Content-Type": "application/json",
-            },
-          }
-        ).then((response) => {
-          const data = decrypt(
-            response.data[1],
-            response.data[0],
-            import.meta.env.VITE_ENCRYPTION_KEY
-          );
+  function calculateDaysDifference(dateString: any) {
+    // Convert the given date string to a Date object
+    const givenDate: any = new Date(dateString);
 
-          if (data.status) {
-            setIsAlertOpen(true);
-            setSelectedData({
-              refScoreId: "0",
-              refCategoryLabel: refCategoryLabel,
-              cardTitle: refQCategoryId,
-              refQCategoryId: refQCategoryId,
-            });
-          } else {
-            localStorage.setItem(
-              "getCategory",
-              JSON.stringify({ id: refQCategoryId, label: refCategoryLabel })
-            );
-            history.push(`/questions/${refCategoryLabel}/${refQCategoryId}`);
-          }
-        });
-      } catch (error) {
-        console.error("Error parsing token:", error);
-      }
-    } else {
-      console.error("No token found in localStorage.");
-    }
-  };
+    // Get the current date and set time to midnight for accurate day difference
+    const currentDate: any = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffInMs = givenDate - currentDate;
+
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+  }
+
+  // const checkSore = (refQCategoryId: any, refCategoryLabel: any) => {
+  //   const tokenString = localStorage.getItem("userDetails");
+
+  //   if (tokenString) {
+  //     try {
+  //       const tokenObject = JSON.parse(tokenString);
+  //       const token = tokenObject.token;
+
+  //       Axios.post(
+  //         `${import.meta.env.VITE_API_URL}/getQuestionScore `,
+  //         {
+  //           patientId: localStorage.getItem("currentPatientId"),
+  //           categoryId: refQCategoryId,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       ).then((response) => {
+  //         const data = decrypt(
+  //           response.data[1],
+  //           response.data[0],
+  //           import.meta.env.VITE_ENCRYPTION_KEY
+  //         );
+
+  //         if (data.status) {
+  //           setIsAlertOpen(true);
+  //           setSelectedData({
+  //             refScoreId: "0",
+  //             refCategoryLabel: refCategoryLabel,
+  //             cardTitle: refQCategoryId,
+  //             refQCategoryId: refQCategoryId,
+  //           });
+  //         } else {
+  //           localStorage.setItem(
+  //             "getCategory",
+  //             JSON.stringify({ id: refQCategoryId, label: refCategoryLabel })
+  //           );
+  //           history.push(`/questions/${refCategoryLabel}/${refQCategoryId}`);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("Error parsing token:", error);
+  //     }
+  //   } else {
+  //     console.error("No token found in localStorage.");
+  //   }
+  // };
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
 
@@ -123,62 +148,86 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
     refQCategoryId: 0,
   });
 
-  const handleremoveScore = () => {
-    const tokenString = localStorage.getItem("userDetails");
+  console.log(latestReport);
 
-    if (tokenString) {
-      try {
-        const tokenObject = JSON.parse(tokenString);
-        const token = tokenObject.token;
+  // const handleremoveScore = () => {
+  //   const tokenString = localStorage.getItem("userDetails");
 
-        Axios.post(
-          `${import.meta.env.VITE_API_URL}/resetScore `,
-          {
-            refPatientId: localStorage.getItem("currentPatientId"),
-            refQCategoryId: selectedData.refQCategoryId,
-            refHospitalId: localStorage.getItem("hospitalId"),
-            employeeId:
-              tokenObject.roleType === 1
-                ? null
-                : localStorage.getItem("currentDoctorId"),
-          },
-          {
-            headers: {
-              Authorization: token,
-              "Content-Type": "application/json",
-            },
-          }
-        ).then((response) => {
-          const data = decrypt(
-            response.data[1],
-            response.data[0],
-            import.meta.env.VITE_ENCRYPTION_KEY
-          );
+  //   if (tokenString) {
+  //     try {
+  //       const tokenObject = JSON.parse(tokenString);
+  //       const token = tokenObject.token;
 
-          if (data.status) {
-            history.push(
-              `/questions/${selectedData.refCategoryLabel}/${selectedData.refQCategoryId}`
-            );
-          }
-        });
-      } catch (error) {
-        console.error("Error parsing token:", error);
-      }
-    } else {
-      console.error("No token found in localStorage.");
+  //       Axios.post(
+  //         `${import.meta.env.VITE_API_URL}/resetScore `,
+  //         {
+  //           refPatientId: localStorage.getItem("currentPatientId"),
+  //           refQCategoryId: selectedData.refQCategoryId,
+  //           refHospitalId: localStorage.getItem("hospitalId"),
+  //           employeeId:
+  //             tokenObject.roleType === 1
+  //               ? null
+  //               : localStorage.getItem("currentDoctorId"),
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       ).then((response) => {
+  //         const data = decrypt(
+  //           response.data[1],
+  //           response.data[0],
+  //           import.meta.env.VITE_ENCRYPTION_KEY
+  //         );
+
+  //         if (data.status) {
+  //           history.push(
+  //             `/questions/${selectedData.refCategoryLabel}/${selectedData.refQCategoryId}`
+  //           );
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("Error parsing token:", error);
+  //     }
+  //   } else {
+  //     console.error("No token found in localStorage.");
+  //   }
+  // };
+
+  const getVerifyCard = (questionId: any) => {
+    switch (questionId) {
+      case 94:
+        return true;
+      case 6:
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const getValidateDuration = (questionId: any) => {
+    switch (parseInt(questionId)) {
+      case 94:
+        return 1;
+      case 6:
+        return 1;
+      default:
+        return 11;
     }
   };
 
   return (
     <>
-      <IonAlert
+      {/* <IonAlert
         isOpen={isAlertOpen}
         cssClass="custom-alert"
         header="Do you want to re-enter the question?"
         backdropDismiss={false}
         buttons={[
           {
-            text: "Yes",
+            text: "Yes-->",
             role: "confirm",
             handler: () => {
               setIsAlertOpen(false);
@@ -194,8 +243,8 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
           },
         ]}
         onDidDismiss={() => setIsAlertOpen(false)}
-      />
-      <div>
+      /> */}
+      {/* <div>
         {latestReport > 14 || latestReport === null ? (
           <></>
         ) : (
@@ -221,8 +270,9 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
             </div>
           </div>
         )}
-      </div>
-      <div className="listView"></div>
+      </div> */}
+      {/* <div className="listView"></div> */}
+
       <div className="grid-container ion-padding">
         {cardData.map((card) => (
           <>
@@ -230,44 +280,178 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
             card.refQCategoryId.toString() === "5" ? (
               <></>
             ) : (
-              <div
-                className={`grid-item ${
-                  latestReport > 14 || latestReport === null
-                    ? ""
-                    : "disabled-card"
-                }`}
-                key={card.refQCategoryId}
-                onClick={() => {
-                  if (latestReport > 14 || latestReport === null) {
-                    if (
-                      card.refQCategoryId === 5 ||
-                      card.refQCategoryId === 6 ||
-                      card.refQCategoryId === 94 ||
-                      card.refQCategoryId === 201
-                    ) {
-                      checkSore(card.refQCategoryId, card.refCategoryLabel);
-                    } else {
-                      handleCardClick(
-                        card.refQCategoryId,
-                        card.refCategoryLabel
-                      );
-                    }
-                  }
-                }}
-              >
-                <div className="knowCard ion-activatable ripple-parent rectangle">
-                  <IonRippleEffect></IonRippleEffect>
-                  <img
-                    style={{
-                      borderTopRightRadius: "10px",
-                      borderTopLeftRadius: "10px",
+              <>
+                {getVerifyCard(card.refQCategoryId) &&
+                latestReport.find(
+                  (item) =>
+                    item.refQCategoryId === card.refQCategoryId.toString()
+                ) ? (
+                  (() => {
+                    // Store the found report in a variable to avoid redundant find calls
+                    const reportItem = latestReport.find(
+                      (item) =>
+                        item.refQCategoryId === card.refQCategoryId.toString()
+                    );
+
+                    return (
+                      <>
+                        {reportItem?.refPTcreatedDate &&
+                        getValidateDuration(card.refQCategoryId) >=
+                          -calculateDaysDifference(
+                            reportItem.refPTcreatedDate
+                          ) ? (
+                          <>
+                            <div
+                              className="grid-item"
+                              key={card.refQCategoryId}
+                            >
+                              <div className="knowCard ion-activatable ripple-parent rectangle">
+                                <IonRippleEffect />
+                                <img
+                                  style={{
+                                    borderTopRightRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                  }}
+                                  src={getImage(card.refQCategoryId)}
+                                  alt={card.refCategoryLabel}
+                                />
+                                <p>{card.refCategoryLabel}</p>
+                                <div
+                                  style={{
+                                    margin: "10px 0px",
+                                    fontSize: "0.9rem",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "5px",
+                                  }}
+                                >
+                                  <div>
+                                    Taken:{" "}
+                                    {reportItem.refPTcreatedDate.split("T")[0]}
+                                  </div>
+                                  <div>
+                                    Valid:{" "}
+                                    {addDaysToDate(
+                                      reportItem.refPTcreatedDate,
+                                      getValidateDuration(
+                                        reportItem.refQCategoryId
+                                      )
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              className="grid-item"
+                              // className={`grid-item ${
+                              //   latestReport > 14 || latestReport === null
+                              //     ? ""
+                              //     : "disabled-card"
+                              // }`}
+                              key={card.refQCategoryId}
+                              onClick={() => {
+                                // if (latestReport > 14 || latestReport === null) {
+                                if (
+                                  card.refQCategoryId === 5 ||
+                                  card.refQCategoryId === 6 ||
+                                  card.refQCategoryId === 94 ||
+                                  card.refQCategoryId === 201
+                                ) {
+                                  // checkSore(card.refQCategoryId, card.refCategoryLabel);
+
+                                  localStorage.setItem(
+                                    "getCategory",
+                                    JSON.stringify({
+                                      id: card.refQCategoryId,
+                                      label: card.refCategoryLabel,
+                                    })
+                                  );
+                                  history.push(
+                                    `/questions/${card.refCategoryLabel}/${card.refQCategoryId}`
+                                  );
+                                } else {
+                                  handleCardClick(
+                                    card.refQCategoryId,
+                                    card.refCategoryLabel
+                                  );
+                                }
+                                // }
+                              }}
+                            >
+                              <div className="knowCard ion-activatable ripple-parent rectangle">
+                                <IonRippleEffect></IonRippleEffect>
+                                <img
+                                  style={{
+                                    borderTopRightRadius: "10px",
+                                    borderTopLeftRadius: "10px",
+                                  }}
+                                  src={getImage(card.refQCategoryId)}
+                                  alt={card.refCategoryLabel}
+                                />
+                                <p>{card.refCategoryLabel}</p>
+                              </div>
+                            </div>
+                          </>
+                        )}
+                      </>
+                    );
+                  })()
+                ) : (
+                  <div
+                    className="grid-item"
+                    // className={`grid-item ${
+                    //   latestReport > 14 || latestReport === null
+                    //     ? ""
+                    //     : "disabled-card"
+                    // }`}
+                    key={card.refQCategoryId}
+                    onClick={() => {
+                      // if (latestReport > 14 || latestReport === null) {
+                      if (
+                        card.refQCategoryId === 5 ||
+                        card.refQCategoryId === 6 ||
+                        card.refQCategoryId === 94 ||
+                        card.refQCategoryId === 201
+                      ) {
+                        // checkSore(card.refQCategoryId, card.refCategoryLabel);
+
+                        localStorage.setItem(
+                          "getCategory",
+                          JSON.stringify({
+                            id: card.refQCategoryId,
+                            label: card.refCategoryLabel,
+                          })
+                        );
+                        history.push(
+                          `/questions/${card.refCategoryLabel}/${card.refQCategoryId}`
+                        );
+                      } else {
+                        handleCardClick(
+                          card.refQCategoryId,
+                          card.refCategoryLabel
+                        );
+                      }
+                      // }
                     }}
-                    src={getImage(card.refQCategoryId)}
-                    alt={card.refCategoryLabel}
-                  />
-                  <p>{card.refCategoryLabel}</p>
-                </div>
-              </div>
+                  >
+                    <div className="knowCard ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
+                      <img
+                        style={{
+                          borderTopRightRadius: "10px",
+                          borderTopLeftRadius: "10px",
+                        }}
+                        src={getImage(card.refQCategoryId)}
+                        alt={card.refCategoryLabel}
+                      />
+                      <p>{card.refCategoryLabel}</p>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </>
         ))}
