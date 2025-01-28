@@ -43,10 +43,8 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
   return (
     <div>
       <div className="questions multiInput">
-      <Domaincard questionId={label.questionId} />
         <p className="question">{label.questionText}</p>
         <ShowCard questionId={label.questionId} />
-       
 
         <div className="buttonGroup">
           {label.options?.map((option) => (
