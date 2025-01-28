@@ -1,15 +1,23 @@
 import React from 'react';
 import img3 from "../../../assets/info/physicalAct3.png";
+import { Divider } from 'primereact/divider';
 
-const Vigoroustime: React.FC = () => {
+interface VigoroustimeProps{
+  view : String;
+}
+const Vigoroustime: React.FC <VigoroustimeProps>= ({view}) => {
     return (
         <div>
-         <div className="ion-padding-start ion-padding-end" slot="content"  style={{ maxHeight: "75vh", overflowY: "auto", paddingBottom: "1rem" }}>
+          {
+            view ==="showcards"?(
+              <div className="ion-padding-start ion-padding-end" slot="content"  style={{ maxHeight: "75vh", overflowY: "auto", paddingBottom: "1rem" }}>
               <p style={{ textAlign: "justify" }}>
                 Make you breathe much harder than normal{" "}
               </p>
               <img src={img3} />
-              <p style={{ textAlign: "justify" }}>
+              </div>
+            ):(<div>
+                      <p style={{ textAlign: "justify" }}>
                 Other examples for <b>Vigorous</b> activities during{" "}
                 <b>Leisure Time</b>{" "}
               </p>
@@ -22,7 +30,10 @@ const Vigoroustime: React.FC = () => {
                 <li>Ballet dancing </li>
                 <li>Fast swimming</li>
               </ul>
-            </div>
+            </div>)
+          }
+      
+      
 
         </div>
     );

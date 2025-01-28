@@ -5,47 +5,73 @@ import img2 from "../../../assets/tobaccoShowCards/img2.png";
 import img3 from "../../../assets/tobaccoShowCards/img3.png";
 import img4 from "../../../assets/tobaccoShowCards/img4.png";
 import img5 from "../../../assets/tobaccoShowCards/img5.png";
+interface SmokeProps{
+  view :String;
+}
 
-const Smoke: React.FC = () => {
+const Smoke: React.FC<SmokeProps> = ({view}) => {
     return (
+
         <div>
-             <div className="" slot="content"  style={{ maxHeight: "75vh", overflowY: "auto", paddingBottom: "1rem" }}>
-              <IonItem>
+            {
+              view ==="showcards"?(
+                <div className="" slot="content"  style={{ maxHeight: "75vh", overflowY: "auto", paddingBottom: "1rem" }}>
+                <IonItem>
+                  <div className="flex flex-column pt-0">
+                    {/* <p> Manufactured cigarettes</p> */}
+                    <img src={img1} alt="" />
+                  </div>
+                </IonItem>
+                <IonItem>
                 <div className="flex flex-column pt-0">
-                  <p> Manufactured cigarettes</p>
-                  <img src={img1} alt="" />
-                </div>
-              </IonItem>
-              <IonItem>
-                <div className="flex flex-column pt-0">
-                  <p> Hand-rolled cigarettes </p>
+                  {/* <p> Hand-rolled cigarettes </p> */}
                   <img src={img2} alt="" />
                 </div>
               </IonItem>
               <IonItem>
                 <div className="flex flex-column pt-0">
-                  <p> Pipe</p>
+                  {/* <p> Pipe</p> */}
                   <img src={img3} alt="" />
                 </div>
               </IonItem>
               <IonItem>
                 <div className="flex flex-column pt-0">
-                  <p>
+                  {/* <p>
                     Cigars, e.g., cigarillos, double coronas, cheroots, stumpen,
                     chutts and dhumtis{" "}
-                  </p>
+                  </p> */}
                   <img src={img4} alt="" />
                 </div>
               </IonItem>
               <IonItem>
                 <div className="flex flex-column pt-0">
-                  <p> Shisha</p>
+                  {/* <p> Shisha</p> */}
                   <img src={img5} alt="" />
                 </div>
               </IonItem>
             </div>
+              ):(
+                <div>
+                <div>  <p style={{ textAlign: "justify" }}>
+       
+        <ul>
+          <li>
+          Manufactured cigarettes
+          </li>
+          <li>Hand-rolled cigarettes 
 
-        </div>
+          </li>
+          <li> Cigars, e.g., cigarillos, double coronas, cheroots, stumpen,
+          chutts and dhumtis</li>
+          <li>Shisha</li>
+          </ul>
+          </p>
+            </div>
+          </div>
+          )
+       
+            }
+              </div>       
     );
 };
 
