@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
+import ShowCard from "../ShowCard/ShowCard";
 
 interface NumberInputBoxT6Props {
   type: string;
@@ -45,6 +46,7 @@ const NumberInputBoxT6: React.FC<NumberInputBoxT6Props> = ({
       >
         <div className="questions inputText">
           <p className="question ">{label.questionText}</p>
+          <ShowCard questionId={label.questionId} />
           <div className="p-inputgroup flex-1">
             <InputNumber
               value={value}

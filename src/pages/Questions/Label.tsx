@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ShowCard from "../ShowCard/ShowCard";
 
 interface LabelProps {
   label: {
@@ -26,6 +27,7 @@ const Label: React.FC<LabelProps> = ({ label, onEdit }) => {
   return (
     <div className="questions inputText">
       <p className="question ">{label.questionText}</p>
+      <ShowCard questionId={label.questionId} />
     </div>
   );
 };

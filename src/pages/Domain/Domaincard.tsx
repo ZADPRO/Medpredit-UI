@@ -1,48 +1,40 @@
 import { IonModal, IonRippleEffect } from "@ionic/react";
 import { useState } from "react";
-import Vigorous from "./PhysicalActivity/Vigorous";
-import Moderate from "./PhysicalActivity/Moderate";
-import Vigoroustime from "./PhysicalActivity/Vigoroustime";
-import Moderatetime from "./PhysicalActivity/Moderatetime";
-import Smoke from "./Tobacco/Smoke";
+import Vigorous from "../ShowCard/PhysicalActivity/Vigorous";
+import Moderate from "../ShowCard/PhysicalActivity/Moderate";
+import Vigoroustime from "../ShowCard/PhysicalActivity/Vigoroustime";
+import Moderatetime from "../ShowCard/PhysicalActivity/Moderatetime";
+import Smoke from "../ShowCard/Tobacco/Smoke";
+import Work from "./PhysicalActivity/Work";
 
 interface ShowCardProps {
   questionId: string | number;
 }
 
-const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
+const Domaincard: React.FC<ShowCardProps> = ({ questionId }) => {
   const [isModel, setIsModel] = useState(false);
-
-  const verifyShowCard = (questionId: any) => {
+  const [label, setLabel] = useState("");
+  const verifydomaincard = (questionId: any) => {
     switch (questionId) {
       case 1:
+        setLabel("Domain WOrk");
         return true;
-      case 4:
+      case 7:
         return true;
       case 10:
         return true;
-      case 13:
+      case 16:
         return true;
-        case 56:
-          return true;
+
       default:
         return false;
     }
-    
   };
-
   const getShowCard = () => {
     switch (questionId) {
       case 1:
-        return <Vigorous />; // Make sure to return JSX element here
-      case 4:
-        return <Moderate />;
-      case 10:
-        return <Vigoroustime />;
-      case 13:
-        return <Moderatetime />;
-        case 56:
-          return <Smoke/>;
+        return <Work />;
+
       default:
         return null; // Return null if no match, or you can render something else
     }
@@ -61,7 +53,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
       >
         <div className="doctor-modal-content">
           {/* Header */}
-          <div className="doctor-modal-header">Show Cards</div>
+          <div className="doctor-modal-header">{label}</div>
           {/* <p>{verifyShowCard(questionId) ? "yes" : "no"}</p> */}
           <div>{getShowCard()}</div>{" "}
           {/* Render JSX element returned by getShowCard */}
@@ -77,23 +69,27 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
           </button>
         </div>
       </IonModal>
-      {verifyShowCard(questionId) ? (
-        <div
-          style={{
-            marginBottom: "10px",
-            textDecoration: "underline",
-            color: "blue",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            setIsModel(true);
-          }}
-        >
-          Show Card
+
+      {verifydomaincard(questionId) ? <div>sdfjb</div> : null}
+
+      <div style={{ padding: "10px 0px" }}>
+        {/* Header */}
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="doctor-modal-header">Domain Work</div>
+          <div
+            onClick={() => {
+              setIsModel(true);
+            }}
+            style={{ textDecoration: "underline", color: "blue" }}
+          >
+            Instruction
+          </div>
         </div>
-      ) : null}
+        {/* <p>{verifyShowCard(questionId) ? "yes" : "no"}</p> */}
+        {/* <div>{getShowCard()}</div>{" "} */}
+      </div>
     </div>
   );
 };
 
-export default ShowCard;
+export default Domaincard;

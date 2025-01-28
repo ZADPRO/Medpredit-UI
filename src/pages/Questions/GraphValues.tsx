@@ -5,6 +5,7 @@ import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
 import decrypt from "../../helper";
 import { IonAlert } from "@ionic/react";
+import ShowCard from "../ShowCard/ShowCard";
 
 interface GraphValuesProps {
   label: {
@@ -198,6 +199,7 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   return (
     <div className="questions inputText">
       <p className="question">{label.questionText}</p>
+      
       <IonAlert
         isOpen={isAlertOpen.status}
         cssClass="custom-alert"
