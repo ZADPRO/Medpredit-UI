@@ -95,10 +95,6 @@ const KnowAboutPatient: React.FC = () => {
             );
             setSelectedValue("knowabout");
 
-            console.log("====================================");
-            console.log(data);
-            console.log("====================================");
-
             if (data.data) {
               setCategories(data.data);
               categories.push({
@@ -149,8 +145,8 @@ const KnowAboutPatient: React.FC = () => {
 
       if (data.status) {
         setSubCategoryData(data.data);
-        setLatestReport(data.latestreportDate);
-        console.log("################", data.latestreportDate);
+        setLatestReport(data.reportAnswer);
+        console.log("################", data);
         setLoadingStatus(false);
       }
     } catch (error) {

@@ -95,6 +95,54 @@ const SubCards: React.FC<SubCardsProps> = ({
         return 14;
       case 9:
         return 14;
+      case 10:
+        return 14;
+      case 11:
+        return 14;
+      case 12:
+        return 14;
+      case 13:
+        return 14;
+      case 43:
+        return 14;
+      case 51:
+        return 14;
+      case 202:
+        return 1;
+      case 203:
+        return 1;
+      case 204:
+        return 1;
+      case 205:
+        return 1;
+      case 206:
+        return 1;
+      case 207:
+        return 1;
+      case 213:
+        return 1;
+      case 214:
+        return 1;
+      case 215:
+        return 1;
+      case 216:
+        return 1;
+      case 217:
+        return 1;
+      case 218:
+        return 1;
+      case 219:
+        return 1;
+      case 220:
+        return 1;
+      case 221:
+        return 1;
+      case 222:
+        return 1;
+      case 223:
+        return 1;
+      case 224:
+        return 1;
       default:
         return 0;
     }
