@@ -1,13 +1,14 @@
+/*
 .carouselDiv {
   block-size: 85vh;
 }
-
+ 
 .carouselDiv img {
   block-size: 50vh;
   inline-size: 100%;
   object-fit: cover;
 }
-
+ 
 .skipButton {
   block-size: 5vh;
   align-items: center;
@@ -16,11 +17,11 @@
   padding-inline-start: 20px;
   justify-content: end;
 }
-
+ 
 .carouselDiv .contents p {
   margin: 0;
 }
-
+ 
 .carouselDiv .contents {
   block-size: 35vh;
   padding-inline-start: 20px;
@@ -30,20 +31,20 @@
   align-items: center;
   justify-content: center;
 }
-
+ 
 .carouselDiv .contents .heading {
   font-size: 26px;
   padding-block-end: 10px;
 }
-
+ 
 .carouselDiv .contents .heading span {
   font-weight: bold;
 }
-
+ 
 .skipButton p {
   margin: 0;
 }
-
+ 
 .carouselButtons {
   display: flex;
   flex-direction: row;
@@ -53,23 +54,23 @@
   align-items: center;
   justify-content: space-between;
 }
-
+ 
 .carouselButtons .carouselButton {
   background-color: transparent;
 }
-
+ 
 .carouselButtons .carouselButton ion-icon {
   color: black;
   font-size: 40px;
 }
-
+ 
 .carouselIndicators {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
 }
-
+ 
 .indicator {
   inline-size: 10px;
   block-size: 10px;
@@ -77,11 +78,199 @@
   border-radius: 50%;
   transition: background-color 0.3s;
 }
-
+ 
 .indicator.active {
   background-color: #000000;
 }
-
+ 
 .carouselButtons .carouselButton:disabled ion-icon {
   color: white;
+}
+ 
+.carouselIndicators .indicator.active{
+  width: 40px;
+  height: 4px;
+  border-radius: 3px !important;
+}
+ 
+.carouselIndicators .indicator{
+ 
+}
+*/
+ 
+ 
+.loginScreen {
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  padding-bottom: 6vh;
+  /* background-image: url("../../assets/images_new/BACKGROUND_GetStarted.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+ 
+.loginScreen>h2 {
+  font-family: "Nunito", serif;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+ 
+.Medprit {
+  color: lightblue;
+  font-weight: 800;
+  font-size: 3rem;
+  margin: 0;
+}
+ 
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: #eefaff;
+  font-size: 0.7rem;
+  font-weight: lighter;
+  padding: 5px 20px;
+  margin: 0;
+  text-align:center;
+}
+ 
+.description p{
+  margin: 0;
+}
+ 
+ 
+.carousel-root, .carousel.carousel-slider, .carousel .slider-wrapper,
+.carousel .slider-wrapper.axis-horizontal .slider{
+  block-size: 100%;
+}
+ 
+.carouselDiv{
+  margin: 0;
+  block-size: 100%;
+  display: flex;
+}
+ 
+.carouselDiv2, .carouselDiv3, .carouselDiv4 {
+  block-size: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  padding-bottom: 8vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+ 
+/* .carouselDiv2{
+  background-image: url("../../assets/images_new/BACKGROUND_Discover.jpg");
+}
+ 
+.carouselDiv3{
+  background-image: url("../../assets/images_new/BACKGROUND_LearnAbout.jpg");
+}
+ 
+.carouselDiv4{
+  background-image: url("../../assets/images_new/BACKGROUND_Effortless.jpg");
+}
+  */
+.heading{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+}
+ 
+.heading>span{
+  color: lightblue;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0;
+}
+ 
+.heading>p{
+  color: white;
+  margin: 0;
+}
+ 
+.contents{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0rem 0.5rem;
+}
+ 
+.carouselNavButtons{
+  inline-size: 75%;
+  margin: 1.5rem 0rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+ 
+.skipButton,.nextButton{
+  size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+}
+ 
+.skipButton{
+  background-color: transparent;
+  color: white;
+}
+ 
+.nextButton{
+  background-color: #eefaff;
+  color: #2ba9f7;
+}
+ 
+.carouselButtons {
+  display: flex;
+  flex-direction: row;
+  /*block-size: 10vh;
+  padding-inline-start: 10px;
+  padding-inline-end: 10px;*/
+  align-items: center;
+  justify-content: space-between;
+ 
+}
+ 
+.carouselIndicators {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  position: absolute;
+  text-align: center;
+  bottom: 3vh;
+  width: 100%;
+}
+ 
+.carouselIndicators .indicator.active{
+  width: 1.375rem;
+  height: 0.25rem;
+  border-radius: 3px !important;
+}
+ 
+.indicator {
+  inline-size: 0.4rem;
+  block-size: 0.2rem;
+  background-color: #eefaff;
+  border-radius: 3px;
+  text-align: center;
+  transition: background-color 0.3s;
 }

@@ -32,8 +32,10 @@ const PastReport: React.FC = () => {
   const history = useHistory();
   const modal = useRef<HTMLIonModalElement>(null);
 
-  const { reportDate } = useParams<{
-    reportDate: string;
+  const { fromDate, toDate, refPMId } = useParams<{
+    fromDate: string;
+    toDate: string;
+    refPMId: string;
   }>();
 
   const [loadingStatus, setLoadingStatus] = useState(true);
@@ -106,12 +108,10 @@ const PastReport: React.FC = () => {
             `${import.meta.env.VITE_API_URL}/getPastReportData `,
             {
               patientId: patientId,
-              employeeId:
-                tokenObject.roleType === 1
-                  ? null
-                  : localStorage.getItem("currentDoctorId"),
+              employeeId: refPMId,
               hospitalId: localStorage.getItem("hospitalId"),
-              reportDate: reportDate,
+              fromDate: fromDate,
+              toDate: toDate,
             },
             {
               headers: {
@@ -192,14 +192,11 @@ const PastReport: React.FC = () => {
     }
   }, []);
 
-  const getTodayDate = () => {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, "0");
-    const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are 0-indexed
-    const year = today.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  };
+  function getLastDayOfMonth(yearMonth: any) {
+    let [year, month] = yearMonth.split("-").map(Number);
+    let lastDay = new Date(year, month, 0).getDate(); // Month is 0-indexed, so month 0 will be the last day of the previous month
+    return `${String(lastDay).padStart(2, "0")}`;
+  }
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -258,7 +255,7 @@ const PastReport: React.FC = () => {
               >
                 <IonBackButton
                   mode="md"
-                  // defaultHref={`/knowAbout/${patient}/${patientId}`}
+                // defaultHref={`/knowAbout/${patient}/${patientId}`}
                 ></IonBackButton>
               </IonButtons>
               <IonTitle>
@@ -267,7 +264,13 @@ const PastReport: React.FC = () => {
                     {patientDetail.patientName} (Age: {patientDetail.age})
                   </div>
                   <div style={{ fontSize: "14px" }}>
-                    Report Date {getTodayDate()}
+                    {`Report Date: ${fromDate.slice(0, 8)}(${fromDate.slice(
+                      8,
+                      10
+                    )}-${toDate === "0"
+                      ? getLastDayOfMonth(fromDate.slice(0, 7))
+                      : toDate.slice(8, 10)
+                      })`}
                   </div>
                 </div>
               </IonTitle>
@@ -331,90 +334,95 @@ const PastReport: React.FC = () => {
             <div>
               {allCategory && allCategory.length > 0
                 ? allCategory.map((MainCategory: any) => (
-                    <>
-                      {MainCategory.refQSubCategory === "0" ? (
-                        <div
-                          style={{
-                            background: "#f7f7f7",
-                            padding: "10px",
-                            borderRadius: "5px",
-                            marginTop: "20px",
-                            boxShadow:
-                              "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-                          }}
-                        >
-                          <div style={{ fontSize: "16px" }}>
-                            {MainCategory.refCategoryLabel}
+                  <>
+                    {MainCategory.refQSubCategory === "0" ? (
+                      <div
+                        style={{
+                          background: "#f7f7f7",
+                          padding: "10px",
+                          borderRadius: "5px",
+                          marginTop: "20px",
+                          boxShadow:
+                            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+                        }}
+                      >
+                        <div style={{ fontSize: "16px" }}>
+                          {MainCategory.refCategoryLabel}
 
-                            <IonAccordionGroup>
-                              {allCategory.map((subCategory) => {
-                                const isMatchingCategory =
-                                  subCategory.refQSubCategory ===
-                                  MainCategory.refQCategoryId.toString();
+                          <IonAccordionGroup>
+                            {allCategory.map((subCategory) => {
+                              const isMatchingCategory =
+                                subCategory.refQSubCategory ===
+                                MainCategory.refQCategoryId.toString();
 
-                                return isMatchingCategory ? (
-                                  <>
-                                    {localStorage
-                                      .getItem("currentPatientGender")
-                                      ?.toString() === "male" &&
+                              return isMatchingCategory ? (
+                                <>
+                                  {localStorage
+                                    .getItem("currentPatientGender")
+                                    ?.toString() === "male" &&
                                     subCategory.refQCategoryId.toString() ===
-                                      "5" ? (
-                                      <></>
-                                    ) : (
-                                      <IonAccordion
-                                        key={subCategory.refQCategoryId}
-                                        value={subCategory.refQCategoryId}
+                                    "5" ? (
+                                    <></>
+                                  ) : (
+                                    <IonAccordion
+                                      key={subCategory.refQCategoryId}
+                                      value={subCategory.refQCategoryId}
+                                    >
+                                      <IonItem slot="header" color="light">
+                                        <IonLabel>
+                                          {subCategory.refCategoryLabel}
+                                        </IonLabel>
+                                      </IonItem>
+                                      <div
+                                        className="ion-padding"
+                                        slot="content"
                                       >
-                                        <IonItem slot="header" color="light">
-                                          <IonLabel>
-                                            {subCategory.refCategoryLabel}
-                                          </IonLabel>
-                                        </IonItem>
-                                        <div
-                                          className="ion-padding"
-                                          slot="content"
-                                        >
-                                          {allCategory.map(
-                                            (category, index) => (
-                                              <>
-                                                {subCategory.refQCategoryId ===
-                                                  5 ||
+                                        {allCategory.map(
+                                          (category, index) => (
+                                            <>
+                                              {subCategory.refQCategoryId ===
+                                                5 ||
                                                 subCategory.refQCategoryId ===
-                                                  6 ||
+                                                6 ||
                                                 subCategory.refQCategoryId ===
-                                                  94 ? (
-                                                  <>
-                                                    {index === 0 ? (
-                                                      <>
-                                                        {subCategory.refQCategoryId ===
+                                                94 ? (
+                                                <>
+                                                  {index === 0 ? (
+                                                    <>
+                                                      {subCategory.refQCategoryId ===
                                                         94 ? (
-                                                          <>
+                                                        <>
+                                                          {allScore.some(
+                                                            (answer) =>
+                                                              answer.refQCategoryId ===
+                                                              subCategory.refQCategoryId.toString()
+                                                          ) ? (
                                                             <div
                                                               style={{
-                                                                textDecoration:
-                                                                  "underline",
-                                                              }}
-                                                            >
-                                                              Insights
-                                                            </div>
-                                                            <div
-                                                              style={{
-                                                                marginTop:
-                                                                  "10px",
-                                                                display: "flex",
+                                                                display:
+                                                                  "flex",
                                                                 flexDirection:
                                                                   "column",
                                                                 gap: "10px",
                                                                 background:
                                                                   "#F2F9FF",
-                                                                padding: "10px",
                                                                 borderRadius:
                                                                   "5px",
                                                               }}
                                                             >
+                                                              <div
+                                                                style={{
+                                                                  textDecoration:
+                                                                    "underline",
+                                                                }}
+                                                              >
+                                                                Insights
+                                                              </div>
                                                               {allCategory
                                                                 .filter(
-                                                                  (insights) =>
+                                                                  (
+                                                                    insights
+                                                                  ) =>
                                                                     insights.refQSubCategory ===
                                                                     subCategory.refQCategoryId.toString()
                                                                 )
@@ -424,7 +432,9 @@ const PastReport: React.FC = () => {
                                                                     bbb
                                                                   ) => (
                                                                     <div
-                                                                      key={bbb}
+                                                                      key={
+                                                                        bbb
+                                                                      }
                                                                       style={{
                                                                         marginTop:
                                                                           "10px",
@@ -461,7 +471,7 @@ const PastReport: React.FC = () => {
                                                                             ) => (
                                                                               <>
                                                                                 {aaa ===
-                                                                                0 ? (
+                                                                                  0 ? (
                                                                                   <div
                                                                                     key={
                                                                                       aaa
@@ -470,14 +480,14 @@ const PastReport: React.FC = () => {
                                                                                     {answer
                                                                                       .refPTScore
                                                                                       .length >
-                                                                                    0
+                                                                                      0
                                                                                       ? `${answer.refPTScore}`
                                                                                       : "NULL"}
                                                                                   </div>
                                                                                 ) : null}
 
                                                                                 {answer.refPTScore ===
-                                                                                "Yes" ? (
+                                                                                  "Yes" ? (
                                                                                   <>
                                                                                     {allCategory
                                                                                       .filter(
@@ -538,40 +548,40 @@ const PastReport: React.FC = () => {
                                                                                                         {answer
                                                                                                           .refPTScore
                                                                                                           .length >
-                                                                                                        0
+                                                                                                          0
                                                                                                           ? answer.refPTScore
                                                                                                           : "NULL"}
                                                                                                       </div>
                                                                                                       <div></div>
                                                                                                       {answer.refQCategoryId ===
                                                                                                         "100" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "108" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "116" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "124" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "132" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "140" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "148" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "156" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "164" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "172" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "180" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "188" ||
-                                                                                                      answer.refQCategoryId ===
+                                                                                                        answer.refQCategoryId ===
                                                                                                         "196" ? (
                                                                                                         <>
                                                                                                           {answer.refPTScore ===
-                                                                                                          "Yes" ? (
+                                                                                                            "Yes" ? (
                                                                                                             <>
                                                                                                               <div
                                                                                                                 style={{
@@ -655,7 +665,7 @@ const PastReport: React.FC = () => {
                                                                                                                                     {ansinsights
                                                                                                                                       .refPTScore
                                                                                                                                       .length >
-                                                                                                                                    0
+                                                                                                                                      0
                                                                                                                                       ? ansinsights.refPTScore
                                                                                                                                       : "NULL"}
                                                                                                                                   </div>
@@ -690,35 +700,52 @@ const PastReport: React.FC = () => {
                                                                   )
                                                                 )}
                                                             </div>
-                                                          </>
-                                                        ) : (
-                                                          <>
-                                                            <div
-                                                              style={{
-                                                                textDecoration:
-                                                                  "underline",
-                                                              }}
-                                                            >
-                                                              Insights
-                                                            </div>
+                                                          ) : (
                                                             <div
                                                               style={{
                                                                 marginTop:
                                                                   "10px",
-                                                                display: "flex",
+                                                              }}
+                                                            >
+                                                              No Data Filled
+                                                            </div>
+                                                          )}
+                                                        </>
+                                                      ) : (
+                                                        <>
+                                                          {allScore.some(
+                                                            (answer) =>
+                                                              answer.refQCategoryId ===
+                                                              subCategory.refQCategoryId.toString()
+                                                          ) ? (
+                                                            <div
+                                                              style={{
+                                                                display:
+                                                                  "flex",
                                                                 flexDirection:
                                                                   "column",
                                                                 gap: "10px",
                                                                 background:
                                                                   "#F2F9FF",
-                                                                padding: "10px",
+                                                                padding:
+                                                                  "10px",
                                                                 borderRadius:
                                                                   "5px",
                                                               }}
                                                             >
+                                                              <div
+                                                                style={{
+                                                                  textDecoration:
+                                                                    "underline",
+                                                                }}
+                                                              >
+                                                                Insights
+                                                              </div>
                                                               {allCategory
                                                                 .filter(
-                                                                  (insights) =>
+                                                                  (
+                                                                    insights
+                                                                  ) =>
                                                                     insights.refQSubCategory ===
                                                                     subCategory.refQCategoryId.toString()
                                                                 )
@@ -728,7 +755,9 @@ const PastReport: React.FC = () => {
                                                                     bbb
                                                                   ) => (
                                                                     <div
-                                                                      key={bbb}
+                                                                      key={
+                                                                        bbb
+                                                                      }
                                                                       style={{
                                                                         marginTop:
                                                                           "10px",
@@ -765,7 +794,7 @@ const PastReport: React.FC = () => {
                                                                             ) => (
                                                                               <>
                                                                                 {aaa ===
-                                                                                0 ? (
+                                                                                  0 ? (
                                                                                   <div
                                                                                     key={
                                                                                       aaa
@@ -774,7 +803,7 @@ const PastReport: React.FC = () => {
                                                                                     {answer
                                                                                       .refPTScore
                                                                                       .length >
-                                                                                    0
+                                                                                      0
                                                                                       ? `${answer.refPTScore}`
                                                                                       : "NULL"}
                                                                                   </div>
@@ -836,7 +865,7 @@ const PastReport: React.FC = () => {
                                                                                           {answer
                                                                                             .refPTScore
                                                                                             .length >
-                                                                                          0
+                                                                                            0
                                                                                             ? answer.refPTScore
                                                                                             : "NULL"}
                                                                                         </div>
@@ -851,350 +880,365 @@ const PastReport: React.FC = () => {
                                                                   )
                                                                 )}
                                                             </div>
-                                                          </>
-                                                        )}
-                                                      </>
-                                                    ) : null}
-                                                  </>
-                                                ) : subCategory.refQCategoryId ===
-                                                  201 ? (
-                                                  <>
-                                                    {index === 0 ? (
-                                                      <>
-                                                        {treatmentDetails.length >
+                                                          ) : (
+                                                            <div
+                                                              style={{
+                                                                marginTop:
+                                                                  "10px",
+                                                              }}
+                                                            >
+                                                              No Data Filled
+                                                            </div>
+                                                          )}
+                                                        </>
+                                                      )}
+                                                    </>
+                                                  ) : null}
+                                                </>
+                                              ) : subCategory.refQCategoryId ===
+                                                201 ? (
+                                                <>
+                                                  {index === 0 ? (
+                                                    <>
+                                                      {treatmentDetails.length >
                                                         0 ? (
-                                                          <>
-                                                            {treatmentDetails.map(
-                                                              (
-                                                                details,
-                                                                index
-                                                              ) => (
-                                                                <>
-                                                                  <div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                      }}
-                                                                    >
-                                                                      Name of
-                                                                      Medicine
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        details.refTDMedName
-                                                                      }
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Category
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        details.refTDCat
-                                                                      }
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Strength
-                                                                      (mg)
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        details.refTDStrength
-                                                                      }
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      ROA
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        details.refTDROA
-                                                                      }
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Relation
-                                                                      to Food
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {
-                                                                        details.refTDRTF
-                                                                      }
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Morning
-                                                                      Dosage
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {details.refTDMorningDosage
-                                                                        ? details.refTDMorningDosage
-                                                                        : "No answer"}
-                                                                      ,&nbsp;
-                                                                      {details.refTDMorningDosageTime
-                                                                        ? formatTime(
-                                                                            new Date(
-                                                                              details.refTDMorningDosageTime
-                                                                            )
-                                                                          )
-                                                                        : "No answer"}
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Afternoon
-                                                                      Dosage
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {details.refTDAfternoonDosage
-                                                                        ? details.refTDAfternoonDosage
-                                                                        : "No answer"}
-                                                                      ,&nbsp;
-                                                                      {details.refTDAfternoonDosageTime
-                                                                        ? formatTime(
-                                                                            new Date(
-                                                                              details.refTDAfternoonDosageTime
-                                                                            )
-                                                                          )
-                                                                        : "No answer"}
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Evening
-                                                                      Dosage
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {details.refTDEveningDosage
-                                                                        ? details.refTDEveningDosage
-                                                                        : "No answer"}
-                                                                      ,&nbsp;
-                                                                      {details.refTDEveningDosageTime
-                                                                        ? formatTime(
-                                                                            new Date(
-                                                                              details.refTDEveningDosageTime
-                                                                            )
-                                                                          )
-                                                                        : "No answer"}
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Night
-                                                                      Dosage
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        marginTop:
-                                                                          "5px",
-                                                                      }}
-                                                                    >
-                                                                      {details.refTDNightDosage
-                                                                        ? details.refTDNightDosage
-                                                                        : "No answer"}
-                                                                      ,&nbsp;
-                                                                      {details.refTDNightDosageTime
-                                                                        ? formatTime(
-                                                                            new Date(
-                                                                              details.refTDNightDosageTime
-                                                                            )
-                                                                          )
-                                                                        : "No answer"}
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        color:
-                                                                          "red",
-                                                                        marginTop:
-                                                                          "10px",
-                                                                      }}
-                                                                    >
-                                                                      Duration
-                                                                    </div>
-                                                                    <div
-                                                                      style={{
-                                                                        display:
-                                                                          "flex",
-                                                                        justifyContent:
-                                                                          "space-between",
-                                                                        padding:
-                                                                          "0px 10%",
-                                                                      }}
-                                                                    >
-                                                                      <div
-                                                                        style={{
-                                                                          marginTop:
-                                                                            "5px",
-                                                                        }}
-                                                                      >
-                                                                        Month:{" "}
-                                                                        {
-                                                                          details.refTDDurationMonth
-                                                                        }
-                                                                      </div>
-                                                                      <div
-                                                                        style={{
-                                                                          marginTop:
-                                                                            "5px",
-                                                                        }}
-                                                                      >
-                                                                        Year:{" "}
-                                                                        {
-                                                                          details.refTDDurationYear
-                                                                        }
-                                                                      </div>
-                                                                    </div>
-                                                                  </div>
-                                                                  <Divider />
-                                                                </>
-                                                              )
-                                                            )}
-                                                          </>
-                                                        ) : (
-                                                          <>
-                                                            No Treatment Details
-                                                            Available
-                                                          </>
-                                                        )}
-                                                      </>
-                                                    ) : null}
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    {category.refQSubCategory ===
-                                                    subCategory.refQCategoryId.toString() ? (
-                                                      <IonAccordionGroup>
-                                                        <IonAccordion
-                                                          key={
-                                                            category.refQCategoryId
-                                                          }
-                                                          value={
-                                                            category.refQCategoryId
-                                                          }
-                                                        >
-                                                          <IonItem
-                                                            slot="header"
-                                                            color="light"
-                                                          >
-                                                            <IonLabel>
-                                                              {
-                                                                category.refCategoryLabel
-                                                              }
-                                                            </IonLabel>
-                                                          </IonItem>
-                                                          <div
-                                                            className="ion-padding"
-                                                            slot="content"
-                                                          >
-                                                            {category.refQCategoryId ===
-                                                            51 ? (
-                                                              <></>
-                                                            ) : (
+                                                        <>
+                                                          {treatmentDetails.map(
+                                                            (
+                                                              details,
+                                                              index
+                                                            ) => (
                                                               <>
-                                                                <div
-                                                                  style={{
-                                                                    display:
-                                                                      "flex",
-                                                                    justifyContent:
-                                                                      "space-between",
-                                                                  }}
-                                                                >
+                                                                <div>
                                                                   <div
                                                                     style={{
-                                                                      textDecoration:
-                                                                        "underline",
+                                                                      color:
+                                                                        "red",
                                                                     }}
                                                                   >
-                                                                    Summary
+                                                                    Name of
+                                                                    Medicine
                                                                   </div>
-                                                                  <div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {
+                                                                      details.refTDMedName
+                                                                    }
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Category
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {
+                                                                      details.refTDCat
+                                                                    }
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Strength
+                                                                    (mg)
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {
+                                                                      details.refTDStrength
+                                                                    }
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    ROA
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {
+                                                                      details.refTDROA
+                                                                    }
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Relation
+                                                                    to Food
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {
+                                                                      details.refTDRTF
+                                                                    }
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Morning
+                                                                    Dosage
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {details.refTDMorningDosage
+                                                                      ? details.refTDMorningDosage
+                                                                      : "No answer"}
+                                                                    ,&nbsp;
+                                                                    {details.refTDMorningDosageTime
+                                                                      ? formatTime(
+                                                                        new Date(
+                                                                          details.refTDMorningDosageTime
+                                                                        )
+                                                                      )
+                                                                      : "No answer"}
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Afternoon
+                                                                    Dosage
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {details.refTDAfternoonDosage
+                                                                      ? details.refTDAfternoonDosage
+                                                                      : "No answer"}
+                                                                    ,&nbsp;
+                                                                    {details.refTDAfternoonDosageTime
+                                                                      ? formatTime(
+                                                                        new Date(
+                                                                          details.refTDAfternoonDosageTime
+                                                                        )
+                                                                      )
+                                                                      : "No answer"}
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Evening
+                                                                    Dosage
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {details.refTDEveningDosage
+                                                                      ? details.refTDEveningDosage
+                                                                      : "No answer"}
+                                                                    ,&nbsp;
+                                                                    {details.refTDEveningDosageTime
+                                                                      ? formatTime(
+                                                                        new Date(
+                                                                          details.refTDEveningDosageTime
+                                                                        )
+                                                                      )
+                                                                      : "No answer"}
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Night
+                                                                    Dosage
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      marginTop:
+                                                                        "5px",
+                                                                    }}
+                                                                  >
+                                                                    {details.refTDNightDosage
+                                                                      ? details.refTDNightDosage
+                                                                      : "No answer"}
+                                                                    ,&nbsp;
+                                                                    {details.refTDNightDosageTime
+                                                                      ? formatTime(
+                                                                        new Date(
+                                                                          details.refTDNightDosageTime
+                                                                        )
+                                                                      )
+                                                                      : "No answer"}
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      color:
+                                                                        "red",
+                                                                      marginTop:
+                                                                        "10px",
+                                                                    }}
+                                                                  >
+                                                                    Duration
+                                                                  </div>
+                                                                  <div
+                                                                    style={{
+                                                                      display:
+                                                                        "flex",
+                                                                      justifyContent:
+                                                                        "space-between",
+                                                                      padding:
+                                                                        "0px 10%",
+                                                                    }}
+                                                                  >
+                                                                    <div
+                                                                      style={{
+                                                                        marginTop:
+                                                                          "5px",
+                                                                      }}
+                                                                    >
+                                                                      Month:{" "}
+                                                                      {
+                                                                        details.refTDDurationMonth
+                                                                      }
+                                                                    </div>
+                                                                    <div
+                                                                      style={{
+                                                                        marginTop:
+                                                                          "5px",
+                                                                      }}
+                                                                    >
+                                                                      Year:{" "}
+                                                                      {
+                                                                        details.refTDDurationYear
+                                                                      }
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                                <Divider />
+                                                              </>
+                                                            )
+                                                          )}
+                                                        </>
+                                                      ) : (
+                                                        <>
+                                                          No Treatment Details
+                                                          Available
+                                                        </>
+                                                      )}
+                                                    </>
+                                                  ) : null}
+                                                </>
+                                              ) : (
+                                                <>
+                                                  {category.refQSubCategory ===
+                                                    subCategory.refQCategoryId.toString() ? (
+                                                    <IonAccordionGroup>
+                                                      <IonAccordion
+                                                        key={
+                                                          category.refQCategoryId
+                                                        }
+                                                        value={
+                                                          category.refQCategoryId
+                                                        }
+                                                      >
+                                                        <IonItem
+                                                          slot="header"
+                                                          color="light"
+                                                        >
+                                                          <IonLabel>
+                                                            {
+                                                              category.refCategoryLabel
+                                                            }
+                                                          </IonLabel>
+                                                        </IonItem>
+                                                        <div
+                                                          className="ion-padding"
+                                                          slot="content"
+                                                        >
+                                                          {category.refQCategoryId ===
+                                                            51 ? (
+                                                            <></>
+                                                          ) : (
+                                                            <>
+                                                              {allScore.some(
+                                                                (answer) =>
+                                                                  answer.refQCategoryId ===
+                                                                  category.refQCategoryId.toString()
+                                                              ) ? (
+                                                                <>
+                                                                  <div
+                                                                    style={{
+                                                                      display:
+                                                                        "flex",
+                                                                      justifyContent:
+                                                                        "space-between",
+                                                                    }}
+                                                                  >
+                                                                    <div
+                                                                      style={{
+                                                                        textDecoration:
+                                                                          "underline",
+                                                                      }}
+                                                                    >
+                                                                      Summary
+                                                                    </div>
                                                                     <div>
                                                                       {allScore.map(
                                                                         (
@@ -1244,461 +1288,484 @@ const PastReport: React.FC = () => {
                                                                       )}
                                                                     </div>
                                                                   </div>
-                                                                </div>
-                                                                <Divider />
-                                                              </>
-                                                            )}
-                                                            <div
-                                                              style={{
-                                                                textDecoration:
-                                                                  "underline",
-                                                              }}
-                                                            >
-                                                              Insights
-                                                            </div>
-                                                            <div
-                                                              style={{
-                                                                marginTop:
-                                                                  "10px",
-                                                                display: "flex",
-                                                                flexDirection:
-                                                                  "column",
-                                                                gap: "10px",
-                                                                background:
-                                                                  "#F2F9FF",
-                                                                padding: "10px",
-                                                                borderRadius:
-                                                                  "5px",
-                                                              }}
-                                                            >
-                                                              {allCategory.map(
-                                                                (insights) => (
-                                                                  <>
-                                                                    {insights.refQSubCategory ===
-                                                                    category.refQCategoryId.toString() ? (
-                                                                      <>
-                                                                        <div
-                                                                          style={{
-                                                                            marginTop:
-                                                                              "10px",
-                                                                          }}
-                                                                        >
-                                                                          <div
-                                                                            style={{
-                                                                              color:
-                                                                                "red",
-                                                                            }}
-                                                                          >
-                                                                            {
-                                                                              insights.refCategoryLabel
-                                                                            }
-                                                                          </div>
+                                                                  <Divider />
+                                                                </>
+                                                              ) : null}
+                                                            </>
+                                                          )}
+                                                          {allScore.some(
+                                                            (answer) =>
+                                                              answer.refQCategoryId ===
+                                                              category.refQCategoryId.toString()
+                                                          ) ? (
+                                                            <>
+                                                              <div
+                                                                style={{
+                                                                  textDecoration:
+                                                                    "underline",
+                                                                }}
+                                                              >
+                                                                Insights
+                                                              </div>
+                                                              <div
+                                                                style={{
+                                                                  marginTop:
+                                                                    "10px",
+                                                                  display:
+                                                                    "flex",
+                                                                  flexDirection:
+                                                                    "column",
+                                                                  gap: "10px",
+                                                                  background:
+                                                                    "#F2F9FF",
+                                                                  padding:
+                                                                    "10px",
+                                                                  borderRadius:
+                                                                    "5px",
+                                                                }}
+                                                              >
+                                                                {allCategory.map(
+                                                                  (
+                                                                    insights
+                                                                  ) => (
+                                                                    <>
+                                                                      {insights.refQSubCategory ===
+                                                                        category.refQCategoryId.toString() ? (
+                                                                        <>
                                                                           <div
                                                                             style={{
                                                                               marginTop:
-                                                                                "5px",
+                                                                                "10px",
                                                                             }}
                                                                           >
-                                                                            {allScore.map(
-                                                                              (
-                                                                                answer
-                                                                              ) =>
-                                                                                answer.refQCategoryId ===
-                                                                                insights.refQCategoryId.toString() ? (
-                                                                                  <>
-                                                                                    {answer.refQCategoryId ===
-                                                                                    "21" ? (
-                                                                                      <>
-                                                                                        {answer
-                                                                                          .refPTScore
-                                                                                          .length >
-                                                                                        0 ? (
-                                                                                          <>
-                                                                                            {
-                                                                                              answer.refPTScore.split(
-                                                                                                ":"
-                                                                                              )[0]
-                                                                                            }{" "}
-                                                                                            hrs{" "}
-                                                                                            {
-                                                                                              answer.refPTScore.split(
-                                                                                                ":"
-                                                                                              )[1]
-                                                                                            }{" "}
-                                                                                            mins
-                                                                                          </>
-                                                                                        ) : (
-                                                                                          <>
-                                                                                            Null
-                                                                                          </>
-                                                                                        )}
-                                                                                      </>
-                                                                                    ) : answer.refQCategoryId ===
-                                                                                        "25" ||
-                                                                                      answer.refQCategoryId ===
-                                                                                        "26" ||
-                                                                                      answer.refQCategoryId ===
-                                                                                        "27" ||
-                                                                                      answer.refQCategoryId ===
-                                                                                        "28" ? (
-                                                                                      <>
-                                                                                        {answer.refPTScore
-                                                                                          .split(
-                                                                                            ","
-                                                                                          )
-                                                                                          .map(
-                                                                                            (
-                                                                                              score: any,
-                                                                                              index: any
-                                                                                            ) => (
-                                                                                              <div
-                                                                                                key={
-                                                                                                  index
-                                                                                                }
-                                                                                                style={{
-                                                                                                  marginTop:
-                                                                                                    "",
-                                                                                                }}
-                                                                                              >
-                                                                                                {index +
-                                                                                                  1}
-
-                                                                                                .{" "}
-                                                                                                {
-                                                                                                  stressAnswer.find(
-                                                                                                    (
-                                                                                                      ans: any
-                                                                                                    ) =>
-                                                                                                      ans.refOptionId.toString() ===
-                                                                                                      score
-                                                                                                  )
-                                                                                                    ?.refOptionLabel
-                                                                                                }
-                                                                                              </div>
-                                                                                            )
+                                                                            <div
+                                                                              style={{
+                                                                                color:
+                                                                                  "red",
+                                                                              }}
+                                                                            >
+                                                                              {
+                                                                                insights.refCategoryLabel
+                                                                              }
+                                                                            </div>
+                                                                            <div
+                                                                              style={{
+                                                                                marginTop:
+                                                                                  "5px",
+                                                                              }}
+                                                                            >
+                                                                              {allScore.map(
+                                                                                (
+                                                                                  answer
+                                                                                ) =>
+                                                                                  answer.refQCategoryId ===
+                                                                                    insights.refQCategoryId.toString() ? (
+                                                                                    <>
+                                                                                      {answer.refQCategoryId ===
+                                                                                        "21" ? (
+                                                                                        <>
+                                                                                          {answer
+                                                                                            .refPTScore
+                                                                                            .length >
+                                                                                            0 ? (
+                                                                                            <>
+                                                                                              {
+                                                                                                answer.refPTScore.split(
+                                                                                                  ":"
+                                                                                                )[0]
+                                                                                              }{" "}
+                                                                                              hrs{" "}
+                                                                                              {
+                                                                                                answer.refPTScore.split(
+                                                                                                  ":"
+                                                                                                )[1]
+                                                                                              }{" "}
+                                                                                              mins
+                                                                                            </>
+                                                                                          ) : (
+                                                                                            <>
+                                                                                              Null
+                                                                                            </>
                                                                                           )}
+                                                                                        </>
+                                                                                      ) : answer.refQCategoryId ===
+                                                                                        "25" ||
+                                                                                        answer.refQCategoryId ===
+                                                                                        "26" ||
+                                                                                        answer.refQCategoryId ===
+                                                                                        "27" ||
+                                                                                        answer.refQCategoryId ===
+                                                                                        "28" ? (
+                                                                                        <>
+                                                                                          {answer.refPTScore
+                                                                                            .split(
+                                                                                              ","
+                                                                                            )
+                                                                                            .map(
+                                                                                              (
+                                                                                                score: any,
+                                                                                                index: any
+                                                                                              ) => (
+                                                                                                <div
+                                                                                                  key={
+                                                                                                    index
+                                                                                                  }
+                                                                                                  style={{
+                                                                                                    marginTop:
+                                                                                                      "",
+                                                                                                  }}
+                                                                                                >
+                                                                                                  {index +
+                                                                                                    1}
+
+                                                                                                  .{" "}
+                                                                                                  {
+                                                                                                    stressAnswer.find(
+                                                                                                      (
+                                                                                                        ans: any
+                                                                                                      ) =>
+                                                                                                        ans.refOptionId.toString() ===
+                                                                                                        score
+                                                                                                    )
+                                                                                                      ?.refOptionLabel
+                                                                                                  }
+                                                                                                </div>
+                                                                                              )
+                                                                                            )}
+                                                                                        </>
+                                                                                      ) : (
+                                                                                        <>
+                                                                                          {answer
+                                                                                            .refPTScore
+                                                                                            .length >
+                                                                                            0 ? (
+                                                                                            <>
+                                                                                              {
+                                                                                                answer.refPTScore
+                                                                                              }
+                                                                                            </>
+                                                                                          ) : (
+                                                                                            <>
+                                                                                              Null
+                                                                                            </>
+                                                                                          )}
+                                                                                        </>
+                                                                                      )}
+                                                                                    </>
+                                                                                  ) : null
+                                                                              )}
+
+                                                                              <>
+                                                                                {allCategory.map(
+                                                                                  (
+                                                                                    element
+                                                                                  ) =>
+                                                                                    element.refQSubCategory ===
+                                                                                      insights.refQCategoryId.toString() ? (
+                                                                                      <>
+                                                                                        <div
+                                                                                          style={{
+                                                                                            marginTop:
+                                                                                              "10px",
+                                                                                            color:
+                                                                                              "red",
+                                                                                          }}
+                                                                                        >
+                                                                                          {
+                                                                                            element.refCategoryLabel
+                                                                                          }
+                                                                                        </div>
+                                                                                        <div
+                                                                                          style={{
+                                                                                            marginTop:
+                                                                                              "5px",
+                                                                                          }}
+                                                                                        >
+                                                                                          {allScore.map(
+                                                                                            (
+                                                                                              answer
+                                                                                            ) =>
+                                                                                              answer.refQCategoryId ===
+                                                                                                element.refQCategoryId.toString() ? (
+                                                                                                <>
+                                                                                                  {answer
+                                                                                                    .refPTScore
+                                                                                                    .length >
+                                                                                                    0 ? (
+                                                                                                    <>
+                                                                                                      {
+                                                                                                        answer.refPTScore
+                                                                                                      }
+                                                                                                    </>
+                                                                                                  ) : (
+                                                                                                    <>
+                                                                                                      NULL
+                                                                                                    </>
+                                                                                                  )}
+
+                                                                                                  <>
+                                                                                                    {allCategory.map(
+                                                                                                      (
+                                                                                                        val
+                                                                                                      ) =>
+                                                                                                        val.refQSubCategory ===
+                                                                                                          answer.refQCategoryId.toString() ? (
+                                                                                                          <>
+                                                                                                            <div
+                                                                                                              style={{
+                                                                                                                marginTop:
+                                                                                                                  "10px",
+                                                                                                                color:
+                                                                                                                  "red",
+                                                                                                              }}
+                                                                                                            >
+                                                                                                              {
+                                                                                                                val.refCategoryLabel
+                                                                                                              }
+                                                                                                            </div>
+                                                                                                            <div
+                                                                                                              style={{
+                                                                                                                marginTop:
+                                                                                                                  "5px",
+                                                                                                              }}
+                                                                                                            >
+                                                                                                              {allScore.map(
+                                                                                                                (
+                                                                                                                  ans
+                                                                                                                ) =>
+                                                                                                                  ans.refQCategoryId ===
+                                                                                                                    val.refQCategoryId.toString() ? (
+                                                                                                                    <>
+                                                                                                                      {answer
+                                                                                                                        .refPTScore
+                                                                                                                        .length >
+                                                                                                                        0 ? (
+                                                                                                                        <>
+                                                                                                                          {
+                                                                                                                            ans.refPTScore
+                                                                                                                          }
+                                                                                                                        </>
+                                                                                                                      ) : (
+                                                                                                                        <>
+                                                                                                                          NULL
+                                                                                                                        </>
+                                                                                                                      )}
+                                                                                                                    </>
+                                                                                                                  ) : null
+                                                                                                              )}
+                                                                                                            </div>
+                                                                                                          </>
+                                                                                                        ) : (
+                                                                                                          <>
+
+                                                                                                          </>
+                                                                                                        )
+                                                                                                    )}
+                                                                                                  </>
+                                                                                                </>
+                                                                                              ) : null
+                                                                                          )}
+                                                                                        </div>
                                                                                       </>
                                                                                     ) : (
                                                                                       <>
-                                                                                        {answer
-                                                                                          .refPTScore
-                                                                                          .length >
-                                                                                        0 ? (
-                                                                                          <>
-                                                                                            {
-                                                                                              answer.refPTScore
-                                                                                            }
-                                                                                          </>
-                                                                                        ) : (
-                                                                                          <>
-                                                                                            Null
-                                                                                          </>
-                                                                                        )}
+
                                                                                       </>
-                                                                                    )}
-                                                                                  </>
-                                                                                ) : null
-                                                                            )}
-
-                                                                            <>
-                                                                              {allCategory.map(
-                                                                                (
-                                                                                  element
-                                                                                ) =>
-                                                                                  element.refQSubCategory ===
-                                                                                  insights.refQCategoryId.toString() ? (
-                                                                                    <>
-                                                                                      <div
-                                                                                        style={{
-                                                                                          marginTop:
-                                                                                            "10px",
-                                                                                          color:
-                                                                                            "red",
-                                                                                        }}
-                                                                                      >
-                                                                                        {
-                                                                                          element.refCategoryLabel
-                                                                                        }
-                                                                                      </div>
-                                                                                      <div
-                                                                                        style={{
-                                                                                          marginTop:
-                                                                                            "5px",
-                                                                                        }}
-                                                                                      >
-                                                                                        {allScore.map(
-                                                                                          (
-                                                                                            answer
-                                                                                          ) =>
-                                                                                            answer.refQCategoryId ===
-                                                                                            element.refQCategoryId.toString() ? (
-                                                                                              <>
-                                                                                                {answer
-                                                                                                  .refPTScore
-                                                                                                  .length >
-                                                                                                0 ? (
-                                                                                                  <>
-                                                                                                    {
-                                                                                                      answer.refPTScore
-                                                                                                    }
-                                                                                                  </>
-                                                                                                ) : (
-                                                                                                  <>
-                                                                                                    NULL
-                                                                                                  </>
-                                                                                                )}
-
-                                                                                                <>
-                                                                                                  {allCategory.map(
-                                                                                                    (
-                                                                                                      val
-                                                                                                    ) =>
-                                                                                                      val.refQSubCategory ===
-                                                                                                      answer.refQCategoryId.toString() ? (
-                                                                                                        <>
-                                                                                                          <div
-                                                                                                            style={{
-                                                                                                              marginTop:
-                                                                                                                "10px",
-                                                                                                              color:
-                                                                                                                "red",
-                                                                                                            }}
-                                                                                                          >
-                                                                                                            {
-                                                                                                              val.refCategoryLabel
-                                                                                                            }
-                                                                                                          </div>
-                                                                                                          <div
-                                                                                                            style={{
-                                                                                                              marginTop:
-                                                                                                                "5px",
-                                                                                                            }}
-                                                                                                          >
-                                                                                                            {allScore.map(
-                                                                                                              (
-                                                                                                                ans
-                                                                                                              ) =>
-                                                                                                                ans.refQCategoryId ===
-                                                                                                                val.refQCategoryId.toString() ? (
-                                                                                                                  <>
-                                                                                                                    {answer
-                                                                                                                      .refPTScore
-                                                                                                                      .length >
-                                                                                                                    0 ? (
-                                                                                                                      <>
-                                                                                                                        {
-                                                                                                                          ans.refPTScore
-                                                                                                                        }
-                                                                                                                      </>
-                                                                                                                    ) : (
-                                                                                                                      <>
-                                                                                                                        NULL
-                                                                                                                      </>
-                                                                                                                    )}
-                                                                                                                  </>
-                                                                                                                ) : null
-                                                                                                            )}
-                                                                                                          </div>
-                                                                                                        </>
-                                                                                                      ) : (
-                                                                                                        <>
-
-                                                                                                        </>
-                                                                                                      )
-                                                                                                  )}
-                                                                                                </>
-                                                                                              </>
-                                                                                            ) : null
-                                                                                        )}
-                                                                                      </div>
-                                                                                    </>
-                                                                                  ) : (
-                                                                                    <>
-
-                                                                                    </>
-                                                                                  )
-                                                                              )}
-                                                                            </>
-                                                                            <Divider />
+                                                                                    )
+                                                                                )}
+                                                                              </>
+                                                                              <Divider />
+                                                                            </div>
                                                                           </div>
-                                                                        </div>
-                                                                      </>
-                                                                    ) : null}
+                                                                        </>
+                                                                      ) : null}
+                                                                    </>
+                                                                  )
+                                                                )}
+                                                                {category.refQCategoryId ===
+                                                                  202 ||
+                                                                  203 ||
+                                                                  204 ||
+                                                                  205 ||
+                                                                  206 ||
+                                                                  224 ? (
+                                                                  <>
+                                                                    <Graph
+                                                                      data={
+                                                                        category.refQCategoryId ===
+                                                                          202
+                                                                          ? rbs
+                                                                          : category.refQCategoryId ===
+                                                                            203
+                                                                            ? fbs
+                                                                            : category.refQCategoryId ===
+                                                                              204
+                                                                              ? ppbs
+                                                                              : category.refQCategoryId ===
+                                                                                205
+                                                                                ? ogtt
+                                                                                : category.refQCategoryId ===
+                                                                                  206
+                                                                                  ? gct
+                                                                                  : category.refQCategoryId ===
+                                                                                    207
+                                                                                    ? hba1c
+                                                                                    : category.refQCategoryId ===
+                                                                                      213
+                                                                                      ? fastingcholesterol
+                                                                                      : category.refQCategoryId ===
+                                                                                        214
+                                                                                        ? fastingtriglycerides
+                                                                                        : category.refQCategoryId ===
+                                                                                          215
+                                                                                          ? hdl
+                                                                                          : category.refQCategoryId ===
+                                                                                            216
+                                                                                            ? ldl
+                                                                                            : category.refQCategoryId ===
+                                                                                              217
+                                                                                              ? tchdl
+                                                                                              : category.refQCategoryId ===
+                                                                                                218
+                                                                                                ? bloodurea
+                                                                                                : category.refQCategoryId ===
+                                                                                                  219
+                                                                                                  ? serum
+                                                                                                  : category.refQCategoryId ===
+                                                                                                    220
+                                                                                                    ? egfr
+                                                                                                    : category.refQCategoryId ===
+                                                                                                      221
+                                                                                                      ? urinesugar
+                                                                                                      : category.refQCategoryId ===
+                                                                                                        222
+                                                                                                        ? urinealbumin
+                                                                                                        : category.refQCategoryId ===
+                                                                                                          223
+                                                                                                          ? urineketones
+                                                                                                          : null
+                                                                      }
+                                                                      label={
+                                                                        category.refQCategoryId ===
+                                                                          202
+                                                                          ? "RBS (CBS)"
+                                                                          : category.refQCategoryId ===
+                                                                            203
+                                                                            ? "FBS"
+                                                                            : category.refQCategoryId ===
+                                                                              204
+                                                                              ? "PPBS"
+                                                                              : category.refQCategoryId ===
+                                                                                205
+                                                                                ? "OGTT"
+                                                                                : category.refQCategoryId ===
+                                                                                  206
+                                                                                  ? "GCT"
+                                                                                  : category.refQCategoryId ===
+                                                                                    207
+                                                                                    ? "HBA1c"
+                                                                                    : category.refQCategoryId ===
+                                                                                      213
+                                                                                      ? "Fasting Total Cholesterol"
+                                                                                      : category.refQCategoryId ===
+                                                                                        214
+                                                                                        ? "Fasting total Triglycerides"
+                                                                                        : category.refQCategoryId ===
+                                                                                          215
+                                                                                          ? "HDL - Cholesterol"
+                                                                                          : category.refQCategoryId ===
+                                                                                            216
+                                                                                            ? "LDL - Cholesterol"
+                                                                                            : category.refQCategoryId ===
+                                                                                              217
+                                                                                              ? "TC: HDL ratio"
+                                                                                              : category.refQCategoryId ===
+                                                                                                218
+                                                                                                ? "Blood urea"
+                                                                                                : category.refQCategoryId ===
+                                                                                                  219
+                                                                                                  ? "Serum creatinine"
+                                                                                                  : category.refQCategoryId ===
+                                                                                                    220
+                                                                                                    ? "eGFR"
+                                                                                                    : category.refQCategoryId ===
+                                                                                                      221
+                                                                                                      ? "Urine- sugar"
+                                                                                                      : category.refQCategoryId ===
+                                                                                                        222
+                                                                                                        ? "Urine Albumin"
+                                                                                                        : category.refQCategoryId ===
+                                                                                                          223
+                                                                                                          ? "Urine ketones"
+                                                                                                          : ""
+                                                                      }
+                                                                    />
                                                                   </>
-                                                                )
-                                                              )}
-                                                              {category.refQCategoryId ===
-                                                                202 ||
-                                                              203 ||
-                                                              204 ||
-                                                              205 ||
-                                                              206 ||
-                                                              224 ? (
-                                                                <>
-                                                                  <Graph
-                                                                    data={
-                                                                      category.refQCategoryId ===
-                                                                      202
-                                                                        ? rbs
-                                                                        : category.refQCategoryId ===
-                                                                          203
-                                                                        ? fbs
-                                                                        : category.refQCategoryId ===
-                                                                          204
-                                                                        ? ppbs
-                                                                        : category.refQCategoryId ===
-                                                                          205
-                                                                        ? ogtt
-                                                                        : category.refQCategoryId ===
-                                                                          206
-                                                                        ? gct
-                                                                        : category.refQCategoryId ===
-                                                                          207
-                                                                        ? hba1c
-                                                                        : category.refQCategoryId ===
-                                                                          213
-                                                                        ? fastingcholesterol
-                                                                        : category.refQCategoryId ===
-                                                                          214
-                                                                        ? fastingtriglycerides
-                                                                        : category.refQCategoryId ===
-                                                                          215
-                                                                        ? hdl
-                                                                        : category.refQCategoryId ===
-                                                                          216
-                                                                        ? ldl
-                                                                        : category.refQCategoryId ===
-                                                                          217
-                                                                        ? tchdl
-                                                                        : category.refQCategoryId ===
-                                                                          218
-                                                                        ? bloodurea
-                                                                        : category.refQCategoryId ===
-                                                                          219
-                                                                        ? serum
-                                                                        : category.refQCategoryId ===
-                                                                          220
-                                                                        ? egfr
-                                                                        : category.refQCategoryId ===
-                                                                          221
-                                                                        ? urinesugar
-                                                                        : category.refQCategoryId ===
-                                                                          222
-                                                                        ? urinealbumin
-                                                                        : category.refQCategoryId ===
-                                                                          223
-                                                                        ? urineketones
-                                                                        : null
-                                                                    }
-                                                                    label={
-                                                                      category.refQCategoryId ===
-                                                                      202
-                                                                        ? "RBS (CBS)"
-                                                                        : category.refQCategoryId ===
-                                                                          203
-                                                                        ? "FBS"
-                                                                        : category.refQCategoryId ===
-                                                                          204
-                                                                        ? "PPBS"
-                                                                        : category.refQCategoryId ===
-                                                                          205
-                                                                        ? "OGTT"
-                                                                        : category.refQCategoryId ===
-                                                                          206
-                                                                        ? "GCT"
-                                                                        : category.refQCategoryId ===
-                                                                          207
-                                                                        ? "HBA1c"
-                                                                        : category.refQCategoryId ===
-                                                                          213
-                                                                        ? "Fasting Total Cholesterol"
-                                                                        : category.refQCategoryId ===
-                                                                          214
-                                                                        ? "Fasting total Triglycerides"
-                                                                        : category.refQCategoryId ===
-                                                                          215
-                                                                        ? "HDL - Cholesterol"
-                                                                        : category.refQCategoryId ===
-                                                                          216
-                                                                        ? "LDL - Cholesterol"
-                                                                        : category.refQCategoryId ===
-                                                                          217
-                                                                        ? "TC: HDL ratio"
-                                                                        : category.refQCategoryId ===
-                                                                          218
-                                                                        ? "Blood urea"
-                                                                        : category.refQCategoryId ===
-                                                                          219
-                                                                        ? "Serum creatinine"
-                                                                        : category.refQCategoryId ===
-                                                                          220
-                                                                        ? "eGFR"
-                                                                        : category.refQCategoryId ===
-                                                                          221
-                                                                        ? "Urine- sugar"
-                                                                        : category.refQCategoryId ===
-                                                                          222
-                                                                        ? "Urine Albumin"
-                                                                        : category.refQCategoryId ===
-                                                                          223
-                                                                        ? "Urine ketones"
-                                                                        : ""
-                                                                    }
-                                                                  />
-                                                                </>
-                                                              ) : null}
+                                                                ) : null}
 
-                                                              {category.refQCategoryId ===
-                                                              224 ? (
-                                                                <>
-                                                                  <Graph
-                                                                    data={kr}
-                                                                    label="Kidney Right"
-                                                                  />
-                                                                  <Graph
-                                                                    data={kl}
-                                                                    label="Kidney Left"
-                                                                  />
-                                                                  <Graph
-                                                                    data={echo}
-                                                                    label="Echogenicity"
-                                                                  />
-                                                                  <Graph
-                                                                    data={
-                                                                      cortico
-                                                                    }
-                                                                    label="Cortico Medulary Differentiation"
-                                                                  />
-                                                                </>
-                                                              ) : null}
-                                                            </div>
-                                                          </div>
-                                                        </IonAccordion>
-                                                      </IonAccordionGroup>
-                                                    ) : null}
-                                                  </>
-                                                )}
-                                              </>
-                                            )
-                                          )}
-                                        </div>
-                                      </IonAccordion>
-                                    )}
-                                  </>
-                                ) : null;
-                              })}
-                            </IonAccordionGroup>
-                          </div>
+                                                                {category.refQCategoryId ===
+                                                                  224 ? (
+                                                                  <>
+                                                                    <Graph
+                                                                      data={
+                                                                        kr
+                                                                      }
+                                                                      label="Kidney Right"
+                                                                    />
+                                                                    <Graph
+                                                                      data={
+                                                                        kl
+                                                                      }
+                                                                      label="Kidney Left"
+                                                                    />
+                                                                    <Graph
+                                                                      data={
+                                                                        echo
+                                                                      }
+                                                                      label="Echogenicity"
+                                                                    />
+                                                                    <Graph
+                                                                      data={
+                                                                        cortico
+                                                                      }
+                                                                      label="Cortico Medulary Differentiation"
+                                                                    />
+                                                                  </>
+                                                                ) : null}
+                                                              </div>
+                                                            </>
+                                                          ) : (
+                                                            <>
+                                                              No Data Filled
+                                                            </>
+                                                          )}
+                                                        </div>
+                                                      </IonAccordion>
+                                                    </IonAccordionGroup>
+                                                  ) : null}
+                                                </>
+                                              )}
+                                            </>
+                                          )
+                                        )}
+                                      </div>
+                                    </IonAccordion>
+                                  )}
+                                </>
+                              ) : null;
+                            })}
+                          </IonAccordionGroup>
                         </div>
-                      ) : null}
-                    </>
-                  ))
+                      </div>
+                    ) : null}
+                  </>
+                ))
                 : null}
             </div>
           </IonContent>
           <IonFooter>
             <IonToolbar>
-              <ReportPDF reportDate={reportDate} />
+              <ReportPDF type="pastReport" fromDate={fromDate} toDate={toDate} refPMId={refPMId} />
             </IonToolbar>
           </IonFooter>
         </>

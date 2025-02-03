@@ -283,7 +283,7 @@ const SubCards: React.FC<SubCardsProps> = ({
       {data.map((card) => (
         <div key={card.refQCategoryId}>
           {card.refPTcreatedDate &&
-          getValidity(card.refQCategoryId) >=
+          getValidity(card.refQCategoryId) >
             -calculateDaysDifference(card.refPTcreatedDate) ? (
             <div
               className="ion-activatable ripple-parent rectangle"

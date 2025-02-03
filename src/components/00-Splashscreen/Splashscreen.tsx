@@ -6,6 +6,8 @@ import { IonContent, IonPage } from "@ionic/react";
 import logo1 from "../../assets/logo/icon.svg";
 import logo2 from "../../assets/logo/logo.svg";
 
+import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg"
+
 const Splashscreen: React.FC = () => {
   const history = useHistory();
 
@@ -20,10 +22,10 @@ const Splashscreen: React.FC = () => {
         if (roleType === 1 || roleType === 2 || roleType === 3) {
           history.push("/home");
         } else {
-          history.push("/intro");
+          history.push("/login");
         }
       } else {
-        history.push("/intro");
+        history.push("/login");
       }
     }, 3000);
 
@@ -32,10 +34,17 @@ const Splashscreen: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
+      {/*<IonContent fullscreen>
         <div className="splashScreenContents ion-padding-start ion-padding-end">
           <img src={logo2} alt="" />
-          {/* <p>MEDPREDiT</p> */}
+          {/* <p>MEDPREDiT</p> */ /*}
+        </div>
+      </IonContent>*/}
+
+
+      <IonContent>
+        <div className="splashScreenContents ion-padding-start ion-padding-end" style={{ backgroundImage: `url(${BACKGROUND02})` }}>
+          <img src={logo2} alt="" />
         </div>
       </IonContent>
     </IonPage>

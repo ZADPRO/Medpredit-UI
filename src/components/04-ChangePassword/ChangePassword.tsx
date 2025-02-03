@@ -47,6 +47,7 @@ const ChangePassword: React.FC = () => {
       Axios.post(
         `${import.meta.env.VITE_API_URL}/changePassword`,
         {
+          roleId: tokenObject.roleType,
           pastPassword: signInData.oldPassword,
           currentPassword: signInData.newPassword,
         },

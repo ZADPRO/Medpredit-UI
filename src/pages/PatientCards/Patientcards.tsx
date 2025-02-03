@@ -123,6 +123,9 @@ const Patientcards: React.FC<PatientcardsProps> = ({
 
           if (data.status) {
             setDoctors(data.data);
+            console.log('====================================');
+            console.log(data.data);
+            console.log('====================================');
           }
         })
         .catch((error) => {
@@ -355,6 +358,9 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                       role: "cancel",
                       handler: () => {
                         setIsAlertOpen(false);
+
+                        localStorage.removeItem("currentDoctorId")
+
                         handleCardClick(
                           patientData.refUserCusId,
                           patientData.patientId,

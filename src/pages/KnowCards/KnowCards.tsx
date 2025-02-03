@@ -139,16 +139,16 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
   //   }
   // };
 
-  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  // const [isAlertOpen, setIsAlertOpen] = useState(false);
 
-  const [selectedData, setSelectedData] = useState({
-    cardTitle: "",
-    refCategoryLabel: 0,
-    refScoreId: "",
-    refQCategoryId: 0,
-  });
+  // const [selectedData, setSelectedData] = useState({
+  //   cardTitle: "",
+  //   refCategoryLabel: 0,
+  //   refScoreId: "",
+  //   refQCategoryId: 0,
+  // });
 
-  console.log(latestReport);
+  // console.log(latestReport);
 
   // const handleremoveScore = () => {
   //   const tokenString = localStorage.getItem("userDetails");
@@ -214,7 +214,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
       case 6:
         return 1;
       default:
-        return 11;
+        return 0;
     }
   };
 
@@ -253,7 +253,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
               color: "#000",
               fontSize: "14px",
               textAlign: "center",
-              padding: "10px",
+               dding: "10px",
               margin: "10px",
               background: "#e6e6e6",
               borderRadius: "5px",
@@ -296,7 +296,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                     return (
                       <>
                         {reportItem?.refPTcreatedDate &&
-                        getValidateDuration(card.refQCategoryId) >=
+                        getValidateDuration(card.refQCategoryId) >
                           -calculateDaysDifference(
                             reportItem.refPTcreatedDate
                           ) ? (

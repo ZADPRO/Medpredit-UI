@@ -285,9 +285,9 @@ const Tab2: React.FC = () => {
                                 });
                                 history.push(
                                   "/addfamilyuser/" +
-                                    urlMobileNo +
-                                    "/" +
-                                    urluserId
+                                  urlMobileNo +
+                                  "/" +
+                                  urluserId
                                 );
                               }}
                             >

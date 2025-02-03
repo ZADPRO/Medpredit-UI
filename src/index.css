@@ -1,5 +1,10 @@
 /* primary color - #1c70b0 -- blue */
 /* primary color - #33b725 -- green */
+* {
+  font-family: "Nunito", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
 
 ion-segment {
   inset-block-end: 0;

@@ -19,6 +19,7 @@ const Intro: React.FC = () => {
 
   return (
     <IonPage>
+      {/*
       <IonContent fullscreen>
         <div className="loginScreen">
           <img src={introImgSvg} alt="" />
@@ -30,7 +31,7 @@ const Intro: React.FC = () => {
             <p className="description">
               Using advanced technology and intelligent algorithms, Medpredit
               analyzes your medical data to provide real-time insights into your
-              health, conditions, and treatments.
+              health, conditions, and treatments.
             </p>
             <button
               onClick={() => handleNavigateSwipe("/login")}
@@ -52,6 +53,41 @@ const Intro: React.FC = () => {
           </div>
         </div>
       </IonContent>
+      */}
+
+      <IonContent fullscreen>
+        <div className="loginScreen">
+          <h2>Welcome to </h2>
+          <h1 className="Medprit">MEDPREDiT</h1>
+          <div className="description">
+            <p>Thank you for choosing Medpredit !</p>
+            <p>
+              Using advanced technology and intelligent algorithms, Medpredit
+              analyzes your medical data to provide real-time insights into your
+              health, conditions, and treatments.
+            </p>
+          </div>
+          <button
+
+            style={{
+              width: "60%",
+              height: "3rem",
+              margin: "2rem 0rem 0rem 0rem",
+              borderRadius: "30px",
+              background: "#fff", // Green for enabled
+              color: "#31cbff", // Lighter text color for disabled
+              fontSize: "20px",
+              fontWeight: "bolder",
+              cursor: "pointer", // Change cursor for disabled
+            }}
+            className="ion-activatable ripple-parent rectangle"
+          >
+            <IonRippleEffect></IonRippleEffect>
+            Get Started
+          </button>
+        </div>
+      </IonContent>
+
     </IonPage>
   );
 };

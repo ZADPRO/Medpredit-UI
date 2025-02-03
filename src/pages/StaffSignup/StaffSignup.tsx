@@ -18,7 +18,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Password } from "primereact/password";
-import React, { useEffect, useState } from "react";
+import React, { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES, useEffect, useState } from "react";
 import decrypt from "../../helper";
 import { useHistory } from "react-router";
 import MonthYear from "../DateInput/MonthYear";
@@ -58,10 +58,10 @@ const StaffSignup = () => {
                 localStorage.getItem("createRoleId") === "1"
                   ? "2"
                   : localStorage.getItem("createRoleId") === "2"
-                  ? "1"
-                  : localStorage.getItem("createRoleId") === "4"
-                  ? "2"
-                  : null,
+                    ? "1"
+                    : localStorage.getItem("createRoleId") === "4"
+                      ? "2"
+                      : null,
               hospitalId: localStorage.getItem("hospitalId"),
             },
             {
@@ -666,10 +666,10 @@ const StaffSignup = () => {
                 {localStorage.getItem("createRoleId") === "1"
                   ? "Add Doctor"
                   : localStorage.getItem("createRoleId") === "2"
-                  ? "Add Assistant"
-                  : localStorage.getItem("createRoleId") === "4"
-                  ? "Add Doctor + Admin"
-                  : null}
+                    ? "Add Assistant"
+                    : localStorage.getItem("createRoleId") === "4"
+                      ? "Add Doctor + Admin"
+                      : null}
               </>
             ) : (
               formData.refUserFname + " " + formData.refUserLname
@@ -1139,9 +1139,8 @@ const StaffSignup = () => {
                   <div className="buttonGroup">
                     {allopathicOption?.map((option: any) => (
                       <button
-                        className={`optionButton ${
-                          formData.allopathic === option.label ? "selected" : ""
-                        }`}
+                        className={`optionButton ${formData.allopathic === option.label ? "selected" : ""
+                          }`}
                         onClick={() => {
                           setFormData({
                             ...formData,
@@ -1168,9 +1167,8 @@ const StaffSignup = () => {
                   <div className="buttonGroup">
                     {educationOption?.map((option: any) => (
                       <button
-                        className={`optionButton ${
-                          formData.education === option.label ? "selected" : ""
-                        }`}
+                        className={`optionButton ${formData.education === option.label ? "selected" : ""
+                          }`}
                         onClick={() => {
                           setFormData({
                             ...formData,
@@ -1217,11 +1215,10 @@ const StaffSignup = () => {
                       <div className="buttonGroup">
                         {superOption?.map((option: any) => (
                           <button
-                            className={`optionButton ${
-                              formData.superSpecialization === option.label
-                                ? "selected"
-                                : ""
-                            }`}
+                            className={`optionButton ${formData.superSpecialization === option.label
+                              ? "selected"
+                              : ""
+                              }`}
                             onClick={() => {
                               setFormData({
                                 ...formData,
@@ -1271,11 +1268,10 @@ const StaffSignup = () => {
                       <div className="buttonGroup">
                         {degreeOptions?.map((option: any) => (
                           <button
-                            className={`optionButton ${
-                              formData.additionalDegree === option.label
-                                ? "selected"
-                                : ""
-                            }`}
+                            className={`optionButton ${formData.additionalDegree === option.label
+                              ? "selected"
+                              : ""
+                              }`}
                             onClick={() => {
                               setFormData({
                                 ...formData,
@@ -1304,11 +1300,10 @@ const StaffSignup = () => {
                           <div className="buttonGroup">
                             {degreeTypeOption?.map((option: any) => (
                               <button
-                                className={`optionButton ${
-                                  formData.degreeType === option.label
-                                    ? "selected"
-                                    : ""
-                                }`}
+                                className={`optionButton ${formData.degreeType === option.label
+                                  ? "selected"
+                                  : ""
+                                  }`}
                                 onClick={() => {
                                   setFormData({
                                     ...formData,
@@ -1415,11 +1410,10 @@ const StaffSignup = () => {
                   <div className="buttonGroup">
                     {typeHealthcareOption?.map((option: any) => (
                       <button
-                        className={`optionButton ${
-                          formData.typeHealthcare === option.label
-                            ? "selected"
-                            : ""
-                        }`}
+                        className={`optionButton ${formData.typeHealthcare === option.label
+                          ? "selected"
+                          : ""
+                          }`}
                         onClick={() => {
                           setFormData({
                             ...formData,
@@ -1447,11 +1441,10 @@ const StaffSignup = () => {
                       <div className="buttonGroup">
                         {privateHospital?.map((option: any) => (
                           <button
-                            className={`optionButton ${
-                              formData.instituteType === option.label
-                                ? "selected"
-                                : ""
-                            }`}
+                            className={`optionButton ${formData.instituteType === option.label
+                              ? "selected"
+                              : ""
+                              }`}
                             onClick={() => {
                               setFormData({
                                 ...formData,
@@ -1479,11 +1472,10 @@ const StaffSignup = () => {
                       <div className="buttonGroup">
                         {governmentHospital?.map((option: any) => (
                           <button
-                            className={`optionButton ${
-                              formData.instituteType === option.label
-                                ? "selected"
-                                : ""
-                            }`}
+                            className={`optionButton ${formData.instituteType === option.label
+                              ? "selected"
+                              : ""
+                              }`}
                             onClick={() => {
                               setFormData({
                                 ...formData,
@@ -1727,7 +1719,7 @@ const StaffSignup = () => {
                       onChange={handleInputChange}
                       placeholder="Enter Mobile Number"
                       name="refUserMobileno"
-                      // useGrouping={false}
+                    // useGrouping={false}
                     />
                   </div>
                 </div>
@@ -1961,7 +1953,7 @@ const StaffSignup = () => {
                     }}
                   >
                     {formData.refUserPassword === formData.refUserConPassword &&
-                    formData.refUserPassword.length > 0 ? (
+                      formData.refUserPassword.length > 0 ? (
                       <div
                         style={{
                           width: "25px",
@@ -2007,10 +1999,10 @@ const StaffSignup = () => {
                     {localStorage.getItem("createRoleId") === "1"
                       ? "Assistants"
                       : localStorage.getItem("createRoleId") === "4"
-                      ? "Assistants"
-                      : localStorage.getItem("createRoleId") === "2"
-                      ? "Doctors"
-                      : null}{" "}
+                        ? "Assistants"
+                        : localStorage.getItem("createRoleId") === "2"
+                          ? "Doctors"
+                          : null}{" "}
                     <span style={{ color: "red" }}>*</span>
                   </label>
                   <div className="p-inputgroup">
@@ -2025,15 +2017,14 @@ const StaffSignup = () => {
                       }}
                       options={userList}
                       optionLabel="name"
-                      placeholder={`Select  ${
-                        localStorage.getItem("createRoleId") === "1"
-                          ? "Assistants"
-                          : localStorage.getItem("createRoleId") === "4"
+                      placeholder={`Select  ${localStorage.getItem("createRoleId") === "1"
+                        ? "Assistants"
+                        : localStorage.getItem("createRoleId") === "4"
                           ? "Assistants"
                           : localStorage.getItem("createRoleId") === "2"
-                          ? "Doctors"
-                          : null
-                      }`}
+                            ? "Doctors"
+                            : null
+                        }`}
                       maxSelectedLabels={3}
                       className="w-full md:w-20rem"
                     />
@@ -2041,25 +2032,29 @@ const StaffSignup = () => {
                 </div>
 
                 {/* Make as Admin */}
-                <div
-                  className="inputBox"
-                  style={{ display: "flex", flexDirection: "row" }}
-                >
-                  <IonCheckbox
-                    onIonChange={(e) => {
-                      setCheckedAdmin(e.detail.checked);
-                      if (e.detail.checked) {
-                        localStorage.setItem("createRoleId", "4");
-                      } else {
-                        localStorage.setItem("createRoleId", "1");
-                      }
-                    }}
-                    checked={checkedAdmin}
-                    labelPlacement="start"
-                  >
-                    Make as Admin
-                  </IonCheckbox>
-                </div>
+                {
+                  localStorage.getItem("createRoleId") === "2" ? null :  (
+                    <div
+                      className="inputBox"
+                      style={{ display: "flex", flexDirection: "row" }}
+                    >
+                      <IonCheckbox
+                        onIonChange={(e) => {
+                          setCheckedAdmin(e.detail.checked);
+                          if (e.detail.checked) {
+                            localStorage.setItem("createRoleId", "4");
+                          } else {
+                            localStorage.setItem("createRoleId", "1");
+                          }
+                        }}
+                        checked={checkedAdmin}
+                        labelPlacement="start"
+                      >
+                        Make as Admin
+                      </IonCheckbox>
+                    </div>
+                  )
+                }
               </div>
             )}
           </div>
