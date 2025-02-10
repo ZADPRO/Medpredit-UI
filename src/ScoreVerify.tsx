@@ -117,7 +117,7 @@ export const ScoreVerify: React.FC<HandleScoreValueProps> = ({
   return (
     <>
       {status ? (
-        <Text style={{ width: "70%", color: "#000" }}>
+        <Text style={{ width: "auto", color: "#000" }}>
           : {label || "No Label Available"}
         </Text>
       ) : (
@@ -130,7 +130,7 @@ export const ScoreVerify: React.FC<HandleScoreValueProps> = ({
               justifyContent: "center",
               alignItems: "center",
               flexDirection: "column",
-              textAlign:"center"
+              textAlign: "center"
             }}
           >
             {/* <div>Score: {scoreValue}</div> */}

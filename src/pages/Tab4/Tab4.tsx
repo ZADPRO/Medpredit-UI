@@ -40,6 +40,7 @@ import { PiHospitalBold } from "react-icons/pi";
 import { MdOutlinePassword } from "react-icons/md";
 import { FaChevronRight } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { FaLocationDot } from "react-icons/fa6";
 
 const Tab4: React.FC = () => {
   const overallSettings = [
@@ -55,18 +56,20 @@ const Tab4: React.FC = () => {
     userCustId: "",
     hospitalName: "",
   });
+  const tokenString: any = localStorage.getItem("userDetails");
+  const tokenObject = JSON.parse(tokenString);
+  const token = tokenObject.token;
 
   useEffect(() => {
-    const tokenString = localStorage.getItem("userDetails");
 
     if (tokenString) {
-      const tokenObject = JSON.parse(tokenString);
-      const token = tokenObject.token;
+
 
       Axios.post(
         `${import.meta.env.VITE_API_URL}/getProfile`,
         {
           hospitalId: localStorage.getItem("hospitalId"),
+          roleId: tokenObject.roleType
         },
         {
           headers: {
@@ -80,7 +83,11 @@ const Tab4: React.FC = () => {
           response.data[0],
           import.meta.env.VITE_ENCRYPTION_KEY
         );
+        console.log(data);
         if (data.status) {
+
+
+
           setUserData({
             name: data.data.refUserName,
             userCustId: data.data.refUserCustId,
@@ -150,7 +157,13 @@ const Tab4: React.FC = () => {
                 }}
               >
                 <div style={{ marginTop: "1px" }}>
-                  <PiHospitalBold />
+                  {
+                    tokenObject.roleType === 3 ? (
+                      <FaLocationDot />
+                    ) : (
+                      <PiHospitalBold />
+                    )
+                  }
                 </div>
                 &nbsp;<div>{userData.hospitalName}</div>
               </div>

@@ -18,6 +18,9 @@ import PopBold from "../../assets/Fonts/Poppins-Bold.ttf";
 import PopBoldItalic from "../../assets/Fonts/Poppins-BoldItalic.ttf";
 import PopSemiboldItalic from "../../assets/Fonts/Poppins-SemiBoldItalic.ttf";
 import { ScoreVerify } from "../../ScoreVerify";
+import doctor from "../../assets/PDFTemplate/Doctor.png";
+import assistant from "../../assets/PDFTemplate/Assistant.png";
+import patient from "../../assets/PDFTemplate/Patient.png";
 
 interface DoctorDetails {
   refHospitalName: any;
@@ -39,11 +42,11 @@ interface patientDetails {
   refGender: any;
 }
 
-interface ReportPDFProps {
-  reportDate: any;
+interface TesingPDFProps {
+  reportDate: any
 }
 
-const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
+const TestingPdf: React.FC<TesingPDFProps> = ({ reportDate }) => {
   const tokenString: any = localStorage.getItem("userDetails");
   const tokenObject = JSON.parse(tokenString);
   const token = tokenObject.token;
@@ -84,6 +87,106 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
     return age;
   }
 
+  function calculateDaysDifference(dateString: any) {
+    // Convert the given date string to a Date object
+    const givenDate: any = new Date(dateString);
+
+    // Get the current date and set time to midnight for accurate day difference
+    const currentDate: any = new Date(reportDate);
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffInMs = givenDate - currentDate;
+
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+  }
+
+  const getValidateDuration = (questionId: any) => {
+    switch (parseInt(questionId)) {
+      case 94:
+        return 1;
+      case 6:
+        return 1;
+      case 8:
+        return 14;
+      case 9:
+        return 14;
+      case 10:
+        return 14;
+      case 11:
+        return 14;
+      case 12:
+        return 14;
+      case 13:
+        return 14;
+      case 43:
+        return 14;
+      case 51:
+        return 14;
+      case 202:
+        return 1;
+      case 203:
+        return 1;
+      case 204:
+        return 1;
+      case 205:
+        return 1;
+      case 206:
+        return 1;
+      case 207:
+        return 1;
+      case 213:
+        return 1;
+      case 214:
+        return 1;
+      case 215:
+        return 1;
+      case 216:
+        return 1;
+      case 217:
+        return 1;
+      case 218:
+        return 1;
+      case 219:
+        return 1;
+      case 220:
+        return 1;
+      case 221:
+        return 1;
+      case 222:
+        return 1;
+      case 223:
+        return 1;
+      case 224:
+        return 1;
+      case 237:
+        return 1;
+      case 238:
+        return 1;
+      case 22:
+        return 14;
+      case 23:
+        return 14;
+      case 24:
+        return 14;
+      case 89:
+        return 1;
+      case 92:
+        return 1;
+      case 84:
+        return 1;
+      case 90:
+        return 1;
+      default:
+        return 0;
+    }
+  };
+
+  const [content, setContent] = useState("");
+
   useEffect(() => {
     if (tokenString) {
       try {
@@ -93,6 +196,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
             {
               patientId: localStorage.getItem("currentPatientId"),
               reportDate: reportDate,
+              roleType: tokenObject.roleType
             },
             {
               headers: {
@@ -119,13 +223,15 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
               setAllCategory(data.categoryResult);
 
               setTreatementDetails(data.treatmentDetails);
+
+              setContent(data.content)
             }
           });
       } catch (error) {
         console.error("Error fetching patient data:", error);
       }
     }
-  }, [reportDate]);
+  }, []);
 
   function getDaysInMonth(month: any, year: any) {
     // Month is zero-based (0 = January, 1 = February, etc.)
@@ -176,7 +282,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      {generateDate}
+                      {reportDate}
                     </Text>
                   </View>
 
@@ -330,66 +436,70 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                     </View>
 
                     {/* Doctor Details */}
-                    <View
-                      style={{
-                        width: "45%",
-                        height: "100px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      {/* Doctor Name */}
-
-                      <View>
-                        <Text
+                    {
+                      tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                        <View
                           style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
+                            width: "45%",
+                            height: "100px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
                           }}
                         >
-                          Dr. {doctorDetails?.refUserFname}{" "}
-                          {doctorDetails?.refUserLname}{" "}
-                          {doctorDetails?.refEducationSpec} (Community Med)
-                        </Text>
-                      </View>
+                          {/* Doctor Name */}
 
-                      {/* Doctor Designation */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          {doctorDetails?.refCRDesignation}
-                        </Text>
-                      </View>
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Dr. {doctorDetails?.refUserFname}{" "}
+                              {doctorDetails?.refUserLname}{" "}
+                              {doctorDetails?.refEducationSpec} (Community Med)
+                            </Text>
+                          </View>
 
-                      {/* Reg No */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          Reg No: {doctorDetails?.refMCINo}
-                        </Text>
-                      </View>
+                          {/* Doctor Designation */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              {doctorDetails?.refCRDesignation}
+                            </Text>
+                          </View>
 
-                      {/* Mail Id */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          Mail id : {doctorDetails?.refUserEmail}
-                        </Text>
-                      </View>
-                    </View>
+                          {/* Reg No */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Reg No: {doctorDetails?.refMCINo}
+                            </Text>
+                          </View>
+
+                          {/* Mail Id */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Mail id : {doctorDetails?.refUserEmail}
+                            </Text>
+                          </View>
+                        </View>
+                      ) : null
+                    }
                   </View>
 
                   {/* Line */}
@@ -472,23 +582,56 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Alcohol
                           </Text>
-                          :{" "}
-                          {score
-                            .filter(
-                              (element: any) => element.refQCategoryId === "11"
-                            )
-                            .map((element: any) => {
-                              const result = scoreVerify.filter(
-                                (soc: any) => soc.refQCategoryId === "11"
-                              );
-                              return (
-                                <ScoreVerify
-                                  userScoreVerify={result}
-                                  refScore={element.refPTScore}
-                                  status={true}
-                                />
-                              );
-                            })}
+                          {score.some((element: any) => element.refQCategoryId === "11") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "11")
+                              .map((element: any) => {
+                                const result = scoreVerify.filter(
+                                  (soc: any) => soc.refQCategoryId === "11"
+                                );
+                                return (
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+                                      <>
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <ScoreVerify
+                                              userScoreVerify={result}
+                                              refScore={element.refPTScore}
+                                              status={true}
+                                            />
+                                              {/* <Image
+                                              style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                              src={
+                                                element.refRoleId === 1 || element.refRoleId === 4
+                                                  ? doctor
+                                                  : element.refRoleId === 2
+                                                    ? assistant
+                                                    : element.refRoleId === 3
+                                                      ? patient
+                                                      : "defaultImageUrl.jpg"
+                                              }
+                                            /> */}
+                                            </>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                        }
+
+                                      </>
+                                    </>
+
+                                  </View>
+                                );
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
+
                         </View>
 
                         {/* BMI Status */}
@@ -509,25 +652,57 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             BMI
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "13"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "13") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "13")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "13"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+                                      <>
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <ScoreVerify
+                                              userScoreVerify={result}
+                                              refScore={element.refPTScore}
+                                              status={true}
+                                            />
+                                              {/* <Image
+                                              style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                              src={
+                                                element.refRoleId === 1 || element.refRoleId === 4
+                                                  ? doctor
+                                                  : element.refRoleId === 2
+                                                    ? assistant
+                                                    : element.refRoleId === 3
+                                                      ? patient
+                                                      : "defaultImageUrl.jpg"
+                                              }
+                                            /> */}
+                                            </>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                        }
+
+                                      </>
+
+
+                                    </>
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
 
                         {/* Diet Status */}
@@ -548,25 +723,55 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Diet
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "12"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "12") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "12")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "12"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+
+                                      {
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <> <ScoreVerify
+                                            userScoreVerify={result}
+                                            refScore={element.refPTScore}
+                                            status={true}
+                                          />
+                                            {/* <Image
+                                            style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                            src={
+                                              element.refRoleId === 1 || element.refRoleId === 4
+                                                ? doctor
+                                                : element.refRoleId === 2
+                                                  ? assistant
+                                                  : element.refRoleId === 3
+                                                    ? patient
+                                                    : "defaultImageUrl.jpg"
+                                            }
+                                          /> */}
+                                          </>
+                                        ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                      }
+
+
+                                    </>
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
 
                         {/* Physical Status */}
@@ -587,24 +792,56 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Physical
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) => element.refQCategoryId === "8"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "8") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "8")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "8"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+
+                                      {
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <> <ScoreVerify
+                                            userScoreVerify={result}
+                                            refScore={element.refPTScore}
+                                            status={true}
+                                          />
+                                            {/* <Image
+                                            style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                            src={
+                                              element.refRoleId === 1 || element.refRoleId === 4
+                                                ? doctor
+                                                : element.refRoleId === 2
+                                                  ? assistant
+                                                  : element.refRoleId === 3
+                                                    ? patient
+                                                    : "defaultImageUrl.jpg"
+                                            }
+                                          /> */}
+                                          </>
+                                        ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                      }
+
+
+
+                                    </>
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
 
                         {/* Sleep Status */}
@@ -625,25 +862,53 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Sleep
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "43"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "43") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "43")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "43"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+                                      {
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <> <ScoreVerify
+                                            userScoreVerify={result}
+                                            refScore={element.refPTScore}
+                                            status={true}
+                                          />
+                                            {/* <Image
+                                            style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                            src={
+                                              element.refRoleId === 1 || element.refRoleId === 4
+                                                ? doctor
+                                                : element.refRoleId === 2
+                                                  ? assistant
+                                                  : element.refRoleId === 3
+                                                    ? patient
+                                                    : "defaultImageUrl.jpg"
+                                            }
+                                          /> */}
+                                          </>
+                                        ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                      }
+
+                                    </>
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
 
                         {/* Stress Status */}
@@ -664,24 +929,55 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Stress
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) => element.refQCategoryId === "9"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "9") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "9")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "9"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+
+                                      {
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <> <ScoreVerify
+                                            userScoreVerify={result}
+                                            refScore={element.refPTScore}
+                                            status={true}
+                                          />
+                                            {/* <Image
+                                            style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                            src={
+                                              element.refRoleId === 1 || element.refRoleId === 4
+                                                ? doctor
+                                                : element.refRoleId === 2
+                                                  ? assistant
+                                                  : element.refRoleId === 3
+                                                    ? patient
+                                                    : "defaultImageUrl.jpg"
+                                            }
+                                          /> */}
+                                          </>
+                                        ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                      }
+
+                                    </>
+
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
 
                         {/* Tobacco Status */}
@@ -702,25 +998,55 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           >
                             Tobacco
                           </Text>
-                          <Text style={{ width: "70%", color: "#000" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "10"
-                              )
+                          {score.some((element: any) => element.refQCategoryId === "10") ? (
+                            score
+                              .filter((element: any) => element.refQCategoryId === "10")
                               .map((element: any) => {
                                 const result = scoreVerify.filter(
                                   (soc: any) => soc.refQCategoryId === "10"
                                 );
                                 return (
-                                  <ScoreVerify
-                                    userScoreVerify={result}
-                                    refScore={element.refPTScore}
-                                    status={true}
-                                  />
+                                  <View style={{ display: "flex", alignItems: "center", flexDirection: "row", width: "70%" }}>
+
+                                    <>
+
+                                      {
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <> <ScoreVerify
+                                            userScoreVerify={result}
+                                            refScore={element.refPTScore}
+                                            status={true}
+                                          />
+                                            {/* <Image
+                                            style={{ width: "18px", height: "18px", marginLeft: "5px" }}
+                                            src={
+                                              element.refRoleId === 1 || element.refRoleId === 4
+                                                ? doctor
+                                                : element.refRoleId === 2
+                                                  ? assistant
+                                                  : element.refRoleId === 3
+                                                    ? patient
+                                                    : "defaultImageUrl.jpg"
+                                            }
+                                          /> */}
+                                          </>
+                                        ) : (<Text style={{ width: "70%", color: "#000" }}>: -</Text>)
+                                      }
+
+
+                                    </>
+
+                                  </View>
                                 );
-                              })}
-                          </Text>
+                              })
+                          ) : (
+                            <Text style={{ width: "70%", color: "#000" }}>: -</Text>
+                          )}
                         </View>
                       </View>
                     </View>
@@ -788,15 +1114,30 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               </Text>
                               <Text style={{ width: "70%", color: "#000" }}>
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "22"
-                                  )
-                                  .map((element: any) => {
-                                    return <Text>{element.refPTScore}</Text>;
-                                  })}{" "}
-                                cms
+                                {score.some((element: any) => element.refQCategoryId === "22") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "22")
+                                    .map((element: any) => (
+                                      <>
+
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore} cms</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
+                                      </>
+
+                                    ))
+                                ) : (
+                                  <Text>-</Text>
+                                )}
+
+
                               </Text>
                             </View>
 
@@ -820,15 +1161,28 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               </Text>
                               <Text style={{ width: "70%", color: "#000" }}>
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "23"
-                                  )
-                                  .map((element: any) => {
-                                    return <Text>{element.refPTScore}</Text>;
-                                  })}{" "}
-                                kgs
+                                {score.some((element: any) => element.refQCategoryId === "23") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "23")
+                                    .map((element: any) =>
+                                      <>
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore} kgs</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
+                                      </>
+
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
+
                               </Text>
                             </View>
 
@@ -858,14 +1212,28 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 }}
                               >
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "24"
-                                  )
-                                  .map((element: any) => {
-                                    return <Text>{element.refPTScore}</Text>;
-                                  })}
+                                {score.some((element: any) => element.refQCategoryId === "24") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "24")
+                                    .map((element: any) =>
+                                      <>
+
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore}</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
+                                      </>
+
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
                               </Text>
                             </View>
 
@@ -889,15 +1257,29 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               </Text>
                               <Text style={{ width: "70%", color: "#000" }}>
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "13"
-                                  )
-                                  .map((element: any) => {
-                                    return <Text>{element.refPTScore}</Text>;
-                                  })}{" "}
-                                kg/m2
+                                {score.some((element: any) => element.refQCategoryId === "13") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "13")
+                                    .map((element: any) =>
+                                      <>
+
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore} kg/m2</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
+                                      </>
+
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
+
                               </Text>
                             </View>
                           </View>
@@ -950,21 +1332,28 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               </Text>
                               <Text style={{ width: "55%", color: "#000" }}>
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "89"
-                                  )
-                                  .map((element: any, index: any) => {
-                                    return (
+                                {score.some((element: any) => element.refQCategoryId === "89") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "89")
+                                    .map((element: any, index: number) =>
                                       <>
-                                        {index === 0 ? (
-                                          <>{element.refPTScore}</>
-                                        ) : null}
+
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore} F</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
                                       </>
-                                    );
-                                  })}{" "}
-                                F
+
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
                               </Text>
                             </View>
 
@@ -988,21 +1377,30 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               </Text>
                               <Text style={{ width: "55%", color: "#000" }}>
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "92"
-                                  )
-                                  .map((element: any, index: any) => {
-                                    return (
+                                {score.some((element: any) => element.refQCategoryId === "92") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "92")
+                                    .map((element: any, index: number) =>
+
                                       <>
-                                        {index === 0 ? (
-                                          <>{element.refPTScore}</>
-                                        ) : null}
+
+                                        {
+                                          getValidateDuration(
+                                            element.refQCategoryId
+                                          ) >
+                                            -calculateDaysDifference(
+                                              element.refPTcreatedDate
+                                            ) ? (
+                                            <> <Text key={element.refPTScore}>{element.refPTScore} /min</Text></>
+                                          ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                        }
                                       </>
-                                    );
-                                  })}
-                                /min
+
+
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
                               </Text>
                             </View>
 
@@ -1031,21 +1429,31 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 }}
                               >
                                 :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "84"
-                                  )
-                                  .map((element: any, index: any) => {
-                                    return (
+                                {score.some((element: any) => element.refQCategoryId === "84") ? (
+                                  score
+                                    .filter((element: any) => element.refQCategoryId === "84")
+                                    .map((element: any, index: number) =>
                                       <>
-                                        {index === 0 ? (
-                                          <>{element.refPTScore}</>
-                                        ) : null}
+
+                                        <>
+
+                                          {
+                                            getValidateDuration(
+                                              element.refQCategoryId
+                                            ) >
+                                              -calculateDaysDifference(
+                                                element.refPTcreatedDate
+                                              ) ? (
+                                              <> <Text key={element.refPTScore}>{element.refPTScore} /min</Text></>
+                                            ) : (<Text style={{ width: "70%", color: "#000" }}>-</Text>)
+                                          }
+                                        </>
+
                                       </>
-                                    );
-                                  })}
-                                /min
+                                    )
+                                ) : (
+                                  <Text>-</Text>
+                                )}
                               </Text>
                             </View>
 
@@ -1067,39 +1475,36 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               >
                                 BP
                               </Text>
+
                               <Text style={{ width: "55%", color: "#000" }}>
-                                :{" "}
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "90"
-                                  )
-                                  .map((element: any, index: any) => {
-                                    return (
-                                      <>
-                                        {index === 0 ? (
-                                          <>{element.refPTScore}</>
-                                        ) : null}
-                                      </>
-                                    );
-                                  })}
-                                /
-                                {score
-                                  .filter(
-                                    (element: any) =>
-                                      element.refQCategoryId === "91"
-                                  )
-                                  .map((element: any, index: any) => {
-                                    return (
-                                      <>
-                                        {index === 0 ? (
-                                          <>{element.refPTScore}</>
-                                        ) : null}
-                                      </>
-                                    );
-                                  })}{" "}
-                                mm of Hg
+                                :{"  "}
+                                <Text style={{ width: "55%", color: "#000" }}>
+                                  {score.find((element: any) => element.refQCategoryId === "90") ? (
+                                    (() => {
+                                      const foundElement = score.find((element: any) => element.refQCategoryId === "90");
+                                      return (
+                                        <>
+
+                                          {
+
+                                            foundElement && getValidateDuration(foundElement.refQCategoryId) > -calculateDaysDifference(foundElement.refPTcreatedDate) ? (
+                                              <Text key={foundElement.refPTScore}>
+                                                {score.find((element: any) => element.refQCategoryId === "90").refPTScore} / {score.find((element: any) => element.refQCategoryId === "91")?.refPTScore} mm of Hg
+                                              </Text>
+                                            ) : (
+                                              <Text style={{ width: "70%", color: "#000" }}> -</Text>
+                                            )
+
+                                          }</>
+
+                                      );
+                                    })()
+                                  ) : (
+                                    <Text> -</Text>
+                                  )}
+                                </Text>
                               </Text>
+
                             </View>
                           </View>
                         </View>
@@ -1285,13 +1690,35 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               }}
                             >
                               {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "203"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
+                                .filter((element: any) => element.refQCategoryId === "203")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "203")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTScore}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+                                    </>
+
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1306,13 +1733,35 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               }}
                             >
                               {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "204"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
+                                .filter((element: any) => element.refQCategoryId === "204")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "204")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTScore}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+
+                                    </>
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1327,13 +1776,36 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               }}
                             >
                               {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "202"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
+                                .filter((element: any) => element.refQCategoryId === "202")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "202")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTScore}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+
+
+                                    </>
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1347,13 +1819,36 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                               }}
                             >
                               {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "207"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
+                                .filter((element: any) => element.refQCategoryId === "207")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "207")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTScore}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+
+
+                                    </>
+
+                                  ))
+                              )}
                             </Text>
                           </View>
 
@@ -1390,7 +1885,37 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              {reportDate}
+                              {score
+                                .filter((element: any) => element.refQCategoryId === "203")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "203")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTcreatedDate.split("T")[0]}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+                                    </>
+
+
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1403,7 +1928,35 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              {reportDate}
+                              {score
+                                .filter((element: any) => element.refQCategoryId === "204")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "204")
+                                  .map((element: any) => (
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTcreatedDate.split("T")[0]}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+                                    </>
+
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1416,7 +1969,35 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              {reportDate}
+                              {score
+                                .filter((element: any) => element.refQCategoryId === "202")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "202")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTcreatedDate.split("T")[0]}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+                                    </>
+
+                                  ))
+                              )}
                             </Text>
                             <Text
                               style={{
@@ -1428,7 +2009,37 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                 paddingLeft: "5px",
                               }}
                             >
-                              {reportDate}
+                              {score
+                                .filter((element: any) => element.refQCategoryId === "207")
+                                .length === 0 ? (
+                                <Text>-</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "207")
+                                  .map((element: any) => (
+
+                                    <>
+
+                                      {
+
+                                        getValidateDuration(
+                                          element.refQCategoryId
+                                        ) >
+                                          -calculateDaysDifference(
+                                            element.refPTcreatedDate
+                                          ) ? (
+                                          <Text>{element.refPTcreatedDate.split("T")[0]}</Text>
+                                        ) : (
+                                          <Text>-</Text>
+                                        )
+
+                                      }
+
+
+                                    </>
+
+                                  ))
+                              )}
                             </Text>
                           </View>
                         </View>
@@ -1466,42 +2077,52 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                             fontFamily: "PopRegular",
                           }}
                         >
-                          {[
-                            "52", // Add all relevant category IDs
-                            "53",
-                            "54",
-                            "55",
-                            "56",
-                            "57",
-                            "58",
-                          ]
-                            .map((refQCategoryId) => {
-                              // Filter `score` and check for "Yes" condition
-                              const categoryLabels = score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId.toString() ===
-                                      refQCategoryId &&
-                                    element.refPTScore === "Yes"
-                                )
-                                .flatMap((element: any) =>
-                                  // Map matching categories to their labels
-                                  allCategory
-                                    .filter(
-                                      (cat: any) =>
-                                        cat.refQCategoryId.toString() ===
-                                        element.refQCategoryId
-                                    )
-                                    .map((cat: any) => cat.refCategoryLabel)
-                                );
 
-                              return categoryLabels.length > 0
-                                ? categoryLabels.join(" / ")
-                                : null; // Return null if no matching categories
-                            })
-                            .filter(Boolean) // Remove null or empty results
-                            .join(" / ") || "No categories available"}{" "}
-                          {/* Add fallback here */}
+                          {
+                            score.filter((element: any) => element.refQCategoryId === "51").length === 0 ? (
+                              <>No categories available</>
+                            ) : (
+                              score
+                                .filter((element: any) => element.refQCategoryId === "51")
+                                .map((element: any) => (
+                                  <>
+                                    {getValidateDuration(element.refQCategoryId) >
+                                      -calculateDaysDifference(element.refPTcreatedDate) ? (
+                                      <>
+                                        {[
+                                          "52", "53", "54", "55", "56", "57", "58", // All category IDs
+                                        ]
+                                          .map((refQCategoryId) => {
+                                            const categoryLabels = score
+                                              .filter(
+                                                (element: any) =>
+                                                  element.refQCategoryId.toString() === refQCategoryId &&
+                                                  element.refPTScore === "Yes"
+                                              )
+                                              .flatMap((element: any) =>
+                                                allCategory
+                                                  .filter(
+                                                    (cat: any) =>
+                                                      cat.refQCategoryId.toString() === element.refQCategoryId
+                                                  )
+                                                  .map((cat: any) => cat.refCategoryLabel)
+                                              );
+
+                                            return categoryLabels.length > 0
+                                              ? categoryLabels.join(" / ")
+                                              : null;
+                                          })
+                                          .filter(Boolean)
+                                          .join(" / ") || "No categories available"}
+                                      </>
+                                    ) : (
+                                      <>No categories available</>
+                                    )}
+                                  </>
+                                ))
+                            )
+                          }
+
                         </Text>
                       </View>
                     </View>
@@ -1528,7 +2149,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                   </View>
 
                   {/* Disease Status */}
-                  <View style={{ width: "100%", padding: "20px 0px" }}>
+                  <View style={{ width: "100%", padding: "20px 0px", marginTop: "-10px" }}>
                     <View
                       style={{
                         padding: "0px 20px",
@@ -1595,14 +2216,30 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                             -
                           </Text>
                           <Text style={{ width: "75%", textAlign: "left" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "237"
+                            {
+                              score
+                                .filter((element: any) => element.refQCategoryId === "237")
+                                .length === 0 ? (
+                                <Text>No Values</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "237")
+                                  .map((element: any) => <>
+
+                                    {
+                                      getValidateDuration(
+                                        element.refQCategoryId
+                                      ) >
+                                        -calculateDaysDifference(
+                                          element.refPTcreatedDate
+                                        ) ? (
+                                        <> <Text key={element.refPTScore}>{element.refPTScore}</Text></>
+                                      ) : (<Text style={{ width: "70%", color: "#000" }}>No Values</Text>)
+                                    }
+                                  </>
+                                  )
                               )
-                              .map((element: any) => {
-                                return <Text>{element.refPTScore}</Text>;
-                              })}{" "}
+                            }
                           </Text>
                         </View>
                         <View
@@ -1629,14 +2266,29 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                             -
                           </Text>
                           <Text style={{ width: "75%", textAlign: "left" }}>
-                            {score
-                              .filter(
-                                (element: any) =>
-                                  element.refQCategoryId === "238"
+                            {
+                              score
+                                .filter((element: any) => element.refQCategoryId === "238")
+                                .length === 0 ? (
+                                <Text>No Values</Text>
+                              ) : (
+                                score
+                                  .filter((element: any) => element.refQCategoryId === "238")
+                                  .map((element: any) => <>
+                                    {
+                                      getValidateDuration(
+                                        element.refQCategoryId
+                                      ) >
+                                        -calculateDaysDifference(
+                                          element.refPTcreatedDate
+                                        ) ? (
+                                        <> <Text key={element.refPTScore}>{element.refPTScore}</Text></>
+                                      ) : (<Text style={{ width: "70%", color: "#000" }}>No Values</Text>)
+                                    }
+                                  </>
+                                  )
                               )
-                              .map((element: any) => {
-                                return <Text>{element.refPTScore}</Text>;
-                              })}{" "}
+                            }
                           </Text>
                         </View>
                       </View>
@@ -1650,7 +2302,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      marginTop: "-20px",
+                      marginTop: "-30px",
                     }}
                   >
                     <View
@@ -1661,6 +2313,58 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                     >
                       <Text> </Text>
                     </View>
+                  </View>
+
+
+                  {/* User Identification */}
+                  <View style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "15px",
+                  }}>
+                    <View style={{ width: "92%" }}>
+                      <Text style={{
+                        fontSize: "9px",
+                        textAlign: "left",
+                        color: "#000",
+                        fontFamily: "PopRegular",
+                      }}>
+                        {
+                          content
+                        }
+                      </Text>
+                    </View>
+                    {/* <View style={{ width: "92%", display: "flex", flexDirection: "row", marginTop: "10px" }}>
+                    <View style={{ width: "33%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "5px" }}>
+                      <Image style={{ height: "20px", width: "20px" }} src={doctor} />
+                      <Text style={{
+                        fontSize: "9px",
+                        textAlign: "left",
+                        color: "#000",
+                        fontFamily: "PopBold",
+                      }}>Doctor</Text>
+                    </View>
+                    <View style={{ width: "33%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "5px" }}>
+                      <Image style={{ height: "20px", width: "20px" }} src={assistant} />
+                      <Text style={{
+                        fontSize: "9px",
+                        textAlign: "left",
+                        color: "#000",
+                        fontFamily: "PopBold",
+                      }}>Assistant</Text>
+                    </View>
+                    <View style={{ width: "33%", display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: "5px" }}>
+                      <Image style={{ height: "20px", width: "20px" }} src={patient} />
+                      <Text style={{
+                        fontSize: "9px",
+                        textAlign: "left",
+                        color: "#000",
+                        fontFamily: "PopBold",
+                      }}>Patient</Text>
+                    </View>
+                  </View> */}
                   </View>
                 </View>
               </View>
@@ -1700,7 +2404,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                         marginBottom: "20px",
                       }}
                     >
-                      {generateDate}
+                      {generateDate.split(" ")[0]}
                     </Text>
                   </View>
 
@@ -1854,66 +2558,69 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                     </View>
 
                     {/* Doctor Details */}
-                    <View
-                      style={{
-                        width: "45%",
-                        height: "100px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                      }}
-                    >
-                      {/* Doctor Name */}
-
-                      <View>
-                        <Text
+                    {
+                      tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                        <View
                           style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
+                            width: "45%",
+                            height: "100px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
                           }}
                         >
-                          Dr. {doctorDetails?.refUserFname}{" "}
-                          {doctorDetails?.refUserLname}{" "}
-                          {doctorDetails?.refEducationSpec} (Community Med)
-                        </Text>
-                      </View>
+                          {/* Doctor Name */}
 
-                      {/* Doctor Designation */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          {doctorDetails?.refCRDesignation}
-                        </Text>
-                      </View>
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Dr. {doctorDetails?.refUserFname}{" "}
+                              {doctorDetails?.refUserLname}{" "}
+                              {doctorDetails?.refEducationSpec} (Community Med)
+                            </Text>
+                          </View>
 
-                      {/* Reg No */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          Reg No: {doctorDetails?.refMCINo}
-                        </Text>
-                      </View>
+                          {/* Doctor Designation */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              {doctorDetails?.refCRDesignation}
+                            </Text>
+                          </View>
 
-                      {/* Mail Id */}
-                      <View>
-                        <Text
-                          style={{
-                            fontSize: "9.5px",
-                            fontFamily: "PopRegular",
-                          }}
-                        >
-                          Mail id : {doctorDetails?.refUserEmail}
-                        </Text>
-                      </View>
-                    </View>
+                          {/* Reg No */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Reg No: {doctorDetails?.refMCINo}
+                            </Text>
+                          </View>
+
+                          {/* Mail Id */}
+                          <View>
+                            <Text
+                              style={{
+                                fontSize: "9.5px",
+                                fontFamily: "PopRegular",
+                              }}
+                            >
+                              Mail id : {doctorDetails?.refUserEmail}
+                            </Text>
+                          </View>
+                        </View>
+                      ) : null}
                   </View>
 
                   {/* Line */}
@@ -2286,6 +2993,40 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
                           </View>
                         </View>
                       </View>
+
+
+                      {treatementDetails.length === 0 ? (
+                        <View
+                          style={{
+                            width: "100%",
+                            display: "flex",
+                            flexDirection: "row",
+                            borderRadius: "4px",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <View
+                            style={{
+                              width: "100%",
+                              height: "38px",
+                              fontSize: "8px",
+                              color: "#000",
+                              fontFamily: "PopRegular",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              borderLeft: "1px solid #000",
+                              borderBottom: "1px solid #000",
+                              borderRight: "1px solid #000",
+                              borderBottomLeftRadius: "4px",
+                              borderBottomRightRadius: "4px",
+                            }}
+                          >
+                            <Text>No Data Found</Text>
+                          </View>
+                        </View>
+                      ) : null}
 
                       {treatementDetails.map((element: any, index: any) => (
                         <>
@@ -2952,7 +3693,7 @@ const TestingPdf: React.FC<ReportPDFProps> = ({ reportDate }) => {
           </Page>
         </Document>
       </PDFViewer>
-    </div>
+    </div >
   );
 };
 

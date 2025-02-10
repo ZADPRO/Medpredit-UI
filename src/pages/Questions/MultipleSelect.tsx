@@ -1,5 +1,6 @@
 import { Divider } from "primereact/divider";
 import React, { useState, useEffect } from "react";
+import Domain from "../Domain/Domain";
 
 interface MultipleSelectProps {
   label: {
@@ -58,6 +59,7 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
   return (
     <div>
       <div className="questions multiInput">
+        <Domain questionId={label.questionId} />
         <p className="question">{label.questionText}</p>
         <div className="buttonGroup">
           {label.options?.map((option) => (
@@ -66,9 +68,8 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
               onClick={() =>
                 handleButtonClick(option.refOptionId, option.forwardQId)
               }
-              className={`optionButton ${
-                selectedValues.includes(option.refOptionId) ? "selected" : ""
-              }`}
+              className={`optionButton ${selectedValues.includes(option.refOptionId) ? "selected" : ""
+                }`}
             >
               {option.refOptionLabel}
             </button>

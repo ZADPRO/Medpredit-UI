@@ -1,6 +1,8 @@
 import { Divider } from "primereact/divider";
-import { InputNumber } from "primereact/inputnumber";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import ShowCard from "../ShowCard/ShowCard";
+import Domain from "../Domain/Domain";
+import { RadioButton } from "primereact/radiobutton";
 
 interface NumberInputBoxT6Props {
   type: string;
@@ -8,14 +10,12 @@ interface NumberInputBoxT6Props {
     questionType: string;
     questionText: string;
     questionId: number;
-    options: [
-      {
-        backwardQId: string;
-        forwardQId: string;
-        refOptionId: number;
-        refOptionLabel: string;
-      }
-    ];
+    options: {
+      backwardQId: string;
+      forwardQId: string;
+      refOptionId: number;
+      refOptionLabel: string;
+    }[];
   };
   onClickOpt: (value: string, questionId: number, forwardQId: string) => void;
   onEdit: (questionType: any, value: any, forwardQId: string) => void;
@@ -27,44 +27,39 @@ const NumberInputBoxT6: React.FC<NumberInputBoxT6Props> = ({
   onClickOpt,
   onEdit,
 }) => {
-  const [value, setValue] = useState<number | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
-  const handleButtonClick = () => {
+  const handleRadioChange = (value: string) => {
+    setSelectedValue(value);
     const forwardQId = label.options[0]?.forwardQId || "";
-    onClickOpt(String(value), label.questionId, forwardQId);
+    onClickOpt(value, label.questionId, forwardQId);
     onEdit(label.questionType, value, forwardQId);
   };
 
-
   return (
     <div className="questionsOutline">
-      <form
-        onSubmit={(e: any) => {
-          e.preventDefault();
-          handleButtonClick();
-        }}
-      >
-        <div className="questions inputText">
-          <p className="question ">{label.questionText}</p>
-          <div className="p-inputgroup flex-1">
-            <InputNumber
-              value={value}
-              onChange={(e) => {
-                setValue(e.value);
-              }}
-              min={0}
-              max={7}
-              required
-            />
-            <button type="submit">
-              <span className="p-inputgroup-addon">
-                <i className="pi pi-arrow-right"></i>
-              </span>
-            </button>
-          </div>
-          <Divider />
+      <div className="questions inputText">
+        <Domain questionId={label.questionId} />
+        <p className="question ">{label.questionText}</p>
+        <ShowCard questionId={label.questionId} />
+        <div className="flex flex-wrap gap-3">
+          {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+            <div key={num} className="flex align-items-center">
+              <RadioButton
+                inputId={`radio${label}${num}`}
+                name="numberSelection"
+                value={num.toString()}
+                onChange={(e) => handleRadioChange(e.value)}
+                checked={selectedValue === num.toString()}
+              />
+              <label htmlFor={`radio${num}`} className="ml-2">
+                {num}
+              </label>
+            </div>
+          ))}
         </div>
-      </form>
+        <Divider />
+      </div>
     </div>
   );
 };

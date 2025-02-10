@@ -20,6 +20,8 @@ import {
   cogSharp,
   homeOutline,
   homeSharp,
+  medkit,
+  medkitOutline,
   personAddOutline,
   personAddSharp,
   personOutline,
@@ -52,11 +54,17 @@ import ReportPDF from "../ReportPDF/ReportPDF";
 import TobaccoInstructions from "../Instructions/TobaccoInstructions";
 import StressInstructions from "../Instructions/StressInstructions";
 import StressInfo from "../Information/StressInfo";
-import TesingPdf from "../TestingPdf/TestingPdf";
 
 import knowabout from "../../assets/logo/knowabout.png";
 import knowaboutOutline from "../../assets/logo/knowaboutOutline.png";
 import PatientSignUp from "../../components/05-SingUp/PatientSignUp";
+import Configure from "../../components/23-Configure/Configure";
+import StaffSignup from "../StaffSignup/StaffSignup";
+import ManageAssistant from "../ManageAssistant/ManageAssistant";
+import MapAssistant from "../ManageAssistant/MapAssistant";
+import ManageDoctor from "../ManageDoctor/ManageDoctor";
+import TestingPdf from "../TestingPdf/TestingPdf";
+import CheckUp from "../CheckUp/CheckUp";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -84,6 +92,7 @@ const MainRoutes: React.FC = () => {
     "/disease",
     "/settings",
     "/configure",
+    "/checkup",
   ].includes(location.pathname);
 
   const history = useHistory();
@@ -105,10 +114,10 @@ const MainRoutes: React.FC = () => {
       sharpIcon: homeSharp,
     },
     {
-      name: "Profile",
-      path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      name: "Screening",
+      path: "/checkup",
+      outlineIcon: medkitOutline,
+      sharpIcon: medkit,
     },
     {
       name: "Disease",
@@ -116,6 +125,13 @@ const MainRoutes: React.FC = () => {
       outlineIcon: knowabout,
       sharpIcon: knowaboutOutline,
     },
+    {
+      name: "Profile",
+      path: "/settings",
+      outlineIcon: personOutline,
+      sharpIcon: personSharp,
+    },
+
   ];
 
   const assistant = [
@@ -165,10 +181,58 @@ const MainRoutes: React.FC = () => {
       sharpIcon: knowaboutOutline,
     },
     {
-      name: "Advice",
-      path: "/advice",
-      outlineIcon: bookOutline,
-      sharpIcon: bookSharp,
+      name: "Profile",
+      path: "/settings",
+      outlineIcon: personOutline,
+      sharpIcon: personSharp,
+    },
+  ];
+
+  const doctorAdmin = [
+    {
+      name: "Home",
+      path: "/home",
+      outlineIcon: homeOutline,
+      sharpIcon: homeSharp,
+    },
+    {
+      name: "Patient",
+      path: "/patient",
+      outlineIcon: personAddOutline,
+      sharpIcon: personAddSharp,
+    },
+    {
+      name: "Disease",
+      path: "/disease",
+      outlineIcon: knowabout,
+      sharpIcon: knowaboutOutline,
+    },
+    {
+      name: "Configure",
+      path: "/configure",
+      outlineIcon: settingsOutline,
+      sharpIcon: settingsSharp,
+    },
+    {
+      name: "Profile",
+      path: "/settings",
+      outlineIcon: personOutline,
+      sharpIcon: personSharp,
+    },
+  ];
+
+  const Admin = [
+    {
+      name: "Home",
+      path: "/home",
+      outlineIcon: homeOutline,
+      sharpIcon: homeSharp,
+    },
+    {
+      name: "Configure",
+      path: "/configure",
+      outlineIcon: settingsOutline,
+      sharpIcon: settingsSharp,
     },
     {
       name: "Profile",
@@ -184,7 +248,7 @@ const MainRoutes: React.FC = () => {
         <Route exact path="/">
           <Splashscreen />
         </Route>
-        <Route exact path="/changePassword">
+        <Route path="/changePassword">
           <ChangePassword />
         </Route>
         <Route path="/home">
@@ -235,7 +299,7 @@ const MainRoutes: React.FC = () => {
         <Route path="/addEmployee">
           <AddEmployee />
         </Route>
-        <Route path="/pastreport/:reportDate">
+        <Route path="/pastreport/:pastReport">
           <PastReport />
         </Route>
         <Route exact path="/">
@@ -283,7 +347,32 @@ const MainRoutes: React.FC = () => {
         </Route>
 
         <Route path="/testingPdf">
-          <TesingPdf reportDate={"13-01-2025"} />
+          <TestingPdf reportDate={"2025-02-07"} />
+          {/* <TestingPdf type="pastReport" fromDate="2024-12-1" toDate="2024-12-16" refPMId="5" /> */}
+        </Route>
+
+        <Route path="/configure">
+          <Configure />
+        </Route>
+
+        <Route path="/checkup">
+          <CheckUp />
+        </Route>
+
+        <Route path="/addDoctor">
+          <StaffSignup />
+        </Route>
+
+        <Route path="/manageAssistant">
+          <ManageAssistant />
+        </Route>
+
+        <Route path="/mapAssistant/:assistantId/:assistantName/:assistantCustId">
+          <MapAssistant />
+        </Route>
+
+        <Route path="/manageDoctor">
+          <ManageDoctor />
         </Route>
       </IonRouterOutlet>
 
@@ -292,10 +381,14 @@ const MainRoutes: React.FC = () => {
           {(roleType === 1
             ? doctor
             : roleType === 2
-            ? assistant
-            : roleType === 3
-            ? patient
-            : []
+              ? assistant
+              : roleType === 3
+                ? patient
+                : roleType === 4
+                  ? doctorAdmin
+                  : roleType === 5
+                    ? Admin
+                    : []
           ).map((element) => (
             <IonTabButton tab={element.name} href={element.path}>
               {element.name === "Disease" ? (

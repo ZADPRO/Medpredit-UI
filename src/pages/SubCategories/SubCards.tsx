@@ -37,6 +37,7 @@ interface CardData {
   refScore?: any;
   refScoreId?: any;
   UserScoreVerify?: any;
+  refPTcreatedDate?: any;
 }
 
 interface SubCardsProps {
@@ -64,6 +65,88 @@ const SubCards: React.FC<SubCardsProps> = ({
     refScoreId: "",
     refQCategoryId: 0,
   });
+
+  function calculateDaysDifference(dateString: any) {
+    // Convert the given date string to a Date object
+    const givenDate: any = new Date(dateString);
+
+    // Get the current date and set time to midnight for accurate day difference
+    const currentDate: any = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffInMs = givenDate - currentDate;
+
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+  }
+
+  function addDaysToDate(isoDate: string, daysToAdd: number): string {
+    const date = new Date(isoDate);
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toISOString().split("T")[0]; // Return only YYYY-MM-DD format
+  }
+
+  const getValidity = (refQCategoryId: number) => {
+    switch (refQCategoryId) {
+      case 8:
+        return 14;
+      case 9:
+        return 14;
+      case 10:
+        return 14;
+      case 11:
+        return 14;
+      case 12:
+        return 14;
+      case 13:
+        return 14;
+      case 43:
+        return 14;
+      case 51:
+        return 14;
+      case 202:
+        return 1;
+      case 203:
+        return 1;
+      case 204:
+        return 1;
+      case 205:
+        return 1;
+      case 206:
+        return 1;
+      case 207:
+        return 1;
+      case 213:
+        return 1;
+      case 214:
+        return 1;
+      case 215:
+        return 1;
+      case 216:
+        return 1;
+      case 217:
+        return 1;
+      case 218:
+        return 1;
+      case 219:
+        return 1;
+      case 220:
+        return 1;
+      case 221:
+        return 1;
+      case 222:
+        return 1;
+      case 223:
+        return 1;
+      case 224:
+        return 1;
+      default:
+        return 0;
+    }
+  };
 
   const getImage = (refQCategoryId: number) => {
     switch (refQCategoryId) {
@@ -199,55 +282,116 @@ const SubCards: React.FC<SubCardsProps> = ({
       />
       {data.map((card) => (
         <div key={card.refQCategoryId}>
-          <div
-            className="subCards ion-activatable ripple-parent rectangle"
-            onClick={() => {
-              if (card.refScore === null) {
-                handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-              } else {
-                setIsAlertOpen(true);
-                setSelectedData({
-                  refScoreId: card.refScoreId,
-                  refCategoryLabel: card.refQCategoryId,
-                  cardTitle: card.refCategoryLabel,
-                  refQCategoryId: card.refQCategoryId,
-                });
-              }
-            }}
-            style={{ cursor: "pointer" }}
-          >
-            <IonRippleEffect></IonRippleEffect>
-            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-            <div className="cardConts">
-              <div className="cardHeader">
-                <p
-                  className="factorHeading"
-                  style={{
-                    fontSize: "18px",
-                    fontWeight: "600",
-                    color: "#373A40",
-                  }}
-                >
-                  {card.refCategoryLabel}
-                </p>
-                <div className="circularProgress">
-                  {card.refScore === null ? (
-                    <div style={{ color: "#607274" }}>
-                      <i
-                        className="pi pi-angle-right"
-                        style={{ fontSize: "2rem" }}
-                      ></i>
+          {card.refPTcreatedDate &&
+          getValidity(card.refQCategoryId) >
+            -calculateDaysDifference(card.refPTcreatedDate) ? (
+            <div
+              className="ion-activatable ripple-parent rectangle"
+              style={{ cursor: "pointer" }}
+            >
+              <IonRippleEffect></IonRippleEffect>
+              <div className="subCards">
+                <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                <div className="cardConts">
+                  <div className="cardHeader">
+                    <p
+                      className="factorHeading"
+                      style={{
+                        fontSize: "18px",
+                        fontWeight: "600",
+                        color: "#373A40",
+                      }}
+                    >
+                      {card.refCategoryLabel}
+                    </p>
+                    <div className="circularProgress">
+                      {card.refScore === null ? (
+                        <div style={{ color: "#607274" }}>
+                          <i
+                            className="pi pi-angle-right"
+                            style={{ fontSize: "2rem" }}
+                          ></i>
+                        </div>
+                      ) : (
+                        <ScoreVerify
+                          userScoreVerify={card.UserScoreVerify}
+                          refScore={card.refScore}
+                        />
+                      )}
                     </div>
-                  ) : (
-                    <ScoreVerify
-                      userScoreVerify={card.UserScoreVerify}
-                      refScore={card.refScore}
-                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  marginTop: "20px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div>Taken: {card.refPTcreatedDate.split("T")[0]}</div>
+                <div>
+                  Valid:{" "}
+                  {addDaysToDate(
+                    card.refPTcreatedDate,
+                    getValidity(card.refQCategoryId)
                   )}
                 </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div
+              className="subCards ion-activatable ripple-parent rectangle"
+              onClick={() => {
+                // if (card.refScore === null) {
+                handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+                // }
+                // else {
+                //   setIsAlertOpen(true);
+                //   setSelectedData({
+                //     refScoreId: card.refScoreId,
+                //     refCategoryLabel: card.refQCategoryId,
+                //     cardTitle: card.refCategoryLabel,
+                //     refQCategoryId: card.refQCategoryId,
+                //   });
+                // }
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <IonRippleEffect></IonRippleEffect>
+              <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+              <div className="cardConts">
+                <div className="cardHeader">
+                  <p
+                    className="factorHeading"
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "600",
+                      color: "#373A40",
+                    }}
+                  >
+                    {card.refCategoryLabel}
+                  </p>
+                  {/* <div className="circularProgress">
+                    {card.refScore === null ? (
+                      <div style={{ color: "#607274" }}>
+                        <i
+                          className="pi pi-angle-right"
+                          style={{ fontSize: "2rem" }}
+                        ></i>
+                      </div>
+                    ) : (
+                      <ScoreVerify
+                        userScoreVerify={card.UserScoreVerify}
+                        refScore={card.refScore}
+                      />
+                    )}
+                  </div> */}
+                </div>
+              </div>
+            </div>
+          )}
+
           <Divider />
         </div>
       ))}

@@ -5,6 +5,9 @@
   justify-content: center;
   block-size: 100%;
   inline-size: 100%;
+  /* background-image: url("../../assets/images_new1/BACKGROUND-02.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .splashScreenContents p {
@@ -15,6 +18,6 @@
 }
 
 .splashScreenContents img {
-  block-size: 130px;
+  block-size: 65px;
   border-radius: 10px;
 }

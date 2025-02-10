@@ -1,9 +1,15 @@
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonBackButton,
   IonButtons,
   IonContent,
+  IonDatetime,
   IonHeader,
+  IonIcon,
+  IonItem,
   IonLabel,
+  IonModal,
   IonPage,
   IonRippleEffect,
   IonSegment,
@@ -19,8 +25,14 @@ import KnowCards from "../../pages/KnowCards/KnowCards";
 import axios from "axios";
 import decrypt from "../../helper";
 
+import { IoChevronForward } from "react-icons/io5";
+
 import report from "../../assets/images/reports.png";
 import { Divider } from "primereact/divider";
+import { InputNumber } from "primereact/inputnumber";
+import MonthYearPicker from "../../pages/DateInput/MonthYear";
+import DateSelector from "../../pages/DateSelector/DateSelector";
+import { arrowForward } from "ionicons/icons";
 
 const KnowAboutPatient: React.FC = () => {
   const history = useHistory();
@@ -56,16 +68,14 @@ const KnowAboutPatient: React.FC = () => {
   const token = tokenObject.token;
 
   interface Report {
-    refScoreId: string;
-    doctorname: string;
-    hospitalname: string;
-    hospitaladdress: string;
-    hospitalpincode: string;
-    refTotalScore: number;
-    createdAt: string;
+    refptcreateddate: string;
+    multipleDate: any[];
+    refPMId: any;
   }
 
   const [overAllLoading, setOverAllLoading] = useState(true);
+
+  const [pastreport, setPastReport] = useState("");
 
   useEffect(() => {
     if (tokenString) {
@@ -94,10 +104,6 @@ const KnowAboutPatient: React.FC = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
             setSelectedValue("knowabout");
-
-            console.log("====================================");
-            console.log(data);
-            console.log("====================================");
 
             if (data.data) {
               setCategories(data.data);
@@ -149,8 +155,8 @@ const KnowAboutPatient: React.FC = () => {
 
       if (data.status) {
         setSubCategoryData(data.data);
-        setLatestReport(data.latestreportDate);
-        console.log("################", data.latestreportDate);
+        setLatestReport(data.reportAnswer);
+        console.log("################", data);
         setLoadingStatus(false);
       }
     } catch (error) {
@@ -200,11 +206,9 @@ const KnowAboutPatient: React.FC = () => {
             import.meta.env.VITE_ENCRYPTION_KEY
           );
 
-          console.log('====================================');
+          console.log("====================================");
           console.log("########", data);
-          console.log('====================================');
-
-          console.log("Data", data);
+          console.log("====================================");
 
           if (data.status) {
             setAllReports(data.data);
@@ -217,15 +221,10 @@ const KnowAboutPatient: React.FC = () => {
     try {
       axios
         .post(
-          `${import.meta.env.VITE_API_URL}/postCurrentReport`,
+          `${import.meta.env.VITE_API_URL}/checkPatientMap`,
           {
-            doctorId: localStorage.getItem("currentDoctorId")
-              ? localStorage.getItem("currentDoctorId")
-              : null,
+            employeeId: localStorage.getItem("currentDoctorId"),
             patientId: patientId,
-            patientGender: localStorage
-              .getItem("currentPatientGender")
-              ?.toLowerCase(),
             hospitalId: localStorage.getItem("hospitalId"),
           },
           {
@@ -243,29 +242,21 @@ const KnowAboutPatient: React.FC = () => {
           );
 
           if (data.status) {
-            console.log(data);
-            setCurrentReport(data.currentCatgoryStatus);
-            setNavCategory({
-              id: data.categoryId,
-              label: data.categoryLabel,
-            });
-
-            setMainNav({
-              id: data.mainId,
-              label: data.mainLabel,
-            });
-
-            setReportLoading(false);
+            setCurrentReport(true);
+          } else {
+            setCurrentReport(false);
           }
         });
     } catch (error) {
       console.error("Error fetching patient data:", error);
     }
+
+    setReportLoading(false);
   };
 
   const [allReports, setAllReports] = useState<Report[]>([]);
 
-  const [currentReport, setCurrentReport]: any = useState(true);
+  const [currentReport, setCurrentReport]: any = useState(false);
 
   const [navCategory, setNavCategory] = useState({
     id: "",
@@ -368,7 +359,7 @@ const KnowAboutPatient: React.FC = () => {
                           padding: "0px 10px",
                         }}
                       >
-                        {currentReport ? (
+                        {/* {currentReport ? (
                           <></>
                         ) : (
                           <>
@@ -424,9 +415,9 @@ const KnowAboutPatient: React.FC = () => {
                               </div>
                             </div>
                           </>
-                        )}
+                        )} */}
 
-                        {currentReport === "report" ? (
+                        {/* {currentReport === "report" ? (
                           <>
                             <Divider layout="horizontal">
                               <div
@@ -471,7 +462,58 @@ const KnowAboutPatient: React.FC = () => {
                               </div>
                             </div>
                           </>
-                        ) : null}
+                        ) : null} */}
+
+                        {
+                          currentReport ? (
+                            <>
+                              <Divider layout="horizontal">
+                                <div
+                                  style={{
+                                    color: "#939185",
+                                    fontWeight: "500",
+                                  }}
+                                >
+                                  Current Report
+                                </div>
+                              </Divider>
+
+                              <div
+                                onClick={() => {
+                                  history.push(
+                                    `/currentReport/${patient}/${patientId}`
+                                  );
+                                }}
+                                style={{
+                                  width: "100%",
+                                  background: "#5DB996",
+                                  borderRadius: "5px",
+                                  height: "50px",
+                                  padding: "10px",
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <div style={{ fontSize: "14px" }}>
+                                  <i
+                                    className="pi pi-file"
+                                    style={{ paddingRight: "10px", fontSize: "18px" }}
+                                  ></i>
+                                  View Report
+                                </div>
+                                <div>
+                                  <i
+                                    className="pi pi-angle-right"
+                                    style={{ fontSize: "1.5rem" }}
+                                  ></i>
+                                </div>
+                              </div>
+                            </>
+                          ) : null
+                        }
+
+
 
                         <Divider layout="horizontal">
                           <div
@@ -483,6 +525,49 @@ const KnowAboutPatient: React.FC = () => {
                             Past Report
                           </div>
                         </Divider>
+
+                        {/* <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <div style={{ width: "80%" }}>
+                            <DateSelector
+                              value={pastreport}
+                              onChange={(date: any) => {
+                                setPastReport(date);
+                              }} 
+                              placeholder="Select a date"
+                            />
+                          </div>
+
+                          <div style={{ width: "18%" }}>
+                            <button
+                              disabled={pastreport.length === 0}
+                              style={{
+                                width: "100%",
+                                height: "2.8rem",
+                                borderRadius: "5px",
+                                background:
+                                  "linear-gradient(160deg, #077556, #2f9f97)",
+                                color: "#fff",
+                                fontSize: "16px",
+                                cursor: "pointer",
+                                opacity: pastreport.length === 0 ? 0.5 : 1,
+                              }}
+                              onClick={() => {
+                                history.push(`/pastreport/${pastreport}`);
+                              }}
+                            >
+                              <i
+                                style={{ fontSize: "1rem" }}
+                                className="pi pi-arrow-right"
+                              ></i>
+                            </button>
+                          </div>
+                        </div> */}
                         {allReports.length > 0 ? (
                           <>
                             <div
@@ -493,70 +578,59 @@ const KnowAboutPatient: React.FC = () => {
                               }}
                             >
                               {allReports.map((allreport, index) => (
-                                <div
-                                  key={index}
-                                  style={{
-                                    width: "100%",
-                                    background: "#e6e6e6",
-                                    borderRadius: "5px",
-                                    height: "120px",
-                                    padding: "10px",
-                                  }}
-                                  onClick={() => {
-                                    history.push(
-                                      `/pastreport/${allreport.createdAt}`
-                                    );
-                                  }}
-                                  className="ion-activatable ripple-parent rectangle"
-                                >
-                                  <IonRippleEffect></IonRippleEffect>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "5px",
-                                      flexDirection: "column",
-                                      height: "80px",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: "700",
-                                      }}
-                                    >
-                                      Dr. {allreport.doctorname}
-                                    </div>
-                                    <div
-                                      style={{
-                                        fontSize: "16px",
-                                        fontWeight: "700",
-                                      }}
-                                    >
-                                      {allreport.hospitalname}
-                                    </div>
-                                    <div
-                                      style={{
-                                        fontSize: "14px",
-                                        fontWeight: "500",
-                                      }}
-                                    >
-                                      {allreport.hospitaladdress},{" "}
-                                      {allreport.hospitalpincode}
-                                    </div>
-                                  </div>
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      gap: "10px",
-                                      height: "20px",
-                                      justifyContent: "space-between",
-                                    }}
-                                  >
-                                    {/* <div>Score: {allreport.refTotalScore}%</div> */}
-                                    <div></div>
-                                    <div>Date: {allreport.createdAt}</div>
-                                  </div>
-                                </div>
+                                <>
+                                  {allreport.refptcreateddate ===
+                                    `${new Date().getFullYear()}-${(
+                                      "0" +
+                                      (new Date().getMonth() + 1)
+                                    ).slice(-2)}` ? (
+                                    <></>
+                                  ) : (
+                                    <IonAccordionGroup>
+                                      <IonAccordion key={index}>
+                                        <IonItem slot="header" color="light">
+                                          <IonLabel>
+                                            {allreport.refptcreateddate}
+                                          </IonLabel>
+                                        </IonItem>
+                                        <div
+                                          className="ion-padding"
+                                          slot="content"
+                                        >
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexWrap: "wrap",
+                                              gap: "10px",
+                                            }}
+                                          >
+                                            {allreport.multipleDate.map(
+                                              (muldate, index) => (
+                                                <div
+                                                  key={index}
+                                                  style={{
+                                                    padding: "10px",
+                                                    background: "#f4f5f8",
+                                                    justifyContent: "center",
+                                                    borderRadius: "10px",
+                                                    fontSize: "0.8rem"
+                                                  }}
+                                                  onClick={() => {
+                                                    history.push(
+                                                      `/pastreport/${muldate.refptcreateddate}`
+                                                    );
+                                                  }}
+                                                >
+                                                  {muldate.refptcreateddate}
+                                                </div>
+                                              )
+                                            )}
+                                          </div>
+                                        </div>
+                                      </IonAccordion>
+                                    </IonAccordionGroup>
+                                  )}
+                                </>
                               ))}
                             </div>
                           </>

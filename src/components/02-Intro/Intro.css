@@ -1,4 +1,4 @@
-.loginScreen {
+/*.loginScreen {
   block-size: 100%;
   inline-size: 100%;
   display: flex;
@@ -6,13 +6,13 @@
   position: relative;
   align-items: center;
 }
-
+ 
 .loginScreen img {
   block-size: 55vh;
   inline-size: 100%;
   object-fit: cover;
 }
-
+ 
 .loginScreen .loginContents {
   display: flex;
   block-size: 45vh;
@@ -21,7 +21,7 @@
   justify-content: center;
   text-align: center;
 }
-
+ 
 .loginScreen .loginContents p {
   margin: 0;
   text-align: center;
@@ -29,24 +29,24 @@
   padding-inline-end: 20px;
   padding-block-end: 15px;
 }
-
+ 
 .loginScreen .loginContents .welcomeIntro {
   font-size: 24px;
   padding-block-start: 20px;
 }
-
+ 
 .loginScreen .loginContents .welcomeIntro span {
   font-weight: bold;
 }
-
+ 
 .loginScreen .loginContents .description {
   font-size: 16px;
 }
-
+ 
 .loginScreen .loginContents .getStartedButton {
   background-color: #3478f5;
   padding: 15px 25px;
-  /* font-family: "Prompt", sans-serif; */
+  /* font-family: "Prompt", sans-serif; */ /*
   border-radius: 8px;
   color: white;
   font-size: 15px;
@@ -54,4 +54,50 @@
   cursor: pointer;
   transition: opacity 0.3s ease;
   text-transform: uppercase;
+}
+*/
+ 
+/* .loginScreen {
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: end;
+  padding-bottom: 6vh;
+  background-image: url("C:\Users\rohit\Desktop\IONIC-UI\Medpredit-UI\src\assets\images_new\BACKGROUND_GetStarted.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  */
+.loginScreen>h2 {
+  font-family: "Nunito", serif;
+  color: white;
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0;
+}
+ 
+.Medprit {
+  color: lightblue;
+  font-weight: 800;
+  font-size: 3rem;
+  margin: 0;
+}
+/*
+.description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: lighter;
+  color: white;
+  padding: 5px 20px;
+  margin: 0;
+}*/
+ 
+.description p{
+  margin: 0;
 }

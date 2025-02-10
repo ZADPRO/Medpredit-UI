@@ -2,6 +2,7 @@ import { Calendar } from "primereact/calendar";
 import React, { useState } from "react";
 import { Nullable } from "primereact/ts-helpers";
 import { Divider } from "primereact/divider";
+import ShowCard from "../ShowCard/ShowCard";
 
 interface TimeInputBoxProps {
   type: string;
@@ -54,6 +55,7 @@ const TimeInputBox24: React.FC<TimeInputBoxProps> = ({
       >
         <div className="questions inputText">
           <p className="question ">{label.questionText}</p>
+          <ShowCard questionId={label.questionId} />
           <div className="p-inputgroup flex-1">
             <Calendar
               id="calendar-timeonly"

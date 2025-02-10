@@ -89,7 +89,7 @@ const Tab2: React.FC = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
 
-            console.log(data);
+            console.log("####", data);
 
             setLoadingStatus(false);
 
@@ -198,6 +198,11 @@ const Tab2: React.FC = () => {
                       className="patientContents"
                       style={{ width: "70%" }}
                       onClick={() => {
+                        setMobileNumber("");
+                        setStatus({
+                          status: false,
+                          message: "",
+                        });
                         history.push("/addUser");
                       }}
                     >
@@ -273,11 +278,16 @@ const Tab2: React.FC = () => {
                                 justifyContent: "center",
                               }}
                               onClick={() => {
+                                setMobileNumber("");
+                                setStatus({
+                                  status: false,
+                                  message: "",
+                                });
                                 history.push(
                                   "/addfamilyuser/" +
-                                    urlMobileNo +
-                                    "/" +
-                                    urluserId
+                                  urlMobileNo +
+                                  "/" +
+                                  urluserId
                                 );
                               }}
                             >
@@ -309,6 +319,11 @@ const Tab2: React.FC = () => {
                             className="patientContents"
                             style={{ width: "70%" }}
                             onClick={() => {
+                              setMobileNumber("");
+                              setStatus({
+                                status: false,
+                                message: "",
+                              });
                               history.push("/addUser");
                             }}
                           >

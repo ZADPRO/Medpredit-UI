@@ -3,6 +3,8 @@ import { Divider } from "primereact/divider";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import decrypt from "../../helper";
+import ShowCard from "../ShowCard/ShowCard";
+import Domain from "../Domain/Domain";
 
 interface YesNoProps {
   label: {
@@ -41,7 +43,10 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
   return (
     <div>
       <div className="questions multiInput">
+      <Domain questionId={label.questionId} />
         <p className="question">{label.questionText}</p>
+        <ShowCard questionId={label.questionId} />
+
         <div className="buttonGroup">
           {label.options?.map((option) => (
             <button

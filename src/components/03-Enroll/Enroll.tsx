@@ -17,6 +17,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import logo from "../../assets/logo/logo.svg";
 import home1 from "../../assets/images/home1.jpg";
+import users from "../../assets/images/profile.png"
 
 import "./Enroll.css";
 import { arrowForwardOutline, image } from "ionicons/icons";
@@ -60,6 +61,11 @@ const Enroll: React.FC = () => {
     password: "",
   });
 
+
+  const [usersList, setUsersList] = useState([]);
+
+  const [userModel, setUserModel] = useState(false);
+
   const [loadingStatus, setLoadingStatus] = useState(false);
 
   useEffect(() => {
@@ -76,6 +82,53 @@ const Enroll: React.FC = () => {
       animation: "slide",
     });
   };
+
+
+  const handleChooseUser = async (username: any, password: any, userId: any) => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/handleUserSignin`,
+        { username, password, userId }
+      );
+
+      const data = decrypt(
+        response.data[1],
+        response.data[0],
+        import.meta.env.VITE_ENCRYPTION_KEY
+      );
+
+      setLoadingStatus(false);
+      setUserModel(false);
+
+      if (data.status) {
+        const userDetails = {
+          roleType: data.roleType,
+          token: "Bearer " + data.token,
+        };
+
+
+        localStorage.setItem("currentPatientId", userId);
+
+        localStorage.setItem("userDetails", JSON.stringify(userDetails));
+
+        history.push("/home", {
+          direction: "forward",
+          animation: "slide",
+        });
+
+      } else {
+        setErrorMessage("Invalid username or password");
+
+        setToastMessage("Invalid username or password");
+        setShowToast(true);
+      }
+    } catch (error) {
+      console.error("Error during Sign In:", error);
+      setToastMessage("An error occurred. Please try again.");
+      setShowToast(true);
+      setLoadingStatus(false);
+    }
+  }
 
   const handleSignIn = async () => {
     setLoadingStatus(true);
@@ -120,6 +173,29 @@ const Enroll: React.FC = () => {
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
             setHospitalData(data.hospitals);
             setHospitalModel(true);
+          }
+        } else if (data.roleType === 3) {
+          if (data.action === "single") {
+            const userDetails = {
+              roleType: data.roleType,
+              token: "Bearer " + data.token,
+            };
+
+            localStorage.setItem("currentPatientId", data.users[0].refUserId);
+            
+
+            localStorage.setItem("userDetails", JSON.stringify(userDetails));
+            localStorage.setItem("hospitalId", data.hospitaId);
+
+            history.push("/home", {
+              direction: "forward",
+              animation: "slide",
+            });
+          } else if (data.action === "multiple") {
+
+            setUsersList(data.users)
+            setUserModel(true);
+            setLoadingStatus(true);
           }
         } else {
           const userDetails = {
@@ -250,6 +326,69 @@ const Enroll: React.FC = () => {
           </IonContent>
         </IonModal>
 
+
+        <IonModal
+          mode="ios"
+          isOpen={userModel}
+          onDidDismiss={() => {
+            setUserModel(false);
+            setLoadingStatus(false);
+          }}
+          initialBreakpoint={0.75}
+        >
+          <IonContent className="ion-padding">
+            <div>
+              <div
+                style={{
+                  height: "8vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                Choose Your User to Login
+              </div>
+              <div
+                style={{
+                  height: "55vh",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {usersList.map((user: any, index) => (
+                  <div
+                    onClick={() => {
+                      handleChooseUser(signInData.username, signInData.password, user.refUserId);
+                    }}
+                    key={index}
+                    style={{
+                      borderRadius: "5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "start",
+                      justifyContent: "center",
+                      fontSize: "16px",
+                    }}
+                  >
+                    <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
+                      <img height={60} src={users} alt="" />
+                      <div className="contents ml-3">
+                        <div>{user.refUserFname} {user.refUserLname}</div>
+                      </div>
+                    </div>
+                    <Divider className="m-2" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </IonContent>
+        </IonModal>
+
         <div
           className="signIn"
           style={{
@@ -338,7 +477,7 @@ const Enroll: React.FC = () => {
                 </button>
               )}
             </div>
-            {/* <div
+            <div
               style={{
                 textAlign: "center",
                 fontSize: "1rem",
@@ -350,7 +489,7 @@ const Enroll: React.FC = () => {
               }}
             >
               Don't have an Account ? Sign Up
-            </div> */}
+            </div>
             <img
               style={{ height: "28vh", width: "100%", objectFit: "cover" }}
               src={home1}
