@@ -1004,7 +1004,7 @@ const AddFamilyUser: React.FC = () => {
                       onChange={handleInputChange}
                       placeholder="Enter Mobile Number"
                       name="refUserMobileno"
-                      // useGrouping={false}
+                    // useGrouping={false}
                     />
                   </div>
                 </div>
@@ -1238,7 +1238,7 @@ const AddFamilyUser: React.FC = () => {
                     }}
                   >
                     {formData.refUserPassword === formData.refUserConPassword &&
-                    formData.refUserPassword.length > 0 ? (
+                      formData.refUserPassword.length > 0 ? (
                       <div
                         style={{
                           width: "25px",

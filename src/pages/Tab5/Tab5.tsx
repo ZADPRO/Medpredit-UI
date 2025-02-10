@@ -31,6 +31,7 @@ import strokeWhite from "../../assets/KnowAbout/strokeWhite.png";
 import coronaryWhite from "../../assets/KnowAbout/coronaryWhite.png";
 import Coronary from "../KnowDisease/Coronary";
 import Stroke from "../KnowDisease/Stroke";
+import { App } from "@capacitor/app";
 
 const Tab5: React.FC = () => {
   const [selectedSegment, setSelectedSegment] =
@@ -50,6 +51,26 @@ const Tab5: React.FC = () => {
   useEffect(() => {
     console.log(activeDisease);
   }, [activeDisease]);
+
+  useEffect(() => {
+    let backButtonListener: any;
+
+    const setupListener = async () => {
+      backButtonListener = await App.addListener("backButton", (event: any) => {
+        event.preventDefault(); // Prevent default back behavior
+        history.replace("/home"); // Redirect to home
+      });
+    };
+
+    setupListener(); // Initialize listener
+
+    return () => {
+      if (backButtonListener) {
+        console.log("backButtonListener", backButtonListener)
+        backButtonListener.remove(); // Cleanup listener
+      }
+    };
+  }, [history]);
 
   return (
     <IonPage>

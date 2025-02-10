@@ -21,6 +21,8 @@ import PopSemiboldItalic from "../../assets/Fonts/Poppins-SemiBoldItalic.ttf";
 import { ScoreVerify } from "../../ScoreVerify";
 
 import backgroundImage1 from "../../assets/PDFTemplate/background-1.png";
+import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import { IonText, IonToast, isPlatform } from "@ionic/react";
 
 interface DoctorDetails {
   refHospitalName: any;
@@ -47,6 +49,9 @@ interface ReportPDFProps {
 }
 
 const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
+
+  const [showToast, setShowToast] = useState(false);
+
   const tokenString: any = localStorage.getItem("userDetails");
 
   const [Loading, setLoading] = useState(false);
@@ -256,6 +261,23 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
   const [allCategory, setAllCategory] = useState([]);
 
+
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        if (reader.result) {
+          const base64data = reader.result.toString().split(",")[1]; // Extract actual Base64 content
+          resolve(base64data);
+        } else {
+          reject(new Error("Failed to convert Blob to Base64"));
+        }
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleDownloadPDF = async () => {
     const doc = (
       <Document>
@@ -447,7 +469,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                   {/* Doctor Details */}
                   {
-                    tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                    tokenObject.roleType === 4 || tokenObject.roleType === 1 ? (
                       <View
                         style={{
                           width: "45%",
@@ -2583,7 +2605,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                   {/* Doctor Details */}
                   {
-                    tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                    tokenObject.roleType === 4 || tokenObject.roleType === 1 ? (
                       <View
                         style={{
                           width: "45%",
@@ -3719,18 +3741,121 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
     );
 
 
-    // Generate PDF as Blob
-    const pdfBlob = await pdf(doc).toBlob();
+    //   // Generate PDF as a Blob
+    // const pdfBlob = await pdf(doc).toBlob();
 
-    // Create a link element and trigger download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(pdfBlob);
-    link.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
-    link.click();
+    // // Convert Blob to Base64
+    // const reader = new FileReader();
 
-    // Clean up the link element
-    URL.revokeObjectURL(link.href);
+    // reader.onloadend = async () => {
+    //   if (reader.result) {
+    //     const base64data = reader.result.toString().split(",")[1]; // Ensure it's a string
+    //     try {
+    //       await Filesystem.writeFile({
+    //         path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
+    //         data: base64data,
+    //         directory: Directory.Documents,
+    //         encoding: Encoding.UTF8, // Set encoding to Base64
+    //       });
+    //       console.log("PDF saved successfully!");
+    //     } catch (error) {
+    //       console.error("Error saving PDF:", error);
+    //     }
+    //   } else {
+    //     console.error("Failed to read PDF data");
+    //   }
+    // };
 
+    // reader.readAsDataURL(pdfBlob);
+
+
+
+    try {
+      // Generate PDF as Blob
+      const pdfBlob = await pdf(doc).toBlob();
+
+      // Convert Blob to Base64
+      const base64data = await blobToBase64(pdfBlob);
+
+      // Save PDF file
+      await Filesystem.writeFile({
+        path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
+        data: base64data,
+        directory: Directory.Documents
+      });
+
+      console.log("PDF saved successfully!");
+    } catch (error) {
+      console.error("Error generating or saving PDF:", error);
+    }
+
+
+
+
+
+    // // Generate PDF as Blob
+    // const pdfBlob = await pdf(doc).toBlob();
+
+    // // Create a link element and trigger download
+    // const link = document.createElement("a");
+    // link.href = URL.createObjectURL(pdfBlob);
+    // link.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
+    // link.click();
+
+    // // Clean up the link element
+    // URL.revokeObjectURL(link.href);
+
+
+    // try {
+    //   const contents = await Filesystem.readFile({
+    //     path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
+    //     directory: Directory.Documents,
+    //     encoding: Encoding.UTF8, // Assuming this correctly sets the encoding
+    //   });
+
+    //   // If contents.data is a Blob, use FileReader to read as Base64
+    //   let base64String = contents.data;
+    //   if (contents.data instanceof Blob) {
+    //     const reader = new FileReader();
+    //     reader.onloadend = function () {
+    //       base64String = reader.result as string;  // This will be the Base64 string
+    //       // Proceed with your logic after base64String is populated
+    //       const byteCharacters = atob(base64String);
+    //       const byteNumbers = new Array(byteCharacters.length).fill(null).map((_, i) => byteCharacters.charCodeAt(i));
+    //       const byteArray = new Uint8Array(byteNumbers);
+    //       const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+
+    //       // Create a URL for download
+    //       const link = document.createElement('a');
+    //       link.href = URL.createObjectURL(pdfBlob);
+    //       link.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
+    //       link.click();
+
+    //       // Clean up
+    //       URL.revokeObjectURL(link.href);
+    //     };
+
+    //     // Read the Blob as Base64 string
+    //     reader.readAsDataURL(contents.data);
+    //   } else {
+    //     // Handle the case when contents.data is already a Base64 string
+    //     const byteCharacters = atob(contents.data);
+    //     const byteNumbers = new Array(byteCharacters.length).fill(null).map((_, i) => byteCharacters.charCodeAt(i));
+    //     const byteArray = new Uint8Array(byteNumbers);
+    //     const pdfBlob = new Blob([byteArray], { type: 'application/pdf' });
+
+    //     // Create a URL for download
+    //     const link = document.createElement('a');
+    //     link.href = URL.createObjectURL(pdfBlob);
+    //     link.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
+    //     link.click();
+
+    //     // Clean up
+    //     URL.revokeObjectURL(link.href);
+    //   }
+    // } catch (error) {
+    //   console.error('Error reading PDF:', error);
+    // }
 
     // // Generate PDF as Blob
     // const pdfBlob = await pdf(doc).toBlob();
@@ -3752,9 +3877,9 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
     //       const path = "/storage/emulated/0/Download/" + fileName;
 
     //       await Filesystem.writeFile({
-    //         path: path,
+    //         path: fileName,
     //         data: base64Data,
-    //         directory: Directory.External,
+    //         directory: Directory.Documents,
     //       });
 
     //       console.log("File saved to Downloads folder on Android.");
@@ -3769,10 +3894,14 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
     //       console.log("File saved to Documents folder on iOS.");
     //     }
-    //   } catch (error) {
+    //   } catch (error) {  
     //     console.error("Error saving file:", error);
     //   }
     // };
+
+    setShowToast(true);
+
+
 
     setLoading(false);
   };
@@ -4345,27 +4474,38 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
           </button>
         </>
       ) : (
-        <button
-          onClick={() => {
-            handleDownloadPDF();
-            setLoading(true);
-          }}
-          style={{
-            width: "100%",
-            height: "3rem",
-            // margin: "5px 0px",
-            borderRadius: "5px",
-            background: "linear-gradient(160deg, #077556, #2f9f97)",
-            color: "#fff",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Download Report
-        </button>
+        <>
+          <IonToast
+            isOpen={showToast}
+            onDidDismiss={() =>
+              setShowToast(false)
+            }
+            message={"File Downloaded in Documents/"}
+            duration={3000}
+          />
+          {/* {showToast && <IonText color="success">File Downloaded in Document/Medpredit/</IonText>}{" "} */}
+          <button
+            onClick={() => {
+              handleDownloadPDF();
+              setLoading(true);
+            }}
+            style={{
+              width: "100%",
+              height: "3rem",
+              // margin: "5px 0px",
+              borderRadius: "5px",
+              background: "linear-gradient(160deg, #077556, #2f9f97)",
+              color: "#fff",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Download Report
+          </button></>
       )}
     </div>
   );
 };
+
 
 export default ReportPDF;

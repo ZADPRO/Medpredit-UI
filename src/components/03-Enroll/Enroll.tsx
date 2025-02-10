@@ -111,7 +111,7 @@ const Enroll: React.FC = () => {
 
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
-        history.push("/home", {
+        history.replace("/home", {
           direction: "forward",
           animation: "slide",
         });
@@ -159,7 +159,7 @@ const Enroll: React.FC = () => {
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
             localStorage.setItem("hospitalId", data.hospitaId);
 
-            history.push("/home", {
+            history.replace("/home", {
               direction: "forward",
               animation: "slide",
             });
@@ -182,12 +182,12 @@ const Enroll: React.FC = () => {
             };
 
             localStorage.setItem("currentPatientId", data.users[0].refUserId);
-            
+
 
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
             localStorage.setItem("hospitalId", data.hospitaId);
 
-            history.push("/home", {
+            history.replace("/home", {
               direction: "forward",
               animation: "slide",
             });
@@ -206,7 +206,7 @@ const Enroll: React.FC = () => {
           localStorage.setItem("userDetails", JSON.stringify(userDetails));
           localStorage.setItem("hospitalId", data.hospitaId);
 
-          history.push("/home", {
+          history.replace("/home", {
             direction: "forward",
             animation: "slide",
           });
@@ -239,7 +239,7 @@ const Enroll: React.FC = () => {
 
   const handleContinue = () => {
     dismiss();
-    history.push("/home", {
+    history.replace("/home", {
       direction: "forward",
       animation: "slide",
     });
@@ -253,7 +253,7 @@ const Enroll: React.FC = () => {
     setHospitalModel(false);
     localStorage.setItem("hospitalId", hospitalId);
 
-    history.push("/home", {
+    history.replace("/home", {
       direction: "forward",
       animation: "slide",
     });

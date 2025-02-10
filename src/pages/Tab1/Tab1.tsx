@@ -8,12 +8,14 @@ import {
 import "./Tab1.css";
 import { useEffect, useState } from "react";
 import Diabetes from "../KnowDisease/Diabetes";
+import AppExitHandler from "../AppExitHandler/AppExitHandler";
 
 const Tab1: React.FC = () => {
-  
+
 
   return (
     <IonPage>
+      <AppExitHandler />
       <IonContent fullscreen>
         <div
           style={{

@@ -20,12 +20,12 @@ const Splashscreen: React.FC = () => {
         const roleType = tokenObject.roleType;
 
         if (roleType === 1 || roleType === 2 || roleType === 3) {
-          history.push("/home");
+          history.replace("/home");
         } else {
-          history.push("/login");
+          history.replace("/login");
         }
       } else {
-        history.push("/login");
+        history.replace("/login");
       }
     }, 3000);
 
