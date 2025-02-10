@@ -27,10 +27,10 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         return true;
       case 56:
         return true;
-        case 59:
-          return true;
-          case 67:
-            return true;
+      case 59:
+        return true;
+      case 67:
+        return true;
 
       default:
         return false;
@@ -51,8 +51,8 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         return <Smoke view={"showcards"} />;
       case 59:
         return <Smoke view={"showcards"} />;
-        case 67:
-          return <Smokeaffects view={"showcards"} />;
+      case 67:
+        return <Smokeaffects view={"showcards"} />;
       default:
         return null; // Return null if no match, or you can render something else
     }
@@ -72,8 +72,8 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         return <Smoke view={"example"} />;
       case 59:
         return <Smoke view={"example"} />;
-        case 67:
-          return <Smokeaffects view={"example"} />;
+      case 67:
+        return <Smokeaffects view={"example"} />;
       default:
         return null; // Return null if no match, or you can render something else
     }

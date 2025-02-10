@@ -32,10 +32,8 @@ const PastReport: React.FC = () => {
   const history = useHistory();
   const modal = useRef<HTMLIonModalElement>(null);
 
-  const { fromDate, toDate, refPMId } = useParams<{
-    fromDate: string;
-    toDate: string;
-    refPMId: string;
+  const { pastReport } = useParams<{
+    pastReport: string;
   }>();
 
   const [loadingStatus, setLoadingStatus] = useState(true);
@@ -108,10 +106,9 @@ const PastReport: React.FC = () => {
             `${import.meta.env.VITE_API_URL}/getPastReportData `,
             {
               patientId: patientId,
-              employeeId: refPMId,
+              employeeId: localStorage.getItem('currentDoctorId'),
               hospitalId: localStorage.getItem("hospitalId"),
-              fromDate: fromDate,
-              toDate: toDate,
+              reportDate: pastReport
             },
             {
               headers: {
@@ -192,6 +189,94 @@ const PastReport: React.FC = () => {
     }
   }, []);
 
+
+  const getValidateDuration = (questionId: any) => {
+    switch (parseInt(questionId)) {
+      case 94:
+        return 1;
+      case 6:
+        return 1;
+      case 8:
+        return 14;
+      case 9:
+        return 14;
+      case 10:
+        return 14;
+      case 11:
+        return 14;
+      case 12:
+        return 14;
+      case 13:
+        return 14;
+      case 43:
+        return 14;
+      case 51:
+        return 14;
+      case 202:
+        return 1;
+      case 203:
+        return 1;
+      case 204:
+        return 1;
+      case 205:
+        return 1;
+      case 206:
+        return 1;
+      case 207:
+        return 1;
+      case 213:
+        return 1;
+      case 214:
+        return 1;
+      case 215:
+        return 1;
+      case 216:
+        return 1;
+      case 217:
+        return 1;
+      case 218:
+        return 1;
+      case 219:
+        return 1;
+      case 220:
+        return 1;
+      case 221:
+        return 1;
+      case 222:
+        return 1;
+      case 223:
+        return 1;
+      case 224:
+        return 1;
+      default:
+        return 0;
+    }
+  };
+
+
+  function calculateDaysDifference(dateString: any) {
+    // Convert the given date string to a Date object
+    const givenDate: any = new Date(dateString);
+
+    // Get the current date and set time to midnight for accurate day difference
+    const currentDate: any = new Date(pastReport);
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffInMs = givenDate - currentDate;
+
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+
+    console.log('====================================');
+    console.log(diffInDays);
+    console.log('====================================');
+
+    return diffInDays;
+  }
+
+
   function getLastDayOfMonth(yearMonth: any) {
     let [year, month] = yearMonth.split("-").map(Number);
     let lastDay = new Date(year, month, 0).getDate(); // Month is 0-indexed, so month 0 will be the last day of the previous month
@@ -264,20 +349,14 @@ const PastReport: React.FC = () => {
                     {patientDetail.patientName} (Age: {patientDetail.age})
                   </div>
                   <div style={{ fontSize: "14px" }}>
-                    {`Report Date: ${fromDate.slice(0, 8)}(${fromDate.slice(
-                      8,
-                      10
-                    )}-${toDate === "0"
-                      ? getLastDayOfMonth(fromDate.slice(0, 7))
-                      : toDate.slice(8, 10)
-                      })`}
+                    {`Report Date: ${pastReport}`}
                   </div>
                 </div>
               </IonTitle>
             </IonToolbar>
           </IonHeader>
           <IonContent class="ion-padding" fullscreen>
-            <div
+            {/* <div
               style={{
                 width: "100%",
                 borderRadius: "5px",
@@ -298,7 +377,7 @@ const PastReport: React.FC = () => {
               >
                 <FaUserDoctor />
               </div>
-            </div>
+            </div> */}
 
             <IonModal
               isOpen={isOpen}
@@ -392,13 +471,41 @@ const PastReport: React.FC = () => {
                                                       {subCategory.refQCategoryId ===
                                                         94 ? (
                                                         <>
-                                                          {allScore.some(
-                                                            (answer) =>
-                                                              answer.refQCategoryId ===
-                                                              subCategory.refQCategoryId.toString()
-                                                          ) ? (
+                                                          <div
+                                                            style={{
+                                                              textDecoration:
+                                                                "underline",
+                                                            }}
+                                                          >
+                                                            Insights
+                                                          </div>
+                                                          {getValidateDuration(
+                                                            subCategory.refQCategoryId
+                                                          ) >
+                                                            -calculateDaysDifference(
+                                                              allScore.some(
+                                                                (answer) =>
+                                                                  answer.refQCategoryId ===
+                                                                  subCategory.refQCategoryId.toString()
+                                                              ) &&
+                                                              getValidateDuration(
+                                                                subCategory.refQCategoryId
+                                                              ) >
+                                                              -calculateDaysDifference(
+                                                                allScore.find(
+                                                                  (
+                                                                    answer
+                                                                  ) =>
+                                                                    answer.refQCategoryId ===
+                                                                    subCategory.refQCategoryId.toString()
+                                                                )
+                                                                  .refPTcreatedDate
+                                                              )
+                                                            ) ? (
                                                             <div
                                                               style={{
+                                                                marginTop:
+                                                                  "10px",
                                                                 display:
                                                                   "flex",
                                                                 flexDirection:
@@ -406,18 +513,12 @@ const PastReport: React.FC = () => {
                                                                 gap: "10px",
                                                                 background:
                                                                   "#F2F9FF",
+                                                                padding:
+                                                                  "10px",
                                                                 borderRadius:
                                                                   "5px",
                                                               }}
                                                             >
-                                                              <div
-                                                                style={{
-                                                                  textDecoration:
-                                                                    "underline",
-                                                                }}
-                                                              >
-                                                                Insights
-                                                              </div>
                                                               {allCategory
                                                                 .filter(
                                                                   (
@@ -713,13 +814,34 @@ const PastReport: React.FC = () => {
                                                         </>
                                                       ) : (
                                                         <>
+                                                          <div
+                                                            style={{
+                                                              textDecoration:
+                                                                "underline",
+                                                            }}
+                                                          >
+                                                            Insights
+                                                          </div>
                                                           {allScore.some(
                                                             (answer) =>
                                                               answer.refQCategoryId ===
                                                               subCategory.refQCategoryId.toString()
-                                                          ) ? (
+                                                          ) &&
+                                                            getValidateDuration(
+                                                              subCategory.refQCategoryId
+                                                            ) >
+                                                            -calculateDaysDifference(
+                                                              allScore.find(
+                                                                (answer) =>
+                                                                  answer.refQCategoryId ===
+                                                                  subCategory.refQCategoryId.toString()
+                                                              )
+                                                                .refPTcreatedDate
+                                                            ) ? (
                                                             <div
                                                               style={{
+                                                                marginTop:
+                                                                  "10px",
                                                                 display:
                                                                   "flex",
                                                                 flexDirection:
@@ -733,14 +855,6 @@ const PastReport: React.FC = () => {
                                                                   "5px",
                                                               }}
                                                             >
-                                                              <div
-                                                                style={{
-                                                                  textDecoration:
-                                                                    "underline",
-                                                                }}
-                                                              >
-                                                                Insights
-                                                              </div>
                                                               {allCategory
                                                                 .filter(
                                                                   (
@@ -1221,7 +1335,20 @@ const PastReport: React.FC = () => {
                                                                 (answer) =>
                                                                   answer.refQCategoryId ===
                                                                   category.refQCategoryId.toString()
-                                                              ) ? (
+                                                              ) &&
+                                                                getValidateDuration(
+                                                                  category.refQCategoryId
+                                                                ) >
+                                                                -calculateDaysDifference(
+                                                                  allScore.find(
+                                                                    (
+                                                                      answer
+                                                                    ) =>
+                                                                      answer.refQCategoryId ===
+                                                                      category.refQCategoryId.toString()
+                                                                  )
+                                                                    .refPTcreatedDate
+                                                                ) ? (
                                                                 <>
                                                                   <div
                                                                     style={{
@@ -1297,7 +1424,18 @@ const PastReport: React.FC = () => {
                                                             (answer) =>
                                                               answer.refQCategoryId ===
                                                               category.refQCategoryId.toString()
-                                                          ) ? (
+                                                          ) &&
+                                                            getValidateDuration(
+                                                              category.refQCategoryId
+                                                            ) >
+                                                            -calculateDaysDifference(
+                                                              allScore.find(
+                                                                (answer) =>
+                                                                  answer.refQCategoryId ===
+                                                                  category.refQCategoryId.toString()
+                                                              )
+                                                                .refPTcreatedDate
+                                                            ) ? (
                                                             <>
                                                               <div
                                                                 style={{
@@ -1765,7 +1903,7 @@ const PastReport: React.FC = () => {
           </IonContent>
           <IonFooter>
             <IonToolbar>
-              <ReportPDF type="pastReport" fromDate={fromDate} toDate={toDate} refPMId={refPMId} />
+              <ReportPDF reportDate={pastReport} />
             </IonToolbar>
           </IonFooter>
         </>

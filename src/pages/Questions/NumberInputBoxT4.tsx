@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
+import Domain from "../Domain/Domain";
 
 interface NumberInputBoxT4Props {
   type: string;
@@ -44,6 +45,7 @@ const NumberInputBoxT4: React.FC<NumberInputBoxT4Props> = ({
         }}
       >
         <div className="questions inputText">
+        <Domain questionId={label.questionId} />
           <p className="question ">{label.questionText}</p>
           <div className="p-inputgroup flex-1">
             <InputNumber
