@@ -1,11 +1,11 @@
 /* primary color - #1c70b0 -- blue */
 /* primary color - #33b725 -- green */
-* {
+*{
   font-family: "Nunito", serif;
   font-optical-sizing: auto;
   font-style: normal;
 }
-
+/*
 ion-segment {
   inset-block-end: 0;
   inset-inline-start: 0;
@@ -14,6 +14,7 @@ ion-segment {
   --background: #f7f7f7;
   position: fixed;
 }
+  */
 
 ion-content {
   block-size: 100vh;
@@ -23,6 +24,7 @@ ion-searchbar {
   background-color: #f7f7f7;
 }
 
+/*
 ion-segment-button {
   padding: 7px;
 }
@@ -34,6 +36,7 @@ ion-segment-button ion-label {
 ion-segment-button ion-icon {
   font-size: 24px;
 }
+*/
 
 .p-inputtext:focus,
 .p-password input:focus,
@@ -93,4 +96,27 @@ ion-checkbox::part(container) {
 /* ION TAB ROUTE HEIGHT */
 ion-tab-bar {
   height: 7vh;
+}
+
+.gradientButton01{
+  background: linear-gradient(57deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%);
+}
+
+.gradientButton02{
+  background: linear-gradient(230deg, rgb(15, 149, 232) 0%,rgb(3, 117, 198) 100%);
+}
+
+.gradientBackground02{
+  background: linear-gradient(-167deg, rgb(15, 149, 232) 0%,rgb(3, 117, 198) 100%);
+}
+
+.gradientBackground02_opacity{
+  background: linear-gradient(-167deg, rgba(15, 149, 232, 0.35) 0%,rgba(3, 117, 198, 0.35) 100%);
+}
+
+.medpredit-page-background {
+  background-image: url('../src/assets/images_new/BACKGROUND-02.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

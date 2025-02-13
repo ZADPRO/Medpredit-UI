@@ -7,7 +7,6 @@ import home1 from "../../assets/images/home1.jpg";
 import home2 from "../../assets/images/home2.jpg";
 import home3 from "../../assets/images/home3.jpg";
 
-import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg";
 import BACKGROUND_GetStarted from "../../assets/images_new/BACKGROUND_GetStarted.jpg";
 import BACKGROUND_Discover from "../../assets/images_new/BACKGROUND_Discover.jpg";
 import BACKGROUND_LearnAbout from "../../assets/images_new/BACKGROUND_LearnAbout.jpg";
@@ -212,7 +211,7 @@ const Login: React.FC = () => {
               <div className="carouselNavButtons">
                 <button
                   className="skipButton"
-                  onClick={() => goToPreviousSlide()}
+                  onClick={() => handleSkip('/enroll')}
                 >
                   Skip
                 </button>
@@ -242,7 +241,7 @@ const Login: React.FC = () => {
               <div className="carouselNavButtons">
                 <button
                   className="skipButton"
-                  onClick={() => goToPreviousSlide()}
+                  onClick={() => handleSkip('/enroll')}
                 >
                   Skip
                 </button>
@@ -271,7 +270,7 @@ const Login: React.FC = () => {
               <div className="carouselNavButtons">
                 <button
                   className="skipButton"
-                  onClick={() => goToPreviousSlide()}
+                  onClick={() => handleSkip('/enroll')}
                 >
                   Skip
                 </button>

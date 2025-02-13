@@ -43,7 +43,7 @@ const Splashscreen: React.FC = () => {
 
 
       <IonContent>
-        <div className="splashScreenContents ion-padding-start ion-padding-end" style={{ backgroundImage: `url(${BACKGROUND02})` }}>
+        <div className="splashScreenContents ion-padding-start ion-padding-end medpredit-page-background">
           <img src={logo2} alt="" />
         </div>
       </IonContent>
