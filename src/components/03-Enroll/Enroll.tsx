@@ -17,13 +17,17 @@ import React, { useEffect, useRef, useState } from "react";
 
 import logo from "../../assets/logo/logo.svg";
 import home1 from "../../assets/images/home1.jpg";
-import users from "../../assets/images/profile.png"
+import users from "../../assets/images/profile.png";
+import logo_new from "../../assets/logo_new/LOGO_Sign_In_Page.svg";
+import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg";
+import BACKGROUND03 from "../../assets/images_new/BACKGROUND_03.svg";
 
 import "./Enroll.css";
 import { arrowForwardOutline, image } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 import hospital from "../../assets/images/hospital.jpg";
+import hospital_new from "../../assets/images_new/HOSPITAL-07.svg";
 
 import axios from "axios";
 
@@ -32,6 +36,8 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
+import TextInput from "../../pages/FieldInputs/TextInput";
+import PasswordInput from "../../pages/FieldInputs/PasswordInput";
 
 interface HospitalData {
   refHospitalName: any;
@@ -116,7 +122,7 @@ const Enroll: React.FC = () => {
       } else {
         setErrorMessage("Invalid username or password");
 
-        setToastMessage("Invalid username or password");
+        setToastMessage("*Invalid username or password");
         setShowToast(true);
       }
     } catch (error) {
@@ -208,7 +214,7 @@ const Enroll: React.FC = () => {
       } else {
         setErrorMessage("Invalid username or password");
 
-        setToastMessage("Invalid username or password");
+        setToastMessage("*Invalid username or password");
         setShowToast(true);
       }
     } catch (error) {
@@ -243,6 +249,24 @@ const Enroll: React.FC = () => {
 
   const [hospitalsData, setHospitalData] = useState<HospitalData[]>([]);
 
+  const hospitalsDataSample = [
+    {
+      refHospitalName: "KMCH Hostpital",
+      FullAddress: "Salem, Salem, Salem, Salem",
+      refHospitalId: "0001",
+    },
+    {
+      refHospitalName: "Kauvery Hostpital",
+      FullAddress: "Salem, Salem, Salem, Salem",
+      refHospitalId: "0002",
+    },
+    {
+      refHospitalName: "Lotus Hostpital",
+      FullAddress: "Salem, Salem, Salem, Salem",
+      refHospitalId: "0003",
+    },
+  ]
+
   const handleChooseLanguage = (hospitalId: any) => {
     setHospitalModel(false);
     localStorage.setItem("hospitalId", hospitalId);
@@ -255,7 +279,7 @@ const Enroll: React.FC = () => {
 
   return (
     <IonPage ref={page}>
-      <IonContent>
+      {/*<IonContent>
         <IonModal
           mode="ios"
           isOpen={hospitalModel}
@@ -400,7 +424,8 @@ const Enroll: React.FC = () => {
                 Hi! Welcome Back, You've Been Missed !!
               </p>
               {/* <p>URL: {import.meta.env.VITE_API_URL}</p>
-              <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}
+              <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */} {" "}
+      {/*
             </div>
 
             <div
@@ -447,7 +472,8 @@ const Enroll: React.FC = () => {
                   }}
                 >
                   Forget Password ?
-                </div> */}
+                </div> */} {" "}
+      {/*
               </div>
               {showToast && <IonText color="danger">{errorMessage}</IonText>}{" "}
               {!loadingStatus ? (
@@ -534,8 +560,177 @@ const Enroll: React.FC = () => {
             </IonButton>
           </IonContent>
         </IonModal>
+      </IonContent>*/}
+
+    <IonContent>
+      <IonModal
+          id="signInModal"
+          mode="ios"
+          isOpen={hospitalModel}
+          onDidDismiss={() => {
+            setHospitalModel(false);
+          }}
+        >
+          <div className="ion-padding">
+            <div>
+              <div
+                style={{
+                  height: "8vh",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.5rem",
+                  fontWeight: "700",
+                  color: "#1764b7"
+                }}
+              >
+                <span>Choose Your</span>
+                <span>Hospital to Login</span>
+              </div>
+              <div
+                style={{
+                  height: "55vh",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "2rem",
+                  gap: "0.5rem",
+                }}
+              >
+                {hospitalsData.map((hospitalData, index) => (
+                  <div
+                    onClick={() => {
+                      handleChooseLanguage(hospitalData.refHospitalId);
+                    }}
+                    key={index}
+                    style={{
+                      borderRadius: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "0.9rem",
+                      fontWeight: "400",
+                      padding: "10px",
+                      background: "linear-gradient(90deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%)",
+                    }}
+                  >
+                    <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
+                      <img height={"50px"} src={hospital_new} alt="" />
+                      <div className="signInModalDescription">
+                        <div>{hospitalData.refHospitalName},</div>
+                        <div>
+                          {hospitalData.FullAddress}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </IonModal>
+
+        <IonModal
+          ref={modal}
+          mode="ios"
+          trigger="open-modal"
+          canDismiss={canDismiss}
+          presentingElement={presentingElement}
+        >
+          <IonHeader>
+            <IonToolbar>
+              <p className="termsCond">Terms & Conditions</p>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <p className="ion-padding-horizontal termsConditionsCont">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
+              eaque at ab perferendis optio dicta labore nisi illo consequatur
+              architecto. Cum exercitationem dicta sapiente recusandae molestiae
+              quaerat placeat odio et?
+            </p>
+            <IonItem>
+              <IonCheckbox
+                id="terms"
+                checked={canDismiss}
+                onIonChange={(ev) => {
+                  setCanDismiss(ev.detail.checked);
+                }}
+              >
+                <div className="ion-text-wrap">
+                  Do you accept the terms and conditions?
+                </div>
+              </IonCheckbox>
+            </IonItem>
+            <IonButton
+              disabled={!canDismiss}
+              onClick={handleContinue}
+              className="continueButton"
+            >
+              Continue
+              <IonIcon icon={arrowForwardOutline}></IonIcon>
+            </IonButton>
+          </IonContent>
+        </IonModal>
+
+        <div
+          className="signIn medpredit-page-background"
+        >
+          <img src={logo_new} alt="MEDPRiT_logo" />
+          <div className="signInWelcome">
+            <h2>Welcome to Medpredit!</h2>
+            <p>Let's Sign You In</p>
+            {/* <p>URL: {import.meta.env.VITE_API_URL}</p>
+            <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}
+          </div>
+          <div className="signInInputField" >
+            <TextInput
+              required
+              type="text"
+              name="username"
+              placeholder="Mobile Number"
+              value={signInData.username}
+              onChange={(e) => handleInputChange(e, true)}
+              error={errorMessage? true : false}
+            />
+            <PasswordInput
+              required
+              name="password"
+              placeholder="Password"
+              value={signInData.password}
+              onChange={(e) => handleInputChange(e, true)}
+              error={errorMessage? true : false}
+            />
+            <div
+              style={{
+                fontSize: "1.3rem",
+                fontWeight: "500",
+                color: "#1c70b0",
+                //margin: "3rem 0 2rem 0",
+              }}
+            >
+              Forget Password?
+            </div>
+          </div>
+          {showToast && <IonText color="danger">{toastMessage}</IonText>}{" "}
+          <div className="signInFooter">
+            <button
+              className="signInButton gradientBackground02"
+              //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
+              onClick={handleSignIn}
+              >
+              <IonRippleEffect></IonRippleEffect>
+              {!loadingStatus ? 'Login' : <i className="pi pi-spin pi-spinner"></i>}
+            </button>
+
+            <p>Don't have an Account? <span onClick={() => {history.push("/patientSignUp")}}>SignUp</span></p>
+          </div>
+        </div>
       </IonContent>
-    </IonPage>
+    </IonPage> 
   );
 };
 

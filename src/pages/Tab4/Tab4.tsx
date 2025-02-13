@@ -1,5 +1,6 @@
 import {
   IonBackButton,
+  IonButton,
   IonButtons,
   IonContent,
   IonHeader,
@@ -13,7 +14,7 @@ import {
 import "./Tab4.css";
 
 import profile from "../../assets/images/profile.png";
-
+import profile_new from "../../assets/logo_new/PROFILE_ICON-19.svg";
 import { Divider } from "primereact/divider";
 import {
   chatbubblesOutline,
@@ -28,6 +29,10 @@ import {
   starOutline,
   logOutOutline,
   lockClosedOutline,
+  arrowBack,
+  chevronBack,
+  settingsOutline,
+  person
 } from "ionicons/icons";
 import SettingsTile from "../SettingsTile/SettingsTile";
 import ListItem from "../ListItem/ListItem";
@@ -40,7 +45,6 @@ import { PiHospitalBold } from "react-icons/pi";
 import { MdOutlinePassword } from "react-icons/md";
 import { FaChevronRight } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
-import { FaLocationDot } from "react-icons/fa6";
 
 const Tab4: React.FC = () => {
   const overallSettings = [
@@ -56,20 +60,18 @@ const Tab4: React.FC = () => {
     userCustId: "",
     hospitalName: "",
   });
-  const tokenString: any = localStorage.getItem("userDetails");
-  const tokenObject = JSON.parse(tokenString);
-  const token = tokenObject.token;
 
   useEffect(() => {
+    const tokenString = localStorage.getItem("userDetails");
 
     if (tokenString) {
-
+      const tokenObject = JSON.parse(tokenString);
+      const token = tokenObject.token;
 
       Axios.post(
         `${import.meta.env.VITE_API_URL}/getProfile`,
         {
           hospitalId: localStorage.getItem("hospitalId"),
-          roleId: tokenObject.roleType
         },
         {
           headers: {
@@ -83,11 +85,7 @@ const Tab4: React.FC = () => {
           response.data[0],
           import.meta.env.VITE_ENCRYPTION_KEY
         );
-        console.log(data);
         if (data.status) {
-
-
-
           setUserData({
             name: data.data.refUserName,
             userCustId: data.data.refUserCustId,
@@ -100,6 +98,7 @@ const Tab4: React.FC = () => {
 
   return (
     <IonPage>
+      {/*
       <IonContent fullscreen>
         <div style={{ width: "100%", height: "93vh", background: "#f4f4f4" }}>
           <div
@@ -157,13 +156,7 @@ const Tab4: React.FC = () => {
                 }}
               >
                 <div style={{ marginTop: "1px" }}>
-                  {
-                    tokenObject.roleType === 3 ? (
-                      <FaLocationDot />
-                    ) : (
-                      <PiHospitalBold />
-                    )
-                  }
+                  <PiHospitalBold />
                 </div>
                 &nbsp;<div>{userData.hospitalName}</div>
               </div>
@@ -266,6 +259,48 @@ const Tab4: React.FC = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </IonContent> */}
+
+      <IonContent fullscreen>
+        <div className="tab4 medpredit-page-backround">
+          <div className="tab4TopDiv">
+            <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%",color: "white", fontSize: "1.2rem"}}>
+              <span style={{ position: "absolute", left: 0 }}></span>
+              <span>Profile</span>
+              <IonIcon icon={settingsOutline} style={{ position: "absolute", right: 0 }}></IonIcon>
+            </div>
+            
+            <div style={{
+                marginTop: "3rem",
+                height: "25vh",
+                width: "25vh"
+                }}>
+              <img src={profile_new}/>
+            </div>
+
+            <div style={{
+              color: "white"
+            }}>
+              <h2>{userData.name}</h2>
+            </div>
+          </div>
+
+          <div className="tab4BottomDiv">
+            <h3>ID: {userData.userCustId}</h3>
+            <h3>{userData.hospitalName}</h3>
+            <button style={{margin: "1rem"}}
+                          className="logOutButton gradientBackground02"
+                          onClick={() => {
+                            localStorage.clear();
+                            location.replace("/");
+                          }}
+                          //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
+                          >
+                          <IonRippleEffect></IonRippleEffect>
+                          {'Logout'}
+                        </button>
           </div>
         </div>
       </IonContent>
