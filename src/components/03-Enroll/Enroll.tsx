@@ -112,6 +112,9 @@ const Enroll: React.FC = () => {
           token: "Bearer " + data.token,
         };
 
+
+        localStorage.setItem("currentPatientId", userId);
+
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
 
         history.push("/home", {
@@ -183,6 +186,9 @@ const Enroll: React.FC = () => {
               roleType: data.roleType,
               token: "Bearer " + data.token,
             };
+
+            localStorage.setItem("currentPatientId", data.users[0].refUserId);
+            
 
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
             localStorage.setItem("hospitalId", data.hospitaId);

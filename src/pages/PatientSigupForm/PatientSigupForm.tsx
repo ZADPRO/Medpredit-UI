@@ -720,6 +720,7 @@ const PatientSignupForm = () => {
                 />
               </div>
             </div>
+
             <IonModal
               isOpen={isOpen}
               id="doctorDetailsGraph"
@@ -789,6 +790,7 @@ const PatientSignupForm = () => {
                 </div>
               </div>
             </IonModal>
+
             {/* Marital Status */}
             <div className="inputBox">
               <label>
@@ -977,7 +979,7 @@ const PatientSignupForm = () => {
                   onChange={handleInputChange}
                   placeholder="Enter Mobile Number"
                   name="refUserMobileno"
-                  // useGrouping={false}
+                // useGrouping={false}
                 />
               </div>
             </div>
@@ -1191,7 +1193,7 @@ const PatientSignupForm = () => {
                 style={{ display: "flex", fontSize: "1rem", color: "#45474b" }}
               >
                 {formData.refUserPassword === formData.refUserConPassword &&
-                formData.refUserPassword.length > 0 ? (
+                  formData.refUserPassword.length > 0 ? (
                   <div
                     style={{
                       width: "25px",

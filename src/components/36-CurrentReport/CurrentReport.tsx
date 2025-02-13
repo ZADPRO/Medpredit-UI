@@ -207,12 +207,12 @@ const CurrentReport: React.FC = () => {
 
             setTreatmentDetails(data.treatmentDetails);
 
-            setDoctorDetail({
-              doctorName: data.doctorDetail.doctorName,
-              doctorId: data.doctorDetail.doctorId,
-              hospital: data.doctorDetail.hospital,
-              hospitalAddress: data.doctorDetail.hospitalAddress,
-            });
+            // setDoctorDetail({
+            //   doctorName: data.doctorDetail.doctorName,
+            //   doctorId: data.doctorDetail.doctorId,
+            //   hospital: data.doctorDetail.hospital,
+            //   hospitalAddress: data.doctorDetail.hospitalAddress,
+            // });
 
             setPatientDetail({
               address1: data.patientDetail.address1,
@@ -428,7 +428,7 @@ const CurrentReport: React.FC = () => {
               onDidDismiss={() => setIsAlertOpen(false)}
             />
 
-            <div
+            {/* <div
               style={{
                 width: "100%",
                 borderRadius: "5px",
@@ -449,7 +449,7 @@ const CurrentReport: React.FC = () => {
               >
                 <FaUserDoctor />
               </div>
-            </div>
+            </div> */}
 
             <IonModal
               isOpen={isOpen}
@@ -1968,7 +1968,7 @@ const CurrentReport: React.FC = () => {
           </IonContent>
           <IonFooter>
             <IonToolbar>
-              <ReportPDF type="currentReport" fromDate="0" toDate="0" refPMId="0" />
+              <ReportPDF reportDate={new Date().toISOString().split("T")[0]} />
             </IonToolbar>
           </IonFooter>
         </>

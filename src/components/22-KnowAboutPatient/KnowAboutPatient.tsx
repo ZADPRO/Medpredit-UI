@@ -607,30 +607,21 @@ const KnowAboutPatient: React.FC = () => {
                                             {allreport.multipleDate.map(
                                               (muldate, index) => (
                                                 <div
+                                                  key={index}
                                                   style={{
                                                     padding: "10px",
                                                     background: "#f4f5f8",
+                                                    justifyContent: "center",
                                                     borderRadius: "10px",
+                                                    fontSize: "0.8rem"
                                                   }}
                                                   onClick={() => {
                                                     history.push(
-                                                      `/pastreport/${allreport.refptcreateddate
-                                                      }-${muldate}/${allreport.multipleDate[
-                                                        index + 1
-                                                      ]
-                                                        ? `${allreport.refptcreateddate
-                                                        }-${allreport
-                                                          .multipleDate[
-                                                        index + 1
-                                                        ]
-                                                        }`
-                                                        : "0"
-                                                      }/${allreport.refPMId}`
+                                                      `/pastreport/${muldate.refptcreateddate}`
                                                     );
                                                   }}
                                                 >
-                                                  {allreport.refptcreateddate}-
-                                                  {muldate}
+                                                  {muldate.refptcreateddate}
                                                 </div>
                                               )
                                             )}

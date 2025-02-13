@@ -131,7 +131,7 @@ const MainRoutes: React.FC = () => {
       sharpIcon: homeSharp,
     },
     {
-      name: "Check",
+      name: "Screening",
       path: "/checkup",
       outlineIcon: medkitOutline,
       sharpIcon: medkit,
@@ -451,7 +451,7 @@ const Admin = [
         <Route path="/addEmployee">
           <AddEmployee />
         </Route>
-        <Route path="/pastreport/:fromDate/:toDate/:refPMId">
+        <Route path="/pastreport/:pastReport">
           <PastReport />
         </Route>
         <Route exact path="/">
@@ -499,7 +499,7 @@ const Admin = [
         </Route>
 
         <Route path="/testingPdf">
-          <TestingPdf type="currentReport" fromDate="0" toDate="0" refPMId="0" />
+          <TestingPdf reportDate={"2025-02-07"} />
           {/* <TestingPdf type="pastReport" fromDate="2024-12-1" toDate="2024-12-16" refPMId="5" /> */}
         </Route>
 

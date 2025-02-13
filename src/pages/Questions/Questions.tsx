@@ -29,6 +29,7 @@ import TimeInputBox24 from "./TimeInputBox24";
 import TreatmentDetailsQuestion from "./TreatmentDetailsQuestion";
 import Label from "./Label";
 import GraphValues from "./GraphValues";
+import Hrs24 from "./Hrs24";
 
 interface DosageTime {
   dosage: number | null;
@@ -276,7 +277,7 @@ const Questions: React.FC = () => {
             employeeId: localStorage.getItem("currentDoctorId")
               ? localStorage.getItem("currentDoctorId")
               : null,
-            hospitalId: localStorage.getItem("hospitalId"),
+            hospitalId: localStorage.getItem("hospitalId") ? localStorage.getItem("hospitalId") : null,
           },
           {
             headers: {
@@ -292,6 +293,9 @@ const Questions: React.FC = () => {
             import.meta.env.VITE_ENCRYPTION_KEY
           );
 
+          console.log("--->====>", data);
+
+
           if (data.status) {
             const getCategory = localStorage.getItem("getCategory");
             if (getCategory) {
@@ -306,6 +310,9 @@ const Questions: React.FC = () => {
               setSubmittedAnswer([]);
             } else {
               console.error("getCategory is null or undefined");
+              setLoadingStatus(false);
+              history.goBack();
+              setSubmittedAnswer([]);
             }
           }
         });
@@ -422,10 +429,12 @@ const Questions: React.FC = () => {
     const categoryString: any = localStorage.getItem("getCategory");
     const categoryObject = JSON.parse(categoryString);
 
-    setBackwardQ({
-      id: categoryObject.id,
-      label: categoryObject.label,
-    });
+    if (categoryString) {
+      setBackwardQ({
+        id: categoryObject.id,
+        label: categoryObject.label,
+      });
+    }
   }, []);
 
   const handleInfoClick = () => {
@@ -633,6 +642,18 @@ const Questions: React.FC = () => {
               )}
 
               {question.questionType === "7" && (
+                // <TimeInputBox
+                //   type="text"
+                //   label={question}
+                //   onEdit={(questionType, value, forwardQId) => {
+                //     handleQuestionEdit(
+                //       question.questionId,
+                //       questionType,
+                //       value,
+                //       forwardQId
+                //     );
+                //   }}
+                // />
                 <TimeInputBox
                   type="text"
                   label={question}
@@ -685,6 +706,23 @@ const Questions: React.FC = () => {
                       question.questionId,
                       questionType,
                       value,
+                      forwardQId
+                    );
+                  }}
+                />
+              )}
+
+
+              {question.questionType === "11" && (
+                <Hrs24
+                  type="text"
+                  label={question}
+                  onEdit={(questionType, hrsValue, minsValue, forwardQId) => {
+                    handleHrsEdit(
+                      question.questionId,
+                      questionType,
+                      hrsValue,
+                      minsValue,
                       forwardQId
                     );
                   }}

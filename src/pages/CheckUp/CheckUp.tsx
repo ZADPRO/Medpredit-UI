@@ -11,10 +11,13 @@ import bmi from "../../assets/images/bmi.png";
 import sleep from "../../assets/images/sleep.png";
 import familyhistory from "../../assets/images/familyhistory.png";
 import SubCards from '../SubCategories/SubCards';
+import { useHistory } from 'react-router';
 
 const CheckUp = () => {
 
     const [category, setCategory] = useState([]);
+
+    const hsitory = useHistory();
 
 
     useEffect(() => {
@@ -29,8 +32,8 @@ const CheckUp = () => {
                     .post(
                         `${import.meta.env.VITE_API_URL}/getCategory `,
                         {
-                            SubCategoryId: "4",
-                            patientId: "",
+                            SubCategoryId: 4,
+                            patientId: localStorage.getItem("currentPatientId"),
                         },
                         {
                             headers: {
@@ -57,7 +60,7 @@ const CheckUp = () => {
             console.error("No token found in localStorage.");
         }
 
-    }, []);
+    }, [hsitory.location.pathname]);
 
 
 
