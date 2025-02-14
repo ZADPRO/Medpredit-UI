@@ -163,7 +163,6 @@ const MangeDoctor = () => {
                 >
                   <div>{element.name}</div>
                   <div>{element.refUserCustId}</div>
-                  <div> {index} {element.Id}</div>
                   <div
                     style={{
                       width: "100%",
