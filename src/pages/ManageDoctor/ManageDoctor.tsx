@@ -36,7 +36,7 @@ const MangeDoctor = () => {
           .post(
             `${import.meta.env.VITE_API_URL}/getUserList`,
             {
-              roleId: localStorage.getItem("createRoleId"),
+              roleId: "3",
               hospitalId: localStorage.getItem("hospitalId"),
             },
             {
@@ -163,6 +163,7 @@ const MangeDoctor = () => {
                 >
                   <div>{element.name}</div>
                   <div>{element.refUserCustId}</div>
+                  <div> {index} {element.Id}</div>
                   <div
                     style={{
                       width: "100%",
@@ -172,9 +173,8 @@ const MangeDoctor = () => {
                   >
                     <button
                       style={{ width: "48%" }}
-                      className={`optionButton ${
-                        element.activeStatus === "active" ? "selected" : ""
-                      }`}
+                      className={`optionButton ${element.activeStatus === "active" ? "selected" : ""
+                        }`}
                       onClick={() => {
                         handleActiveStatus(index, "active", element.Id);
                       }}
@@ -183,9 +183,8 @@ const MangeDoctor = () => {
                     </button>
                     <button
                       style={{ width: "48%" }}
-                      className={`optionButton ${
-                        element.activeStatus === "inactive" ? "selected" : ""
-                      }`}
+                      className={`optionButton ${element.activeStatus === "inactive" ? "selected" : ""
+                        }`}
                       onClick={() => {
                         handleActiveStatus(index, "inactive", element.Id);
                       }}
