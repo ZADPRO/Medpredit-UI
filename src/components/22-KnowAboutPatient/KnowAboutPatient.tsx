@@ -283,7 +283,7 @@ const currentYear = new Date().getFullYear();
   const [allReports, setAllReports] = useState<Report[]>([]);
   const [currentReport, setCurrentReport]: any = useState(false);
 console.log("allreports", allReports);
-console.log("281", (allReports?.filter(item => item.refptcreateddate == selectedMonth))[0]?.multipleDate)
+console.log("filter allreports", (allReports?.filter(item => item.refptcreateddate == selectedMonth))[0]?.multipleDate)
 
   const [navCategory, setNavCategory] = useState({
     id: "",
@@ -647,7 +647,6 @@ console.log("281", (allReports?.filter(item => item.refptcreateddate == selected
                                             }
                                           )}
                                         </div>
-                                        ;
                                       </div>
                                     )}
                                   </div>

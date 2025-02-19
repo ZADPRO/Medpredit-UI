@@ -65,7 +65,7 @@ import ManageDoctor from "../ManageDoctor/ManageDoctor";
 import TestingPdf from "../TestingPdf/TestingPdf";
 import CheckUp from "../CheckUp/CheckUp";
   
-  import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
+import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
 import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.svg";
 import patientSharpNew from "../../assets/logo_new/Patient_Icon.svg";
 import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.svg";
@@ -79,6 +79,8 @@ import configureSharpNew from "../../assets/logo_new/Configure_Icon.svg";
 import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.svg";
 import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.svg";
 import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.svg";
+
+import "./MainRoutes.css";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -532,40 +534,32 @@ const MainRoutes: React.FC = () => {
       </IonRouterOutlet>
 
       {showTabBar && (
-        <IonTabBar slot="bottom">
+        <IonTabBar id="mainIonToolbar" slot="bottom">
           {(roleType === 1
             ? doctor
             : roleType === 2
-              ? assistant
-              : roleType === 3
-                ? patient
-                : roleType === 4
-                  ? doctorAdmin
-                  : roleType === 5
-                    ? Admin
-                    : []
+            ? assistant
+            : roleType === 3
+            ? patient
+            : roleType === 4
+            ? doctorAdmin
+            : roleType === 5
+            ? Admin
+            : []
           ).map((element) => (
-            <IonTabButton tab={element.name} href={element.path}>
-              {element.name === "Disease" ? (
-                <img
-                  style={{ width: "38px", paddingTop: "5px" }}
-                  src={
-                    history.location.pathname === "/disease"
-                      ? element.sharpIcon
-                      : element.outlineIcon
-                  }
-                  alt="knowabout"
-                />
-              ) : (
-                <IonIcon
+            <IonTabButton className={location.pathname === element.path ? "mainIonTabButton gradientButton01" : "mainIonTabButton"} 
+                          tab={element.name} href={element.path}>
+              <IonIcon
                   icon={
                     location.pathname === element.path
                       ? element.sharpIcon
                       : element.outlineIcon
                   }
-                />
-              )}
-              <IonLabel style={{ fontSize: "12px" }}>{element.name}</IonLabel>
+              />
+              <IonLabel 
+                style={{ fontSize: "12px", color: location.pathname === element.path ? "white" : "#0375c6", }}>
+                  {element.name}
+              </IonLabel>
             </IonTabButton>
           ))}
         </IonTabBar>

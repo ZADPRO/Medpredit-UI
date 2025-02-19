@@ -264,7 +264,7 @@ const Tab4: React.FC = () => {
       </IonContent> */}
 
       <IonContent fullscreen>
-        <div className="tab4 medpredit-page-backround">
+        <div className="tab4 medpredit-page-background">
           <div className="tab4TopDiv">
             <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%",color: "white", fontSize: "1.2rem"}}>
               <span style={{ position: "absolute", left: 0 }}></span>

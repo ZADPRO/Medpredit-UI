@@ -318,7 +318,14 @@ import { chevronBack, chevronBackCircle, download } from "ionicons/icons";
             </div>
 
             <IonAccordionGroup>
-                <IonAccordion>Risk Factor</IonAccordion>
+                <IonAccordion>
+                  <IonItem slot="header" color="light">
+                    <IonLabel>{"diabetesData.AccordionTitle"}</IonLabel>
+                  </IonItem>
+                  <div slot="content">
+                    <p>ebxhxb</p>
+                  </div>
+                </IonAccordion>
                 <IonAccordion>Risk Factor</IonAccordion>
                 <IonAccordion>Risk Factor</IonAccordion>
             </IonAccordionGroup>
