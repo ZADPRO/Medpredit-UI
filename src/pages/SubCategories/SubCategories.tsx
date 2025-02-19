@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -12,6 +13,8 @@ import { useHistory, useParams } from "react-router";
 import SubCards from "./SubCards";
 import axios from "axios";
 import decrypt from "../../helper";
+import { chevronBack } from "ionicons/icons";
+import "./SubCategories.css";
 
 const SubCategories: React.FC = () => {
   const { categoryId, categroyName } = useParams<{
@@ -106,6 +109,7 @@ const SubCategories: React.FC = () => {
 
   return (
     <IonPage>
+      {/*}
       <IonHeader mode="ios">
         <IonToolbar className="pt-1 pb-1" mode="ios">
           <IonButtons slot="start">
@@ -144,6 +148,45 @@ const SubCategories: React.FC = () => {
             />
           </>
         )}
+      </IonContent>
+      */}
+
+      <IonContent fullscreen>
+        <div className="subCategories medpredit-page-background">
+          <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "0 auto", fontWeight: "bold"}}
+          >
+            <IonIcon size="large" style={{ position: "absolute", left: 0 }} onClick={() => history.goBack()} icon={chevronBack}></IonIcon>
+            <span>{categroyName}</span>
+            <span style={{ position: "absolute", right: 0 }}></span>
+          </div>
+
+          {loadingStatus ? (
+          <>
+            <div
+              style={{
+                width: "100%",
+                height: "90vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <i
+                className="pi pi-spin pi-spinner"
+                style={{ fontSize: "2rem", color: "#1a70b0" }}
+              ></i>
+            </div>
+          </>
+        ) : (
+          <>
+            <SubCards
+              data={categories}
+              categoryId={categoryId}
+              categroyName={categroyName}
+            />
+          </>
+        )}
+        </div>
       </IonContent>
     </IonPage>
   );

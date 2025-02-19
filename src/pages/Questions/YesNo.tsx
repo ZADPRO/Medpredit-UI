@@ -41,7 +41,8 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
   };
 
   return (
-    <div>
+    <>
+    {/*<div>
       <div className="questions multiInput">
       <Domain questionId={label.questionId} />
         <p className="question">{label.questionText}</p>
@@ -64,7 +65,28 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
         </div>
         <Divider />
       </div>
-    </div>
+    </div>*/}
+
+<div className="questionsType">
+        <p className="questionText">{label.questionText}</p>
+        <div className="questionsbuttonGroup_01">
+          {label.options?.map((option) => (
+            <button
+              key={option.refOptionId}
+              onClick={() =>
+                handleButtonClick(option.refOptionId, option.forwardQId)
+              }
+              className={`questionsTextOptions_01 ${
+                selectedValue === option.refOptionId ? "selected" : ""
+              }`}
+            >
+              {option.refOptionLabel}
+            </button>
+          ))}
+        </div>
+        <Divider />
+      </div>
+    </>
   );
 };
 

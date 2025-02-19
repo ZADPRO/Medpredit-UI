@@ -57,6 +57,8 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
   };
 
   return (
+    <>
+    {/*
     <div>
       <div className="questions multiInput">
         <Domain questionId={label.questionId} />
@@ -78,6 +80,28 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
         <Divider />
       </div>
     </div>
+    */}
+
+<div className="questionsType">
+        <p className="questionText">{label.questionText}</p>
+        <div className="questionsbuttonGroup_01">
+          {label.options?.map((option) => (
+            <button
+              key={option.refOptionId}
+              onClick={() =>
+                handleButtonClick(option.refOptionId, option.forwardQId)
+              }
+              className={`questionsTextOptions_01 ${
+                selectedValues.includes(option.refOptionId) ? "selected" : ""
+              }`}
+            >
+              {option.refOptionLabel}
+            </button>
+          ))}
+        </div>
+        <Divider />
+      </div>
+    </>
   );
 };
 

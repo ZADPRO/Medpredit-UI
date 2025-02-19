@@ -1,0 +1,32 @@
+.pastReport_toolBar{
+    background-color: #b8e1ff;
+    inline-size: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    color: #0c436c;
+}
+
+.pastReport_toolBar>button{
+    background-color: transparent;
+    color: #0c436c;
+}
+
+.pastReport_MainCategory{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    padding: 1rem 0;
+    margin: 0 auto;
+}
+
+.pastReport_MainCategory>div{
+    padding: 1rem 0.3rem;
+    background-color: #b8e1ff;
+    font-size: 0.75rem;
+    border-radius: 10px;
+    min-width: 5rem;
+    text-align: center;
+}
