@@ -20,12 +20,12 @@ const Splashscreen: React.FC = () => {
         const roleType = tokenObject.roleType;
 
         if (roleType === 1 || roleType === 2 || roleType === 3) {
-          history.push("/home");
+          history.replace("/home");
         } else {
-          history.push("/login");
+          history.replace("/login");
         }
       } else {
-        history.push("/login");
+        history.replace("/login");
       }
     }, 3000);
 
@@ -43,7 +43,8 @@ const Splashscreen: React.FC = () => {
 
 
       <IonContent>
-        <div className="splashScreenContents ion-padding-start ion-padding-end medpredit-page-background">
+        {/* style={{ backgroundImage: `url(${BACKGROUND02})` }} */}
+        <div className="splashScreenContents ion-padding-start ion-padding-end" >
           <img src={logo2} alt="" />
         </div>
       </IonContent>

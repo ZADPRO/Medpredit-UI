@@ -2033,7 +2033,7 @@ const StaffSignup = () => {
 
                 {/* Make as Admin */}
                 {
-                  localStorage.getItem("createRoleId") === "2" ? null :  (
+                  localStorage.getItem("createRoleId") === "2" ? null : (
                     <div
                       className="inputBox"
                       style={{ display: "flex", flexDirection: "row" }}

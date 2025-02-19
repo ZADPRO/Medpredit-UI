@@ -14,10 +14,6 @@ import Tab2 from "../Tab2/Tab2";
 import Tab3 from "../Tab3/Tab3";
 import Tab4 from "../Tab4/Tab4";
 import {
-  bookOutline,
-  bookSharp,
-  cogOutline,
-  cogSharp,
   homeOutline,
   homeSharp,
   medkit,
@@ -28,24 +24,9 @@ import {
   personSharp,
   settingsOutline,
   settingsSharp,
+  reader,
+  readerOutline
 } from "ionicons/icons";
-
-//new Icons starts
-import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
-import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.svg";
-import patientSharpNew from "../../assets/logo_new/Patient_Icon.svg";
-import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.svg";
-import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.svg";
-import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.svg";
-import adviceSharpNew from "../../assets/logo_new/Advice_Icon.svg";
-import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.svg";
-import profileSharpNew from "../../assets/logo_new/Profile_Icon.svg";
-import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.svg";
-import configureSharpNew from "../../assets/logo_new/Configure_Icon.svg";
-import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.svg";
-import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.svg";
-import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.svg";
-//new Icons ends
 
 import Login from "../../components/01-Login/Login";
 import Splashscreen from "../../components/00-Splashscreen/Splashscreen";
@@ -83,8 +64,21 @@ import MapAssistant from "../ManageAssistant/MapAssistant";
 import ManageDoctor from "../ManageDoctor/ManageDoctor";
 import TestingPdf from "../TestingPdf/TestingPdf";
 import CheckUp from "../CheckUp/CheckUp";
-
-import "./MainRoutes.css";
+  
+  import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
+import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.svg";
+import patientSharpNew from "../../assets/logo_new/Patient_Icon.svg";
+import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.svg";
+import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.svg";
+import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.svg";
+import adviceSharpNew from "../../assets/logo_new/Advice_Icon.svg";
+import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.svg";
+import profileSharpNew from "../../assets/logo_new/Profile_Icon.svg";
+import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.svg";
+import configureSharpNew from "../../assets/logo_new/Configure_Icon.svg";
+import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.svg";
+import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.svg";
+import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.svg";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -126,7 +120,6 @@ const MainRoutes: React.FC = () => {
     roleType = tokenObject.roleType;
   }
 
-  
   const patient = [
     {
       name: "Home",
@@ -135,7 +128,7 @@ const MainRoutes: React.FC = () => {
       sharpIcon: homeSharpNew,
     },
     {
-      name: "Screening",
+      name: "CheckList",
       path: "/checkup",
       outlineIcon: medkitOutlineNew,
       sharpIcon: medkitSharpNew,
@@ -173,6 +166,12 @@ const MainRoutes: React.FC = () => {
       path: "/patient",
       outlineIcon: patientOutlineNew,
       sharpIcon: patientSharpNew,
+    },
+    {
+      name: "Disease",
+      path: "/disease",
+      outlineIcon: knowabout,
+      sharpIcon: knowaboutOutline,
     },
     {
       name: "Profile",
@@ -533,7 +532,7 @@ const MainRoutes: React.FC = () => {
       </IonRouterOutlet>
 
       {showTabBar && (
-        <IonTabBar id="mainIonToolbar" slot="bottom">
+        <IonTabBar slot="bottom">
           {(roleType === 1
             ? doctor
             : roleType === 2
@@ -546,46 +545,33 @@ const MainRoutes: React.FC = () => {
                     ? Admin
                     : []
           ).map((element) => (
-            <IonTabButton className={location.pathname === element.path ? "mainIonTabButton gradientButton01" : "mainIonTabButton"} 
-            tab={element.name} href={element.path}>
-<IonIcon
-    icon={
-      location.pathname === element.path
-        ? element.sharpIcon
-        : element.outlineIcon
-    }
-/>
-
-{/*{element.name === "Disease" ? (
-  <img
-    style={{ width: "38px", paddingTop: "5px" }}
-    src={
-      history.location.pathname === "/disease"
-        ? element.sharpIcon
-        : element.outlineIcon
-    }
-    alt="knowabout"
-  />
-) : (
-  <IonIcon
-    icon={
-      location.pathname === element.path
-        ? element.sharpIcon
-        : element.outlineIcon
-    }
-  />
-)}*/}  
-
-<IonLabel 
-  style={{ fontSize: "12px", color: location.pathname === element.path ? "white" : "#0375c6", }}>
-    {element.name}
-</IonLabel>
-</IonTabButton>
-))}
-</IonTabBar>
-)}
-</IonTabs>
-);
+            <IonTabButton tab={element.name} href={element.path}>
+              {element.name === "Disease" ? (
+                <img
+                  style={{ width: "38px", paddingTop: "5px" }}
+                  src={
+                    history.location.pathname === "/disease"
+                      ? element.sharpIcon
+                      : element.outlineIcon
+                  }
+                  alt="knowabout"
+                />
+              ) : (
+                <IonIcon
+                  icon={
+                    location.pathname === element.path
+                      ? element.sharpIcon
+                      : element.outlineIcon
+                  }
+                />
+              )}
+              <IonLabel style={{ fontSize: "12px" }}>{element.name}</IonLabel>
+            </IonTabButton>
+          ))}
+        </IonTabBar>
+      )}
+    </IonTabs>
+  );
 };
 
 export default MainRoutes;

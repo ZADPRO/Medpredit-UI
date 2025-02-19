@@ -34,6 +34,9 @@ const MapAssistant = () => {
 
   const [load, setLoad] = useState(false);
 
+
+  const [activeStatus, setActiveStatus] = useState();
+
   useEffect(() => {
     loadData();
   }, []);
@@ -64,6 +67,7 @@ const MapAssistant = () => {
 
             if (data.status) {
               setDoctorList(data.doctorMapList);
+              setActiveStatus(data.userStatus)
             }
 
             console.log(data);
@@ -115,6 +119,41 @@ const MapAssistant = () => {
 
   const [mapId, setMapId] = useState("");
 
+
+  const handleActiveStatus = (value: any, doctorId: any) => {
+    if (tokenString) {
+      try {
+        axios
+          .post(
+            `${import.meta.env.VITE_API_URL}/postActiveStatus`,
+            {
+              doctorId: doctorId,
+              value: value,
+            },
+            {
+              headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+              },
+            }
+          )
+          .then((response) => {
+            const data = decrypt(
+              response.data[1],
+              response.data[0],
+              import.meta.env.VITE_ENCRYPTION_KEY
+            );
+
+            if (data.status) {
+              loadData();
+            }
+          });
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader mode="ios">
@@ -164,11 +203,10 @@ const MapAssistant = () => {
             flexDirection: "row",
             justifyContent: "space-between",
           }}
-          className="ion-activatable ripple-parent rectangle"
         >
-          <IonRippleEffect></IonRippleEffect>
           <div
             style={{
+              width: "100%",
               display: "flex",
               flexDirection: "column",
               gap: "10px",
@@ -176,6 +214,36 @@ const MapAssistant = () => {
           >
             <div>Name: {assistantName}</div>
             <div>ID: {assistantCustId}</div>
+
+
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <button
+                style={{ width: "48%" }}
+                className={`optionButton ${activeStatus === "active" ? "selected" : ""
+                  }`}
+                onClick={() => {
+                  handleActiveStatus("active", assistantId);
+                }}
+              >
+                Active
+              </button>
+              <button
+                style={{ width: "48%" }}
+                className={`optionButton ${activeStatus === "inactive" ? "selected" : ""
+                  }`}
+                onClick={() => {
+                  handleActiveStatus("inactive", assistantId);
+                }}
+              >
+                Inactive
+              </button>
+            </div>
           </div>
         </div>
         <div style={{ marginTop: "20px" }}>

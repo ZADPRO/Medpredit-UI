@@ -1,3 +1,4 @@
+
 .splashScreenContents {
   display: flex;
   flex-direction: column;
@@ -5,6 +6,9 @@
   justify-content: center;
   block-size: 100%;
   inline-size: 100%;
+  background: url("../../assets/images_new/BACKGROUND-02.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .splashScreenContents p {
