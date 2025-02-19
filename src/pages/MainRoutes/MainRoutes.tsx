@@ -27,6 +27,7 @@ import {
   reader,
   readerOutline
 } from "ionicons/icons";
+
 import Login from "../../components/01-Login/Login";
 import Splashscreen from "../../components/00-Splashscreen/Splashscreen";
 import Intro from "../../components/02-Intro/Intro";
@@ -63,6 +64,21 @@ import MapAssistant from "../ManageAssistant/MapAssistant";
 import ManageDoctor from "../ManageDoctor/ManageDoctor";
 import TestingPdf from "../TestingPdf/TestingPdf";
 import CheckUp from "../CheckUp/CheckUp";
+  
+  import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
+import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.svg";
+import patientSharpNew from "../../assets/logo_new/Patient_Icon.svg";
+import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.svg";
+import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.svg";
+import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.svg";
+import adviceSharpNew from "../../assets/logo_new/Advice_Icon.svg";
+import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.svg";
+import profileSharpNew from "../../assets/logo_new/Profile_Icon.svg";
+import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.svg";
+import configureSharpNew from "../../assets/logo_new/Configure_Icon.svg";
+import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.svg";
+import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.svg";
+import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.svg";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -108,26 +124,26 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      utlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "CheckList",
       path: "/checkup",
-      outlineIcon: readerOutline,
-      sharpIcon: reader,
+      outlineIcon: medkitOutlineNew,
+      sharpIcon: medkitSharpNew,
     },
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
 
   ];
@@ -136,14 +152,20 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      utlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
+    },
+    {
+      name: "Disease",
+      path: "/disease",
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Patient",
       path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
+      outlineIcon: patientOutlineNew,
+      sharpIcon: patientSharpNew,
     },
     {
       name: "Disease",
@@ -154,8 +176,8 @@ const MainRoutes: React.FC = () => {
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
 
@@ -163,82 +185,217 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      utlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Patient",
       path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
+      outlineIcon: patientOutlineNew,
+      sharpIcon: patientSharpNew,
     },
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
 
   const doctorAdmin = [
     {
-      name: "Home",
-      path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
-    },
-    {
-      name: "Patient",
-      path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
-    },
-    {
-      name: "Disease",
-      path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
-    },
-    {
-      name: "Configure",
-      path: "/configure",
-      outlineIcon: settingsOutline,
-      sharpIcon: settingsSharp,
-    },
-    {
-      name: "Profile",
-      path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
-    },
+          name: "Home",
+          path: "/home",
+          outlineIcon: homeOutlineNew,
+          sharpIcon: homeSharpNew,
+        },
+        {
+          name: "Patient",
+          path: "/patient",
+          outlineIcon: patientOutlineNew,
+          sharpIcon: patientSharpNew,
+        },
+        {
+          name: "Disease",
+          path: "/disease",
+          outlineIcon: knowAboutOutlineNew,
+          sharpIcon: knowAboutSharpNew,
+        },
+        {
+          name: "Configure",
+          path: "/configure",
+          outlineIcon: configureOutlineNew,
+          sharpIcon: configureSharpNew
+        },
+        {
+          name: "Profile",
+          path: "/settings",
+          outlineIcon: profileOutlineNew,
+          sharpIcon: profileSharpNew,
+        },
   ];
 
   const Admin = [
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      utlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Configure",
       path: "/configure",
-      outlineIcon: settingsOutline,
-      sharpIcon: settingsSharp,
+      outlineIcon: configureOutlineNew,
+          sharpIcon: configureSharpNew
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
+
+// const patient = [
+//   {
+//     name: "Home",
+//     path: "/home",
+//     outlineIcon: homeOutlineNew,
+//     sharpIcon: homeSharpNew,
+//   },
+//   {
+//     name: "Profile",
+//     path: "/settings",
+//     outlineIcon: profileOutlineNew,
+//     sharpIcon: profileSharpNew,
+//   },
+//   {
+//     name: "Disease",
+//     path: "/disease",
+//     outlineIcon: knowAboutOutlineNew,
+//     sharpIcon: knowAboutSharpNew,
+//   },
+// ];
+
+// const assistant = [
+//   {
+//     name: "Home",
+//     path: "/home",
+//     outlineIcon: homeOutlineNew,
+//     sharpIcon: homeSharpNew,
+//   },
+//   {
+//     name: "Disease",
+//     path: "/disease",
+//     outlineIcon: knowAboutOutlineNew,
+//     sharpIcon: knowAboutSharpNew,
+//   },
+//   {
+//     name: "Patient",
+//     path: "/patient",
+//     outlineIcon: patientOutlineNew,
+//     sharpIcon: patientSharpNew,
+//   },
+//   {
+//     name: "Profile",
+//     path: "/settings",
+//     outlineIcon: profileOutlineNew,
+//     sharpIcon: profileSharpNew,
+//   },
+// ];
+
+// const doctor = [
+//   {
+//     name: "Home",
+//     path: "/home",
+//     outlineIcon: homeOutlineNew,
+//     sharpIcon: homeSharpNew,
+//   },
+//   {
+//     name: "Patient",
+//     path: "/patient",
+//     outlineIcon: patientOutlineNew,
+//     sharpIcon: patientSharpNew,
+//   },
+//   {
+//     name: "Disease",
+//     path: "/disease",
+//     outlineIcon: knowAboutOutlineNew,
+//     sharpIcon: knowAboutSharpNew,
+//   },
+//   {
+//     name: "Advice",
+//     path: "/advice",
+//     outlineIcon: adviceOutlineNew,
+//     sharpIcon: adviceSharpNew,
+//   },
+//   {
+//     name: "Profile",
+//     path: "/settings",
+//     outlineIcon: profileOutlineNew,
+//     sharpIcon: profileSharpNew,
+//   },
+// ];
+
+// const doctorAdmin = [
+//   {
+//     name: "Home",
+//     path: "/home",
+//     outlineIcon: homeOutlineNew,
+//     sharpIcon: homeSharpNew,
+//   },
+//   {
+//     name: "Patient",
+//     path: "/patient",
+//     outlineIcon: patientOutlineNew,
+//     sharpIcon: patientSharpNew,
+//   },
+//   {
+//     name: "Disease",
+//     path: "/disease",
+//     outlineIcon: knowAboutOutlineNew,
+//     sharpIcon: knowAboutSharpNew,
+//   },
+//   {
+//     name: "Configure",
+//     path: "/configure",
+//     outlineIcon: settingsOutline,
+//     sharpIcon: settingsSharp,
+//   },
+//   {
+//     name: "Profile",
+//     path: "/settings",
+//     outlineIcon: profileOutlineNew,
+//     sharpIcon: profileSharpNew,
+//   },
+// ];
+
+// const Admin = [
+//   {
+//     name: "Home",
+//     path: "/home",
+//     outlineIcon: homeOutlineNew,
+//     sharpIcon: homeSharpNew,
+//   },
+//   {
+//     name: "Configure",
+//     path: "/configure",
+//     outlineIcon: settingsOutline,
+//     sharpIcon: settingsSharp,
+//   },
+//   {
+//     name: "Profile",
+//     path: "/settings",
+//     outlineIcon: profileOutlineNew,
+//     sharpIcon: profileSharpNew,
+//   },
+// ];
 
   return (
     <IonTabs>

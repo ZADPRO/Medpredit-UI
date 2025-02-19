@@ -67,7 +67,6 @@ const Enroll: React.FC = () => {
     password: "",
   });
 
-
   const [usersList, setUsersList] = useState([]);
 
   const [userModel, setUserModel] = useState(false);
@@ -89,8 +88,11 @@ const Enroll: React.FC = () => {
     });
   };
 
-
-  const handleChooseUser = async (username: any, password: any, userId: any) => {
+  const handleChooseUser = async (
+    username: any,
+    password: any,
+    userId: any
+  ) => {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/handleUserSignin`,
@@ -112,7 +114,6 @@ const Enroll: React.FC = () => {
           token: "Bearer " + data.token,
         };
 
-
         localStorage.setItem("currentPatientId", userId);
 
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -121,7 +122,6 @@ const Enroll: React.FC = () => {
           direction: "forward",
           animation: "slide",
         });
-
       } else {
         setErrorMessage("Invalid username or password");
 
@@ -134,7 +134,7 @@ const Enroll: React.FC = () => {
       setShowToast(true);
       setLoadingStatus(false);
     }
-  }
+  };
 
   const handleSignIn = async () => {
     setLoadingStatus(true);
@@ -149,6 +149,8 @@ const Enroll: React.FC = () => {
         response.data[0],
         import.meta.env.VITE_ENCRYPTION_KEY
       );
+
+      console.log();
 
       setLoadingStatus(false);
 
@@ -188,7 +190,6 @@ const Enroll: React.FC = () => {
             };
 
             localStorage.setItem("currentPatientId", data.users[0].refUserId);
-            
 
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
             localStorage.setItem("hospitalId", data.hospitaId);
@@ -198,8 +199,7 @@ const Enroll: React.FC = () => {
               animation: "slide",
             });
           } else if (data.action === "multiple") {
-
-            setUsersList(data.users)
+            setUsersList(data.users);
             setUserModel(true);
             setLoadingStatus(true);
           }
@@ -271,7 +271,7 @@ const Enroll: React.FC = () => {
       FullAddress: "Salem, Salem, Salem, Salem",
       refHospitalId: "0003",
     },
-  ]
+  ];
 
   const handleChooseLanguage = (hospitalId: any) => {
     setHospitalModel(false);
@@ -430,7 +430,7 @@ const Enroll: React.FC = () => {
                 Hi! Welcome Back, You've Been Missed !!
               </p>
               {/* <p>URL: {import.meta.env.VITE_API_URL}</p>
-              <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */} {" "}
+              <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}{" "}
       {/*
             </div>
 
@@ -478,7 +478,7 @@ const Enroll: React.FC = () => {
                   }}
                 >
                   Forget Password ?
-                </div> */} {" "}
+                </div> */}{" "}
       {/*
               </div>
               {showToast && <IonText color="danger">{errorMessage}</IonText>}{" "}
@@ -567,9 +567,75 @@ const Enroll: React.FC = () => {
           </IonContent>
         </IonModal>
       </IonContent>*/}
+      <IonContent>
 
-    <IonContent>
+
+
       <IonModal
+          mode="ios"
+          isOpen={userModel}
+          onDidDismiss={() => {
+            setUserModel(false);
+            setLoadingStatus(false);
+          }}
+          initialBreakpoint={0.75}
+        >
+          <IonContent className="ion-padding">
+            <div>
+              <div
+                style={{
+                  height: "8vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                Choose Your User to Login
+              </div>
+              <div
+                style={{
+                  height: "55vh",
+                  overflow: "hidden",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                {usersList.map((user: any, index) => (
+                  <div
+                    onClick={() => {
+                      handleChooseUser(signInData.username, signInData.password, user.refUserId);
+                    }}
+                    key={index}
+                    style={{
+                      borderRadius: "5px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "start",
+                      justifyContent: "center",
+                      fontSize: "16px",
+                    }}
+                  >
+                    <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
+                      <img height={60} src={users} alt="" />
+                      <div className="contents ml-3">
+                        <div>{user.refUserFname} {user.refUserLname}</div>
+                      </div>
+                    </div>
+                    <Divider className="m-2" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </IonContent>
+        </IonModal>
+
+
+
+        <IonModal
           id="signInModal"
           mode="ios"
           isOpen={hospitalModel}
@@ -588,7 +654,7 @@ const Enroll: React.FC = () => {
                   alignItems: "center",
                   fontSize: "1.5rem",
                   fontWeight: "700",
-                  color: "#1764b7"
+                  color: "#1764b7",
                 }}
               >
                 <span>Choose Your</span>
@@ -619,7 +685,8 @@ const Enroll: React.FC = () => {
                       fontSize: "0.9rem",
                       fontWeight: "400",
                       padding: "10px",
-                      background: "linear-gradient(90deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%)",
+                      background:
+                        "linear-gradient(90deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%)",
                     }}
                   >
                     <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
@@ -627,9 +694,7 @@ const Enroll: React.FC = () => {
                       <img height={"50px"} src={hospital_new} alt="" />
                       <div className="signInModalDescription">
                         <div>{hospitalData.refHospitalName},</div>
-                        <div>
-                          {hospitalData.FullAddress}
-                        </div>
+                        <div>{hospitalData.FullAddress}</div>
                       </div>
                     </div>
                   </div>
@@ -682,9 +747,7 @@ const Enroll: React.FC = () => {
           </IonContent>
         </IonModal>
 
-        <div
-          className="signIn medpredit-page-background"
-        >
+        <div className="signIn medpredit-page-background">
           <img src={logo_new} alt="MEDPRiT_logo" />
           <div className="signInWelcome">
             <h2>Welcome to Medpredit!</h2>
@@ -692,7 +755,7 @@ const Enroll: React.FC = () => {
             {/* <p>URL: {import.meta.env.VITE_API_URL}</p>
             <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}
           </div>
-          <div className="signInInputField" >
+          <div className="signInInputField">
             <TextInput
               required
               type="text"
@@ -700,7 +763,7 @@ const Enroll: React.FC = () => {
               placeholder="Mobile Number"
               value={signInData.username}
               onChange={(e) => handleInputChange(e, true)}
-              error={errorMessage? true : false}
+              error={errorMessage ? true : false}
             />
             <PasswordInput
               required
@@ -708,7 +771,7 @@ const Enroll: React.FC = () => {
               placeholder="Password"
               value={signInData.password}
               onChange={(e) => handleInputChange(e, true)}
-              error={errorMessage? true : false}
+              error={errorMessage ? true : false}
             />
             <div
               style={{
@@ -727,16 +790,29 @@ const Enroll: React.FC = () => {
               className="signInButton gradientBackground02"
               //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
               onClick={handleSignIn}
-              >
+            >
               <IonRippleEffect></IonRippleEffect>
-              {!loadingStatus ? 'Login' : <i className="pi pi-spin pi-spinner"></i>}
+              {!loadingStatus ? (
+                "Login"
+              ) : (
+                <i className="pi pi-spin pi-spinner"></i>
+              )}
             </button>
 
-            <p>Don't have an Account? <span onClick={() => {history.push("/patientSignUp")}}>SignUp</span></p>
+            <p>
+              Don't have an Account?{" "}
+              <span
+                onClick={() => {
+                  history.push("/patientSignUp");
+                }}
+              >
+                SignUp
+              </span>
+            </p>
           </div>
         </div>
       </IonContent>
-    </IonPage> 
+    </IonPage>
   );
 };
 

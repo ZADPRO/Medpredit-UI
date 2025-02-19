@@ -98,6 +98,14 @@ ion-tab-bar {
   height: 7vh;
 }
 
+:root {
+  --gradient-button-01: linear-gradient(57deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%);
+  --gradient-button-02: linear-gradient(230deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%);
+  --gradient-button-02-opacity: linear-gradient(230deg, rgba(15, 149, 232, 0.4) 0%, rgba(3, 117, 198, 0.4) 100%);
+  --gradient-background-02: linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%);
+  --gradient-background-02-opacity: linear-gradient(-167deg, rgba(15, 149, 232, 0.35) 0%, rgba(3, 117, 198, 0.35) 100%);
+}
+
 .gradientButton01{
   background: linear-gradient(57deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%);
 }

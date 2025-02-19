@@ -1,4 +1,47 @@
-.filters {
+.tab2{
+  inline-size: 100%;
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tab2TopDiv{
+  block-size: 80vh;
+  color: #0c436c;
+  margin: 0 10%;
+  padding: 5% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab2Cards{
+  inline-size: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tab2BottomDiv{
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15vh;
+}
+
+.tab2BottomDiv>button{
+  padding: 1rem;
+  border-radius: 1rem;
+  width: 70%;
+  color: white;
+  font-size: 1rem;
+}
+
+/*.filters {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -53,7 +96,7 @@
 
 .addIcon {
   margin-right: 10px;
-  /* background-color: #51c145; */
+  /* background-color: #51c145; */ /*
   background: linear-gradient(160deg, #077556, #2f9f97);
   color: #fff;
   width: 30px;
@@ -64,13 +107,13 @@
 }
 
 .addIcon.disabled {
-  background-color: #9dc598; /* Light gray for disabled state */
-  color: #f3f3f3; /* Dimmed icon color */
-  cursor: not-allowed; /* Shows the element is not interactive */
-  opacity: 0.6; /* Slight transparency for visual feedback */
+  background-color: #9dc598; /* Light gray for disabled state */ /*
+  color: #f3f3f3; 
+  cursor: not-allowed;
+  opacity: 0.6; 
 }
 
-/* PATIENT CARDS STYLES */
+/* PATIENT CARDS STYLES 
 
 .patientContents {
   padding-inline-start: 10px;
@@ -87,7 +130,7 @@
   display: flex;
   overflow: auto;
   flex-direction: column;
-  /* gap: 10px; */
+  /* gap: 10px; 
 }
 
 .patientCardsParent .patientCard {
@@ -127,7 +170,7 @@
   font-weight: bold;
 }
 
-/* PAGINATOR STYLES */
+/* PAGINATOR STYLES 
 .pagination {
   display: flex;
   align-items: center;
@@ -157,7 +200,7 @@
   background-color: #ddd;
 }
 
-/* ADD USER STYLES */
+/* ADD USER STYLES 
 
 .carouselDivForm {
   display: flex;
@@ -237,7 +280,7 @@
   color: white;
 }
 
-/* KNOW ABOUT CARDS */
+/* KNOW ABOUT CARDS 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -279,14 +322,14 @@
   }
 }
 
-/* Web view: 4 items per row */
+/* Web view: 4 items per row 
 @media (min-width: 1024px) {
   .grid-container {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* QUESTIONS */
+/* QUESTIONS 
 .questionContainers {
   padding: 10px;
   display: flex;
@@ -348,21 +391,21 @@
   gap: 20px;
 }
 
-/* YES OR NO OR OPTION BUTTONS */
+/* YES OR NO OR OPTION BUTTONS 
 .buttonGroup {
   display: grid;
   gap: 10px;
 }
 
-/* Mobile view (default): Buttons stack one on top of another */
+/* Mobile view (default): Buttons stack one on top of another 
 .buttonGroup {
-  grid-template-columns: 1fr; /* One button per row */
+  grid-template-columns: 1fr; /* One button per row 
 }
 
-/* Tablet and Desktop views: Two buttons per row */
+/* Tablet and Desktop views: Two buttons per row 
 @media (min-width: 768px) {
   .buttonGroup {
-    grid-template-columns: repeat(2, 1fr); /* Two buttons per row */
+    grid-template-columns: repeat(2, 1fr); /* Two buttons per row 
   }
 }
 
@@ -385,7 +428,7 @@
   border-color: #6b7280;
 }
 
-/* SUB CARDS STYLES */
+/* SUB CARDS STYLES 
 .subCardContents {
   display: flex;
   flex-direction: column;
@@ -429,7 +472,7 @@
   justify-content: space-between;
 }
 
-/* CIRCULAR PROGRESS BAR */
+/* CIRCULAR PROGRESS BAR 
 
 .circularProgress {
   display: flex;
@@ -460,3 +503,5 @@
 .subCardContents .p-divider.p-divider-horizontal {
   margin: 0.75rem 0;
 }
+
+*/

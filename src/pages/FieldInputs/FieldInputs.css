@@ -1,35 +1,61 @@
 .custom-text-Input {
-    width: 100%;
-    padding: 1rem 2rem 1rem 1rem;
-    border-radius: 1rem;
-    border: 1.2px solid lightgray;
+  width: 100%;
+  padding: 1rem 2rem 1rem 1rem;
+  border-radius: 1rem;
+  border: 1.2px solid lightgray;
 }
 
-.custom-text-Input:focus-within, .custom-password-Input:focus-within {
-    border: 1.5px solid #0285dc;
-  }
-
-.custom-text-Input.error, .custom-password-Input.error {
-    border: 1.2px solid red;
+.custom-text-Input:focus,
+.custom-password-Input:focus {
+  border: 1.5px solid #0285dc;
 }
 
 .custom-text-Input input::placeholder,
 .custom-password-Input input::placeholder {
-    color: #aaa;
+  color: #aaa;
 }
 
 .custom-password-Input {
-    width: 100%;
-    padding: 1rem 2rem 1rem 1rem;
-    border-radius: 1rem;
-    border: 1.2px solid lightgray;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  width: 100%;
+  padding: 1rem 2rem 1rem 1rem;
+  border-radius: 1rem;
+  border: 1.2px solid lightgray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.custom-password-Input input,
-.custom-text-Input input {
-    all: unset;
-    margin: 0;
+.custom-password-Input input, .custom-text-Input input  {
+  all: unset;
+  margin: 0;
+}
+
+.custom-search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 200px;
+  width: 100%;
+  padding: 0.3rem;
+  background-color: white;
+}
+
+.custom-search-bar>input {
+  all: unset;
+  padding-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.custom-search-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-search-button:hover {
+  color: #007bff;
 }
