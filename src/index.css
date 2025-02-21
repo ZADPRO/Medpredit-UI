@@ -6,6 +6,72 @@
   font-style: normal;
 }
 
+
+/* Modal Styles */
+ion-modal#doctorDetailsGraph {
+  --width: 90%;
+  --height: auto;
+  --border-radius: 6px;
+  /* --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); */
+  --justify-content: start;
+  --align-items: start;
+  --max-height: 90vh; /* Prevent overflow */
+  overflow: auto; /* Allow scrolling if needed */
+}
+
+/* Modal Content */
+.doctor-modal-content {
+  padding: 10px;
+  border-radius: 5px;
+  background: white;
+}
+
+/* Header */
+.doctor-modal-header {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Details */
+.doctor-modal-details {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 15px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
+/* Close Button */
+.doctor-modal-close-btn {
+  width: 100%;
+  height: 3rem;
+  margin: 5px 0;
+  border-radius: 5px;
+  background: #e6e6e6;
+  color: #000;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.doctor-modal-close-btn:hover {
+  background: #d4d4d4;
+}
+
+.doctor-modal-close-btn:focus {
+  outline: 2px solid #000;
+}
+
+
+
+/*
 ion-segment {
   inset-block-end: 0;
   inset-inline-start: 0;
@@ -14,6 +80,7 @@ ion-segment {
   --background: #f7f7f7;
   position: fixed;
 }
+  */
 
 ion-content {
   block-size: 100vh;
@@ -23,6 +90,7 @@ ion-searchbar {
   background-color: #f7f7f7;
 }
 
+/*
 ion-segment-button {
   padding: 7px;
 }
@@ -34,6 +102,7 @@ ion-segment-button ion-label {
 ion-segment-button ion-icon {
   font-size: 24px;
 }
+*/
 
 .p-inputtext:focus,
 .p-password input:focus,
@@ -93,4 +162,87 @@ ion-checkbox::part(container) {
 /* ION TAB ROUTE HEIGHT */
 ion-tab-bar {
   height: 7vh;
+}
+
+:root {
+  --gradient-button-01: linear-gradient(
+    57deg,
+    rgb(15, 149, 232) 0%,
+    rgb(3, 117, 198) 100%
+  );
+  --gradient-button-02: linear-gradient(
+    230deg,
+    rgb(15, 149, 232) 0%,
+    rgb(3, 117, 198) 100%
+  );
+  --gradient-button-02-opacity: linear-gradient(
+    230deg,
+    rgba(15, 149, 232, 0.4) 0%,
+    rgba(3, 117, 198, 0.4) 100%
+  );
+  --gradient-background-02: linear-gradient(
+    -167deg,
+    rgb(15, 149, 232) 0%,
+    rgb(3, 117, 198) 100%
+  );
+  --gradient-background-02-opacity: linear-gradient(
+    142deg,
+    rgba(182, 227, 247, 1) 0%,
+    rgba(198, 233, 252, 1) 100%
+  );
+}
+
+.gradientButton01 {
+  background: linear-gradient(
+    57deg,
+    rgba(14, 149, 231, 1) 0%,
+    rgb(3, 118, 199) 100%
+  );
+}
+
+.gradientButton02 {
+  background: linear-gradient(
+    230deg,
+    rgb(15, 149, 232) 0%,
+    rgb(3, 117, 198) 100%
+  );
+}
+
+.gradientBackground02 {
+  background: linear-gradient(
+    -167deg,
+    rgb(15, 149, 232) 0%,
+    rgb(3, 117, 198) 100%
+  );
+}
+
+.gradientBackground02_opacity {
+  background: linear-gradient(
+    -167deg,
+    rgba(15, 149, 232, 0.35) 0%,
+    rgba(3, 117, 198, 0.35) 100%
+  );
+}
+
+.backgroundColor01{
+  background: rgb(184, 225, 255);
+}
+
+.medpredit-page-background {
+  background: linear-gradient(
+    227deg,
+    rgba(255, 255, 255, 1) 39%,
+    rgba(255, 255, 255, 1) 61%,
+    rgba(217, 240, 255, 1) 100%
+  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+.boxShadow01{
+  -webkit-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
 }

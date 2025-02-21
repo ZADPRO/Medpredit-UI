@@ -154,8 +154,7 @@ const PatientSignupForm = () => {
 
   const verifyForm4 = () => {
     if (
-      !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
-      formData.refUserEmail.length === 0
+      !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno)
     ) {
       setToastOpen({ status: true, message: "Enter Valid Mobile Number" });
       return false;
@@ -303,7 +302,7 @@ const PatientSignupForm = () => {
   };
 
   return (
-    <div>
+    <div className="ion-padding">
       {/* Occupation Model */}
       <IonModal
         isOpen={occupationModel}
@@ -658,11 +657,13 @@ const PatientSignupForm = () => {
               <label>
                 First Name <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                <span className="p-inputgroup-addon">
-                  <i className="pi pi-user"></i>
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-user "></i>
                 </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refUserFname}
                   onChange={handleInputChange}
                   placeholder="Enter First Name"
@@ -675,11 +676,13 @@ const PatientSignupForm = () => {
               <label>
                 Last Name <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                <span className="p-inputgroup-addon">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
                   <i className="pi pi-user"></i>
                 </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refUserLname}
                   onChange={handleInputChange}
                   placeholder="Enter Last Name"
@@ -692,14 +695,18 @@ const PatientSignupForm = () => {
               <label>
                 Gender <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup flex-1">
+              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-mars"></i>
+                </span>
                 <Dropdown
                   value={formData.refGender}
                   onChange={(e) => handleDropdownChange(e, "refGender")}
                   options={genderOpt}
+                  style={{ textAlign: "left" }}
                   placeholder="Select Gender"
                   name="refGender"
-                  className="w-full"
+                  className="addFamilyDropdown"
                   checkmark={true}
                   highlightOnSelect={false}
                 />
@@ -710,11 +717,15 @@ const PatientSignupForm = () => {
               <label>
                 Date of Birth <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup flex-1">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-calendar "></i>
+                </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refDOB ? formData.refDOB.split("T")[0] : ""}
                   placeholder="Date of Birth"
-                  className="w-full"
                   name="refDOB"
                   onClick={openModal}
                 />
@@ -728,7 +739,7 @@ const PatientSignupForm = () => {
               onDidDismiss={closeModal}
               animated={false}
             >
-              <div style={{ width: "100%", background: "#f4f5f7" }}>
+              <div style={{ width: "100%", background: "#effafe" }}>
                 <IonDatetime
                   presentation="date"
                   preferWheel={true}
@@ -744,7 +755,7 @@ const PatientSignupForm = () => {
                 <Divider />
                 <div
                   style={{
-                    background: "#f4f5f7",
+                    background: "#effafe",
                     display: "flex",
                     justifyContent: "space-evenly",
                     width: "100%",
@@ -761,13 +772,13 @@ const PatientSignupForm = () => {
                     }}
                     style={{
                       width: "40%",
-                      background: "#505050",
+                      background: "#ceebfb",
                       padding: "15px",
                       textAlign: "center",
-                      fontSize: "1rem",
-                      color: "#fff",
+                      fontSize: "1.1rem",
+                      color: "#0c3f69",
                       borderRadius: "10px",
-                      fontWeight: "700",
+                      fontWeight: "600",
                     }}
                   >
                     Clear
@@ -776,13 +787,13 @@ const PatientSignupForm = () => {
                     onClick={closeModal}
                     style={{
                       width: "40%",
-                      background: "green",
+                      background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                       padding: "15px",
                       textAlign: "center",
                       fontSize: "1rem",
                       color: "#fff",
                       borderRadius: "10px",
-                      fontWeight: "700",
+                      fontWeight: "700"
                     }}
                   >
                     Set
@@ -796,14 +807,18 @@ const PatientSignupForm = () => {
               <label>
                 Marital Status <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup flex-1">
+              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-users"></i>
+                </span>
                 <Dropdown
                   value={formData.refMaritalStatus}
+                  style={{ textAlign: "left" }}
                   onChange={(e) => handleDropdownChange(e, "refMaritalStatus")}
                   options={refMaritalStatus}
                   placeholder="Select Marital Status"
                   name="refGender"
-                  className="w-full"
+                  className="addFamilyDropdown"
                   checkmark={true}
                   highlightOnSelect={false}
                 />
@@ -818,18 +833,19 @@ const PatientSignupForm = () => {
               <label>
                 Education <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                <span className="p-inputgroup-addon">
+              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                <span className="addFamilyInputField_Icon">
                   <i className="pi pi-graduation-cap"></i>
                 </span>
                 <Dropdown
                   value={formData.refEducation}
                   name="educationOpt"
+                  style={{ textAlign: "left" }}
                   onChange={(e) => handleDropdownChange(e, "refEducation")}
                   options={educationOpt}
                   optionLabel="name"
                   placeholder="Select Education"
-                  className="w-full"
+                  className="addFamilyDropdown"
                   checkmark={true}
                   highlightOnSelect={false}
                 />
@@ -840,18 +856,19 @@ const PatientSignupForm = () => {
               <label>
                 Occupation <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                <span className="p-inputgroup-addon">
+              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                <span className="addFamilyInputField_Icon">
                   <i className="pi pi-briefcase"></i>
                 </span>
                 <Dropdown
                   value={formData.refProfession}
+                  style={{ textAlign: "left" }}
                   name="refProfession"
                   onChange={(e) => handleDropdownChange(e, "refProfession")}
                   options={occupationcategoryOtp}
                   optionLabel="name"
                   placeholder="Occupation Category"
-                  className="w-full"
+                  className="addFamilyDropdown"
                   checkmark={true}
                   highlightOnSelect={false}
                 />
@@ -870,11 +887,13 @@ const PatientSignupForm = () => {
               <label>
                 Sector <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
+              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
                 {/* <span className="p-inputgroup-addon">
                   <i className="pi pi-user"></i>
                 </span> */}
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refSector}
                   onChange={handleInputChange}
                   placeholder="Enter Sector"
@@ -897,11 +916,13 @@ const PatientSignupForm = () => {
             {/* Education */}
             <div className="inputBox">
               <label>Email</label>
-              <div className="p-inputgroup">
-                <span className="p-inputgroup-addon">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
                   <i className="pi pi-envelope"></i>
                 </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refUserEmail}
                   onChange={handleInputChange}
                   placeholder="Enter Email"
@@ -914,13 +935,16 @@ const PatientSignupForm = () => {
               <label>
                 Address <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                <InputTextarea
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-map-marker"></i>
+                </span>
+                <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refAddress}
                   onChange={handleInputChange}
                   placeholder="Enter Address"
-                  style={{ borderRadius: "5px" }}
-                  rows={3}
                   name="refAddress"
                 />
               </div>
@@ -930,11 +954,13 @@ const PatientSignupForm = () => {
               <label>
                 District <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                {/* <span className="p-inputgroup-addon">
-                  <i className="pi pi-envelope"></i>
-                </span> */}
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-map-marker"></i>
+                </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refDistrict}
                   onChange={handleInputChange}
                   placeholder="Enter District"
@@ -947,11 +973,13 @@ const PatientSignupForm = () => {
               <label>
                 Pincode <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
-                {/* <span className="p-inputgroup-addon">
-                  <i className="pi pi-envelope"></i>
-                </span> */}
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <span className="addFamilyInputField_Icon">
+                  <i className="pi pi-map-marker"></i>
+                </span>
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   type="number"
                   value={formData.refPincode}
                   onChange={handleInputChange}
@@ -969,11 +997,13 @@ const PatientSignupForm = () => {
               <label>
                 Mobile Number <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                 {/* <span className="p-inputgroup-addon">
-                  <i className="pi pi-envelope"></i>
-                </span> */}
+                                        <i className="pi pi-envelope"></i>
+                                      </span> */}
                 <InputText
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   type="number"
                   value={formData.refUserMobileno}
                   onChange={handleInputChange}
@@ -988,11 +1018,12 @@ const PatientSignupForm = () => {
               <label>
                 Password <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                 <Password
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refUserPassword}
                   onChange={handleInputChange}
-                  style={{ borderRadius: "10px" }}
                   placeholder="Enter Password"
                   name="refUserPassword"
                   toggleMask
@@ -1006,11 +1037,12 @@ const PatientSignupForm = () => {
               <label>
                 Confirm Password <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="p-inputgroup">
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                 <Password
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
                   value={formData.refUserConPassword}
                   onChange={handleInputChange}
-                  style={{ borderRadius: "10px" }}
                   placeholder="Enter Confirm Password"
                   name="refUserConPassword"
                   toggleMask

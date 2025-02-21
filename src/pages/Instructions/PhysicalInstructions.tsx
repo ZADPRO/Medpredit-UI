@@ -16,18 +16,18 @@ import {
 
 const PhysicalInstructions: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Physical%20Activity/8"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Physical Activity Instructions</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Physical%20Activity/8"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Physical Activity Instructions</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonItem lines="none">
           <IonLabel style={{ textAlign: "justify", fontWeight: "bold" }}>
@@ -49,7 +49,7 @@ const PhysicalInstructions: React.FC = () => {
 
         </IonList>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

@@ -14,10 +14,6 @@ import Tab2 from "../Tab2/Tab2";
 import Tab3 from "../Tab3/Tab3";
 import Tab4 from "../Tab4/Tab4";
 import {
-  bookOutline,
-  bookSharp,
-  cogOutline,
-  cogSharp,
   homeOutline,
   homeSharp,
   medkit,
@@ -28,7 +24,10 @@ import {
   personSharp,
   settingsOutline,
   settingsSharp,
+  reader,
+  readerOutline,
 } from "ionicons/icons";
+
 import Login from "../../components/01-Login/Login";
 import Splashscreen from "../../components/00-Splashscreen/Splashscreen";
 import Intro from "../../components/02-Intro/Intro";
@@ -66,15 +65,35 @@ import ManageDoctor from "../ManageDoctor/ManageDoctor";
 import TestingPdf from "../TestingPdf/TestingPdf";
 import CheckUp from "../CheckUp/CheckUp";
 
+import homeSharpNew from "../../assets/logo_new/Home_Icon.png";
+import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.png";
+import patientSharpNew from "../../assets/logo_new/Patient_Icon.png";
+import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.png";
+import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.png";
+import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.png";
+import adviceSharpNew from "../../assets/logo_new/Advice_Icon.png";
+import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.png";
+import profileSharpNew from "../../assets/logo_new/Profile_Icon.png";
+import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.png";
+import configureSharpNew from "../../assets/logo_new/Configure_Icon.png";
+import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.png";
+import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.png";
+import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.png";
+
+
+import "./MainRoutes.css";
+
 const MainRoutes: React.FC = () => {
   const location = useLocation();
 
   const configureStatusBar = async () => {
     const path = location.pathname;
     let bgcolor = "#ffffff";
-    // if (path === "/splash") {
-    //   bgcolor = "#d90216";
-    // }
+    if (path === "/settings") {
+      bgcolor = "#0969b3";
+    } else if (path === "/currentReport/:reportDate" || path === "/pastreport/:reportDate") {
+      bgcolor = "#b8e1ff";
+    }
     // Change the color (example: blue)
     await StatusBar.setBackgroundColor({ color: bgcolor });
 
@@ -110,54 +129,53 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      outlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
-      name: "Screening",
+      name: "CheckList",
       path: "/checkup",
-      outlineIcon: medkitOutline,
-      sharpIcon: medkit,
+      outlineIcon: medkitOutlineNew,
+      sharpIcon: medkitSharpNew,
     },
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
-
   ];
 
   const assistant = [
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
-    },
-    {
-      name: "Disease",
-      path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Patient",
       path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
+      outlineIcon: patientOutlineNew,
+      sharpIcon: patientSharpNew,
+    },
+    {
+      name: "Disease",
+      path: "/disease",
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
 
@@ -165,26 +183,26 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      outlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Patient",
       path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
+      outlineIcon: patientOutlineNew,
+      sharpIcon: patientSharpNew,
     },
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
 
@@ -192,32 +210,32 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      outlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Patient",
       path: "/patient",
-      outlineIcon: personAddOutline,
-      sharpIcon: personAddSharp,
+      outlineIcon: patientOutlineNew,
+      sharpIcon: patientSharpNew,
     },
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Configure",
       path: "/configure",
-      outlineIcon: settingsOutline,
-      sharpIcon: settingsSharp,
+      outlineIcon: configureOutlineNew,
+      sharpIcon: configureSharpNew
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
 
@@ -225,22 +243,157 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      outlineIcon: homeOutline,
-      sharpIcon: homeSharp,
+      outlineIcon: homeOutlineNew,
+      sharpIcon: homeSharpNew,
     },
     {
       name: "Configure",
       path: "/configure",
-      outlineIcon: settingsOutline,
-      sharpIcon: settingsSharp,
+      outlineIcon: configureOutlineNew,
+      sharpIcon: configureSharpNew,
     },
     {
       name: "Profile",
       path: "/settings",
-      outlineIcon: personOutline,
-      sharpIcon: personSharp,
+      outlineIcon: profileOutlineNew,
+      sharpIcon: profileSharpNew,
     },
   ];
+
+  // const patient = [
+  //   {
+  //     name: "Home",
+  //     path: "/home",
+  //     outlineIcon: homeOutlineNew,
+  //     sharpIcon: homeSharpNew,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     path: "/settings",
+  //     outlineIcon: profileOutlineNew,
+  //     sharpIcon: profileSharpNew,
+  //   },
+  //   {
+  //     name: "Disease",
+  //     path: "/disease",
+  //     outlineIcon: knowAboutOutlineNew,
+  //     sharpIcon: knowAboutSharpNew,
+  //   },
+  // ];
+
+  // const assistant = [
+  //   {
+  //     name: "Home",
+  //     path: "/home",
+  //     outlineIcon: homeOutlineNew,
+  //     sharpIcon: homeSharpNew,
+  //   },
+  //   {
+  //     name: "Disease",
+  //     path: "/disease",
+  //     outlineIcon: knowAboutOutlineNew,
+  //     sharpIcon: knowAboutSharpNew,
+  //   },
+  //   {
+  //     name: "Patient",
+  //     path: "/patient",
+  //     outlineIcon: patientOutlineNew,
+  //     sharpIcon: patientSharpNew,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     path: "/settings",
+  //     outlineIcon: profileOutlineNew,
+  //     sharpIcon: profileSharpNew,
+  //   },
+  // ];
+
+  // const doctor = [
+  //   {
+  //     name: "Home",
+  //     path: "/home",
+  //     outlineIcon: homeOutlineNew,
+  //     sharpIcon: homeSharpNew,
+  //   },
+  //   {
+  //     name: "Patient",
+  //     path: "/patient",
+  //     outlineIcon: patientOutlineNew,
+  //     sharpIcon: patientSharpNew,
+  //   },
+  //   {
+  //     name: "Disease",
+  //     path: "/disease",
+  //     outlineIcon: knowAboutOutlineNew,
+  //     sharpIcon: knowAboutSharpNew,
+  //   },
+  //   {
+  //     name: "Advice",
+  //     path: "/advice",
+  //     outlineIcon: adviceOutlineNew,
+  //     sharpIcon: adviceSharpNew,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     path: "/settings",
+  //     outlineIcon: profileOutlineNew,
+  //     sharpIcon: profileSharpNew,
+  //   },
+  // ];
+
+  // const doctorAdmin = [
+  //   {
+  //     name: "Home",
+  //     path: "/home",
+  //     outlineIcon: homeOutlineNew,
+  //     sharpIcon: homeSharpNew,
+  //   },
+  //   {
+  //     name: "Patient",
+  //     path: "/patient",
+  //     outlineIcon: patientOutlineNew,
+  //     sharpIcon: patientSharpNew,
+  //   },
+  //   {
+  //     name: "Disease",
+  //     path: "/disease",
+  //     outlineIcon: knowAboutOutlineNew,
+  //     sharpIcon: knowAboutSharpNew,
+  //   },
+  //   {
+  //     name: "Configure",
+  //     path: "/configure",
+  //     outlineIcon: settingsOutline,
+  //     sharpIcon: settingsSharp,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     path: "/settings",
+  //     outlineIcon: profileOutlineNew,
+  //     sharpIcon: profileSharpNew,
+  //   },
+  // ];
+
+  // const Admin = [
+  //   {
+  //     name: "Home",
+  //     path: "/home",
+  //     outlineIcon: homeOutlineNew,
+  //     sharpIcon: homeSharpNew,
+  //   },
+  //   {
+  //     name: "Configure",
+  //     path: "/configure",
+  //     outlineIcon: settingsOutline,
+  //     sharpIcon: settingsSharp,
+  //   },
+  //   {
+  //     name: "Profile",
+  //     path: "/settings",
+  //     outlineIcon: profileOutlineNew,
+  //     sharpIcon: profileSharpNew,
+  //   },
+  // ];
 
   return (
     <IonTabs>
@@ -299,9 +452,12 @@ const MainRoutes: React.FC = () => {
         <Route path="/addEmployee">
           <AddEmployee />
         </Route>
-        <Route path="/pastreport/:pastReport">
+        <Route path="/pastreport/:reportDate">
           <PastReport />
         </Route>
+        {/* <Route path="/pastreport/:pastReport">
+          <PastReport />
+        </Route> */}
         <Route exact path="/">
           <Redirect to="/splash" />
         </Route>
@@ -338,7 +494,7 @@ const MainRoutes: React.FC = () => {
           <AlcoholInfo />
         </Route>
 
-        <Route path="/currentReport/:patient/:patientId">
+        <Route path="/currentReport/:reportDate">
           <CurrentReport />
         </Route>
 
@@ -377,7 +533,7 @@ const MainRoutes: React.FC = () => {
       </IonRouterOutlet>
 
       {showTabBar && (
-        <IonTabBar slot="bottom">
+        <IonTabBar id="mainIonToolbar" slot="bottom">
           {(roleType === 1
             ? doctor
             : roleType === 2
@@ -390,27 +546,32 @@ const MainRoutes: React.FC = () => {
                     ? Admin
                     : []
           ).map((element) => (
-            <IonTabButton tab={element.name} href={element.path}>
-              {element.name === "Disease" ? (
-                <img
-                  style={{ width: "38px", paddingTop: "5px" }}
-                  src={
-                    history.location.pathname === "/disease"
-                      ? element.sharpIcon
-                      : element.outlineIcon
-                  }
-                  alt="knowabout"
-                />
-              ) : (
-                <IonIcon
-                  icon={
-                    location.pathname === element.path
-                      ? element.sharpIcon
-                      : element.outlineIcon
-                  }
-                />
-              )}
-              <IonLabel style={{ fontSize: "12px" }}>{element.name}</IonLabel>
+            <IonTabButton
+              className={
+                location.pathname === element.path
+                  ? "mainIonTabButton gradientButton01"
+                  : "mainIonTabButton"
+              }
+              tab={element.name}
+              href={element.path}
+            >
+              <img
+                style={{ width: "25px", height: "25px" }}
+                src={
+                  location.pathname === element.path
+                    ? element.sharpIcon
+                    : element.outlineIcon
+                }
+              />
+              <IonLabel
+                style={{
+                  fontSize: "12px",
+                  color:
+                    location.pathname === element.path ? "white" : "#0375c6",
+                }}
+              >
+                {element.name}
+              </IonLabel>
             </IonTabButton>
           ))}
         </IonTabBar>

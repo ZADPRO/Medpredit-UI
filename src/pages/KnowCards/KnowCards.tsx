@@ -12,9 +12,19 @@ import Axios from "axios";
 import dyslipidemia from "../../assets/images/dyslipidemia.jpg";
 import renalcomplication from "../../assets/images/renalcomplication.jpg";
 
+//
+import riskNew from "../../assets/logo_new/Risk Factor.svg";
+import previousIllnessNew from "../../assets/logo_new/Previous Illness.svg";
+import treatementDetailsNew from "../../assets/logo_new/Treatment Details.svg";
+import vitalsNew from "../../assets/logo_new/Vital Signs.svg";
+import bloodNew from "../../assets/logo_new/Blood Sugar Level.svg";
+import dyslipidemiaNew from "../../assets/logo_new/Dyslipidemia.svg";
+import renalcomplicationNew from "../../assets/logo_new/Renal Complication.svg";
+//
 import "./KnowCards.css";
 import decrypt from "../../helper";
-import { IonAlert, IonRippleEffect } from "@ionic/react";
+import { arrowForward, chevronForward } from "ionicons/icons";
+import { IonAlert, IonIcon, IonRippleEffect } from "@ionic/react";
 
 interface CardData {
   refQCategoryId: number;
@@ -43,21 +53,21 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
   const getImage = (refQCategoryId: number) => {
     switch (refQCategoryId) {
       case 4:
-        return risk;
+        return riskNew;
       case 5:
         return menstrual;
       case 6:
-        return vitals;
+        return vitalsNew;
       case 7:
-        return blood;
+        return bloodNew;
       case 94:
-        return previousIllness;
+        return previousIllnessNew;
       case 201:
-        return treatementDetails;
+        return treatementDetailsNew;
       case 211:
-        return dyslipidemia;
+        return dyslipidemiaNew;
       case 212:
-        return renalcomplication;
+        return renalcomplicationNew;
       default:
         return "https://via.placeholder.com/150";
     }
@@ -302,41 +312,43 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                           ) ? (
                           <>
                             <div
-                              className="grid-item"
+                              className="knowCardParent grid-item"
                               key={card.refQCategoryId}
                             >
-                              <div className="knowCard ion-activatable ripple-parent rectangle">
-                                <IonRippleEffect />
-                                <img
+                              <div style={{color: "rgb(12, 67, 108)"}} className="knowCard boxShadow01 backgroundColor01 ion-activatable ripple-parent rectangle">
+                                {/* <IonRippleEffect /> */}
+                                <div className="knowCardcontent">
+                                  <img
+                                    src={getImage(card.refQCategoryId)}
+                                    alt={card.refCategoryLabel}
+                                  />
+                                  <p>{card.refCategoryLabel}</p>
+                                </div>
+                               <div
                                   style={{
-                                    borderTopRightRadius: "10px",
-                                    borderTopLeftRadius: "10px",
-                                  }}
-                                  src={getImage(card.refQCategoryId)}
-                                  alt={card.refCategoryLabel}
-                                />
-                                <p>{card.refCategoryLabel}</p>
-                                <div
-                                  style={{
-                                    margin: "10px 0px",
-                                    fontSize: "0.9rem",
+                                    
+                                    fontSize: "0.6rem",
                                     display: "flex",
                                     flexDirection: "column",
-                                    gap: "5px",
+                                    alignItems: "flex-end",
                                   }}
                                 >
                                   <div>
                                     Taken:{" "}
-                                    {reportItem.refPTcreatedDate.split("T")[0]}
+                                    {new Date(reportItem.refPTcreatedDate)
+                                      .toLocaleDateString("en-GB")
+                                      .replace(/\//g, "-")}
+
                                   </div>
                                   <div>
                                     Valid:{" "}
-                                    {addDaysToDate(
+                                    {new Date(addDaysToDate(
                                       reportItem.refPTcreatedDate,
                                       getValidateDuration(
                                         reportItem.refQCategoryId
                                       )
-                                    )}
+                                    )).toLocaleDateString("en-GB")
+                                    .replace(/\//g, "-")}
                                   </div>
                                 </div>
                               </div>
@@ -345,7 +357,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                         ) : (
                           <>
                             <div
-                              className="grid-item"
+                              className="knowCardParent grid-item"
                               // className={`grid-item ${
                               //   latestReport > 14 || latestReport === null
                               //     ? ""
@@ -381,17 +393,19 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                                 // }
                               }}
                             >
-                              <div className="knowCard ion-activatable ripple-parent rectangle">
+                              <div className="knowCard gradientButton02 boxShadow01 ion-activatable ripple-parent rectangle">
                                 <IonRippleEffect></IonRippleEffect>
-                                <img
-                                  style={{
-                                    borderTopRightRadius: "10px",
-                                    borderTopLeftRadius: "10px",
-                                  }}
-                                  src={getImage(card.refQCategoryId)}
-                                  alt={card.refCategoryLabel}
-                                />
-                                <p>{card.refCategoryLabel}</p>
+                                <div className="knowCardcontent">
+                                  <img
+                                    src={getImage(card.refQCategoryId)}
+                                    alt={card.refCategoryLabel}
+                                  />
+                                  <p>{card.refCategoryLabel}</p>
+                                </div>
+                                <IonIcon
+                                  size="large"
+                                  icon={chevronForward}
+                                ></IonIcon>
                               </div>
                             </div>
                           </>
@@ -401,7 +415,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                   })()
                 ) : (
                   <div
-                    className="grid-item"
+                    className="knowCardParent grid-item"
                     // className={`grid-item ${
                     //   latestReport > 14 || latestReport === null
                     //     ? ""
@@ -437,17 +451,16 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                       // }
                     }}
                   >
-                    <div className="knowCard ion-activatable ripple-parent rectangle">
+                    <div className="knowCard gradientButton02 boxShadow01 ion-activatable ripple-parent">
                       <IonRippleEffect></IonRippleEffect>
-                      <img
-                        style={{
-                          borderTopRightRadius: "10px",
-                          borderTopLeftRadius: "10px",
-                        }}
-                        src={getImage(card.refQCategoryId)}
-                        alt={card.refCategoryLabel}
-                      />
-                      <p>{card.refCategoryLabel}</p>
+                      <div className="knowCardcontent">
+                        <img
+                          src={getImage(card.refQCategoryId)}
+                          alt={card.refCategoryLabel}
+                        />
+                        <p>{card.refCategoryLabel}</p>
+                      </div>
+                      <IonIcon size="large" icon={chevronForward}></IonIcon>
                     </div>
                   </div>
                 )}

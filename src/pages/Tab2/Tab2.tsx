@@ -1,28 +1,15 @@
 import {
-  IonButtons,
-  IonCheckbox,
   IonContent,
-  IonHeader,
-  IonIcon,
-  IonModal,
   IonPage,
-  IonSearchbar,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import "./Tab2.css";
-import {
-  addCircleOutline,
-  arrowForward,
-  chevronDownOutline,
-} from "ionicons/icons";
-import { useEffect, useRef, useState } from "react";
-import { Divider } from "primereact/divider";
+import { useRef, useState } from "react";
 import Patientcards from "../PatientCards/Patientcards";
 import { useHistory, useLocation } from "react-router";
 import axios from "axios";
 import decrypt from "../../helper";
-import searchUser from "../../assets/images/SeacrhUser.png";
+import patientListImg from "../../assets/images_new/PatientList.png";
+import SearchInput from "../FieldInputs/SearchInput";
 
 const Tab2: React.FC = () => {
   const history = useHistory();
@@ -89,7 +76,7 @@ const Tab2: React.FC = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
 
-            console.log("####", data);
+            console.log(data);
 
             setLoadingStatus(false);
 
@@ -122,7 +109,7 @@ const Tab2: React.FC = () => {
 
   return (
     <IonPage>
-      <IonToolbar className="ion-padding-top">
+      {/*<IonToolbar className="ion-padding-top">
         <IonSearchbar
           placeholder="Search Patient"
           value={mobileNumber}
@@ -262,7 +249,8 @@ const Tab2: React.FC = () => {
                       </div>
                       {patientsData.length > 0 ? (
                         <>
-                          {/* {parsedDetails.roleType === 1 ? ( */}
+                          {/* {parsedDetails.roleType === 1 ? ( */}{" "}
+      {/*
                           <div className="patientContents">
                             <div
                               style={{
@@ -278,16 +266,11 @@ const Tab2: React.FC = () => {
                                 justifyContent: "center",
                               }}
                               onClick={() => {
-                                setMobileNumber("");
-                                setStatus({
-                                  status: false,
-                                  message: "",
-                                });
                                 history.push(
                                   "/addfamilyuser/" +
-                                  urlMobileNo +
-                                  "/" +
-                                  urluserId
+                                    urlMobileNo +
+                                    "/" +
+                                    urluserId
                                 );
                               }}
                             >
@@ -298,7 +281,8 @@ const Tab2: React.FC = () => {
                               &nbsp;&nbsp;Add Family Member
                             </div>
                           </div>
-                          {/* ) : null} */}
+                          {/* ) : null} */}{" "}
+      {/*
                         </>
                       ) : null}
                     </div>
@@ -370,6 +354,233 @@ const Tab2: React.FC = () => {
               )}
             </>
           )}
+        </div>
+      </IonContent>*/}
+      <IonContent fullscreen ref={contentRef}>
+        <div className="tab2 medpredit-page-background">
+          <div className="tab2TopDiv">
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "90%",
+                fontSize: "1.2rem",
+                fontWeight: "600",
+                padding: "0 0 1rem 0",
+              }}
+            >
+              <span></span>
+              <span>Patient</span>
+              <span></span>
+            </div>
+
+            <SearchInput
+              type="number"
+              placeholder="Enter Phone Number"
+              value={mobileNumber}
+              className="gradientBackground02_opacity"
+              onChange={(e) => setMobileNumber(e.target.value)}
+              onSearch={() => {
+                if (mobileNumber.length != 0) {
+                  setStatus({
+                    status: false,
+                    message: "",
+                  });
+                  searchPatient();
+                  setPatientData([]);
+                }
+              }}
+              onClear={() => {
+                setMobileNumber("")
+                setPatientData([]);
+              }}
+            />
+            {loadingStatus ? (
+              <>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "90vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <i
+                    className="pi pi-spin pi-spinner"
+                    style={{ fontSize: "2rem", color: "#1a70b0" }}
+                  ></i>
+                </div>
+              </>
+            ) : (
+              <>
+                {patientsData.length === 0 ? (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "82vh",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <img
+                      src={patientListImg}
+                      style={{ width: "70%" }}
+                      alt="seacrhImg"
+                    />
+                    {status.status ? (
+                      <div
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "20px",
+                          color: "#939185",
+                        }}
+                      >
+                        {status.message}
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <>
+                    {patientsData.length != 0 ? (
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "82vh",
+                          overflow: "auto",
+                          gap: "5px",
+                        }}
+                      >
+                        <div className="patientContents">
+                          <Patientcards
+                            patientsData={patientsData}
+                            onPaginationChange={handlePaginationChange}
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div
+                          style={{
+                            width: "100%",
+                            height: "82vh",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {status.status ? (
+                            <div
+                              className="patientContents"
+                              style={{ width: "70%" }}
+                              onClick={() => {
+                                setMobileNumber("");
+                                setStatus({
+                                  status: false,
+                                  message: "",
+                                });
+                                history.push("/addUser");
+                              }}
+                            >
+                              <div
+                                style={{
+                                  marginTop: "10px",
+                                  background: "#1c70b0",
+                                  borderRadius: "5px",
+                                  padding: "10px",
+                                  color: "#fff",
+                                  fontWeight: "700",
+                                  textAlign: "center",
+                                  width: "100%",
+                                }}
+                              >
+                                <i
+                                  className="pi pi-user"
+                                  style={{ color: "#fff", fontSize: "20px" }}
+                                ></i>
+                                &nbsp;&nbsp;Add Patient
+                              </div>
+                            </div>
+                          ) : null}
+                          <img
+                            src={patientListImg}
+                            style={{ width: "90%" }}
+                            alt="seacrhImg"
+                          />
+                          {status.status ? (
+                            <div
+                              style={{
+                                fontWeight: "500",
+                                fontSize: "20px",
+                                color: "#939185",
+                              }}
+                            >
+                              {status.message}
+                            </div>
+                          ) : null}
+                        </div>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </div>
+
+          <div className="tab2BottomDiv">
+            {status.status ? (
+              <button
+                className="gradientButton02"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+                onClick={() => {
+                  setMobileNumber("");
+                  setStatus({
+                    status: false,
+                    message: "",
+                  });
+                  history.push("/addUser");
+                }}
+              >
+                <i
+                  className="pi pi-users"
+                  style={{ color: "#fff", fontSize: "25px" }}
+                ></i>
+                Add patient
+              </button>
+            ) : (null)
+            }
+
+            {patientsData.length > 0 ? (
+              <button
+                className="gradientButton02"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+                onClick={() => {
+                  history.push("/addfamilyuser/" + urlMobileNo + "/" + urluserId);
+                }}
+              >
+                <i
+                  className="pi pi-users"
+                  style={{ color: "#fff", fontSize: "25px" }}
+                ></i>
+                Add Family Member
+              </button>
+            ) : (null)}
+
+          </div>
         </div>
       </IonContent>
     </IonPage>

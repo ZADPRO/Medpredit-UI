@@ -1,4 +1,4 @@
-import { IonAlert, IonRippleEffect } from "@ionic/react";
+import { IonAlert, IonModal, IonRippleEffect } from "@ionic/react";
 import { Divider } from "primereact/divider";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
@@ -31,13 +31,42 @@ import ogtt from "../../assets/images/OGTT.png";
 import gct from "../../assets/images/GCT.png";
 import hba1c from "../../assets/images/HBA1c.png";
 
+//
+import physicalNew from "../../assets/logo_new/Physical Activity.png";
+import stressNew from "../../assets/logo_new/Stress.png";
+import tobaccoNew from "../../assets/logo_new/Tobacco.png";
+import alcoholNew from "../../assets/logo_new/Alcohol.png";
+import dietryNew from "../../assets/logo_new/Dietary.png";
+import bmiNew from "../../assets/logo_new/BMI.png";
+import sleepNew from "../../assets/logo_new/Sleep.png";
+import familyhistoryNew from "../../assets/logo_new/Family History.png";
+import rbsNew from "../../assets/logo_new/RBS.png";
+import fbsNew from "../../assets/logo_new/FBS.png";
+import ppbsNew from "../../assets/logo_new/PPBS.png";
+import ogttNew from "../../assets/logo_new/OGTT.png";
+import gctNew from "../../assets/logo_new/GCT.png";
+import hba1cNew from "../../assets/logo_new/HBA1c.png";
+import fastingtotalNew from "../../assets/logo_new/FASTING_CHOLOSTROL.png";
+import triglyceridesNew from "../../assets/logo_new/triglycerides.png";
+import hdlcholestrolNew from "../../assets/logo_new/HDL.png";
+import ldlcholestrolNew from "../../assets/logo_new/LDL.png";
+import tchdlNew from "../../assets/logo_new/HDL_TC_RATIO.png";
+import bloodureaNew from "../../assets/logo_new/BLOOD_UREA.png";
+import serumNew from "../../assets/logo_new/SERUM.png";
+import egfrNew from "../../assets/logo_new/EGFR.png";
+import urineNew from "../../assets/logo_new/URINE.png";
+import usgNew from "../../assets/logo_new/USG.png";
+
+import { ScoreSlider } from "./ScoreSlider";
+import { FaTruckArrowRight } from "react-icons/fa6";
+//
+
 interface CardData {
   refQCategoryId: number;
   refCategoryLabel: string;
   refScore?: any;
   refScoreId?: any;
   UserScoreVerify?: any;
-  refPTcreatedDate?: any;
 }
 
 interface SubCardsProps {
@@ -53,6 +82,9 @@ const SubCards: React.FC<SubCardsProps> = ({
 }) => {
   const history = useHistory();
 
+  console.log(data);
+
+
   const handleCardClick = (cardTitle: any, refCategoryLabel: any) => {
     history.push(`/questions/${refCategoryLabel}/${cardTitle}`);
   };
@@ -66,6 +98,65 @@ const SubCards: React.FC<SubCardsProps> = ({
     refQCategoryId: 0,
   });
 
+  const getImage = (refQCategoryId: number) => {
+    switch (refQCategoryId) {
+      case 8:
+        return physicalNew;
+      case 9:
+        return stressNew;
+      case 10:
+        return tobaccoNew;
+      case 11:
+        return alcoholNew;
+      case 12:
+        return dietryNew;
+      case 13:
+        return bmiNew;
+      case 43:
+        return sleepNew;
+      case 51:
+        return familyhistoryNew;
+      case 213:
+        return fastingtotalNew;
+      case 214:
+        return triglyceridesNew;
+      case 215:
+        return hdlcholestrolNew;
+      case 216:
+        return ldlcholestrolNew;
+      case 217:
+        return tchdlNew;
+      case 218:
+        return bloodureaNew;
+      case 219:
+        return serumNew;
+      case 220:
+        return egfrNew;
+      case 221:
+        return urineNew;
+      case 222:
+        return urineNew;
+      case 223:
+        return urineNew;
+      case 224:
+        return usgNew;
+      case 202:
+        return rbsNew;
+      case 203:
+        return fbsNew;
+      case 204:
+        return ppbsNew;
+      case 205:
+        return ogttNew;
+      case 206:
+        return gctNew;
+      case 207:
+        return hba1cNew;
+      default:
+        return "https://via.placeholder.com/150";
+    }
+  };
+
   function calculateDaysDifference(dateString: any) {
     // Convert the given date string to a Date object
     const givenDate: any = new Date(dateString);
@@ -73,6 +164,7 @@ const SubCards: React.FC<SubCardsProps> = ({
     // Get the current date and set time to midnight for accurate day difference
     const currentDate: any = new Date();
     currentDate.setHours(0, 0, 0, 0);
+
 
     // Calculate the difference in milliseconds
     const diffInMs = givenDate - currentDate;
@@ -83,10 +175,168 @@ const SubCards: React.FC<SubCardsProps> = ({
     return diffInDays;
   }
 
-  function addDaysToDate(isoDate: string, daysToAdd: number): string {
-    const date = new Date(isoDate);
-    date.setDate(date.getDate() + daysToAdd);
-    return date.toISOString().split("T")[0]; // Return only YYYY-MM-DD format
+  const handleremoveScore = () => {
+    const tokenString = localStorage.getItem("userDetails");
+
+    if (tokenString) {
+      try {
+        const tokenObject = JSON.parse(tokenString);
+        const token = tokenObject.token;
+
+        Axios.post(
+          `${import.meta.env.VITE_API_URL}/resetScore `,
+          {
+            refPatientId: localStorage.getItem("currentPatientId"),
+            refQCategoryId: selectedData.refQCategoryId,
+            refHospitalId: localStorage.getItem("hospitalId"),
+            employeeId:
+              tokenObject.roleType === 1
+                ? null
+                : localStorage.getItem("currentDoctorId"),
+          },
+          {
+            headers: {
+              Authorization: token,
+              "Content-Type": "application/json",
+            },
+          }
+        ).then((response) => {
+          const data = decrypt(
+            response.data[1],
+            response.data[0],
+            import.meta.env.VITE_ENCRYPTION_KEY
+          );
+
+          if (data.status) {
+            handleCardClick(
+              selectedData.refCategoryLabel,
+              selectedData.cardTitle
+            );
+          }
+        });
+      } catch (error) {
+        console.error("Error parsing token:", error);
+      }
+    } else {
+      console.error("No token found in localStorage.");
+    }
+  };
+
+
+
+  const evaluateScore = (
+    userScoreVerify: any,
+    refScore: number | string
+  ) => {
+    let label = "";
+    let scoreValue = "";
+    let color = "";
+
+    console.log(refScore, userScoreVerify);
+
+    userScoreVerify.forEach((element: any) => {
+      switch (element.refAction) {
+        case "equal":
+          if (refScore.toString() === element.refValue.toString()) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "notEqual":
+          if (refScore.toString() != element.refValue.toString()) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "lessThanEqual":
+          console.log("lessthanEqual");
+          if (parseFloat(refScore as string) <= parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "greaterThanEqual":
+          if (parseFloat(refScore as string) >= parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "lessThan":
+          if (parseFloat(refScore as string) < parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "greaterThan":
+          if (parseFloat(refScore as string) > parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "rangeEqual":
+          const [firstVal, secondVal] = element.refValue
+            .split(",")
+            .map(parseFloat);
+
+          if (
+            firstVal <= parseFloat(refScore as string) &&
+            parseFloat(refScore as string) <= secondVal
+          ) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        default:
+          console.log("Unknown refAction:", element.refAction);
+      }
+    });
+
+    return label;
+  };
+
+
+
+  const [isModel, setIsModel] = useState(false);
+
+  const [modelData, setModelData] = useState({
+    name: "",
+    status: "",
+    fromDate: "",
+    toDate: ""
+  })
+
+
+  const handleModel = (name: any, status: any, fromDate: any, toDate: any) => {
+
+    setIsModel(true)
+    setModelData({
+      name: name,
+      status: status,
+      fromDate: fromDate,
+      toDate: toDate
+    })
+
   }
 
   const getValidity = (refQCategoryId: number) => {
@@ -148,111 +398,12 @@ const SubCards: React.FC<SubCardsProps> = ({
     }
   };
 
-  const getImage = (refQCategoryId: number) => {
-    switch (refQCategoryId) {
-      case 8:
-        return physical;
-      case 9:
-        return stress;
-      case 10:
-        return tobacco;
-      case 11:
-        return alcohol;
-      case 12:
-        return dietry;
-      case 13:
-        return bmi;
-      case 43:
-        return sleep;
-      case 51:
-        return familyhistory;
-      case 213:
-        return fastingtotal;
-      case 214:
-        return triglycerides;
-      case 215:
-        return hdlcholestrol;
-      case 216:
-        return ldlcholestrol;
-      case 217:
-        return tchdl;
-      case 218:
-        return bloodurea;
-      case 219:
-        return serum;
-      case 220:
-        return egfr;
-      case 221:
-        return urine;
-      case 222:
-        return urine;
-      case 223:
-        return urine;
-      case 224:
-        return usg;
-      case 202:
-        return rbs;
-      case 203:
-        return fbs;
-      case 204:
-        return ppbs;
-      case 205:
-        return ogtt;
-      case 206:
-        return gct;
-      case 207:
-        return hba1c;
-      default:
-        return "https://via.placeholder.com/150";
-    }
-  };
 
-  const handleremoveScore = () => {
-    const tokenString = localStorage.getItem("userDetails");
-
-    if (tokenString) {
-      try {
-        const tokenObject = JSON.parse(tokenString);
-        const token = tokenObject.token;
-
-        Axios.post(
-          `${import.meta.env.VITE_API_URL}/resetScore `,
-          {
-            refPatientId: localStorage.getItem("currentPatientId"),
-            refQCategoryId: selectedData.refQCategoryId,
-            refHospitalId: localStorage.getItem("hospitalId"),
-            employeeId:
-              tokenObject.roleType === 1
-                ? null
-                : localStorage.getItem("currentDoctorId"),
-          },
-          {
-            headers: {
-              Authorization: token,
-              "Content-Type": "application/json",
-            },
-          }
-        ).then((response) => {
-          const data = decrypt(
-            response.data[1],
-            response.data[0],
-            import.meta.env.VITE_ENCRYPTION_KEY
-          );
-
-          if (data.status) {
-            handleCardClick(
-              selectedData.refCategoryLabel,
-              selectedData.cardTitle
-            );
-          }
-        });
-      } catch (error) {
-        console.error("Error parsing token:", error);
-      }
-    } else {
-      console.error("No token found in localStorage.");
-    }
-  };
+  function addDaysToDate(isoDate: string, daysToAdd: number): string {
+    const date = new Date(isoDate);
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toISOString().split("T")[0]; // Return only YYYY-MM-DD format
+  }
 
   return (
     <div className="subCardContents ion-padding-top">
@@ -274,128 +425,307 @@ const SubCards: React.FC<SubCardsProps> = ({
           {
             text: "No",
             role: "cancel",
-            handler: () => {},
+            handler: () => { },
             cssClass: "no-button",
           },
         ]}
         onDidDismiss={() => setIsAlertOpen(false)}
       />
-      {data.map((card) => (
-        <div key={card.refQCategoryId}>
-          {card.refPTcreatedDate &&
-          getValidity(card.refQCategoryId) >
-            -calculateDaysDifference(card.refPTcreatedDate) ? (
-            <div
-              className="ion-activatable ripple-parent rectangle"
-              style={{ cursor: "pointer" }}
-            >
-              <IonRippleEffect></IonRippleEffect>
-              <div className="subCards">
-                <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-                <div className="cardConts">
-                  <div className="cardHeader">
-                    <p
-                      className="factorHeading"
-                      style={{
-                        fontSize: "18px",
-                        fontWeight: "600",
-                        color: "#373A40",
-                      }}
-                    >
-                      {card.refCategoryLabel}
-                    </p>
-                    <div className="circularProgress">
-                      {card.refScore === null ? (
-                        <div style={{ color: "#607274" }}>
-                          <i
-                            className="pi pi-angle-right"
-                            style={{ fontSize: "2rem" }}
-                          ></i>
+
+
+      <IonModal
+        isOpen={isModel}
+        id="doctorDetailsGraph"
+        initialBreakpoint={1}
+        onDidDismiss={() => {
+          setIsModel(false);
+        }}
+        animated={false}
+
+      >
+        <div className="ion-padding " style={{ background: "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)" }} >
+          <div style={{ fontSize: "1rem", color: "#1a3d61", fontWeight: "700", display: "flex", justifyContent: "space-between" }}>
+            <div>{modelData.name}</div>
+            <div onClick={() => {
+              setIsModel(false);
+            }}> <i className="pi pi-times"></i> </div>
+          </div>
+
+          <div style={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "700", marginTop: "10px", marginBottom: "10px", color: "#1a3d61" }}>
+            {modelData.status}
+          </div>
+
+          <div style={{ color: "#5194ae", fontSize: "1rem", fontWeight: "700", textAlign: "center" }}>
+            <div>This report valid for</div>
+            <div>( {modelData.fromDate} to {modelData.toDate} )</div>
+          </div>
+        </div>
+      </IonModal>
+
+
+      <div className="subCardsParent">
+        {data.map((card: any) => (
+          <>
+            {card.refPTcreatedDate &&
+              getValidity(card.refQCategoryId) >
+              -calculateDaysDifference(card.refPTcreatedDate) ? (<>
+
+
+                <div key={card.refQCategoryId}>
+                  {card.refPTcreatedDate &&
+                    getValidity(card.refQCategoryId) >
+                    -calculateDaysDifference(card.refPTcreatedDate) ? (<>
+
+
+                      <div
+                        key={card.refQCategoryId}
+                        className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                        onClick={() => {
+                          handleModel(
+                            card.refCategoryLabel,
+                            evaluateScore(card.UserScoreVerify, card.refScore),
+                            card.refPTcreatedDate.split("T")[0],
+                            addDaysToDate(
+                              card.refPTcreatedDate,
+                              getValidity(card.refQCategoryId)
+                            )
+                          )
+                        }}>
+
+                        <div style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "0.5rem"
+                        }}
+
+                        >
+                          <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                          <div>
+                            <div className="subCardHeader">
+                              <p data-text={card.refCategoryLabel}>
+                                {card.refCategoryLabel.split(" ").length === 2
+                                  ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                  : card.refCategoryLabel}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      ) : (
-                        <ScoreVerify
-                          userScoreVerify={card.UserScoreVerify}
-                          refScore={card.refScore}
-                        />
-                      )}
+
+                        <div className="subCardSliderBar">
+                          {card.refScore === null ? (
+                            <div style={{ color: "#607274" }}>
+                              <i
+                                className="pi pi-angle-right"
+                                style={{ fontSize: "2rem" }}
+                              ></i>
+                            </div>
+                          ) : (
+                            <>
+                              {
+                                [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+                                  <div>
+                                    <ScoreSlider
+                                      userScoreVerify={card.UserScoreVerify}
+                                      refScore={card.refScore}
+                                    />
+                                  </div>
+                                ) : null
+                              }
+                            </>
+                          )}
+                        </div>
+
+
+                      </div>
+
+                    </>)
+                    : (
+                      <>
+                        <div
+                          key={card.refQCategoryId}
+                          className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                          onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
+                          <IonRippleEffect></IonRippleEffect>
+                          <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "0.5rem"
+                          }}>
+                            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                            <div>
+                              <div className="subCardHeader">
+                                <p data-text={card.refCategoryLabel}>
+                                  {card.refCategoryLabel.split(" ").length === 2
+                                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                    : card.refCategoryLabel}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div></>)}
+                </div>
+
+
+              </>) : (<>
+                <div
+                  key={card.refQCategoryId}
+                  className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                  onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
+                  <IonRippleEffect></IonRippleEffect>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem"
+                  }}>
+                    <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                    <div>
+                      <div className="subCardHeader">
+                        <p data-text={card.refCategoryLabel}>
+                          {card.refCategoryLabel.split(" ").length === 2
+                            ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                            : card.refCategoryLabel}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                style={{
-                  marginTop: "20px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <div>Taken: {card.refPTcreatedDate.split("T")[0]}</div>
-                <div>
-                  Valid:{" "}
-                  {addDaysToDate(
-                    card.refPTcreatedDate,
-                    getValidity(card.refQCategoryId)
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div
-              className="subCards ion-activatable ripple-parent rectangle"
-              onClick={() => {
-                // if (card.refScore === null) {
-                handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-                // }
-                // else {
-                //   setIsAlertOpen(true);
-                //   setSelectedData({
-                //     refScoreId: card.refScoreId,
-                //     refCategoryLabel: card.refQCategoryId,
-                //     cardTitle: card.refCategoryLabel,
-                //     refQCategoryId: card.refQCategoryId,
-                //   });
-                // }
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <IonRippleEffect></IonRippleEffect>
-              <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-              <div className="cardConts">
-                <div className="cardHeader">
-                  <p
-                    className="factorHeading"
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: "600",
-                      color: "#373A40",
-                    }}
-                  >
-                    {card.refCategoryLabel}
-                  </p>
-                  {/* <div className="circularProgress">
-                    {card.refScore === null ? (
-                      <div style={{ color: "#607274" }}>
-                        <i
-                          className="pi pi-angle-right"
-                          style={{ fontSize: "2rem" }}
-                        ></i>
-                      </div>
-                    ) : (
-                      <ScoreVerify
-                        userScoreVerify={card.UserScoreVerify}
-                        refScore={card.refScore}
-                      />
-                    )}
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          )}
+              </>)}
+          </>
+          // <div
+          //   key={card.refQCategoryId}
+          //   className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+          //   onClick={() => {
+          //     if (card.refScore === null) {
+          //       handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+          //     }
+          //     else {
+          //       if (
+          //         getValidity(card.refQCategoryId) >
+          //         -calculateDaysDifference(card.refPTcreatedDate)) {
+          //         handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+          //       }
+          //       else {
+          //         handleModel(
+          //           card.refCategoryLabel,
+          //           evaluateScore(card.UserScoreVerify, card.refScore),
+          //           // <ScoreVerify
+          //           //   userScoreVerify={card.UserScoreVerify}
+          //           //   refScore={card.refScore}
+          //           // />,
+          //           card.refPTcreatedDate.split("T")[0],
+          //           addDaysToDate(
+          //             card.refPTcreatedDate,
+          //             getValidity(card.refQCategoryId)
+          //           )
+          //         )
+          //       }
+          //     }
+          //   }}
+          //   style={{ cursor: "pointer" }}
+          // >
 
-          <Divider />
-        </div>
-      ))}
-    </div>
+
+          //   {(card.refScore === null) ? (<>
+
+          //     <IonRippleEffect></IonRippleEffect>
+          //     <div style={{
+          //       display: "flex",
+          //       flexDirection: "column",
+          //       alignItems: "center",
+          //       justifyContent: "center",
+          //       gap: "0.5rem"
+          //     }}>
+          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //       <div>
+          //         <div className="subCardHeader">
+          //           <p data-text={card.refCategoryLabel}>
+          //             {card.refCategoryLabel.split(" ").length === 2
+          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //               : card.refCategoryLabel}
+          //           </p>
+          //         </div>
+          //       </div>
+          //     </div></>) : getValidity(card.refQCategoryId) <
+          //       -calculateDaysDifference(card.refPTcreatedDate) ? (
+          //     <>
+          //       <IonRippleEffect></IonRippleEffect>
+          //       <div style={{
+          //         display: "flex",
+          //         flexDirection: "column",
+          //         alignItems: "center",
+          //         justifyContent: "center",
+          //         gap: "0.5rem"
+          //       }}>
+          //         <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //         <div>
+          //           <div className="subCardHeader">
+          //             <p data-text={card.refCategoryLabel}>
+          //               {card.refCategoryLabel.split(" ").length === 2
+          //                 ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //                 : card.refCategoryLabel}
+          //             </p>
+          //           </div>
+          //         </div>
+          //       </div>
+          //     </>
+          //   ) : (<>
+          //     {getValidity(card.refQCategoryId)}
+          //     {-calculateDaysDifference(card.refPTcreatedDate)}
+          //     {getValidity(card.refQCategoryId) < -calculateDaysDifference(card.refPTcreatedDate) ? "Yes" : "No1"}
+          //     <div style={{
+          //       display: "flex",
+          //       flexDirection: "row",
+          //       alignItems: "center",
+          //       justifyContent: "center",
+          //       gap: "0.5rem"
+          //     }}
+
+          //     >
+          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //       <div>
+          //         <div className="subCardHeader">
+          //           <p data-text={card.refCategoryLabel}>
+          //             {card.refCategoryLabel.split(" ").length === 2
+          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //               : card.refCategoryLabel}
+          //           </p>
+          //         </div>
+          //       </div>
+          //     </div>
+
+          //     <div className="subCardSliderBar">
+          //       {card.refScore === null ? (
+          //         <div style={{ color: "#607274" }}>
+          //           <i
+          //             className="pi pi-angle-right"
+          //             style={{ fontSize: "2rem" }}
+          //           ></i>
+          //         </div>
+          //       ) : (
+          //         <>
+          //           {
+          //             [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+          //               <div>
+          //                 <ScoreSlider
+          //                   userScoreVerify={card.UserScoreVerify}
+          //                   refScore={card.refScore}
+          //                 />
+          //               </div>
+          //             ) : null
+          //           }
+          //         </>
+          //       )}
+          //     </div></>)}
+          // </div>
+        ))}
+      </div>
+    </div >
   );
 };
 

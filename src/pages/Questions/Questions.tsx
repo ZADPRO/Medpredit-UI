@@ -1,4 +1,6 @@
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonAlert,
   IonBackButton,
   IonButton,
@@ -6,6 +8,9 @@ import {
   IonContent,
   IonFooter,
   IonHeader,
+  IonIcon,
+  IonItem,
+  IonModal,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -26,10 +31,20 @@ import MultipleSelect from "./MultipleSelect";
 import TextInputBox from "./TextInputBox";
 import TimeInputBox from "./TimeInputBox";
 import TimeInputBox24 from "./TimeInputBox24";
+import Hrs24 from "./Hrs24";
 import TreatmentDetailsQuestion from "./TreatmentDetailsQuestion";
 import Label from "./Label";
 import GraphValues from "./GraphValues";
-import Hrs24 from "./Hrs24";
+import { chevronBack, information, informationCircle } from "ionicons/icons";
+import "./Questions.css";
+import PhysicalInstructions from "../Instructions/PhysicalInstructions";
+import TobaccoInstructions from "../Instructions/TobaccoInstructions";
+import StressInstructions from "../Instructions/StressInstructions";
+import AlcoholInstructions from "../Instructions/AlcoholInstructions";
+import PhysicalInfo from "../Information/PhysicalInfo";
+import TobaccoInfo from "../Information/TobaccoInfo";
+import StressInfo from "../Information/StressInfo";
+import AlcoholInfo from "../Information/AlcoholInfo";
 
 interface DosageTime {
   dosage: number | null;
@@ -68,6 +83,7 @@ const Questions: React.FC = () => {
   }>();
 
   const [submitButton, setSubmitButton] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const SubmitActive = (isActive: boolean) => {
     setSubmitButton(isActive);
@@ -277,7 +293,9 @@ const Questions: React.FC = () => {
             employeeId: localStorage.getItem("currentDoctorId")
               ? localStorage.getItem("currentDoctorId")
               : null,
-            hospitalId: localStorage.getItem("hospitalId") ? localStorage.getItem("hospitalId") : null,
+            hospitalId: localStorage.getItem("hospitalId")
+              ? localStorage.getItem("hospitalId")
+              : null,
           },
           {
             headers: {
@@ -295,7 +313,6 @@ const Questions: React.FC = () => {
 
           console.log("--->====>", data);
 
-
           if (data.status) {
             const getCategory = localStorage.getItem("getCategory");
             if (getCategory) {
@@ -310,6 +327,7 @@ const Questions: React.FC = () => {
               setSubmittedAnswer([]);
             } else {
               console.error("getCategory is null or undefined");
+
               setLoadingStatus(false);
               history.goBack();
               setSubmittedAnswer([]);
@@ -432,6 +450,7 @@ const Questions: React.FC = () => {
     if (categoryString) {
       setBackwardQ({
         id: categoryObject.id,
+
         label: categoryObject.label,
       });
     }
@@ -469,7 +488,7 @@ const Questions: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios">
+      {/*<IonHeader mode="ios">
         <IonToolbar className="" mode="ios">
           <IonButtons slot="start">
             <IonBackButton
@@ -642,18 +661,6 @@ const Questions: React.FC = () => {
               )}
 
               {question.questionType === "7" && (
-                // <TimeInputBox
-                //   type="text"
-                //   label={question}
-                //   onEdit={(questionType, value, forwardQId) => {
-                //     handleQuestionEdit(
-                //       question.questionId,
-                //       questionType,
-                //       value,
-                //       forwardQId
-                //     );
-                //   }}
-                // />
                 <TimeInputBox
                   type="text"
                   label={question}
@@ -712,23 +719,6 @@ const Questions: React.FC = () => {
                 />
               )}
 
-
-              {question.questionType === "11" && (
-                <Hrs24
-                  type="text"
-                  label={question}
-                  onEdit={(questionType, hrsValue, minsValue, forwardQId) => {
-                    handleHrsEdit(
-                      question.questionId,
-                      questionType,
-                      hrsValue,
-                      minsValue,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
               {question.questionType === "99" && (
                 <TreatmentDetailsQuestion
                   SubmitActive={SubmitActive}
@@ -778,7 +768,341 @@ const Questions: React.FC = () => {
             </button>
           )}
         </IonToolbar>
-      </IonFooter>
+      </IonFooter>*/}
+
+      <IonContent>
+        <div className="questionsParent medpredit-page-background">
+          <div>
+            <div className="questionsHeader">
+              <IonIcon
+                size="large"
+                onClick={() => history.goBack()}
+                icon={chevronBack}
+              ></IonIcon>
+              <span>{refCategoryLabel}</span>
+              <IonIcon
+                onClick={() => setIsOpen(true)}
+                icon={informationCircle}
+              ></IonIcon>
+            </div>
+
+            <div className="questionsList">
+              {visibleQuestions.map((question, index) => (
+                <div key={index}>
+                  {question.questionType === "6" && (
+                    <NumberInputBoxT6
+                      type="number"
+                      label={question}
+                      onClickOpt={(value, questionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          console.log("-------------------->onEdit Triggered");
+                          // getNextQuestions(
+                          //   questionId,
+                          //   question.questionType,
+                          //   parseInt(value),
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "1" && (
+                    <YesNo
+                      label={question}
+                      onOptionSelect={(refOptionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          // getNextQuestions(
+                          //   question.questionId,
+                          //   refOptionId,
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, refOptionId, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          refOptionId,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+                  {question.questionType === "2" && (
+                    <MultipleSelect
+                      label={question}
+                      onOptionSelect={(selectedOptions, forwardQId) => {
+                        if (index === enabledIndex) {
+                          // getNextQuestions(
+                          //   question.questionId,
+                          //   refOptionId,
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(selectedOptions, forwardQId) => {
+                        handleMultipleSelectEdit(
+                          question.questionId,
+                          question.questionType,
+                          selectedOptions,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "5" && (
+                    <HrsMins
+                      type="text"
+                      label={question}
+                      onEdit={(
+                        questionType,
+                        hrsValue,
+                        minsValue,
+                        forwardQId
+                      ) => {
+                        handleHrsEdit(
+                          question.questionId,
+                          questionType,
+                          hrsValue,
+                          minsValue,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "4" && (
+                    <NumberInputBoxT4
+                      type="number"
+                      label={question}
+                      onClickOpt={(value, questionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          console.log("-------------------->onEdit Triggered");
+                          // getNextQuestions(
+                          //   questionId,
+                          //   question.questionType,
+                          //   parseInt(value),
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "3" && (
+                    <TextInputBox
+                      type="text"
+                      label={question}
+                      onClickOpt={(value, questionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          console.log("-------------------->onEdit Triggered");
+                          // getNextQuestions(
+                          //   questionId,
+                          //   question.questionType,
+                          //   parseInt(value),
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "7" && (
+                    <TimeInputBox
+                      type="text"
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "8" && (
+                    <TimeInputBox24
+                      type="text"
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "9" && (
+                    <Label
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "10" && (
+                    <GraphValues
+                      SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "11" && (
+                    <Hrs24
+                      type="text"
+                      label={question}
+                      onEdit={(
+                        questionType,
+                        hrsValue,
+                        minsValue,
+                        forwardQId
+                      ) => {
+                        handleHrsEdit(
+                          question.questionId,
+                          questionType,
+                          hrsValue,
+                          minsValue,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "99" && (
+                    <TreatmentDetailsQuestion
+                      SubmitActive={SubmitActive}
+                      handleData={handleData}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          {loadingStatus ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%", // Ensures vertical centering if the parent has a defined height
+                  background: "#effafe",
+                  borderRadius: "5% 5% 0 0",
+                }}
+              >
+                <button
+                  disabled={submitButton}
+                  onClick={submitResponse}
+                  className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                    }`}
+                >
+                  <i className="pi pi-spin pi-spinner"></i>
+                </button>
+              </div>
+            </>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%", // Ensures vertical centering if the parent has a defined height
+                background: "#effafe",
+                borderRadius: "5% 5% 0 0",
+              }}
+            >
+              <button
+                disabled={submitButton}
+                onClick={submitResponse}
+                className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                  }`}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+        </div>
+
+        <IonModal
+          id="questionsModal"
+          isOpen={isOpen}
+          mode="ios"
+          onDidDismiss={() => setIsOpen(false)}
+          animated={true}
+        >
+          <div className="questionsAccordion ion-padding">
+            <IonAccordionGroup>
+              <IonAccordion>
+                <IonItem slot="header">Instructions</IonItem>
+                <div
+                  style={{ height: "60vh", overflow: "scroll" }}
+                  slot="content"
+                >
+                  {cardTitle === "8" && <PhysicalInstructions />}
+                  {cardTitle === "10" && <TobaccoInstructions />}
+                  {cardTitle === "9" && <StressInstructions />}
+                  {cardTitle === "11" && <AlcoholInstructions />}
+                </div>
+              </IonAccordion>
+
+              <IonAccordion>
+                <IonItem slot="header">Info</IonItem>
+                <div slot="content">
+                  {cardTitle === "8" && <PhysicalInfo />}
+                  {cardTitle === "10" && <TobaccoInfo />}
+                  {cardTitle === "9" && <StressInfo />}
+                  {cardTitle === "11" && <AlcoholInfo />}
+                </div>
+              </IonAccordion>
+            </IonAccordionGroup>
+          </div>
+        </IonModal>
+      </IonContent>
     </IonPage>
   );
 };

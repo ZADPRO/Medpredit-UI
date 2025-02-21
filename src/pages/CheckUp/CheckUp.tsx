@@ -88,21 +88,44 @@ const CheckUp = () => {
 
     return (
         <IonPage>
-            <IonHeader mode="ios">
+            {/* <IonHeader mode="ios">
                 <IonToolbar className="pt-1 pb-1" mode="ios">
-                    {/* <IonButtons slot="start">
+                    <IonButtons slot="start">
                         <IonBackButton mode="md" defaultHref="/settings"></IonBackButton>
-                    </IonButtons> */}
+                    </IonButtons>
                     <IonTitle>Risk Factor</IonTitle>
                 </IonToolbar>
-            </IonHeader>
+            </IonHeader> */}
             <IonContent>
-                <SubCards
-                    data={category}
-                    categoryId={"4"}
-                    categroyName={"Risk Factor"}
-                />
-                {/* <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "5px" }}>
+                <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            fontSize: "1.2rem",
+                            fontWeight: "600"
+                        }}
+
+                    >
+                        {/* <IonIcon
+                            size="large"
+                            onClick={() => history.goBack()}
+                            icon={chevronBack}
+                        ></IonIcon> */}
+                        <span>
+                            Risk Factor
+                        </span>
+                        <span></span>
+                    </div>
+
+                    <SubCards
+                        data={category}
+                        categoryId={"4"}
+                        categroyName={"Risk Factor"}
+                    />
+                    {/* <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "5px" }}>
                     {
                         category.map((element: any, index) => (
                             <div key={element} style={{ width: "40%", display: "flex", justifyContent: "center", flexDirection: "column", background: "#bfe5f8", alignItems: "center", gap: "10px", padding: "10px 0px", borderRadius: "15px" }}>
@@ -114,6 +137,7 @@ const CheckUp = () => {
                         ))
                     }
                 </div> */}
+                </div>
             </IonContent>
 
         </IonPage>

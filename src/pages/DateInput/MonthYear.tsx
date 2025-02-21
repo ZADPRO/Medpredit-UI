@@ -25,20 +25,23 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
 
   return (
     <>
-      <InputText
-        value={value ? value.split("T")[0] : ""}
-        placeholder={placeholder}
-        className="w-full"
-        onClick={() => {
-          if (!value) {
-            const today = new Date();
-            const formattedDate = today.toISOString().slice(0, 7); // Format YYYY-MM
-            onChange(formattedDate);
-          }
-          setIsOpen(true);
-        }}
-        readOnly
-      />
+      <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+        <InputText
+          style={{ width: "100%", textAlign: "left" }}
+          className="addFamilyInputText"
+          value={value ? value.split("T")[0] : ""}
+          placeholder={placeholder}
+          onClick={() => {
+            if (!value) {
+              const today = new Date();
+              const formattedDate = today.toISOString().slice(0, 7); // Format YYYY-MM
+              onChange(formattedDate);
+            }
+            setIsOpen(true);
+          }}
+          readOnly
+        />
+      </div>
       <IonModal
         isOpen={isOpen}
         id="doctorDetailsGraph"
@@ -56,7 +59,7 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
           <Divider />
           <div
             style={{
-              background: "#f4f5f7",
+              background: "#effafe",
               display: "flex",
               justifyContent: "space-evenly",
               width: "100%",
@@ -70,14 +73,13 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
               }}
               style={{
                 width: "40%",
-                background: "#505050",
+                background: "#ceebfb",
                 padding: "15px",
                 textAlign: "center",
-                fontSize: "1rem",
-                color: "#fff",
+                fontSize: "1.1rem",
+                color: "#0c3f69",
                 borderRadius: "10px",
-                fontWeight: "700",
-                cursor: "pointer",
+                fontWeight: "600",
               }}
             >
               Clear
@@ -86,14 +88,13 @@ const MonthYearPicker: React.FC<MonthYearPickerProps> = ({
               onClick={() => setIsOpen(false)}
               style={{
                 width: "40%",
-                background: "green",
+                background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                 padding: "15px",
                 textAlign: "center",
                 fontSize: "1rem",
                 color: "#fff",
                 borderRadius: "10px",
-                fontWeight: "700",
-                cursor: "pointer",
+                fontWeight: "700"
               }}
             >
               Set

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import "./Tab5.css";
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonBackButton,
   IonButtons,
   IonContent,
   IonHeader,
   IonIcon,
+  IonItem,
   IonLabel,
   IonPage,
   IonRippleEffect,
@@ -18,20 +21,11 @@ import {
   IonToolbar,
   SegmentValue,
 } from "@ionic/react";
-import { addCircleOutline } from "ionicons/icons";
-import Diabetes from "../KnowDisease/Diabetes";
-import diabetesImg from "../../assets/KnowAbout/diabetics.png";
-import hypertension from "../../assets/KnowAbout/hypertension.png";
-import stroke from "../../assets/KnowAbout/stroke.png";
-import coronary from "../../assets/KnowAbout/coronary.png";
-import Hypertension from "../KnowDisease/Hypertension";
-import diabetesWhite from "../../assets/KnowAbout/diabeticsWhite.png";
-import hypertensionWhite from "../../assets/KnowAbout/hypertensionWhite.png";
-import strokeWhite from "../../assets/KnowAbout/strokeWhite.png";
-import coronaryWhite from "../../assets/KnowAbout/coronaryWhite.png";
-import Coronary from "../KnowDisease/Coronary";
-import Stroke from "../KnowDisease/Stroke";
-import { App } from "@capacitor/app";
+import diabetesNew from "../../assets/images_new/DIABETES-05.png";
+import hypertensionNew from "../../assets/images_new/Hypertension.png";
+import coronaryDiseaseNew from "../../assets/images_new/Coronary_Heart_Disease.png";
+import strokeNew from "../../assets/images_new/Stroke.png";
+import KnowDisease from "../KnowDisease/KnowDisease";
 
 const Tab5: React.FC = () => {
   const [selectedSegment, setSelectedSegment] =
@@ -46,34 +40,15 @@ const Tab5: React.FC = () => {
     }
   };
 
-  const [activeDisease, setActiveDisease] = useState(1);
+  const [activeDisease, setActiveDisease] = useState<string>("Diabetes");
 
   useEffect(() => {
     console.log(activeDisease);
   }, [activeDisease]);
 
-  useEffect(() => {
-    let backButtonListener: any;
-
-    const setupListener = async () => {
-      backButtonListener = await App.addListener("backButton", (event: any) => {
-        event.preventDefault(); // Prevent default back behavior
-        history.replace("/home"); // Redirect to home
-      });
-    };
-
-    setupListener(); // Initialize listener
-
-    return () => {
-      if (backButtonListener) {
-        console.log("backButtonListener", backButtonListener)
-        backButtonListener.remove(); // Cleanup listener
-      }
-    };
-  }, [history]);
-
   return (
     <IonPage>
+      {/*
       <IonContent fullscreen>
         <div
           style={{
@@ -260,6 +235,108 @@ const Tab5: React.FC = () => {
               <Stroke />
             </>
           ) : null}
+        </div>
+      </IonContent> */}
+
+
+
+
+      <IonContent fullscreen>
+        <div className="tab5 medpredit-page-background">
+          <div className="tab5TopDiv">
+            <h2
+              style={{
+                margin: "0",
+                fontSize: "1.2rem",
+                textAlign: "center",
+                color: "#0c436c"
+              }}>
+              Know About Disease
+            </h2>
+            <div className="tab5IonSegment">
+              <IonSegment scrollable={true} onIonChange={(e) => setActiveDisease(e.detail.value as string)} mode="md" value={activeDisease}>
+                <IonSegmentButton value="Diabetes" contentId="1">
+                  <IonLabel>Diabetes</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="Hypertension" contentId="2">
+                  <IonLabel>Hypertension</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="Coronary Artery Disease" contentId="3">
+                  <IonLabel>Coronary Artery Disease</IonLabel>
+                </IonSegmentButton>
+                <IonSegmentButton value="Stroke" contentId="4">
+                  <IonLabel>Stroke</IonLabel>
+                </IonSegmentButton>
+              </IonSegment>
+            </div>
+
+            <div className="tab5IonSegmentView">
+              <IonSegmentView>
+                <IonSegmentContent id="1" hidden={activeDisease !== "Diabetes"}>
+                  <img src={diabetesNew} />
+                  <h1
+                    style={{
+                      margin: "0",
+                      fontSize: "2rem",
+                      color: "white",
+                      marginRight: "auto",
+                      paddingLeft: "1.5rem",
+                      paddingBottom: "1rem"
+                    }}>
+                    Diabetes
+                  </h1>
+                </IonSegmentContent>
+                <IonSegmentContent id="2" hidden={activeDisease !== "Hypertension"}>
+                  <img src={hypertensionNew} />
+                  <h1
+                    style={{
+                      margin: "0",
+                      fontSize: "2rem",
+                      color: "white",
+                      marginRight: "auto",
+                      paddingLeft: "1.5rem",
+                      paddingBottom: "1rem"
+                    }}>
+                    Hypertension
+                  </h1>
+                </IonSegmentContent>
+                <IonSegmentContent id="3" hidden={activeDisease !== "Coronary Artery Disease"}>
+                  <img src={coronaryDiseaseNew} />
+                  <h1
+                    style={{
+                      margin: "0",
+                      fontSize: "1.5rem",
+                      color: "white",
+                      marginRight: "auto",
+                      paddingLeft: "1.5rem",
+                      paddingBottom: "1rem"
+                    }}>
+                    Coronary Artery Disease
+                  </h1>
+                </IonSegmentContent>
+                <IonSegmentContent id="4" hidden={activeDisease !== "Stroke"}>
+                  <img src={strokeNew} />
+                  <h1
+                    style={{
+                      margin: "0",
+                      fontSize: "2rem",
+                      color: "white",
+                      marginRight: "auto",
+                      paddingLeft: "1.5rem",
+                      paddingBottom: "1rem"
+                    }}>
+                    Stroke
+                  </h1>
+                </IonSegmentContent>
+              </IonSegmentView>
+            </div>
+          </div>
+
+
+          <div style={{ margin: "1rem 1.5rem 0 1.5rem", overflow: "scroll", height: "35vh" }}>
+            {activeDisease ? <KnowDisease activeDisease={activeDisease} /> : null}
+          </div>
+
         </div>
       </IonContent>
     </IonPage>

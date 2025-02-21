@@ -16,18 +16,18 @@ import {
 
 const AlcoholInstructions: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="/questions/Alcohol/11"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Alcohol Instructions</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="/questions/Alcohol/11"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Alcohol Instructions</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonItem lines="none">
           <IonLabel style={{ textAlign: "justify" }}>
@@ -120,7 +120,7 @@ const AlcoholInstructions: React.FC = () => {
           </IonItem>
         </IonList>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

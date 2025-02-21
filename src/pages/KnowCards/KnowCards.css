@@ -1,9 +1,44 @@
 .disabled-card {
-    opacity: 0.5; /* Makes the card appear faded */
-    pointer-events: none; /* Prevents clicks */
-    cursor: not-allowed; /* Changes the cursor to indicate disabled state */
-  }
-  
-  .disabled-card .knowCard {
-    filter: grayscale(100%); /* Optional: Makes the card image grayscale */
-  }
+  opacity: 0.5; /* Makes the card appear faded */
+  pointer-events: none; /* Prevents clicks */
+  cursor: not-allowed; /* Changes the cursor to indicate disabled state */
+}
+
+.disabled-card .knowCard {
+  filter: grayscale(100%); /* Optional: Makes the card image grayscale */
+}
+
+.knowCardParent{
+  padding-top: 1.5rem;
+}
+
+.knowCard{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 5%;
+  padding: 0.5rem;
+  border-radius: 200px;
+  color: white;
+  font-size: large;
+}
+
+.knowCardcontent {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.knowCardcontent>img{
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: lightblue;
+  border-radius: 100%;
+  padding: 0.4rem;
+}
+
+.knowCardcontent>p{
+  margin: 0;
+}

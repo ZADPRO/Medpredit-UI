@@ -124,6 +124,7 @@ export const ScoreVerify: React.FC<HandleScoreValueProps> = ({
         <>
           <div
             style={{
+              fontSize: "0.8rem",
               width: "100px",
               color: `${color}`,
               display: "flex",
