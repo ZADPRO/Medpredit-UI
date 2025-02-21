@@ -40,7 +40,8 @@ ion-segment#KnowAboutPatient_Modal>ion-segment-button {
 }
 
 #yearPicker_Popover>div{
-  height: 20vh;
+  min-height: 5vh;
+  max-height: 20vh;
 }
 
 .KnowAboutPatient_AccGroup{

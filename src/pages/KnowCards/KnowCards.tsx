@@ -315,8 +315,8 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                               className="knowCardParent grid-item"
                               key={card.refQCategoryId}
                             >
-                              <div className="knowCard gradientButton02 ion-activatable ripple-parent rectangle">
-                                <IonRippleEffect />
+                              <div style={{color: "rgb(12, 67, 108)"}} className="knowCard boxShadow01 backgroundColor01 ion-activatable ripple-parent rectangle">
+                                {/* <IonRippleEffect /> */}
                                 <div className="knowCardcontent">
                                   <img
                                     src={getImage(card.refQCategoryId)}
@@ -324,33 +324,33 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                                   />
                                   <p>{card.refCategoryLabel}</p>
                                 </div>
-                                <IonIcon
-                                  size="large"
-                                  icon={chevronForward}
-                                ></IonIcon>
-                               {/*} <div
+                               <div
                                   style={{
-                                    margin: "10px 0px",
-                                    fontSize: "0.9rem",
+                                    
+                                    fontSize: "0.6rem",
                                     display: "flex",
                                     flexDirection: "column",
-                                    gap: "5px",
+                                    alignItems: "flex-end",
                                   }}
                                 >
                                   <div>
                                     Taken:{" "}
-                                    {reportItem.refPTcreatedDate.split("T")[0]}
+                                    {new Date(reportItem.refPTcreatedDate)
+                                      .toLocaleDateString("en-GB")
+                                      .replace(/\//g, "-")}
+
                                   </div>
                                   <div>
                                     Valid:{" "}
-                                    {addDaysToDate(
+                                    {new Date(addDaysToDate(
                                       reportItem.refPTcreatedDate,
                                       getValidateDuration(
                                         reportItem.refQCategoryId
                                       )
-                                    )}
+                                    )).toLocaleDateString("en-GB")
+                                    .replace(/\//g, "-")}
                                   </div>
-                                </div>*/}
+                                </div>
                               </div>
                             </div>
                           </>
@@ -393,7 +393,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                                 // }
                               }}
                             >
-                              <div className="knowCard gradientButton02 ion-activatable ripple-parent rectangle">
+                              <div className="knowCard gradientButton02 boxShadow01 ion-activatable ripple-parent rectangle">
                                 <IonRippleEffect></IonRippleEffect>
                                 <div className="knowCardcontent">
                                   <img
@@ -451,7 +451,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                       // }
                     }}
                   >
-                    <div className="knowCard gradientButton02 ion-activatable ripple-parent">
+                    <div className="knowCard gradientButton02 boxShadow01 ion-activatable ripple-parent">
                       <IonRippleEffect></IonRippleEffect>
                       <div className="knowCardcontent">
                         <img

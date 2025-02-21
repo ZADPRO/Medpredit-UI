@@ -21,6 +21,8 @@ import PopSemiboldItalic from "../../assets/Fonts/Poppins-SemiBoldItalic.ttf";
 import { ScoreVerify } from "../../ScoreVerify";
 
 import backgroundImage1 from "../../assets/PDFTemplate/background-1.png";
+import { IonIcon } from "@ionic/react";
+import { download } from "ionicons/icons";
 
 interface DoctorDetails {
   refHospitalName: any;
@@ -4331,17 +4333,12 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
       {Loading ? (
         <>
           <button
-            style={{
-              background: "linear-gradient(160deg, #077556, #2f9f97)",
-              fontSize: "16px",
-              color: "#fff",
-              width: "100%",
-              height: "3rem",
-              margin: "5px 0px",
-              borderRadius: "5px",
-            }}
+           style={{
+            backgroundColor: "transparent",
+            color: "#0c436c"
+          }}
           >
-            <i className="pi pi-spin pi-spinner"></i>
+            <i style={{fontSize: "xx-large"}} className="pi pi-spin pi-spinner"></i>
           </button>
         </>
       ) : (
@@ -4351,17 +4348,10 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
             setLoading(true);
           }}
           style={{
-            width: "100%",
-            height: "3rem",
-            // margin: "5px 0px",
-            borderRadius: "5px",
-            background: "linear-gradient(160deg, #077556, #2f9f97)",
-            color: "#fff",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          Download Report
+            backgroundColor: "transparent",
+            color: "#0c436c"
+          }}>
+          <IonIcon size="large" icon={download}></IonIcon>
         </button>
       )}
     </div>

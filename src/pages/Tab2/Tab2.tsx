@@ -24,8 +24,8 @@ import { useHistory, useLocation } from "react-router";
 import axios from "axios";
 import decrypt from "../../helper";
 import searchUser from "../../assets/images/SeacrhUser.png";
-import patientListImg from "../../assets/images_new/PatientList.svg";
-import contactImg from "../../assets/logo_new/PROFILE_ICON-19.svg";
+import patientListImg from "../../assets/logo_new/PatientList.png";
+import contactImg from "../../assets/logo_new/PROFILE_ICON-19.png";
 import SearchInput from "../FieldInputs/SearchInput";
 
 const Tab2: React.FC = () => {

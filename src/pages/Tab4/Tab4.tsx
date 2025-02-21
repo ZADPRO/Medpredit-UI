@@ -14,7 +14,7 @@ import {
 import "./Tab4.css";
 
 import profile from "../../assets/images/profile.png";
-import profile_new from "../../assets/logo_new/PROFILE_ICON-19.svg";
+import profile_new from "../../assets/logo_new/PROFILE_ICON-19.png";
 import { Divider } from "primereact/divider";
 import {
   chatbubblesOutline,

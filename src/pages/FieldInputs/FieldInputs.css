@@ -5,14 +5,18 @@
   border: 1.2px solid lightgray;
 }
 
-.custom-text-Input:focus,
-.custom-password-Input:focus {
+.custom-text-Input:focus-within,
+.custom-password-Input:focus-within {
   border: 1.5px solid #0285dc;
 }
 
 .custom-text-Input input::placeholder,
 .custom-password-Input input::placeholder {
   color: #aaa;
+}
+
+.custom-error{
+  border: 1.5px solid red!important;
 }
 
 .custom-password-Input {

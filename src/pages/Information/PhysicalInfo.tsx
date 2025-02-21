@@ -21,18 +21,18 @@ import React, { useRef } from "react";
 
 const PhysicalInfo: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Stress/9"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Physical Activity Info</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Stress/9"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Physical Activity Info</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent fullscreen className="ion-padding">
         <div>
           <ul>
@@ -52,7 +52,7 @@ const PhysicalInfo: React.FC = () => {
           </ul>
         </div>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 
