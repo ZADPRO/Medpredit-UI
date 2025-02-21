@@ -81,6 +81,7 @@ import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.pn
 import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.png";
 import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.png";
 
+
 import "./MainRoutes.css";
 
 const MainRoutes: React.FC = () => {
@@ -227,7 +228,7 @@ const MainRoutes: React.FC = () => {
       name: "Configure",
       path: "/configure",
       outlineIcon: configureOutlineNew,
-      sharpIcon: configureSharpNew,
+      sharpIcon: configureSharpNew
     },
     {
       name: "Profile",
@@ -535,14 +536,14 @@ const MainRoutes: React.FC = () => {
           {(roleType === 1
             ? doctor
             : roleType === 2
-            ? assistant
-            : roleType === 3
-            ? patient
-            : roleType === 4
-            ? doctorAdmin
-            : roleType === 5
-            ? Admin
-            : []
+              ? assistant
+              : roleType === 3
+                ? patient
+                : roleType === 4
+                  ? doctorAdmin
+                  : roleType === 5
+                    ? Admin
+                    : []
           ).map((element) => (
             <IonTabButton
               className={

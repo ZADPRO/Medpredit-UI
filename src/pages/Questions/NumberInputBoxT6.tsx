@@ -37,26 +37,28 @@ const NumberInputBoxT6: React.FC<NumberInputBoxT6Props> = ({
   };
 
   return (
-    <div className="questionsOutline">
+    <div className="questionsType">
       <div className="questions inputText">
         <Domain questionId={label.questionId} />
-        <p className="question ">{label.questionText}</p>
+        <p className="questionText ">{label.questionText}</p>
         <ShowCard questionId={label.questionId} />
-        <div className="flex flex-wrap gap-3">
-          {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-            <div key={num} className="flex align-items-center">
-              <RadioButton
-                inputId={`radio${label}${num}`}
-                name="numberSelection"
-                value={num.toString()}
-                onChange={(e) => handleRadioChange(e.value)}
-                checked={selectedValue === num.toString()}
-              />
-              <label htmlFor={`radio${num}`} className="ml-2">
-                {num}
-              </label>
-            </div>
-          ))}
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div className="flex flex-wrap gap-3 " style={{ width: "90%" }}>
+            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
+              <div key={num} className="flex align-items-center">
+                <RadioButton
+                  inputId={`radio${label}${num}`}
+                  name="numberSelection"
+                  value={num.toString()}
+                  onChange={(e) => handleRadioChange(e.value)}
+                  checked={selectedValue === num.toString()}
+                />
+                <label htmlFor={`radio${num}`} className="questionText ml-2">
+                  {num}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
         <Divider />
       </div>

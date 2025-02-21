@@ -335,7 +335,7 @@ const Patientcards: React.FC<PatientcardsProps> = ({
         const imageUrl = patient.imageUrl || userImageNew;
         return (
           <>
-          {/*{parsedDetails.roleType === 1 || parsedDetails.roleType === 4 ? (
+            {/*{parsedDetails.roleType === 1 || parsedDetails.roleType === 4 ? (
               <div key={index}>
                 <IonAlert
                   isOpen={isAlertOpen}
@@ -629,10 +629,10 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                   }
                 >
                   <IonRippleEffect></IonRippleEffect>
-                  <img style={{width: "10vh", height: "10vh"}} src={imageUrl} alt={`Patient ${patientFname}`} />
-                  <div style={{display: "flex", flexDirection: "column", fontSize: "0.8rem", fontWeight: "bold"}}>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                      <span>{patientFname +" "+ patientLname}</span>
+                  <img style={{ width: "10vh", height: "10vh" }} src={imageUrl} alt={`Patient ${patientFname}`} />
+                  <div style={{ display: "flex", flexDirection: "column", fontSize: "0.8rem", fontWeight: "bold" }}>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span>{patientFname + " " + patientLname}</span>
                       <span>{patient.refUserCustId || "-"}</span>
                       <span>{mobileno}</span>
                       <span>{address}</span>
@@ -644,31 +644,43 @@ const Patientcards: React.FC<PatientcardsProps> = ({
             ) : parsedDetails.roleType === 2 ? (
               <div key={index}>
                 <IonModal
+                  id="signInModal"
                   mode="ios"
                   isOpen={openModalPatientId === patient.refUserId} // Only open modal for the clicked patient
                   onDidDismiss={handleModalClose}
                   initialBreakpoint={0.75}
                 >
                   <IonContent className="ion-padding">
-                    <div style={{ height: "71vh" }}>
+                    <div>
                       <div
                         style={{
                           height: "8vh",
                           display: "flex",
+                          flexDirection: "column",
                           justifyContent: "center",
                           alignItems: "center",
-                          fontSize: "18px",
+                          fontSize: "1.5rem",
                           fontWeight: "700",
+                          color: "#1764b7",
                         }}
                       >
-                        Choose Your Doctor
+                        <span>Choose Your</span>
+                        <span>Doctor</span>
                       </div>
-                      <div style={{ height: "55vh" }}>
+                      <div
+                        style={{
+                          height: "40vh",
+                          overflow: "auto",
+                          display: "flex",
+                          flexDirection: "column",
+                          marginTop: "2rem",
+                          gap: "0.5rem",
+                        }}
+                      >
                         {doctors.map((doctor, index) => (
                           <div
                             key={index}
                             style={{
-                              overflow: "auto",
                               display: "flex",
                               flexDirection: "column",
                               gap: "10px",
@@ -692,11 +704,12 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                             <div
                               style={{
                                 height: "50px",
-                                background: "#e6e6e6",
                                 borderRadius: "5px",
                                 display: "flex",
                                 alignItems: "center",
                                 padding: "20px",
+                                color: "#fff",
+                                background: "linear-gradient(90deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%)",
                               }}
                               className="ion-activatable ripple-parent rectangle"
                             >
@@ -706,6 +719,8 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                             </div>
                           </div>
                         ))}
+
+
                       </div>
 
                       <div
@@ -783,10 +798,10 @@ const Patientcards: React.FC<PatientcardsProps> = ({
                   className="tab2Cards gradientBackground02_opacity"
                   onClick={() => handleModalOpen(patient.refUserId)}
                 >
-                  <img style={{width: "10vh", height: "10vh"}} src={imageUrl} alt={`Patient ${patientFname}`} />
-                  <div style={{display: "flex", flexDirection: "column", fontSize: "0.8rem", fontWeight: "bold"}}>
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                      <span>{patientFname +" "+ patientLname}</span>
+                  <img style={{ width: "10vh", height: "10vh" }} src={imageUrl} alt={`Patient ${patientFname}`} />
+                  <div style={{ display: "flex", flexDirection: "column", fontSize: "0.8rem", fontWeight: "bold" }}>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <span>{patientFname + " " + patientLname}</span>
                       <span>{patient.refUserCustId || "-"}</span>
                       <span>{mobileno}</span>
                       <span>{address}</span>

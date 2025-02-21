@@ -90,7 +90,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         }}
         animated={false}
       >
-        <div className="doctor-modal-content">
+        <div className="doctor-modal-content" style={{ background: "linear-gradient(227deg, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 61%, rgba(217,240,255,1)100%)" }}>
           {/* Header */}
           <div className="doctor-modal-header">Show Cards</div>
           {/* <p>{verifyShowCard(questionId) ? "yes" : "no"}</p> */}
@@ -102,6 +102,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
             onClick={() => {
               setIsModel(false);
             }}
+            style={{ background: "linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%)", color: "#fff" }}
           >
             <IonRippleEffect></IonRippleEffect>
             Close
@@ -117,7 +118,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         }}
         animated={false}
       >
-        <div className="doctor-modal-content">
+        <div className="doctor-modal-content" style={{ background: "linear-gradient(227deg, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 61%, rgba(217,240,255,1)100%)" }}>
           {/* Header */}
           <div className="doctor-modal-header">Example</div>
           {/* <p>{verifyShowCard(questionId) ? "yes" : "no"}</p> */}
@@ -129,6 +130,7 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
             onClick={() => {
               setIsExample(false);
             }}
+            style={{ background: "linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%)", color: "#fff" }}
           >
             <IonRippleEffect></IonRippleEffect>
             Close
@@ -149,8 +151,9 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
             style={{
               marginBottom: "10px",
               textDecoration: "underline",
-              color: "blue",
+              color: "#569baa",
               cursor: "pointer",
+              fontSize: "0.9rem"
             }}
             onClick={() => {
               setIsModel(true);
@@ -162,8 +165,9 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
             style={{
               marginBottom: "10px",
               textDecoration: "underline",
-              color: "blue",
+              color: "#569baa",
               cursor: "pointer",
+              fontSize: "0.9rem"
             }}
             onClick={() => {
               setIsExample(true);

@@ -19,7 +19,7 @@ import {
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-import { chevronBackCircle, chevronForwardCircle } from "ionicons/icons";
+import { chevronBack, chevronBackCircle, chevronForwardCircle } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 import { InputText } from "primereact/inputtext";
@@ -339,1048 +339,1104 @@ const AddUser: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios">
+      {/* <IonHeader mode="ios">
         <IonToolbar className="pt-1 pb-1" mode="ios">
           <IonButtons slot="start">
             <IonBackButton mode="md" defaultHref="/patient"></IonBackButton>
           </IonButtons>
           <IonTitle>Add Patient</IonTitle>
         </IonToolbar>
-      </IonHeader>
+      </IonHeader> */}
       <IonContent className="addPatientForm">
-        <div style={{ margin: "20px 0px" }}>
-          {/* Occupation Model */}
-          <IonModal
-            isOpen={occupationModel}
-            id="doctorDetailsGraph"
-            initialBreakpoint={1}
-            onDidDismiss={() => {
-              setOccupationModel(false);
+        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              margin: "1rem",
             }}
-            animated={false}
+
           >
-            <div className="doctor-modal-content">
-              {/* Header */}
-              <div className="doctor-modal-header">Occupation Category</div>
+            <IonIcon
+              size="large"
+              onClick={() => history.goBack()}
+              icon={chevronBack}
+            ></IonIcon>
+            <span>
+              Add Patient
+            </span>
+            <span></span>
+          </div>
+          <div style={{ margin: "20px 0px" }}>
+            {/* Occupation Model */}
+            <IonModal
+              isOpen={occupationModel}
+              id="doctorDetailsGraph"
+              initialBreakpoint={1}
+              onDidDismiss={() => {
+                setOccupationModel(false);
+              }}
+              animated={false}
+            >
+              <div className="doctor-modal-content">
+                {/* Header */}
+                <div className="doctor-modal-header">Occupation Category</div>
 
-              {/* Content */}
-              <div
-                style={{
-                  marginBottom: "10px",
-                  overflow: "auto",
-                  height: "50vh",
-                }}
-              >
-                <table className="table custom-table">
-                  <thead>
-                    <tr>
-                      <th
-                        style={{ width: "40%", fontSize: "1rem" }}
-                        className="table-heading"
-                      >
-                        Occupational Category
-                      </th>
-                      <th
-                        style={{ width: "60%", fontSize: "1rem" }}
-                        className="table-heading"
-                      >
-                        Definition with example
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {occupationData.map((element: any) => (
-                      <tr>
-                        <td align="center">{element.category}</td>
-                        <td style={{ fontSize: "0.9rem" }}>
-                          <div>
-                            <b>{element.heading}</b>
-                          </div>
-                          <div style={{ marginTop: "5px" }}>
-                            {element.content}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Close Button */}
-              <button
-                className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
-                onClick={() => {
-                  setOccupationModel(false);
-                }}
-              >
-                <IonRippleEffect></IonRippleEffect>
-                Close
-              </button>
-            </div>
-          </IonModal>
-
-          {/* Occupational Sector */}
-          <IonModal
-            isOpen={occupationalSector}
-            id="doctorDetailsGraph"
-            initialBreakpoint={1}
-            onDidDismiss={() => {
-              setOccupationalSector(false);
-            }}
-            animated={false}
-          >
-            <div className="doctor-modal-content">
-              {/* Header */}
-              <div className="doctor-modal-header">Occupation Sector</div>
-
-              {/* Content */}
-              <div
-                style={{
-                  marginBottom: "10px",
-                  overflow: "auto",
-                  height: "50vh",
-                }}
-                className="ion-padding"
-              >
-                <div>
-                  <b>Production and Manufacturing</b>
-                </div>
+                {/* Content */}
                 <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                    marginTop: "10px",
+                    marginBottom: "10px",
+                    overflow: "auto",
+                    height: "50vh",
                   }}
                 >
-                  <li>Agriculture and fishing</li>
-                  <li>Mining and Quarrying</li>
-                  <li>Forestry</li>
-                  <li>Food processing</li>
-                  <li>Factories and industries</li>
+                  <table className="table custom-table">
+                    <thead>
+                      <tr>
+                        <th
+                          style={{ width: "40%", fontSize: "1rem" }}
+                          className="table-heading"
+                        >
+                          Occupational Category
+                        </th>
+                        <th
+                          style={{ width: "60%", fontSize: "1rem" }}
+                          className="table-heading"
+                        >
+                          Definition with example
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {occupationData.map((element: any) => (
+                        <tr>
+                          <td align="center">{element.category}</td>
+                          <td style={{ fontSize: "0.9rem" }}>
+                            <div>
+                              <b>{element.heading}</b>
+                            </div>
+                            <div style={{ marginTop: "5px" }}>
+                              {element.content}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Close Button */}
+                <button
+                  className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
+                  onClick={() => {
+                    setOccupationModel(false);
+                  }}
+                >
+                  <IonRippleEffect></IonRippleEffect>
+                  Close
+                </button>
+              </div>
+            </IonModal>
+
+            {/* Occupational Sector */}
+            <IonModal
+              isOpen={occupationalSector}
+              id="doctorDetailsGraph"
+              initialBreakpoint={1}
+              onDidDismiss={() => {
+                setOccupationalSector(false);
+              }}
+              animated={false}
+            >
+              <div className="doctor-modal-content">
+                {/* Header */}
+                <div className="doctor-modal-header">Occupation Sector</div>
+
+                {/* Content */}
+                <div
+                  style={{
+                    marginBottom: "10px",
+                    overflow: "auto",
+                    height: "50vh",
+                  }}
+                  className="ion-padding"
+                >
+                  <div>
+                    <b>Production and Manufacturing</b>
+                  </div>
                   <div
                     style={{
                       display: "flex",
                       flexDirection: "column",
                       gap: "5px",
-                      marginTop: "5px",
-                      paddingLeft: "10px",
+                      marginTop: "10px",
                     }}
                   >
-                    <li>Textiles</li>
-                    <li>Automobiles</li>
-                    <li>Electrical and electronics</li>
-                    <li>Mechanical</li>
-                    <li>Constructions</li>
+                    <li>Agriculture and fishing</li>
+                    <li>Mining and Quarrying</li>
+                    <li>Forestry</li>
+                    <li>Food processing</li>
+                    <li>Factories and industries</li>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                        marginTop: "5px",
+                        paddingLeft: "10px",
+                      }}
+                    >
+                      <li>Textiles</li>
+                      <li>Automobiles</li>
+                      <li>Electrical and electronics</li>
+                      <li>Mechanical</li>
+                      <li>Constructions</li>
+                    </div>
+                  </div>
+                  <div style={{ marginTop: "10px" }}>
+                    <b>Service sectors</b>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "5px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <li>Health care</li>
+                    <li>Education</li>
+                    <li>Sales and marketing</li>
+                    <li>IT and software solutions</li>
+                    <li>Finance and banking</li>
+                    <li>Transport and logistics- road and railways</li>
+                    <li>Hotels and lodges</li>
+                    <li>Media</li>
+                    <li>Judicial</li>
+                    <li>Defence and police</li>
+                    <li>Disaster management and rescue</li>
+                  </div>
+                  <div style={{ marginTop: "10px" }}>
+                    <b>Others</b>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "5px",
+                      marginTop: "10px",
+                    }}
+                  >
+                    <li>Research and development</li>
+                    <li>Consultancy</li>
+                    <li>Advisories</li>
+                    <li>Intelligence</li>
                   </div>
                 </div>
-                <div style={{ marginTop: "10px" }}>
-                  <b>Service sectors</b>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                    marginTop: "10px",
+
+                {/* Close Button */}
+                <button
+                  className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
+                  onClick={() => {
+                    setOccupationalSector(false);
                   }}
                 >
-                  <li>Health care</li>
-                  <li>Education</li>
-                  <li>Sales and marketing</li>
-                  <li>IT and software solutions</li>
-                  <li>Finance and banking</li>
-                  <li>Transport and logistics- road and railways</li>
-                  <li>Hotels and lodges</li>
-                  <li>Media</li>
-                  <li>Judicial</li>
-                  <li>Defence and police</li>
-                  <li>Disaster management and rescue</li>
-                </div>
-                <div style={{ marginTop: "10px" }}>
-                  <b>Others</b>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <li>Research and development</li>
-                  <li>Consultancy</li>
-                  <li>Advisories</li>
-                  <li>Intelligence</li>
-                </div>
+                  <IonRippleEffect></IonRippleEffect>
+                  Close
+                </button>
+              </div>
+            </IonModal>
+
+            <div>
+              <div style={{ padding: "0px 15px" }}>
+                <IonToast
+                  isOpen={toastOpen.status}
+                  onDidDismiss={() =>
+                    setToastOpen({ status: false, message: "" })
+                  }
+                  message={toastOpen.message}
+                  duration={3000}
+                />
+                {formPage === 1 ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "end",
+                        paddingTop: "0px",
+                        paddingBottom: "5px",
+                        color: "#45474b",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "1.3rem",
+                          paddingRight: "5px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        0%
+                      </div>
+                      <div>Complete</div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "1.3rem",
+                        paddingRight: "5px",
+                        fontWeight: "700",
+                        paddingBottom: "20px",
+                        color: "#45474b",
+                      }}
+                    >
+                      Personal Details
+                    </div>
+                  </>
+                ) : formPage === 2 ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "end",
+                        paddingTop: "0px",
+                        paddingBottom: "5px",
+                        color: "#45474b",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "1.3rem",
+                          paddingRight: "5px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        25%
+                      </div>
+                      <div>Complete</div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "1.3rem",
+                        paddingRight: "5px",
+                        fontWeight: "700",
+                        paddingBottom: "20px",
+                        color: "#45474b",
+                      }}
+                    >
+                      Skills Details
+                    </div>
+                  </>
+                ) : formPage === 3 ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "end",
+                        paddingTop: "0px",
+                        paddingBottom: "5px",
+                        color: "#45474b",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "1.3rem",
+                          paddingRight: "5px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        50%
+                      </div>
+                      <div>Complete</div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "1.3rem",
+                        paddingRight: "5px",
+                        fontWeight: "700",
+                        paddingBottom: "20px",
+                        color: "#45474b",
+                      }}
+                    >
+                      Communication Details
+                    </div>
+                  </>
+                ) : formPage === 4 ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "end",
+                        paddingTop: "0px",
+                        paddingBottom: "5px",
+                        color: "#45474b",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "1.3rem",
+                          paddingRight: "5px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        75%
+                      </div>
+                      <div>Complete</div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "1.3rem",
+                        paddingRight: "5px",
+                        fontWeight: "700",
+                        paddingBottom: "20px",
+                        color: "#45474b",
+                      }}
+                    >
+                      Authentication Detail
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
               </div>
 
-              {/* Close Button */}
-              <button
-                className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
-                onClick={() => {
-                  setOccupationalSector(false);
+              {/* Progress Bar */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  marginBottom: "0px",
                 }}
               >
-                <IonRippleEffect></IonRippleEffect>
-                Close
-              </button>
+                {steps.map((step) => (
+                  <div
+                    key={step}
+                    style={{
+                      width: "20%",
+                      height: "4px",
+                      background: formPage >= step ? "#1c70b0" : "#9e9e9e",
+                      borderRadius: "4px",
+                      transition: "background 0.5s ease-in-out",
+                    }}
+                  ></div>
+                ))}
+              </div>
             </div>
-          </IonModal>
 
-          <div>
-            <div style={{ padding: "0px 15px" }}>
-              <IonToast
-                isOpen={toastOpen.status}
-                onDidDismiss={() =>
-                  setToastOpen({ status: false, message: "" })
-                }
-                message={toastOpen.message}
-                duration={3000}
-              />
-              {formPage === 1 ? (
-                <>
+            {/* Form Content */}
+            <div className="form-page">
+              {formPage === 1 && (
+                <div style={{ padding: "15px" }}>
+                  {/* First Name */}
+                  <div className="inputBox">
+                    <label>
+                      First Name <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-user"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refUserFname}
+                        onChange={handleInputChange}
+                        placeholder="Enter First Name"
+                        name="refUserFname"
+                      />
+                    </div>
+                  </div>
+                  {/* Last Name */}
+                  <div className="inputBox">
+                    <label>
+                      Last Name <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-user"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refUserLname}
+                        onChange={handleInputChange}
+                        placeholder="Enter Last Name"
+                        name="refUserLname"
+                      />
+                    </div>
+                  </div>
+                  {/* Gender */}
+                  <div className="inputBox">
+                    <label>
+                      Gender <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-mars"></i>
+                      </span>
+                      <Dropdown
+                        value={formData.refGender}
+                        style={{ textAlign: "left" }}
+                        onChange={(e) => handleDropdownChange(e, "refGender")}
+                        options={genderOpt}
+                        placeholder="Select Gender"
+                        name="refGender"
+                        checkmark={true}
+                        className="addFamilyDropdown"
+                        highlightOnSelect={false}
+                      />
+                    </div>
+                  </div>
+                  {/* Date of Birth */}
+                  <div className="inputBox">
+                    <label>
+                      Date of Birth <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-calendar "></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={
+                          formData.refDOB ? formData.refDOB.split("T")[0] : ""
+                        }
+                        placeholder="Date of Birth"
+                        name="refDOB"
+                        onClick={openModal}
+                      />
+                    </div>
+                  </div>
+                  <IonModal
+                    isOpen={isOpen}
+                    id="doctorDetailsGraph"
+                    initialBreakpoint={1}
+                    onDidDismiss={closeModal}
+                    animated={false}
+                  >
+                    <div style={{ width: "100%", background: "#effafe" }}>
+                      <IonDatetime
+                        presentation="date"
+                        preferWheel={true}
+                        value={formData.refDOB}
+                        onIonChange={(e) => {
+                          const selectedDate = e.detail.value;
+                          setFormData({
+                            ...formData,
+                            refDOB: selectedDate,
+                          });
+                        }}
+                      ></IonDatetime>
+                      <Divider />
+                      <div
+                        style={{
+                          background: "#effafe",
+                          display: "flex",
+                          justifyContent: "space-evenly",
+                          width: "100%",
+                          marginBottom: "10px",
+                        }}
+                      >
+                        <div
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              refDOB: "",
+                            });
+                            closeModal();
+                          }}
+                          style={{
+                            width: "40%",
+                            background: "#ceebfb",
+                            padding: "15px",
+                            textAlign: "center",
+                            fontSize: "1.1rem",
+                            color: "#0c3f69",
+                            borderRadius: "10px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          Clear
+                        </div>
+                        <div
+                          onClick={closeModal}
+                          style={{
+                            width: "40%",
+                            background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
+                            padding: "15px",
+                            textAlign: "center",
+                            fontSize: "1rem",
+                            color: "#fff",
+                            borderRadius: "10px",
+                            fontWeight: "700"
+                          }}
+                        >
+                          Set
+                        </div>
+                      </div>
+                    </div>
+                  </IonModal>
+                  {/* Marital Status */}
+                  <div className="inputBox">
+                    <label>
+                      Marital Status <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-users"></i>
+                      </span>
+                      <Dropdown
+                        value={formData.refMaritalStatus}
+                        style={{ textAlign: "left" }}
+                        onChange={(e) =>
+                          handleDropdownChange(e, "refMaritalStatus")
+                        }
+                        options={refMaritalStatus}
+                        placeholder="Select Marital Status"
+                        name="refGender"
+                        className="addFamilyDropdown"
+                        checkmark={true}
+                        highlightOnSelect={false}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {formPage === 2 && (
+                <div style={{ padding: "15px" }}>
+                  {/* Education */}
+                  <div className="inputBox">
+                    <label>
+                      Education <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-graduation-cap"></i>
+                      </span>
+                      <Dropdown
+                        value={formData.refEducation}
+                        name="educationOpt"
+                        style={{ textAlign: "left" }}
+                        onChange={(e) => handleDropdownChange(e, "refEducation")}
+                        options={educationOpt}
+                        optionLabel="name"
+                        placeholder="Select Education"
+                        className="addFamilyDropdown"
+                        checkmark={true}
+                        highlightOnSelect={false}
+                      />
+                    </div>
+                  </div>
+                  {/* Occupation */}
+                  <div className="inputBox">
+                    <label>
+                      Occupation <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-briefcase"></i>
+                      </span>
+                      <Dropdown
+                        value={formData.refProfession}
+                        style={{ textAlign: "left" }}
+                        name="refProfession"
+                        onChange={(e) => handleDropdownChange(e, "refProfession")}
+                        options={occupationcategoryOtp}
+                        optionLabel="name"
+                        placeholder="Occupation Category"
+                        className="addFamilyDropdown"
+                        checkmark={true}
+                        highlightOnSelect={false}
+                      />
+                    </div>
+                    <label
+                      onClick={() => {
+                        setOccupationModel(true);
+                      }}
+                      style={{ marginTop: "10px", textDecoration: "underline" }}
+                    >
+                      Example
+                    </label>
+                  </div>
+                  {/* Sector */}
+                  <div className="inputBox">
+                    <label>
+                      Sector <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      {/* <span className="p-inputgroup-addon">
+                          <i className="pi pi-user"></i>
+                        </span> */}
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refSector}
+                        onChange={handleInputChange}
+                        placeholder="Enter Sector"
+                        name="refSector"
+                      />
+                    </div>
+                    <label
+                      onClick={() => {
+                        setOccupationalSector(true);
+                      }}
+                      style={{ marginTop: "10px", textDecoration: "underline" }}
+                    >
+                      Example
+                    </label>
+                  </div>
+                </div>
+              )}
+              {formPage === 3 && (
+                <div style={{ padding: "15px" }}>
+                  {/* Education */}
+                  <div className="inputBox">
+                    <label>Email</label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-envelope"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refUserEmail}
+                        onChange={handleInputChange}
+                        placeholder="Enter Email"
+                        name="refUserEmail"
+                      />
+                    </div>
+                  </div>
+                  {/* Address */}
+                  <div className="inputBox">
+                    <label>
+                      Address <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-map-marker"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refAddress}
+                        onChange={handleInputChange}
+                        placeholder="Enter Address"
+                        name="refAddress"
+                      />
+                    </div>
+                  </div>
+                  {/* District */}
+                  <div className="inputBox">
+                    <label>
+                      District <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-map-marker"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refDistrict}
+                        onChange={handleInputChange}
+                        placeholder="Enter District"
+                        name="refDistrict"
+                      />
+                    </div>
+                  </div>
+                  {/* Pincode */}
+                  <div className="inputBox">
+                    <label>
+                      Pincode <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-map-marker"></i>
+                      </span>
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        type="number"
+                        value={formData.refPincode}
+                        onChange={handleInputChange}
+                        placeholder="Enter Pincode"
+                        name="refPincode"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+              {formPage === 4 && (
+                <div style={{ padding: "15px" }}>
+                  {/* Mobile Number */}
+                  <div className="inputBox">
+                    <label>
+                      Mobile Number <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      {/* <span className="p-inputgroup-addon">
+                          <i className="pi pi-envelope"></i>
+                        </span> */}
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        type="number"
+                        value={formData.refUserMobileno}
+                        onChange={handleInputChange}
+                        placeholder="Enter Mobile Number"
+                        name="refUserMobileno"
+                      // useGrouping={false}
+                      />
+                    </div>
+                  </div>
+                  {/* Password */}
+                  <div className="inputBox">
+                    <label>
+                      Password <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <Password
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refUserPassword}
+                        onChange={handleInputChange}
+                        placeholder="Enter Password"
+                        name="refUserPassword"
+                        toggleMask
+                        feedback={false}
+                        tabIndex={1}
+                      />
+                    </div>
+                  </div>
+                  {/* Confirm Password */}
+                  <div className="inputBox">
+                    <label>
+                      Confirm Password <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <Password
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refUserConPassword}
+                        onChange={handleInputChange}
+                        placeholder="Enter Confirm Password"
+                        name="refUserConPassword"
+                        toggleMask
+                        feedback={false}
+                        tabIndex={1}
+                      />
+                    </div>
+                  </div>
+
                   <div
+                    className="inputBox"
                     style={{
                       display: "flex",
-                      alignItems: "end",
-                      paddingTop: "0px",
-                      paddingBottom: "5px",
-                      color: "#45474b",
+                      flexDirection: "column",
+                      gap: "10px",
+                      fontWeight: "600",
                     }}
                   >
                     <div
                       style={{
-                        fontSize: "1.3rem",
-                        paddingRight: "5px",
-                        fontWeight: "700",
+                        display: "flex",
+                        fontSize: "1rem",
+                        color: "#45474b",
                       }}
                     >
-                      0%
+                      {/[a-zA-Z]/.test(formData.refUserPassword) ? (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "green",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-check"
+                          ></i>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-times"
+                          ></i>
+                        </div>
+                      )}
+                      &nbsp; Atleast One Character
                     </div>
-                    <div>Complete</div>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "1.3rem",
-                      paddingRight: "5px",
-                      fontWeight: "700",
-                      paddingBottom: "20px",
-                      color: "#45474b",
-                    }}
-                  >
-                    Personal Details
-                  </div>
-                </>
-              ) : formPage === 2 ? (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "end",
-                      paddingTop: "0px",
-                      paddingBottom: "5px",
-                      color: "#45474b",
-                    }}
-                  >
                     <div
                       style={{
-                        fontSize: "1.3rem",
-                        paddingRight: "5px",
-                        fontWeight: "700",
+                        display: "flex",
+                        fontSize: "1rem",
+                        color: "#45474b",
                       }}
                     >
-                      25%
+                      {/\d/.test(formData.refUserPassword) ? (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "green",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-check"
+                          ></i>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-times"
+                          ></i>
+                        </div>
+                      )}
+                      &nbsp; Atleast One Number
                     </div>
-                    <div>Complete</div>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "1.3rem",
-                      paddingRight: "5px",
-                      fontWeight: "700",
-                      paddingBottom: "20px",
-                      color: "#45474b",
-                    }}
-                  >
-                    Skills Details
-                  </div>
-                </>
-              ) : formPage === 3 ? (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "end",
-                      paddingTop: "0px",
-                      paddingBottom: "5px",
-                      color: "#45474b",
-                    }}
-                  >
                     <div
                       style={{
-                        fontSize: "1.3rem",
-                        paddingRight: "5px",
-                        fontWeight: "700",
+                        display: "flex",
+                        fontSize: "1rem",
+                        color: "#45474b",
                       }}
                     >
-                      50%
+                      {/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) ? (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "green",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-check"
+                          ></i>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-times"
+                          ></i>
+                        </div>
+                      )}
+                      &nbsp; Atleast One Special Character
                     </div>
-                    <div>Complete</div>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "1.3rem",
-                      paddingRight: "5px",
-                      fontWeight: "700",
-                      paddingBottom: "20px",
-                      color: "#45474b",
-                    }}
-                  >
-                    Communication Details
-                  </div>
-                </>
-              ) : formPage === 4 ? (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "end",
-                      paddingTop: "0px",
-                      paddingBottom: "5px",
-                      color: "#45474b",
-                    }}
-                  >
                     <div
                       style={{
-                        fontSize: "1.3rem",
-                        paddingRight: "5px",
-                        fontWeight: "700",
+                        display: "flex",
+                        fontSize: "1rem",
+                        color: "#45474b",
                       }}
                     >
-                      75%
+                      {formData.refUserPassword.length > 7 ? (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "green",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-check"
+                          ></i>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-times"
+                          ></i>
+                        </div>
+                      )}
+                      &nbsp; Minimum 8 Characters
                     </div>
-                    <div>Complete</div>
+                    <div
+                      style={{
+                        display: "flex",
+                        fontSize: "1rem",
+                        color: "#45474b",
+                      }}
+                    >
+                      {formData.refUserPassword === formData.refUserConPassword &&
+                        formData.refUserPassword.length > 0 ? (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "green",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-check"
+                          ></i>
+                        </div>
+                      ) : (
+                        <div
+                          style={{
+                            width: "25px",
+                            height: "25px",
+                            background: "red",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <i
+                            style={{ fontSize: "15px", color: "#fff" }}
+                            className="pi pi-times"
+                          ></i>
+                        </div>
+                      )}
+                      &nbsp;Match Confirm Password
+                    </div>
                   </div>
-
-                  <div
-                    style={{
-                      fontSize: "1.3rem",
-                      paddingRight: "5px",
-                      fontWeight: "700",
-                      paddingBottom: "20px",
-                      color: "#45474b",
-                    }}
-                  >
-                    Authentication Detail
-                  </div>
-                </>
-              ) : (
-                <></>
+                </div>
               )}
             </div>
 
-            {/* Progress Bar */}
+            {/* Navigation Buttons */}
             <div
               style={{
+                textAlign: "center",
+                margin: "10px",
                 display: "flex",
-                justifyContent: "space-evenly",
-                marginBottom: "0px",
+                justifyContent: "space-between",
               }}
             >
-              {steps.map((step) => (
-                <div
-                  key={step}
-                  style={{
-                    width: "20%",
-                    height: "4px",
-                    background: formPage >= step ? "#1c70b0" : "#9e9e9e",
-                    borderRadius: "4px",
-                    transition: "background 0.5s ease-in-out",
-                  }}
-                ></div>
-              ))}
-            </div>
-          </div>
-
-          {/* Form Content */}
-          <div className="form-page">
-            {formPage === 1 && (
-              <div style={{ padding: "15px" }}>
-                {/* First Name */}
-                <div className="inputBox">
-                  <label>
-                    First Name <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <span className="p-inputgroup-addon">
-                      <i className="pi pi-user"></i>
-                    </span>
-                    <InputText
-                      value={formData.refUserFname}
-                      onChange={handleInputChange}
-                      placeholder="Enter First Name"
-                      name="refUserFname"
-                    />
-                  </div>
-                </div>
-                {/* Last Name */}
-                <div className="inputBox">
-                  <label>
-                    Last Name <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <span className="p-inputgroup-addon">
-                      <i className="pi pi-user"></i>
-                    </span>
-                    <InputText
-                      value={formData.refUserLname}
-                      onChange={handleInputChange}
-                      placeholder="Enter Last Name"
-                      name="refUserLname"
-                    />
-                  </div>
-                </div>
-                {/* Gender */}
-                <div className="inputBox">
-                  <label>
-                    Gender <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup flex-1">
-                    <Dropdown
-                      value={formData.refGender}
-                      onChange={(e) => handleDropdownChange(e, "refGender")}
-                      options={genderOpt}
-                      placeholder="Select Gender"
-                      name="refGender"
-                      className="w-full"
-                      checkmark={true}
-                      highlightOnSelect={false}
-                    />
-                  </div>
-                </div>
-                {/* Date of Birth */}
-                <div className="inputBox">
-                  <label>
-                    Date of Birth <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup flex-1">
-                    <InputText
-                      value={
-                        formData.refDOB ? formData.refDOB.split("T")[0] : ""
-                      }
-                      placeholder="Date of Birth"
-                      className="w-full"
-                      name="refDOB"
-                      onClick={openModal}
-                    />
-                  </div>
-                </div>
-                <IonModal
-                  isOpen={isOpen}
-                  id="doctorDetailsGraph"
-                  initialBreakpoint={1}
-                  onDidDismiss={closeModal}
-                  animated={false}
+              {formPage === 1 ? (
+                <div></div>
+              ) : (
+                <button
+                  className="sidnupbtn"
+                  onClick={handlePreviousPage}
+                  disabled={formPage === 1}
+                  style={{ marginRight: "10px" }}
                 >
-                  <div style={{ width: "100%", background: "#f4f5f7" }}>
-                    <IonDatetime
-                      presentation="date"
-                      preferWheel={true}
-                      value={formData.refDOB}
-                      onIonChange={(e) => {
-                        const selectedDate = e.detail.value;
-                        setFormData({
-                          ...formData,
-                          refDOB: selectedDate,
-                        });
-                      }}
-                    ></IonDatetime>
-                    <Divider />
-                    <div
-                      style={{
-                        background: "#f4f5f7",
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                        width: "100%",
-                        marginBottom: "10px",
+                  <i className="pi pi-arrow-left"></i>
+                </button>
+              )}
+              {formPage === 4 ? (
+                <>
+                  {loading ? (
+                    <button className="submitbtn">
+                      <i className="pi pi-spin pi-spinner"></i>
+                    </button>
+                  ) : (
+                    <button
+                      className="submitbtn"
+                      onClick={() => {
+                        if (formPage === 4) {
+                          if (verifyForm4()) {
+                            setLoading(true);
+                            handleSigup();
+                            console.log("SignUp Success");
+                          }
+                        }
                       }}
                     >
-                      <div
-                        onClick={() => {
-                          setFormData({
-                            ...formData,
-                            refDOB: "",
-                          });
-                          closeModal();
-                        }}
-                        style={{
-                          width: "40%",
-                          background: "#505050",
-                          padding: "15px",
-                          textAlign: "center",
-                          fontSize: "1rem",
-                          color: "#fff",
-                          borderRadius: "10px",
-                          fontWeight: "700",
-                        }}
-                      >
-                        Clear
-                      </div>
-                      <div
-                        onClick={closeModal}
-                        style={{
-                          width: "40%",
-                          background: "green",
-                          padding: "15px",
-                          textAlign: "center",
-                          fontSize: "1rem",
-                          color: "#fff",
-                          borderRadius: "10px",
-                          fontWeight: "700",
-                        }}
-                      >
-                        Set
-                      </div>
-                    </div>
-                  </div>
-                </IonModal>
-                {/* Marital Status */}
-                <div className="inputBox">
-                  <label>
-                    Marital Status <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup flex-1">
-                    <Dropdown
-                      value={formData.refMaritalStatus}
-                      onChange={(e) =>
-                        handleDropdownChange(e, "refMaritalStatus")
+                      Sign Up
+                    </button>
+                  )}
+                </>
+              ) : (
+                <button
+                  className="sidnupbtn"
+                  onClick={() => {
+                    if (formPage === 1) {
+                      if (verifyForm1()) {
+                        handleNextPage();
                       }
-                      options={refMaritalStatus}
-                      placeholder="Select Marital Status"
-                      name="refGender"
-                      className="w-full"
-                      checkmark={true}
-                      highlightOnSelect={false}
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-            {formPage === 2 && (
-              <div style={{ padding: "15px" }}>
-                {/* Education */}
-                <div className="inputBox">
-                  <label>
-                    Education <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <span className="p-inputgroup-addon">
-                      <i className="pi pi-graduation-cap"></i>
-                    </span>
-                    <Dropdown
-                      value={formData.refEducation}
-                      name="educationOpt"
-                      onChange={(e) => handleDropdownChange(e, "refEducation")}
-                      options={educationOpt}
-                      optionLabel="name"
-                      placeholder="Select Education"
-                      className="w-full"
-                      checkmark={true}
-                      highlightOnSelect={false}
-                    />
-                  </div>
-                </div>
-                {/* Occupation */}
-                <div className="inputBox">
-                  <label>
-                    Occupation <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <span className="p-inputgroup-addon">
-                      <i className="pi pi-briefcase"></i>
-                    </span>
-                    <Dropdown
-                      value={formData.refProfession}
-                      name="refProfession"
-                      onChange={(e) => handleDropdownChange(e, "refProfession")}
-                      options={occupationcategoryOtp}
-                      optionLabel="name"
-                      placeholder="Occupation Category"
-                      className="w-full"
-                      checkmark={true}
-                      highlightOnSelect={false}
-                    />
-                  </div>
-                  <label
-                    onClick={() => {
-                      setOccupationModel(true);
-                    }}
-                    style={{ marginTop: "10px", textDecoration: "underline" }}
-                  >
-                    Example
-                  </label>
-                </div>
-                {/* Sector */}
-                <div className="inputBox">
-                  <label>
-                    Sector <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    {/* <span className="p-inputgroup-addon">
-                          <i className="pi pi-user"></i>
-                        </span> */}
-                    <InputText
-                      value={formData.refSector}
-                      onChange={handleInputChange}
-                      placeholder="Enter Sector"
-                      name="refSector"
-                    />
-                  </div>
-                  <label
-                    onClick={() => {
-                      setOccupationalSector(true);
-                    }}
-                    style={{ marginTop: "10px", textDecoration: "underline" }}
-                  >
-                    Example
-                  </label>
-                </div>
-              </div>
-            )}
-            {formPage === 3 && (
-              <div style={{ padding: "15px" }}>
-                {/* Education */}
-                <div className="inputBox">
-                  <label>Email</label>
-                  <div className="p-inputgroup">
-                    <span className="p-inputgroup-addon">
-                      <i className="pi pi-envelope"></i>
-                    </span>
-                    <InputText
-                      value={formData.refUserEmail}
-                      onChange={handleInputChange}
-                      placeholder="Enter Email"
-                      name="refUserEmail"
-                    />
-                  </div>
-                </div>
-                {/* Address */}
-                <div className="inputBox">
-                  <label>
-                    Address <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <InputTextarea
-                      value={formData.refAddress}
-                      onChange={handleInputChange}
-                      placeholder="Enter Address"
-                      style={{ borderRadius: "5px" }}
-                      rows={3}
-                      name="refAddress"
-                    />
-                  </div>
-                </div>
-                {/* District */}
-                <div className="inputBox">
-                  <label>
-                    District <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    {/* <span className="p-inputgroup-addon">
-                          <i className="pi pi-envelope"></i>
-                        </span> */}
-                    <InputText
-                      value={formData.refDistrict}
-                      onChange={handleInputChange}
-                      placeholder="Enter District"
-                      name="refDistrict"
-                    />
-                  </div>
-                </div>
-                {/* Pincode */}
-                <div className="inputBox">
-                  <label>
-                    Pincode <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    {/* <span className="p-inputgroup-addon">
-                          <i className="pi pi-envelope"></i>
-                        </span> */}
-                    <InputText
-                      type="number"
-                      value={formData.refPincode}
-                      onChange={handleInputChange}
-                      placeholder="Enter Pincode"
-                      name="refPincode"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-            {formPage === 4 && (
-              <div style={{ padding: "15px" }}>
-                {/* Mobile Number */}
-                <div className="inputBox">
-                  <label>
-                    Mobile Number <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    {/* <span className="p-inputgroup-addon">
-                          <i className="pi pi-envelope"></i>
-                        </span> */}
-                    <InputText
-                      type="number"
-                      value={formData.refUserMobileno}
-                      onChange={handleInputChange}
-                      placeholder="Enter Mobile Number"
-                      name="refUserMobileno"
-                      // useGrouping={false}
-                    />
-                  </div>
-                </div>
-                {/* Password */}
-                <div className="inputBox">
-                  <label>
-                    Password <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <Password
-                      value={formData.refUserPassword}
-                      onChange={handleInputChange}
-                      style={{ borderRadius: "10px" }}
-                      placeholder="Enter Password"
-                      name="refUserPassword"
-                      toggleMask
-                      feedback={false}
-                      tabIndex={1}
-                    />
-                  </div>
-                </div>
-                {/* Confirm Password */}
-                <div className="inputBox">
-                  <label>
-                    Confirm Password <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <div className="p-inputgroup">
-                    <Password
-                      value={formData.refUserConPassword}
-                      onChange={handleInputChange}
-                      style={{ borderRadius: "10px" }}
-                      placeholder="Enter Confirm Password"
-                      name="refUserConPassword"
-                      toggleMask
-                      feedback={false}
-                      tabIndex={1}
-                    />
-                  </div>
-                </div>
-
-                <div
-                  className="inputBox"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    fontWeight: "600",
+                    } else if (formPage === 2) {
+                      if (verifyForm2()) {
+                        handleNextPage();
+                      }
+                    } else if (formPage === 3) {
+                      if (verifyForm3()) {
+                        handleNextPage();
+                      }
+                    }
                   }}
+                  disabled={formPage === steps.length}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "1rem",
-                      color: "#45474b",
-                    }}
-                  >
-                    {/[a-zA-Z]/.test(formData.refUserPassword) ? (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "green",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-check"
-                        ></i>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "red",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-times"
-                        ></i>
-                      </div>
-                    )}
-                    &nbsp; Atleast One Character
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "1rem",
-                      color: "#45474b",
-                    }}
-                  >
-                    {/\d/.test(formData.refUserPassword) ? (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "green",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-check"
-                        ></i>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "red",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-times"
-                        ></i>
-                      </div>
-                    )}
-                    &nbsp; Atleast One Number
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "1rem",
-                      color: "#45474b",
-                    }}
-                  >
-                    {/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) ? (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "green",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-check"
-                        ></i>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "red",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-times"
-                        ></i>
-                      </div>
-                    )}
-                    &nbsp; Atleast One Special Character
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "1rem",
-                      color: "#45474b",
-                    }}
-                  >
-                    {formData.refUserPassword.length > 7 ? (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "green",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-check"
-                        ></i>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "red",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-times"
-                        ></i>
-                      </div>
-                    )}
-                    &nbsp; Minimum 8 Characters
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      fontSize: "1rem",
-                      color: "#45474b",
-                    }}
-                  >
-                    {formData.refUserPassword === formData.refUserConPassword &&
-                    formData.refUserPassword.length > 0 ? (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "green",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-check"
-                        ></i>
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          width: "25px",
-                          height: "25px",
-                          background: "red",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: "50%",
-                        }}
-                      >
-                        <i
-                          style={{ fontSize: "15px", color: "#fff" }}
-                          className="pi pi-times"
-                        ></i>
-                      </div>
-                    )}
-                    &nbsp;Match Confirm Password
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Navigation Buttons */}
-          <div
-            style={{
-              textAlign: "center",
-              margin: "10px",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            {formPage === 1 ? (
-              <div></div>
-            ) : (
-              <button
-                className="sidnupbtn"
-                onClick={handlePreviousPage}
-                disabled={formPage === 1}
-                style={{ marginRight: "10px" }}
-              >
-                <i className="pi pi-arrow-left"></i>
-              </button>
-            )}
-            {formPage === 4 ? (
-              <>
-                {loading ? (
-                  <button className="submitbtn">
-                    <i className="pi pi-spin pi-spinner"></i>
-                  </button>
-                ) : (
-                  <button
-                    className="submitbtn"
-                    onClick={() => {
-                      if (formPage === 4) {
-                        if (verifyForm4()) {
-                          setLoading(true);
-                          handleSigup();
-                          console.log("SignUp Success");
-                        }
-                      }
-                    }}
-                  >
-                    Sign Up
-                  </button>
-                )}
-              </>
-            ) : (
-              <button
-                className="sidnupbtn"
-                onClick={() => {
-                  if (formPage === 1) {
-                    if (verifyForm1()) {
-                      handleNextPage();
-                    }
-                  } else if (formPage === 2) {
-                    if (verifyForm2()) {
-                      handleNextPage();
-                    }
-                  } else if (formPage === 3) {
-                    if (verifyForm3()) {
-                      handleNextPage();
-                    }
-                  }
-                }}
-                disabled={formPage === steps.length}
-              >
-                <i className="pi pi-arrow-right"></i>
-              </button>
-            )}
+                  <i className="pi pi-arrow-right"></i>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </IonContent>

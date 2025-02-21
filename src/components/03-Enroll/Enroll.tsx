@@ -15,19 +15,13 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
 
-import logo from "../../assets/logo/logo.svg";
-import home1 from "../../assets/images/home1.jpg";
-import users from "../../assets/images/profile.png";
 import logo_new from "../../assets/logo_new/LOGO_Sign_In_Page.svg";
-import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg";
-import BACKGROUND03 from "../../assets/images_new/BACKGROUND_03.svg";
 
 import "./Enroll.css";
 import { arrowForwardOutline, image } from "ionicons/icons";
 import { useHistory } from "react-router";
 
-import hospital from "../../assets/images/hospital.jpg";
-import hospital_new from "../../assets/images_new/HOSPITAL-07.svg";
+import hospital_new from "../../assets/images_new/HOSPITAL-07.png";
 
 import axios from "axios";
 
@@ -38,6 +32,7 @@ import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import TextInput from "../../pages/FieldInputs/TextInput";
 import PasswordInput from "../../pages/FieldInputs/PasswordInput";
+import userIcon from "../../assets/logo_new/PROFILE_ICON-19.svg"
 
 interface HospitalData {
   refHospitalName: any;
@@ -570,8 +565,79 @@ const Enroll: React.FC = () => {
       <IonContent>
 
 
+        <IonModal
+          id="signInModal"
+          mode="ios"
+          isOpen={userModel}
+          onDidDismiss={() => {
+            setUserModel(false);
+            setLoadingStatus(false);
+          }}
+          initialBreakpoint={0.75}
+        >
+          <div className="ion-padding">
+            <div>
+              <div
+                style={{
+                  height: "8vh",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  fontSize: "1.5rem",
+                  fontWeight: "700",
+                  color: "#1764b7",
+                }}
+              >
+                <span>Choose Your</span>
+                <span>User to Login</span>
+              </div>
+              <div
+                style={{
+                  height: "40vh",
+                  overflow: "auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "2rem",
+                  gap: "0.5rem",
+                }}
+              >
+                {usersList.map((user: any, index) => (
+                  <div
+                    onClick={() => {
+                      handleChooseUser(signInData.username, signInData.password, user.refUserId);
+                    }}
+                    key={index}
+                    style={{
+                      borderRadius: "20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "0.9rem",
+                      fontWeight: "400",
+                      padding: "10px",
+                      background:
+                        "linear-gradient(90deg, rgba(14,149,231,1) 0%,rgb(3, 118, 199) 100%)",
+                    }}
+                  >
+                    <div className="hospitalsDiv flex w-full align-items-center ion-activatable ripple-parent rectangle">
+                      <IonRippleEffect></IonRippleEffect>
+                      <img height={"50px"} src={userIcon} alt="" />
+                      <div className="signInModalDescription">
+                        <div>{user.refUserFname}  {user.refUserLname}</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </IonModal>
 
-      <IonModal
+
+        {/* 
+        <IonModal
           mode="ios"
           isOpen={userModel}
           onDidDismiss={() => {
@@ -631,7 +697,7 @@ const Enroll: React.FC = () => {
               </div>
             </div>
           </IonContent>
-        </IonModal>
+        </IonModal> */}
 
 
 
@@ -758,7 +824,7 @@ const Enroll: React.FC = () => {
           <div className="signInInputField">
             <TextInput
               required
-              type="text"
+              type="number"
               name="username"
               placeholder="Mobile Number"
               value={signInData.username}

@@ -67,7 +67,7 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                     onDidDismiss={closeModal}
                     animated={false}
                 >
-                    <div style={{ width: "100%", background: "#f4f5f7" }}>
+                    <div style={{ width: "100%", background: "#effafe" }}>
                         <IonDatetime
                             presentation="time"
                             hour-cycle="h24"  // Use the hour-cycle prop to control the format
@@ -100,7 +100,7 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                         <Divider />
                         <div
                             style={{
-                                background: "#f4f5f7",
+                                background: "#effafe",
                                 display: "flex",
                                 justifyContent: "space-evenly",
                                 width: "100%",
@@ -115,13 +115,13 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                                 }}
                                 style={{
                                     width: "40%",
-                                    background: "#505050",
+                                    background: "#ceebfb",
                                     padding: "15px",
                                     textAlign: "center",
-                                    fontSize: "1rem",
-                                    color: "#fff",
+                                    fontSize: "1.1rem",
+                                    color: "#0c3f69",
                                     borderRadius: "10px",
-                                    fontWeight: "700",
+                                    fontWeight: "600",
                                 }}
                             >
                                 Clear
@@ -130,13 +130,13 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                                 onClick={handleSetTime}
                                 style={{
                                     width: "40%",
-                                    background: "green",
+                                    background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                                     padding: "15px",
                                     textAlign: "center",
                                     fontSize: "1rem",
                                     color: "#fff",
                                     borderRadius: "10px",
-                                    fontWeight: "700",
+                                    fontWeight: "700"
                                 }}
                             >
                                 Set
@@ -145,11 +145,12 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                     </div>
                 </IonModal>
 
-                <div className="questions inputText">
+                <div className="questionsType inputText">
                     <Domain questionId={label.questionId} />
-                    <p className="question">{label.questionText}</p>
-                    <div className="p-inputgroup flex-1">
+                    <p className="questionText">{label.questionText}</p>
+                    <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px" }}>
                         <InputNumber
+                            id="hrsInputLeft"
                             value={hrsValue}
                             placeholder="In Hrs"
                             onClick={openModal}
@@ -158,6 +159,7 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                             required
                         />
                         <InputNumber
+                            id="hrsInput"
                             value={minsValue}
                             placeholder="In Mins"
                             onClick={openModal}
@@ -165,11 +167,11 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                             max={59}
                             required
                         />
-                        <button type="submit">
+                        {/* <button type="submit">
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-arrow-right"></i>
                             </span>
-                        </button>
+                        </button> */}
                     </div>
                     <Divider />
                 </div>

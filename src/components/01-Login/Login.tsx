@@ -7,10 +7,10 @@ import home1 from "../../assets/images/home1.jpg";
 import home2 from "../../assets/images/home2.jpg";
 import home3 from "../../assets/images/home3.jpg";
 
-import BACKGROUND_GetStarted from "../../assets/images_new/BACKGROUND_GetStarted.jpg";
-import BACKGROUND_Discover from "../../assets/images_new/BACKGROUND_Discover.jpg";
-import BACKGROUND_LearnAbout from "../../assets/images_new/BACKGROUND_LearnAbout.jpg";
-import BACKGROUND_Effortless from "../../assets/images_new/BACKGROUND_Effortless.jpg";
+import BACKGROUND_GetStarted from "../../assets/images_new/BACKGROUND_GetStarted.png";
+import BACKGROUND_Discover from "../../assets/images_new/BACKGROUND_Discover.png";
+import BACKGROUND_LearnAbout from "../../assets/images_new/BACKGROUND_LearnAbout.png";
+import BACKGROUND_Effortless from "../../assets/images_new/BACKGROUND_Effortless.png";
 
 import "./Login.css";
 import { IonContent, IonIcon, IonPage, IonRippleEffect } from "@ionic/react";

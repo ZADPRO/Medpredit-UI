@@ -1025,19 +1025,25 @@ const Questions: React.FC = () => {
           </div>
           {loadingStatus ? (
             <>
-              <button
+              <div
                 style={{
-                  background: "linear-gradient(160deg, #077556, #2f9f97)",
-                  fontSize: "16px",
-                  color: "#fff",
-                  width: "100%",
-                  height: "3rem",
-                  margin: "5px 0px",
-                  borderRadius: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%", // Ensures vertical centering if the parent has a defined height
+                  background: "#effafe",
+                  borderRadius: "5% 5% 0 0",
                 }}
               >
-                <i className="pi pi-spin pi-spinner"></i>
-              </button>
+                <button
+                  disabled={submitButton}
+                  onClick={submitResponse}
+                  className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                    }`}
+                >
+                  <i className="pi pi-spin pi-spinner"></i>
+                </button>
+              </div>
             </>
           ) : (
             <div
@@ -1053,9 +1059,8 @@ const Questions: React.FC = () => {
               <button
                 disabled={submitButton}
                 onClick={submitResponse}
-                className={`questionSubmitButton ${
-                  submitButton ? "disabled" : ""
-                }`}
+                className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                  }`}
               >
                 Submit
               </button>

@@ -3,9 +3,9 @@ ion-modal#doctorDetailsGraph {
   --width: 90%;
   --height: auto;
   --border-radius: 6px;
-  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
-  --justify-content: center;
-  --align-items: center;
+  /* --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); */
+  --justify-content: start;
+  --align-items: start;
   --max-height: 90vh; /* Prevent overflow */
   overflow: auto; /* Allow scrolling if needed */
 }

@@ -1,31 +1,14 @@
 import {
-  IonButtons,
-  IonCheckbox,
   IonContent,
-  IonHeader,
-  IonIcon,
-  IonModal,
   IonPage,
-  IonSearchbar,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import "./Tab2.css";
-import {
-  addCircleOutline,
-  arrowForward,
-  chevronDownOutline,
-  chevronBack
-} from "ionicons/icons";
-import { useEffect, useRef, useState } from "react";
-import { Divider } from "primereact/divider";
+import { useRef, useState } from "react";
 import Patientcards from "../PatientCards/Patientcards";
 import { useHistory, useLocation } from "react-router";
 import axios from "axios";
 import decrypt from "../../helper";
-import searchUser from "../../assets/images/SeacrhUser.png";
-import patientListImg from "../../assets/logo_new/PatientList.png";
-import contactImg from "../../assets/logo_new/PROFILE_ICON-19.png";
+import patientListImg from "../../assets/images_new/PatientList.png";
 import SearchInput from "../FieldInputs/SearchInput";
 
 const Tab2: React.FC = () => {
@@ -408,6 +391,10 @@ const Tab2: React.FC = () => {
                   setPatientData([]);
                 }
               }}
+              onClear={() => {
+                setMobileNumber("")
+                setPatientData([]);
+              }}
             />
             {loadingStatus ? (
               <>
@@ -545,8 +532,8 @@ const Tab2: React.FC = () => {
           </div>
 
           <div className="tab2BottomDiv">
-            {status.status? (
-                <button
+            {status.status ? (
+              <button
                 className="gradientButton02"
                 style={{
                   display: "flex",
@@ -570,29 +557,29 @@ const Tab2: React.FC = () => {
                 Add patient
               </button>
             ) : (null)
-          }
+            }
 
-          {patientsData.length > 0 ? (
+            {patientsData.length > 0 ? (
               <button
-              className="gradientButton02"
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                gap: "0.5rem",
-              }}
-              onClick={() => {
-                history.push("/addfamilyuser/" + urlMobileNo + "/" + urluserId);
-              }}
-            >
-              <i
-                className="pi pi-users"
-                style={{ color: "#fff", fontSize: "25px" }}
-              ></i>
-              Add Family Member
-            </button>
-          ) : (null)}
-            
+                className="gradientButton02"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                }}
+                onClick={() => {
+                  history.push("/addfamilyuser/" + urlMobileNo + "/" + urluserId);
+                }}
+              >
+                <i
+                  className="pi pi-users"
+                  style={{ color: "#fff", fontSize: "25px" }}
+                ></i>
+                Add Family Member
+              </button>
+            ) : (null)}
+
           </div>
         </div>
       </IonContent>

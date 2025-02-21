@@ -1,5 +1,5 @@
 import React from "react";
-import { searchCircle } from "ionicons/icons";
+import { searchCircle, closeSharp } from "ionicons/icons";
 import "./FieldInputs.css"; // Optional for custom styling
 import { IonIcon } from "@ionic/react";
 
@@ -9,6 +9,7 @@ interface SearchBarProps {
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch?: () => void;
+  onClear?: () => void;
   className?: string;
 }
 
@@ -19,6 +20,7 @@ const SearchInput: React.FC<SearchBarProps> = ({
   onChange,
   onSearch,
   className,
+  onClear
 }) => {
   return (
     <div className={`custom-search-bar ${className || ""}`}>
@@ -29,9 +31,18 @@ const SearchInput: React.FC<SearchBarProps> = ({
         value={value}
         onChange={onChange}
       />
-      <button className="custom-search-button" onClick={onSearch}>
-        <IonIcon size="large" color="primary" icon={searchCircle}></IonIcon>
-      </button>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        {
+          value ? (
+            <button className="custom-search-button" onClick={onClear}>
+              <IonIcon size="large" color="primary" icon={closeSharp}></IonIcon>
+            </button>
+          ) : null
+        }
+        <button className="custom-search-button" onClick={onSearch}>
+          <IonIcon size="large" color="primary" icon={searchCircle}></IonIcon>
+        </button>
+      </div>
     </div>
   );
 };

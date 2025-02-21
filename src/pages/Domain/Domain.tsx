@@ -1,9 +1,10 @@
-import { IonModal, IonRippleEffect } from "@ionic/react";
+import { IonIcon, IonModal, IonRippleEffect } from "@ionic/react";
 import { useState } from "react";
 import Work from "./PhysicalActivity/Work";
 import Travel from "./PhysicalActivity/Travel";
 import Recreation from "./PhysicalActivity/Recreation";
 import Sedentary from "./PhysicalActivity/Sedentary";
+import { informationCircle } from "ionicons/icons";
 
 interface ShowCardProps {
     questionId: string | number;
@@ -70,7 +71,7 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                 }}
                 animated={false}
             >
-                <div className="doctor-modal-content">
+                <div className="doctor-modal-content" style={{ background: "linear-gradient(227deg, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 61%, rgba(217,240,255,1)100%)" }}>
                     {/* Header */}
                     <div className="doctor-modal-header">{getHeading()} Instructions</div>
                     {/* <p>{verifyShowCard(questionId) ? "yes" : "no"}</p> */}
@@ -78,6 +79,7 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                     {/* Render JSX element returned by getShowCard */}
                     {/* Close Button */}
                     <button
+                        style={{ background: "linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%)", color: "#fff" }}
                         className="doctor-modal-close-btn ion-activatable ripple-parent rectangle"
                         onClick={() => {
                             setIsModel(false);
@@ -97,35 +99,38 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                         width: "100%",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        background: "#d5d5d5",
-                        padding: "10px",
+                        background: "linear-gradient(-167deg,rgb(15, 149, 232) 0%,rgb(3, 117, 198) 100%)",
+                        padding: "0px 10px",
                         marginBottom: "20px",
+                        marginTop: "20px",
                         borderRadius: "5px"
                     }}
                 >
                     <div
                         style={{
-                            // marginBottom: "10px",
+                            fontSize: "1rem",
                             fontWeight: "700",
-                            color: "Black",
-                            fontSize: "20px",
                             cursor: "pointer",
+                            color: "#fff"
                         }}
                     >
                         {getHeading()}
                     </div>
                     <div
                         style={{
-                            // marginBottom: "10px",
-                            textDecoration: "underline",
-                            color: "blue",
+                            fontSize: "1.5rem",
+                            fontWeight: "600",
                             cursor: "pointer",
+                            color: "#fff",
+                            marginTop: "10px"
                         }}
                         onClick={() => {
                             setIsModel(true);
                         }}
                     >
-                        Instructions
+                        <IonIcon
+                            icon={informationCircle}
+                        ></IonIcon>
                     </div>
 
                 </div>

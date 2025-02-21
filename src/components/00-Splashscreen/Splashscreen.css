@@ -1,4 +1,3 @@
-
 .splashScreenContents {
   display: flex;
   flex-direction: column;
@@ -6,7 +5,12 @@
   justify-content: center;
   block-size: 100%;
   inline-size: 100%;
-  background: url("../../assets/images_new/BACKGROUND-02.jpg");
+  background: linear-gradient(
+    227deg,
+    rgba(255, 255, 255, 1) 39%,
+    rgba(255, 255, 255, 1) 61%,
+    rgba(217, 240, 255, 1) 100%
+  );
   background-repeat: no-repeat;
   background-size: cover;
 }

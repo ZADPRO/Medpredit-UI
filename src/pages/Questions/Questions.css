@@ -82,6 +82,7 @@
     border-radius: 5px;
     color: #0c436c;
     text-align: center;
+    font-weight: 700;
 }
 
 .questionsbuttonGroup_01>.selected {

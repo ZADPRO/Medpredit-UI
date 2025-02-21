@@ -28,7 +28,7 @@ interface YesNoProps {
 const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
   const [selectedValue, setSelectedValue] = useState<number | null>(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   useEffect(() => {
     setSelectedValue(0); // Reset selection to empty array initially
@@ -42,7 +42,7 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
 
   return (
     <>
-    {/*<div>
+      {/*<div>
       <div className="questions multiInput">
       <Domain questionId={label.questionId} />
         <p className="question">{label.questionText}</p>
@@ -67,8 +67,10 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
       </div>
     </div>*/}
 
-<div className="questionsType">
+      <div className="questionsType">
+        <Domain questionId={label.questionId} />
         <p className="questionText">{label.questionText}</p>
+        <ShowCard questionId={label.questionId} />
         <div className="questionsbuttonGroup_01">
           {label.options?.map((option) => (
             <button
@@ -76,9 +78,8 @@ const YesNo: React.FC<YesNoProps> = ({ label, onOptionSelect, onEdit }) => {
               onClick={() =>
                 handleButtonClick(option.refOptionId, option.forwardQId)
               }
-              className={`questionsTextOptions_01 ${
-                selectedValue === option.refOptionId ? "selected" : ""
-              }`}
+              className={`questionsTextOptions_01 ${selectedValue === option.refOptionId ? "selected" : ""
+                }`}
             >
               {option.refOptionLabel}
             </button>
