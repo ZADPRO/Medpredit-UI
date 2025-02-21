@@ -32,7 +32,7 @@ const Login: React.FC = () => {
 
   const goToNextSlide = () => {
     if (currentIndex === slides.length - 1) {
-      history.push("/enroll");
+      history.replace("/enroll");
     } else if (carouselRef.current) {
       carouselRef.current.increment();
     }
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
   const slides = [0, 1, 2, 4];
 
   const handleSkip = (route: string) => {
-    history.push(route, {
+    history.replace(route, {
       direction: "forward",
       animation: "slide",
     });
