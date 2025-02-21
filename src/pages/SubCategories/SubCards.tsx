@@ -1,4 +1,4 @@
-import { IonAlert, IonRippleEffect } from "@ionic/react";
+import { IonAlert, IonModal, IonRippleEffect } from "@ionic/react";
 import { Divider } from "primereact/divider";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
@@ -63,6 +63,9 @@ const SubCards: React.FC<SubCardsProps> = ({
   categroyName,
 }) => {
   const history = useHistory();
+
+  console.log(data);
+
 
   const handleCardClick = (cardTitle: any, refCategoryLabel: any) => {
     history.push(`/questions/${refCategoryLabel}/${cardTitle}`);
@@ -183,6 +186,189 @@ const SubCards: React.FC<SubCardsProps> = ({
     }
   };
 
+
+
+  const evaluateScore = (
+    userScoreVerify: any,
+    refScore: number | string
+  ) => {
+    let label = "";
+    let scoreValue = "";
+    let color = "";
+
+    console.log(refScore, userScoreVerify);
+
+    userScoreVerify.forEach((element: any) => {
+      switch (element.refAction) {
+        case "equal":
+          if (refScore.toString() === element.refValue.toString()) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "notEqual":
+          if (refScore.toString() != element.refValue.toString()) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "lessThanEqual":
+          console.log("lessthanEqual");
+          if (parseFloat(refScore as string) <= parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "greaterThanEqual":
+          if (parseFloat(refScore as string) >= parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "lessThan":
+          if (parseFloat(refScore as string) < parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "greaterThan":
+          if (parseFloat(refScore as string) > parseFloat(element.refValue)) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        case "rangeEqual":
+          const [firstVal, secondVal] = element.refValue
+            .split(",")
+            .map(parseFloat);
+
+          if (
+            firstVal <= parseFloat(refScore as string) &&
+            parseFloat(refScore as string) <= secondVal
+          ) {
+            label = element.refAnswerLabel;
+            scoreValue = refScore.toString();
+            color = element.refScoreColor;
+            console.log(label);
+          }
+          break;
+
+        default:
+          console.log("Unknown refAction:", element.refAction);
+      }
+    });
+
+    return label;
+  };
+
+
+
+  const [isModel, setIsModel] = useState(false);
+
+  const [modelData, setModelData] = useState({
+    name: "",
+    status: "",
+    fromDate: "",
+    toDate: ""
+  })
+
+
+  const handleModel = (name: any, status: any, fromDate: any, toDate: any) => {
+
+    setIsModel(true)
+    setModelData({
+      name: name,
+      status: status,
+      fromDate: fromDate,
+      toDate: toDate
+    })
+
+  }
+
+  const getValidity = (refQCategoryId: number) => {
+    switch (refQCategoryId) {
+      case 8:
+        return 14;
+      case 9:
+        return 14;
+      case 10:
+        return 14;
+      case 11:
+        return 14;
+      case 12:
+        return 14;
+      case 13:
+        return 14;
+      case 43:
+        return 14;
+      case 51:
+        return 14;
+      case 202:
+        return 1;
+      case 203:
+        return 1;
+      case 204:
+        return 1;
+      case 205:
+        return 1;
+      case 206:
+        return 1;
+      case 207:
+        return 1;
+      case 213:
+        return 1;
+      case 214:
+        return 1;
+      case 215:
+        return 1;
+      case 216:
+        return 1;
+      case 217:
+        return 1;
+      case 218:
+        return 1;
+      case 219:
+        return 1;
+      case 220:
+        return 1;
+      case 221:
+        return 1;
+      case 222:
+        return 1;
+      case 223:
+        return 1;
+      case 224:
+        return 1;
+      default:
+        return 0;
+    }
+  };
+
+
+  function addDaysToDate(isoDate: string, daysToAdd: number): string {
+    const date = new Date(isoDate);
+    date.setDate(date.getDate() + daysToAdd);
+    return date.toISOString().split("T")[0]; // Return only YYYY-MM-DD format
+  }
+
   return (
     <div className="subCardContents ion-padding-top">
       <IonAlert
@@ -203,88 +389,141 @@ const SubCards: React.FC<SubCardsProps> = ({
           {
             text: "No",
             role: "cancel",
-            handler: () => {},
+            handler: () => { },
             cssClass: "no-button",
           },
         ]}
         onDidDismiss={() => setIsAlertOpen(false)}
       />
+
+
+      <IonModal
+        isOpen={isModel}
+        id="doctorDetailsGraph"
+        initialBreakpoint={1}
+        onDidDismiss={() => {
+          setIsModel(false);
+        }}
+        animated={false}
+      >
+        <div className="doctor-modal-content ion-padding " style={{ background: "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)" }} >
+          <div style={{ fontSize: "1rem", color: "#1a3d61", fontWeight: "700", display: "flex", justifyContent: "space-between" }}>
+            <div>{modelData.name}</div>
+            <div onClick={() => {
+              setIsModel(false);
+            }}> <i className="pi pi-times"></i> </div>
+          </div>
+
+          <div style={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "700", marginTop: "10px", marginBottom: "10px", color: "#1a3d61" }}>
+            {modelData.status}
+          </div>
+
+          <div style={{ color: "#5194ae", fontSize: "1rem", fontWeight: "700", textAlign: "center" }}>
+            <div>This report valid for</div>
+            <div>( {modelData.fromDate} to {modelData.toDate} )</div>
+          </div>
+        </div>
+      </IonModal>
+
+
       <div className="subCardsParent">
-        {data.map((card) => (
+        {data.map((card: any) => (
           <div
             key={card.refQCategoryId}
             className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
             onClick={() => {
               if (card.refScore === null) {
                 handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-              } /*else {
-                setIsAlertOpen(true);
-                setSelectedData({
-                  refScoreId: card.refScoreId,
-                  refCategoryLabel: card.refQCategoryId,
-                  cardTitle: card.refCategoryLabel,
-                  refQCategoryId: card.refQCategoryId,
-                });
-              }*/
+              }
+              else {
+                handleModel(
+                  card.refCategoryLabel,
+                  evaluateScore(card.UserScoreVerify, card.refScore),
+                  // <ScoreVerify
+                  //   userScoreVerify={card.UserScoreVerify}
+                  //   refScore={card.refScore}
+                  // />,
+                  card.refPTcreatedDate.split("T")[0],
+                  addDaysToDate(
+                    card.refPTcreatedDate,
+                    getValidity(card.refQCategoryId)
+                  )
+                )
+              }
             }}
             style={{ cursor: "pointer" }}
           >
+
+
+
+
+
             {card.refScore === null ? (<>
-            
-<IonRippleEffect></IonRippleEffect>
-            <div style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.5rem"
-            }}>
-            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-            <div>
-              <div className="subCardHeader">
-                <p data-text={card.refCategoryLabel}>
-                  {card.refCategoryLabel.split(" ").length === 2
-                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                    : card.refCategoryLabel}
-                </p>
-              </div>
-            </div>
-            </div></>) : (<>
-            <div style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.5rem"
-            }}>
-            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-            <div>
-              <div className="subCardHeader">
-                <p data-text={card.refCategoryLabel}>
-                  {card.refCategoryLabel.split(" ").length === 2
-                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                    : card.refCategoryLabel}
-                </p>
-              </div>
-            </div>
-            </div>
-            
-            <div className="subCardSliderBar">
-                {card.refScore === null ? (
-                  <div style={{ color: "#607274" }}>
-                    <i
-                      className="pi pi-angle-right"
-                      style={{ fontSize: "2rem" }}
-                    ></i>
+
+              <IonRippleEffect></IonRippleEffect>
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "0.5rem"
+              }}>
+                <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                <div>
+                  <div className="subCardHeader">
+                    <p data-text={card.refCategoryLabel}>
+                      {card.refCategoryLabel.split(" ").length === 2
+                        ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                        : card.refCategoryLabel}
+                    </p>
                   </div>
-                ) : (
-                  <ScoreSlider
-                    userScoreVerify={card.UserScoreVerify}
-                    refScore={card.refScore}
-                  />
-                )}
-              </div></>)}
-           {/*} <IonRippleEffect></IonRippleEffect>
+                </div>
+              </div></>) : (<>
+                <div style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem"
+                }}
+
+                >
+                  <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                  <div>
+                    <div className="subCardHeader">
+                      <p data-text={card.refCategoryLabel}>
+                        {card.refCategoryLabel.split(" ").length === 2
+                          ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                          : card.refCategoryLabel}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="subCardSliderBar">
+                  {card.refScore === null ? (
+                    <div style={{ color: "#607274" }}>
+                      <i
+                        className="pi pi-angle-right"
+                        style={{ fontSize: "2rem" }}
+                      ></i>
+                    </div>
+                  ) : (
+                    <>
+                      {
+                        [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+                          <div>
+                            <ScoreSlider
+                              userScoreVerify={card.UserScoreVerify}
+                              refScore={card.refScore}
+                            />
+                          </div>
+                        ) : null
+                      }
+                    </>
+                  )}
+                </div></>)}
+            {/*} <IonRippleEffect></IonRippleEffect>
             <div style={{
               display: "flex",
               flexDirection: "row",
@@ -321,11 +560,11 @@ const SubCards: React.FC<SubCardsProps> = ({
               </div>
             */}
 
-            
+
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 };
 

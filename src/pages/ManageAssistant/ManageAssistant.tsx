@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonPage,
   IonRippleEffect,
   IonTitle,
@@ -16,6 +17,8 @@ import axios from "axios";
 import { IoChevronForward } from "react-icons/io5";
 import { InputText } from "primereact/inputtext";
 import { useHistory } from "react-router";
+import { chevronBack } from "ionicons/icons";
+import SearchInput from "../FieldInputs/SearchInput";
 
 const ManageAssistant = () => {
   const tokenString: any = localStorage.getItem("userDetails");
@@ -70,16 +73,17 @@ const ManageAssistant = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios">
+      {/* <IonHeader mode="ios">
         <IonToolbar className="pt-1 pb-1" mode="ios">
           <IonButtons slot="start">
             <IonBackButton mode="md" defaultHref="/configure"></IonBackButton>
           </IonButtons>
           <IonTitle>Manage Assistant</IonTitle>
         </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding">
-        <IconField iconPosition="left" style={{ width: "100%" }}>
+      </IonHeader> */}
+      <IonContent>
+        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+          {/* <IconField iconPosition="left" style={{ width: "100%" }}>
           <InputIcon className="pi pi-search"> </InputIcon>
           <InputText
             placeholder="Search"
@@ -87,66 +91,109 @@ const ManageAssistant = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-        </IconField>
-        <div
-          style={{
-            marginTop: "20px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "10px",
-          }}
-        >
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((element: any, index: number) => (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  background: "#e6e6e6",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  fontWeight: "700",
-                  gap: "10px",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-                className="ion-activatable ripple-parent rectangle"
-                onClick={() => {
-                  history.push(
-                    `/mapAssistant/${element.code}/${element.name}/${element.refUserCustId}`,
-                    {
-                      direction: "forward",
-                      animation: "slide",
-                    }
-                  );
-                }}
-              >
-                <IonRippleEffect></IonRippleEffect>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "5px",
-                  }}
-                >
-                  <div>{element.name}</div>
-                  <div>{element.refUserCustId}</div>
-                </div>
-                <div
-                  style={{
-                    fontSize: "1.4rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IoChevronForward />
-                </div>
-              </div>
-            ))
-          ) : (
-            <div>No results found</div>
-          )}
+        </IconField> */}
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              margin: "1rem",
+            }}
+
+          >
+            <IonIcon
+              size="large"
+              onClick={() => history.goBack()}
+              icon={chevronBack}
+            ></IonIcon>
+            <span>
+              Manage Assistant
+            </span>
+            <span></span>
+          </div>
+
+
+
+          <div className="ion-padding">
+
+            <SearchInput
+              type="text"
+              placeholder="Enter Name or ID"
+              value={searchTerm}
+              className="gradientBackground02_opacity"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onClear={() => { setSearchTerm("") }}
+            />
+
+            <div
+
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+              }}
+            >
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((element: any, index: number) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      background: "#badff1",
+                      padding: "10px",
+                      borderRadius: "10px",
+                      fontWeight: "700",
+                      gap: "10px",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                    className="ion-activatable ripple-parent rectangle"
+                    onClick={() => {
+                      history.push(
+                        `/mapAssistant/${element.code}/${element.name}/${element.refUserCustId}`,
+                        {
+                          direction: "forward",
+                          animation: "slide",
+                        }
+                      );
+                    }}
+                  >
+                    <IonRippleEffect></IonRippleEffect>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "5px",
+                      }}
+                    >
+                      <div>{element.name}</div>
+                      <div>{element.refUserCustId}</div>
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "1.4rem",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <IoChevronForward />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div>No results found</div>
+              )}
+            </div>
+
+          </div>
+
+
+
         </div>
       </IonContent>
     </IonPage>

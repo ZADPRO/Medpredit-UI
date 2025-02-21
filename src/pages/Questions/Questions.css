@@ -80,9 +80,11 @@
     border-radius: 5px;
     color: #0c436c;
     text-align: center;
+    font-weight: 700;
 }
 
 .questionsbuttonGroup_01>.selected{
     background: var(--gradient-background-02)!important;
-    color: #a4d6f5
+    color: #a4d6f5;
+    font-weight: 700;
 }

@@ -46,11 +46,12 @@ const TextInputBox: React.FC<TextInputBoxProps> = ({
         }}
       >
         <div className="questions inputText">
-        <Domain questionId={label.questionId} />
+          <Domain questionId={label.questionId} />
           <p className="question ">{label.questionText}</p>
           <ShowCard questionId={label.questionId} />
-          <div className="p-inputgroup flex-1">
+          <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", }}>
             <InputText
+            id="fullInput"
               value={value}
               onChange={(e) => {
                 setValue(e.target.value);
@@ -58,11 +59,11 @@ const TextInputBox: React.FC<TextInputBoxProps> = ({
               min={1}
               required
             />
-            <button type="submit">
-              <span className="p-inputgroup-addon">
+            <div style={{ width: "10%", height: "35px", display: "flex", justifyContent: "center", alignItems: "center", background: "transparent" }}>
+              <button style={{ background: "#10416a", width: "30px", height: "30px", color: "#fff", borderRadius: "50%", padding: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
                 <i className="pi pi-arrow-right"></i>
-              </span>
-            </button>
+              </button>
+            </div>
           </div>
           <Divider />
         </div>

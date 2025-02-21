@@ -1,0 +1,184 @@
+.wheel-order-month-first {
+  width: 50% !important;
+}
+
+ion-datetime {
+  --background: #effafe;
+  --background-rgb: #cce7f8;
+  --wheel-highlight-background: #cce9f9;
+  --wheel-highlight-border-radius: 10px;
+  --wheel-fade-background-rgb: 239, 250, 254;
+}
+
+ion-datetime::part(wheel-item) {
+  color: #929697;
+}
+
+ion-datetime::part(wheel-item active) {
+  color: #1094e7;
+}
+
+#hrsInputLeft > input {
+  width: 50%;
+  height: 35px !important;
+  background-color: transparent;
+  border-right: 1.5px solid #10416a !important;
+  border-left: none;
+  border-top: none;
+  border-bottom: none;
+  text-align: center;
+}
+
+#hrsInputLeft > input::placeholder {
+  color: #10416a;
+}
+
+#hrsInput > input::placeholder {
+  color: #10416a;
+}
+
+#hrsInput > input {
+  width: 50%;
+  height: 35px !important;
+  background-color: transparent;
+  border: none;
+  text-align: center;
+}
+
+#fullInput > input {
+  width: 80%;
+  height: 35px !important;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+}
+
+
+#fullInput {
+  font-size: 1rem;
+  width: 80%;
+  height: 35px !important;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+}
+
+#dropValue > .p-dropdown-label{
+  margin-top: -5px;
+}
+
+.p-radiobutton.p-highlight .p-radiobutton-box {
+  border-color: #0d8ee1;
+  background: #0d8ee1;
+}
+
+.ion-color-dark {
+  --ion-color-base: #b8e1f5 !important;
+  --ion-color-shade: none !important;
+  --ion-color-contrast: #000 !important;
+  border-radius: 20px;
+  border: none;
+}
+
+.addFamilyUser {
+  inline-size: 100%;
+  block-size: 100vh;
+}
+
+.addFamilyUserTopDiv {
+  block-size: 80vh;
+  inline-size: 100%;
+  color: #0c436c;
+  padding: 5% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.addFamilyUserInputs {
+  inline-size: 80%;
+  block-size: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.addFamilyInputField {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  border-radius: 0.2rem;
+  padding: 0.5rem;
+}
+
+.addFamilyInputText {
+  all: unset;
+}
+
+.addFamilyInputField_Icon {
+  padding: 0px 10px;
+}
+
+.addFamilyInputText::placeholder,
+.addFamilyDropdown > .p-placeholder,
+.addFamilyDropdown > .p-calendar::placeholder {
+  color: #0c436c;
+}
+
+.addFamilyDropdown {
+  all: unset;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.addFamilyDropdown > .p-inputtext {
+  color: #0c436c;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+.p-password-input {
+  color: #0c436c;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+.p-password-input {
+  color: #0c436c;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+.p-multiselect-label {
+  color: #0c436c;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+}
+
+.addFamilyUserBottomDiv {
+  block-size: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.addFamilyUserBottomDiv > button {
+  padding: 1rem;
+  border-radius: 1.5rem;
+  width: 70%;
+  color: white;
+  font-size: 1rem;
+}
+
+@media screen and (max-height: 650px) {
+  .addFamilyUserTopDiv {
+    padding: 2% 0;
+  }
+}

@@ -21,23 +21,10 @@ import {
   IonToolbar,
   SegmentValue,
 } from "@ionic/react";
-import { addCircleOutline } from "ionicons/icons";
-import Diabetes from "../KnowDisease/Diabetes";
-import diabetesImg from "../../assets/KnowAbout/diabetics.png";
-import hypertension from "../../assets/KnowAbout/hypertension.png";
-import stroke from "../../assets/KnowAbout/stroke.png";
-import coronary from "../../assets/KnowAbout/coronary.png";
-import Hypertension from "../KnowDisease/Hypertension";
-import diabetesWhite from "../../assets/KnowAbout/diabeticsWhite.png";
-import hypertensionWhite from "../../assets/KnowAbout/hypertensionWhite.png";
-import strokeWhite from "../../assets/KnowAbout/strokeWhite.png";
-import coronaryWhite from "../../assets/KnowAbout/coronaryWhite.png";
-import Coronary from "../KnowDisease/Coronary";
-import Stroke from "../KnowDisease/Stroke";
-import diabetesNew from "../../assets/images_new/DIABETES-05.svg";
-import hypertensionNew from "../../assets/images_new/Hypertension.svg";
-import coronaryDiseaseNew from "../../assets/images_new/Coronary_Heart_Disease.svg";
-import strokeNew from "../../assets/images_new/Stroke.svg";
+import diabetesNew from "../../assets/images_new/DIABETES-05.png";
+import hypertensionNew from "../../assets/images_new/Hypertension.png";
+import coronaryDiseaseNew from "../../assets/images_new/Coronary_Heart_Disease.png";
+import strokeNew from "../../assets/images_new/Stroke.png";
 import KnowDisease from "../KnowDisease/KnowDisease";
 
 const Tab5: React.FC = () => {
@@ -257,7 +244,7 @@ const Tab5: React.FC = () => {
       <IonContent fullscreen>
         <div className="tab5 medpredit-page-backround">
           <div className="tab5TopDiv">
-            <h2 
+            <h2
               style={{
                 margin: "0",
                 fontSize: "1.2rem",
@@ -283,10 +270,10 @@ const Tab5: React.FC = () => {
               </IonSegment>
             </div>
 
-            <div className="tab5IonSegmentView"> 
+            <div className="tab5IonSegmentView">
               <IonSegmentView>
                 <IonSegmentContent id="1" hidden={activeDisease !== "Diabetes"}>
-                  <img src={diabetesNew}/>
+                  <img src={diabetesNew} />
                   <h1
                     style={{
                       margin: "0",
@@ -300,7 +287,7 @@ const Tab5: React.FC = () => {
                   </h1>
                 </IonSegmentContent>
                 <IonSegmentContent id="2" hidden={activeDisease !== "Hypertension"}>
-                <img src={hypertensionNew}/>
+                  <img src={hypertensionNew} />
                   <h1
                     style={{
                       margin: "0",
@@ -314,7 +301,7 @@ const Tab5: React.FC = () => {
                   </h1>
                 </IonSegmentContent>
                 <IonSegmentContent id="3" hidden={activeDisease !== "Coronary Artery Disease"}>
-                  <img src={coronaryDiseaseNew}/>
+                  <img src={coronaryDiseaseNew} />
                   <h1
                     style={{
                       margin: "0",
@@ -328,7 +315,7 @@ const Tab5: React.FC = () => {
                   </h1>
                 </IonSegmentContent>
                 <IonSegmentContent id="4" hidden={activeDisease !== "Stroke"}>
-                  <img src={strokeNew}/>
+                  <img src={strokeNew} />
                   <h1
                     style={{
                       margin: "0",
@@ -347,7 +334,7 @@ const Tab5: React.FC = () => {
 
 
           <div style={{ margin: "1rem 1.5rem 0 1.5rem", overflow: "scroll", height: "35vh" }}>
-            {activeDisease? <KnowDisease activeDisease={activeDisease} /> : null}
+            {activeDisease ? <KnowDisease activeDisease={activeDisease} /> : null}
           </div>
 
         </div>

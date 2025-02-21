@@ -72,6 +72,7 @@ const Tab4: React.FC = () => {
         `${import.meta.env.VITE_API_URL}/getProfile`,
         {
           hospitalId: localStorage.getItem("hospitalId"),
+          roleId: tokenObject.roleType
         },
         {
           headers: {
@@ -266,18 +267,18 @@ const Tab4: React.FC = () => {
       <IonContent fullscreen>
         <div className="tab4 medpredit-page-background">
           <div className="tab4TopDiv">
-            <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%",color: "white", fontSize: "1.2rem"}}>
+            <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", color: "white", fontSize: "1.2rem" }}>
               <span style={{ position: "absolute", left: 0 }}></span>
               <span>Profile</span>
               <IonIcon icon={settingsOutline} style={{ position: "absolute", right: 0 }}></IonIcon>
             </div>
-            
+
             <div style={{
-                marginTop: "3rem",
-                height: "25vh",
-                width: "25vh"
-                }}>
-              <img src={profile_new}/>
+              marginTop: "3rem",
+              height: "25vh",
+              width: "25vh"
+            }}>
+              <img src={profile_new} />
             </div>
 
             <div style={{
@@ -290,17 +291,17 @@ const Tab4: React.FC = () => {
           <div className="tab4BottomDiv">
             <h3>ID: {userData.userCustId}</h3>
             <h3>{userData.hospitalName}</h3>
-            <button style={{margin: "1rem"}}
-                          className="logOutButton gradientBackground02"
-                          onClick={() => {
-                            localStorage.clear();
-                            location.replace("/");
-                          }}
-                          //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
-                          >
-                          <IonRippleEffect></IonRippleEffect>
-                          {'Logout'}
-                        </button>
+            <button style={{ margin: "1rem" }}
+              className="logOutButton gradientBackground02"
+              onClick={() => {
+                localStorage.clear();
+                location.replace("/");
+              }}
+            //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
+            >
+              <IonRippleEffect></IonRippleEffect>
+              {'Logout'}
+            </button>
           </div>
         </div>
       </IonContent>

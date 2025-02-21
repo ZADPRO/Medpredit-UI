@@ -153,7 +153,7 @@ const SubCategories: React.FC = () => {
 
       <IonContent fullscreen>
         <div className="subCategories medpredit-page-background">
-          <div style={{position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "0 auto", fontWeight: "bold"}}
+          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "0 auto", fontWeight: "bold" }}
           >
             <IonIcon size="large" style={{ position: "absolute", left: 0 }} onClick={() => history.goBack()} icon={chevronBack}></IonIcon>
             <span>{categroyName}</span>
@@ -161,31 +161,31 @@ const SubCategories: React.FC = () => {
           </div>
 
           {loadingStatus ? (
-          <>
-            <div
-              style={{
-                width: "100%",
-                height: "90vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <i
-                className="pi pi-spin pi-spinner"
-                style={{ fontSize: "2rem", color: "#1a70b0" }}
-              ></i>
-            </div>
-          </>
-        ) : (
-          <>
-            <SubCards
-              data={categories}
-              categoryId={categoryId}
-              categroyName={categroyName}
-            />
-          </>
-        )}
+            <>
+              <div
+                style={{
+                  width: "100%",
+                  height: "90vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <i
+                  className="pi pi-spin pi-spinner"
+                  style={{ fontSize: "2rem", color: "#1a70b0" }}
+                ></i>
+              </div>
+            </>
+          ) : (
+            <>
+              <SubCards
+                data={categories}
+                categoryId={categoryId}
+                categroyName={categroyName}
+              />
+            </>
+          )}
         </div>
       </IonContent>
     </IonPage>

@@ -44,11 +44,13 @@ const NumberInputBoxT4: React.FC<NumberInputBoxT4Props> = ({
           handleButtonClick();
         }}
       >
-        <div className="questions inputText">
-        <Domain questionId={label.questionId} />
-          <p className="question ">{label.questionText}</p>
-          <div className="p-inputgroup flex-1">
+        <div className="questionsType inputText">
+          <Domain questionId={label.questionId} />
+          <p className="questionText ">{label.questionText}</p>
+          <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", }}>
             <InputNumber
+              id="fullInput"
+              style={{ textAlign: "left" }}
               value={value}
               onChange={(e) => {
                 setValue(e.value);
@@ -56,11 +58,16 @@ const NumberInputBoxT4: React.FC<NumberInputBoxT4Props> = ({
               min={1}
               required
             />
-            <button type="submit">
-              <span className="p-inputgroup-addon">
+            <div style={{ width: "10%", height: "35px", display: "flex", justifyContent: "center", alignItems: "center",background:"transparent" }}>
+              <button style={{ background: "#10416a", width: "30px", height: "30px", color: "#fff", borderRadius: "50%", padding: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <i className="pi pi-arrow-right"></i>
+              </button>
+            </div>
+            {/* <button type="submit" style={{ background: "transparent", padding: "0px 5px", height: "100%" }}>
+              <span className="" style={{ background: "#10416a", color: "#fff", height: "100%", width: "100%" }}>
                 <i className="pi pi-arrow-right"></i>
               </span>
-            </button>
+            </button> */}
           </div>
           <Divider />
         </div>

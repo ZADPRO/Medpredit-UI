@@ -199,7 +199,7 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   return (
     <div className="questions inputText">
       <p className="question">{label.questionText}</p>
-      
+
       <IonAlert
         isOpen={isAlertOpen.status}
         cssClass="custom-alert"
@@ -217,7 +217,7 @@ const GraphValues: React.FC<GraphValuesProps> = ({
           {
             text: "No",
             role: "cancel",
-            handler: () => {},
+            handler: () => { },
             cssClass: "no-button",
           },
         ]}
@@ -230,8 +230,9 @@ const GraphValues: React.FC<GraphValuesProps> = ({
             className="questions inputText"
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
           >
-            <div className="p-inputgroup flex-1 gap-1">
+            <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", marginBottom: "10px" }}>
               <Calendar
+                id="hrsInputLeft"
                 disabled={item.flag === "perm" || item.flag === "temp"}
                 dateFormat="dd/mm/yy"
                 value={item.date ? new Date(item.date) : null}
@@ -245,46 +246,41 @@ const GraphValues: React.FC<GraphValuesProps> = ({
                 placeholder="Date"
               />
               <InputNumber
+                id="hrsInput"
                 disabled={item.flag === "perm" || item.flag === "temp"}
                 style={{ borderRadius: "10px" }}
                 value={item.number}
                 onChange={(e) => handleChange(index, "number", e.value)}
                 placeholder="mg/dl"
               />
-              <Button
-                disabled={item.flag === "perm"}
-                icon="pi pi-trash"
-                style={{ borderRadius: "10px" }}
-                className="p-button-danger"
-                onClick={() => removeItem(index)}
-              />
-              {/* <Button
-                onClick={addItem}
-                icon="pi pi-plus"
-                style={{ borderRadius: "10px" }}
-                className="p-button-success"
-              /> */}
+              <div style={{ width: "10%", height: "35px", display: "flex", justifyContent: "center", alignItems: "center", background: "transparent" }}>
+                <button onClick={() => removeItem(index)} style={{ background: "#10416a", width: "30px", height: "30px", color: "#fff", borderRadius: "50%", padding: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                  <i className="pi pi-trash"></i>
+                </button>
+              </div>
             </div>
           </div>
         ))}
-        <button
-          type="button"
-          className="p-button p-component"
-          style={{
-            marginTop: "5px",
-            marginBottom: "5px",
-            width: "100%",
-            backgroundColor: "#219C90",
-            color: "#fff",
-            padding: "15px",
-            display: "flex",
-            justifyContent: "center",
-            borderRadius: "5px",
-          }}
-          onClick={addItem}
-        >
-          Add Previous Values
-        </button>
+        <div className="questionsbuttonGroup_01" style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <button
+            type="button"
+            className="p-button p-component questionsTextOptions_01 selected"
+            style={{
+              marginTop: "5px",
+              marginBottom: "5px",
+              width: "80%",
+              backgroundColor: "#219C90",
+              color: "#fff",
+              padding: "15px",
+              display: "flex",
+              justifyContent: "center",
+              borderRadius: "50px",
+            }}
+            onClick={addItem}
+          >
+            Add Previous Values
+          </button>
+        </div>
       </div>
     </div>
   );
