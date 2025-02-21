@@ -30,6 +30,7 @@ import decrypt from "../../helper";
 import { IoChevronForward } from "react-icons/io5";
 
 import report from "../../assets/images/reports.png";
+import patientListImg from "../../assets/logo_new/PatientList.png";
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import MonthYearPicker from "../../pages/DateInput/MonthYear";
@@ -190,24 +191,29 @@ const KnowAboutPatient: React.FC = () => {
     }
   };
 
-  const currentMonth = new Date().getMonth() + 1; // Get current month (1-based)
+const currentMonth = new Date().getMonth() + 1; // Get current month (1-based)
 const currentYear = new Date().getFullYear();
 
-  const handleReportFilter = (year: any) => {
-    console.log(
-      "Selected Year:",
-      year
-    );
-    setSelectedYear(
-      String(year)
-    );
-    setIsExpanded(true);
-    setSelectedMonth("");
-    setShowYearPicker(false);
-  }
+const handleReportFilter = (year: any) => {
+  console.log("Selected Year:", year);
+
+  const selectedYear = Number(year);
+  
+  // If the selected year is the current year, use the current month
+  // Otherwise, default to January
+  const selectedMonth = 
+    selectedYear === currentYear ? `${selectedYear}-${String(currentMonth).padStart(2,"0")}` : `${selectedYear}-01`;
+  
+  setSelectedYear(String(selectedYear));
+  setSelectedMonth(selectedMonth);
+
+  setIsExpanded(true);
+  setShowYearPicker(false);
+};
+
 
   useEffect(() => {
-    handleReportFilter("2025");
+    handleReportFilter(new Date().getFullYear());
   }, []);
 
   const getReport = async () => {
@@ -322,21 +328,24 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
             <div className="KnowAboutPatient medpredit-page-background">
               <div
                 style={{
+                  position: "relative",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
                   alignItems: "center",
                   fontSize: "1.2rem",
-                  fontWeight: "600",
-                  margin: "1rem",
+                  fontWeight: "bold",
+                  width: "90%",
+                  margin: "0rem 1rem 1rem 1rem",
                 }}
               >
                 <IonIcon
+                  style={{position: "absolute", left: "0px"}}
                   size="large"
                   onClick={() => history.goBack()}
                   icon={chevronBack}
                 ></IonIcon>
                 <span>{patient}</span>
-                <span></span>
+                <span style={{position: "absolute", right: "0px"}}></span>
               </div>
 
               <IonSegment
@@ -398,19 +407,19 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                           {currentReport ? (
                             <>
                               <div
+                                className="boxShadow01"
                                 onClick={() => {
                                   history.push(
                                     `/currentReport/${patient}/${patientId}`
                                   );
                                 }}
                                 style={{
-                                  width: "100%",
                                   fontSize: "1rem",
-                                  fontWeight: "bold",
+                                  fontWeight: "500",
                                   backgroundColor: "rgb(184, 225, 255)",
                                   color: "#0c436c",
                                   borderRadius: "2.5rem",
-                                  padding: "1rem",
+                                  padding: "0.75rem",
                                   display: "flex",
                                   justifyContent: "space-between",
                                   alignItems: "center",
@@ -484,7 +493,7 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                       display: "flex",
                                       flexDirection: "column",
                                       alignItems: "flex-start",
-                                      padding: "1.5rem 0 0 0",
+                                      padding: "0.8rem 0 0 0",
                                       gap: "0.5rem",
                                     }}
                                   >
@@ -492,11 +501,13 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                       style={{
                                         display: "flex",
                                         flexDirection: "row",
+                                        alignItems: "center",
                                         gap: "0.3rem",
                                         width: "100%",
                                       }}
                                     >
                                       <div
+                                        className="boxShadow01"
                                         onClick={() =>
                                           setIsExpanded(!isExpanded)
                                         }
@@ -505,11 +516,12 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                           display: "flex",
                                           alignItems: "center",
                                           justifyContent: "space-between",
-                                          padding: "1rem",
+                                          padding: "0.75rem",
+                                          marginBottom: "1rem",
                                           fontSize: "1rem",
-                                          fontWeight: "bold",
-                                          backgroundColor: "rgb(184, 225, 255)",
-                                          color: "rgb(12, 67, 108)",
+                                          fontWeight: "500",
+                                          background: isExpanded ? "var(--gradient-button-02)" : "rgb(184, 225, 255)",
+                                          color: isExpanded ? "white" : "rgb(12, 67, 108)",
                                           borderRadius: "2.5rem",
                                         }}
                                       >
@@ -539,10 +551,12 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                           justifyContent: "center",
                                           alignItems: "center",
                                           padding: "0.2rem",
+                                          marginBottom: "1rem",
                                           background:
                                             "var(--gradient-button-02)",
                                           textAlign: "center",
                                           width: "10%",
+                                          minHeight: "2rem",
                                           borderRadius: "5px",
                                           marginTop: "0.2rem",
                                         }}
@@ -557,9 +571,8 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                           isOpen={showYearPicker}
                                           trigger="trigger-button"
                                         >
-                                          {[...Array(10)].map((_, index) => {
-                                            const year =
-                                              new Date().getFullYear() - index;
+                                          {[...Array(2025 - new Date().getFullYear() + 1)].map((_, index) => {
+                                            const year = new Date().getFullYear() + index;
                                             return (
                                               <div
                                                 key={year}
@@ -568,9 +581,7 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                                   cursor: "pointer",
                                                   textAlign: "center",
                                                   borderBottom:
-                                                    index < 9
-                                                      ? "1px solid #ddd"
-                                                      : "none",
+                                                    year < 2025 ? "1px solid #ddd" : "none",
                                                 }}
                                                 onClick={() => {
                                                   handleReportFilter(year);
@@ -581,13 +592,13 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                             );
                                           })}
                                         </IonPopover>
+
                                       </div>
                                     </div>
 
                                     {isExpanded && selectedYear && (
                                       <div
                                         style={{
-                                          padding: "1rem 0",
                                           display: "flex",
                                           flexDirection: "column",
                                           gap: "3rem",
@@ -613,13 +624,7 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                                 .padStart(2, "0")}`;
 
                                               // Show only months up to the current month in the selected year
-                                              if (
-                                                Number(selectedYear) > currentYear ||
-                                                (Number(selectedYear) === currentYear &&
-                                                  i + 1 > currentMonth)
-                                              ) {
-                                                return null;
-                                              }
+                                             
 
                                               return (
                                                 <span
@@ -664,11 +669,11 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                                   flexDirection: "column",
                                 }}
                               >
-                                <img
-                                  style={{ height: "40vh" }}
-                                  src={report}
-                                  alt="patient"
-                                />
+                              <img
+                                src={patientListImg}
+                                style={{ width: "70%" }}
+                                alt="No Past Report"
+                              />
                                 <div
                                   style={{
                                     marginTop: "10px",
@@ -690,47 +695,57 @@ console.log("filter allreports", (allReports?.filter(item => item.refptcreatedda
                             display: "flex",
                             alignItems: "flex-start",
                             width: "100vw",
-                            height: "30vh",
-                            backgroundColor: "lightblue",
+                            height: "40vh",
+                            backgroundColor: "rgb(235, 250, 255)"
                           }}
                         >
                           {selectedMonth && (
                             <div
                               style={{
                                 display: "flex",
-                                justifyContent: "space-between",
+                                justifyContent: "space-around",
                                 alignItems: "flex-start",
                                 flexWrap: "wrap",
                                 width: "80%",
                                 margin: "0 auto",
                               }}
                             >
-                              {allReports.length > 0 &&
-                                allReports
-                                  ?.filter(
-                                    (item) =>
-                                      item.refptcreateddate == selectedMonth
-                                  )[0]
-                                  ?.multipleDate.map((muldate, index) => (
-                                    <div
-                                      key={index}
-                                      style={{
-                                        padding: "0.5rem",
-                                        justifyContent: "center",
-                                        textDecoration: "underline",
-                                        color: "#0c436c",
-                                        fontSize: "0.8rem",
-                                        cursor: "pointer",
-                                      }}
-                                      onClick={() => {
-                                        history.push(
-                                          `/pastreport/${muldate.refptcreateddate}`
-                                        );
-                                      }}
-                                    >
-                                      {muldate.refptcreateddate}
-                                    </div>
-                                  ))}
+                              {allReports
+                                ?.filter((item) => item.refptcreateddate === selectedMonth)[0]
+                                ?.multipleDate.length > 0 ? (
+                                  allReports
+                                    ?.filter((item) => item.refptcreateddate === selectedMonth)[0]
+                                    ?.multipleDate.map((muldate, index) => (
+                                      <div
+                                        key={index}
+                                        style={{
+                                          padding: "0.5rem",
+                                          justifyContent: "center",
+                                          textDecoration: "underline",
+                                          color: "#0c436c",
+                                          fontSize: "0.8rem",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => {
+                                          history.push(`/pastreport/${muldate.refptcreateddate}`);
+                                        }}
+                                      >
+                                        {muldate.refptcreateddate}
+                                      </div>
+                                    ))
+                                ) : (
+                                  <div
+                                    style={{
+                                      padding: "0.5rem",
+                                      textAlign: "center",
+                                      color: "rgba(12, 67, 108, 0.6)",
+                                      fontSize: "1.5rem",
+                                    }}
+                                  >
+                                    No Data Filled
+                                  </div>
+                                )}
+
                             </div>
                           )}
                         </div>

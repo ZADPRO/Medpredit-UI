@@ -242,7 +242,7 @@ const Tab5: React.FC = () => {
 
 
       <IonContent fullscreen>
-        <div className="tab5 medpredit-page-backround">
+        <div className="tab5 medpredit-page-background">
           <div className="tab5TopDiv">
             <h2
               style={{

@@ -1,4 +1,6 @@
 import {
+  IonAccordion,
+  IonAccordionGroup,
   IonAlert,
   IonBackButton,
   IonButton,
@@ -7,6 +9,8 @@ import {
   IonFooter,
   IonHeader,
   IonIcon,
+  IonItem,
+  IonModal,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -33,6 +37,14 @@ import Label from "./Label";
 import GraphValues from "./GraphValues";
 import { chevronBack, information, informationCircle } from "ionicons/icons";
 import "./Questions.css";
+import PhysicalInstructions from "../Instructions/PhysicalInstructions";
+import TobaccoInstructions from "../Instructions/TobaccoInstructions";
+import StressInstructions from "../Instructions/StressInstructions";
+import AlcoholInstructions from "../Instructions/AlcoholInstructions";
+import PhysicalInfo from "../Information/PhysicalInfo";
+import TobaccoInfo from "../Information/TobaccoInfo";
+import StressInfo from "../Information/StressInfo";
+import AlcoholInfo from "../Information/AlcoholInfo";
 
 interface DosageTime {
   dosage: number | null;
@@ -71,6 +83,7 @@ const Questions: React.FC = () => {
   }>();
 
   const [submitButton, setSubmitButton] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const SubmitActive = (isActive: boolean) => {
     setSubmitButton(isActive);
@@ -280,7 +293,9 @@ const Questions: React.FC = () => {
             employeeId: localStorage.getItem("currentDoctorId")
               ? localStorage.getItem("currentDoctorId")
               : null,
-            hospitalId: localStorage.getItem("hospitalId") ? localStorage.getItem("hospitalId") : null,
+            hospitalId: localStorage.getItem("hospitalId")
+              ? localStorage.getItem("hospitalId")
+              : null,
           },
           {
             headers: {
@@ -766,7 +781,7 @@ const Questions: React.FC = () => {
               ></IonIcon>
               <span>{refCategoryLabel}</span>
               <IonIcon
-                onClick={handleInfoClick}
+                onClick={() => setIsOpen(true)}
                 icon={informationCircle}
               ></IonIcon>
             </div>
@@ -1052,6 +1067,41 @@ const Questions: React.FC = () => {
             </div>
           )}
         </div>
+
+        <IonModal
+          id="questionsModal"
+          isOpen={isOpen}
+          mode="ios"
+          onDidDismiss={() => setIsOpen(false)}
+          animated={true}
+        >
+          <div className="questionsAccordion ion-padding">
+            <IonAccordionGroup>
+              <IonAccordion>
+                <IonItem slot="header">Instructions</IonItem>
+                <div
+                  style={{ height: "60vh", overflow: "scroll" }}
+                  slot="content"
+                >
+                  {cardTitle === "8" && <PhysicalInstructions />}
+                  {cardTitle === "10" && <TobaccoInstructions />}
+                  {cardTitle === "9" && <StressInstructions />}
+                  {cardTitle === "11" && <AlcoholInstructions />}
+                </div>
+              </IonAccordion>
+
+              <IonAccordion>
+                <IonItem slot="header">Info</IonItem>
+                <div slot="content">
+                  {cardTitle === "8" && <PhysicalInfo />}
+                  {cardTitle === "10" && <TobaccoInfo />}
+                  {cardTitle === "9" && <StressInfo />}
+                  {cardTitle === "11" && <AlcoholInfo />}
+                </div>
+              </IonAccordion>
+            </IonAccordionGroup>
+          </div>
+        </IonModal>
       </IonContent>
     </IonPage>
   );

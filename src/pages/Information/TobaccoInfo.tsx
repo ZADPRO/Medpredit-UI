@@ -27,18 +27,18 @@ import img14 from "../../assets/tobaccoShowCards/img14.png";
 const TobaccoInfo: React.FC = () => {
   console.log("asfs");
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Tobacoo/10"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Tobacco Info</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Tobacoo/10"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Tobacco Info</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonAccordionGroup>
           <IonAccordion value="first">
@@ -114,7 +114,7 @@ const TobaccoInfo: React.FC = () => {
           </IonAccordion>
         </IonAccordionGroup>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

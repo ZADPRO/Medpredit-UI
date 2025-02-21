@@ -158,6 +158,10 @@ ion-tab-bar {
   );
 }
 
+.backgroundColor01{
+  background: rgb(184, 225, 255);
+}
+
 .medpredit-page-background {
   background: linear-gradient(
     227deg,
@@ -168,4 +172,11 @@ ion-tab-bar {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+
+.boxShadow01{
+  -webkit-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
 }

@@ -21,7 +21,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className={`custom-password-Input ${error ? "error" : ""}`} >
+    <div className={`custom-password-Input ${error ? "custom-error" : ""}`} >
       <input
         type={showPassword ? "text" : "password"}
         name={name}

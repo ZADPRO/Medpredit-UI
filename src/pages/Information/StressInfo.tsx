@@ -27,18 +27,18 @@ import img14 from "../../assets/tobaccoShowCards/img14.png";
 
 const StressInfo: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Tobacoo/10"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Stress Info</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Tobacoo/10"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Stress Info</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonList inset={true} style={{ margin: "0" }}>
           <IonItem>
@@ -99,7 +99,7 @@ const StressInfo: React.FC = () => {
           </IonItem>
         </IonList>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

@@ -25,7 +25,7 @@ import {
   settingsOutline,
   settingsSharp,
   reader,
-  readerOutline
+  readerOutline,
 } from "ionicons/icons";
 
 import Login from "../../components/01-Login/Login";
@@ -41,6 +41,7 @@ import AddEmployee from "../../components/34-AddEmployee/AddEmployee";
 import SubCategories from "../SubCategories/SubCategories";
 import AddFamilyUser from "../AddFamilyUser/AddFamilyUser";
 import PastReport from "../../components/35-PastReport/PastReport";
+import PastReport1 from "../../components/35-PastReport/PastReport1";
 import AlcoholInfo from "../Information/AlcoholInfo";
 import AlcoholInstructions from "../Instructions/AlcoholInstructions";
 import TobaccoInfo from "../Information/TobaccoInfo";
@@ -65,20 +66,21 @@ import ManageDoctor from "../ManageDoctor/ManageDoctor";
 import TestingPdf from "../TestingPdf/TestingPdf";
 import CheckUp from "../CheckUp/CheckUp";
 
-import homeSharpNew from "../../assets/logo_new/Home_Icon.svg";
-import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.svg";
-import patientSharpNew from "../../assets/logo_new/Patient_Icon.svg";
-import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.svg";
-import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.svg";
-import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.svg";
-import adviceSharpNew from "../../assets/logo_new/Advice_Icon.svg";
-import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.svg";
-import profileSharpNew from "../../assets/logo_new/Profile_Icon.svg";
-import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.svg";
-import configureSharpNew from "../../assets/logo_new/Configure_Icon.svg";
-import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.svg";
-import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.svg";
-import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.svg";
+import homeSharpNew from "../../assets/logo_new/Home_Icon.png";
+import homeOutlineNew from "../../assets/logo_new/Home_Icon_Outline.png";
+import patientSharpNew from "../../assets/logo_new/Patient_Icon.png";
+import patientOutlineNew from "../../assets/logo_new/Patient_Icon_Outline.png";
+import knowAboutSharpNew from "../../assets/logo_new/KnowAbout_Icon.png";
+import knowAboutOutlineNew from "../../assets/logo_new/KnowAbout_Icon_Outline.png";
+import adviceSharpNew from "../../assets/logo_new/Advice_Icon.png";
+import adviceOutlineNew from "../../assets/logo_new/Advice_Icon_Outline.png";
+import profileSharpNew from "../../assets/logo_new/Profile_Icon.png";
+import profileOutlineNew from "../../assets/logo_new/Profile_Icon_Outline.png";
+import configureSharpNew from "../../assets/logo_new/Configure_Icon.png";
+import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.png";
+import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.png";
+import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.png";
+
 
 import "./MainRoutes.css";
 
@@ -88,9 +90,9 @@ const MainRoutes: React.FC = () => {
   const configureStatusBar = async () => {
     const path = location.pathname;
     let bgcolor = "#ffffff";
-    // if (path === "/splash") {
-    //   bgcolor = "#d90216";
-    // }
+    if (path === "/settings") {
+      bgcolor = "#0969b3";
+    }
     // Change the color (example: blue)
     await StatusBar.setBackgroundColor({ color: bgcolor });
 
@@ -126,7 +128,7 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      utlineIcon: homeOutlineNew,
+      outlineIcon: homeOutlineNew,
       sharpIcon: homeSharpNew,
     },
     {
@@ -147,21 +149,14 @@ const MainRoutes: React.FC = () => {
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
-
   ];
 
   const assistant = [
     {
       name: "Home",
       path: "/home",
-      utlineIcon: homeOutlineNew,
+      outlineIcon: homeOutlineNew,
       sharpIcon: homeSharpNew,
-    },
-    {
-      name: "Disease",
-      path: "/disease",
-      outlineIcon: knowAboutOutlineNew,
-      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Patient",
@@ -172,8 +167,8 @@ const MainRoutes: React.FC = () => {
     {
       name: "Disease",
       path: "/disease",
-      outlineIcon: knowabout,
-      sharpIcon: knowaboutOutline,
+      outlineIcon: knowAboutOutlineNew,
+      sharpIcon: knowAboutSharpNew,
     },
     {
       name: "Profile",
@@ -187,7 +182,7 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      utlineIcon: homeOutlineNew,
+      outlineIcon: homeOutlineNew,
       sharpIcon: homeSharpNew,
     },
     {
@@ -247,14 +242,14 @@ const MainRoutes: React.FC = () => {
     {
       name: "Home",
       path: "/home",
-      utlineIcon: homeOutlineNew,
+      outlineIcon: homeOutlineNew,
       sharpIcon: homeSharpNew,
     },
     {
       name: "Configure",
       path: "/configure",
       outlineIcon: configureOutlineNew,
-      sharpIcon: configureSharpNew
+      sharpIcon: configureSharpNew,
     },
     {
       name: "Profile",
@@ -456,9 +451,12 @@ const MainRoutes: React.FC = () => {
         <Route path="/addEmployee">
           <AddEmployee />
         </Route>
-        <Route path="/pastreport/:pastReport">
-          <PastReport />
+        <Route path="/pastreport/:reportDate">
+          <PastReport1 />
         </Route>
+        {/* <Route path="/pastreport/:pastReport">
+          <PastReport />
+        </Route> */}
         <Route exact path="/">
           <Redirect to="/splash" />
         </Route>
@@ -547,17 +545,30 @@ const MainRoutes: React.FC = () => {
                     ? Admin
                     : []
           ).map((element) => (
-            <IonTabButton className={location.pathname === element.path ? "mainIonTabButton gradientButton01" : "mainIonTabButton"}
-              tab={element.name} href={element.path}>
-              <IonIcon
-                icon={
+            <IonTabButton
+              className={
+                location.pathname === element.path
+                  ? "mainIonTabButton gradientButton01"
+                  : "mainIonTabButton"
+              }
+              tab={element.name}
+              href={element.path}
+            >
+              <img
+                style={{width: "1.5rem"}}
+                src={
                   location.pathname === element.path
                     ? element.sharpIcon
                     : element.outlineIcon
                 }
               />
               <IonLabel
-                style={{ fontSize: "12px", color: location.pathname === element.path ? "white" : "#0375c6", }}>
+                style={{
+                  fontSize: "12px",
+                  color:
+                    location.pathname === element.path ? "white" : "#0375c6",
+                }}
+              >
                 {element.name}
               </IonLabel>
             </IonTabButton>

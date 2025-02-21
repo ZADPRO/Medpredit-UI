@@ -15,18 +15,18 @@ import React from "react";
 
 const AlcoholInfo: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="/questions/Alcohol/11"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Alcohol Info</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="/questions/Alcohol/11"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Alcohol Info</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonAccordionGroup>
           <IonAccordion value="first">
@@ -130,7 +130,7 @@ const AlcoholInfo: React.FC = () => {
           </IonAccordion>
         </IonAccordionGroup>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

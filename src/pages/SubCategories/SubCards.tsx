@@ -32,14 +32,31 @@ import gct from "../../assets/images/GCT.png";
 import hba1c from "../../assets/images/HBA1c.png";
 
 //
-import physicalNew from "../../assets/logo_new/Physical Activity.svg";
-import stressNew from "../../assets/logo_new/Stress.svg";
-import tobaccoNew from "../../assets/logo_new/Tobacco.svg";
-import alcoholNew from "../../assets/logo_new/Alcohol.svg";
-import dietryNew from "../../assets/logo_new/Dietary.svg";
-import bmiNew from "../../assets/logo_new/BMI.svg";
-import sleepNew from "../../assets/logo_new/Sleep.svg";
-import familyhistoryNew from "../../assets/logo_new/Family History.svg";
+import physicalNew from "../../assets/logo_new/Physical Activity.png";
+import stressNew from "../../assets/logo_new/Stress.png";
+import tobaccoNew from "../../assets/logo_new/Tobacco.png";
+import alcoholNew from "../../assets/logo_new/Alcohol.png";
+import dietryNew from "../../assets/logo_new/Dietary.png";
+import bmiNew from "../../assets/logo_new/BMI.png";
+import sleepNew from "../../assets/logo_new/Sleep.png";
+import familyhistoryNew from "../../assets/logo_new/Family History.png";
+import rbsNew from "../../assets/logo_new/RBS.png";
+import fbsNew from "../../assets/logo_new/FBS.png";
+import ppbsNew from "../../assets/logo_new/PPBS.png";
+import ogttNew from "../../assets/logo_new/OGTT.png";
+import gctNew from "../../assets/logo_new/GCT.png";
+import hba1cNew from "../../assets/logo_new/HBA1c.png";
+import fastingtotalNew from "../../assets/logo_new/FASTING_CHOLOSTROL.png";
+import triglyceridesNew from "../../assets/logo_new/triglycerides.png";
+import hdlcholestrolNew from "../../assets/logo_new/HDL.png";
+import ldlcholestrolNew from "../../assets/logo_new/LDL.png";
+import tchdlNew from "../../assets/logo_new/HDL_TC_RATIO.png";
+import bloodureaNew from "../../assets/logo_new/BLOOD_UREA.png";
+import serumNew from "../../assets/logo_new/SERUM.png";
+import egfrNew from "../../assets/logo_new/EGFR.png";
+import urineNew from "../../assets/logo_new/URINE.png";
+import usgNew from "../../assets/logo_new/USG.png";
+
 import { ScoreSlider } from "./ScoreSlider";
 //
 
@@ -99,41 +116,41 @@ const SubCards: React.FC<SubCardsProps> = ({
       case 51:
         return familyhistoryNew;
       case 213:
-        return fastingtotal;
+        return fastingtotalNew;
       case 214:
-        return triglycerides;
+        return triglyceridesNew;
       case 215:
-        return hdlcholestrol;
+        return hdlcholestrolNew;
       case 216:
-        return ldlcholestrol;
+        return ldlcholestrolNew;
       case 217:
-        return tchdl;
+        return tchdlNew;
       case 218:
-        return bloodurea;
+        return bloodureaNew;
       case 219:
-        return serum;
+        return serumNew;
       case 220:
-        return egfr;
+        return egfrNew;
       case 221:
-        return urine;
+        return urineNew;
       case 222:
-        return urine;
+        return urineNew;
       case 223:
-        return urine;
+        return urineNew;
       case 224:
-        return usg;
+        return usgNew;
       case 202:
-        return rbs;
+        return rbsNew;
       case 203:
-        return fbs;
+        return fbsNew;
       case 204:
-        return ppbs;
+        return ppbsNew;
       case 205:
-        return ogtt;
+        return ogttNew;
       case 206:
-        return gct;
+        return gctNew;
       case 207:
-        return hba1c;
+        return hba1cNew;
       default:
         return "https://via.placeholder.com/150";
     }

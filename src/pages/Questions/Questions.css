@@ -18,13 +18,13 @@
     padding: 0 5% 2% 5%;
 }
 
-.questionsList{
+.questionsList {
     padding: 0 5% 0 5%;
     overflow: scroll;
     height: 85vh;
 }
 
-.questionText{
+.questionText {
     font-size: 1rem;
     font-weight: 600;
 }
@@ -37,14 +37,16 @@
     cursor: pointer;
     color: #fff;
     background: var(--gradient-background-02)
-  }
-  
-  .questionSubmitButton.disabled {
-    background: linear-gradient(160deg, #d3d3d3, #e0e0e0); /* Gray for disabled */
-    color: #a0a0a0; /* Lighter text color */
+}
+
+.questionSubmitButton.disabled {
+    background: linear-gradient(160deg, #d3d3d3, #e0e0e0);
+    /* Gray for disabled */
+    color: #a0a0a0;
+    /* Lighter text color */
     cursor: not-allowed;
-  }
-  
+}
+
 
 /*
 .questionsbuttonGroup_YesNo{
@@ -66,14 +68,14 @@
 }
 */
 
-.questionsbuttonGroup_01{
+.questionsbuttonGroup_01 {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
 }
 
-.questionsTextOptions_01{
+.questionsTextOptions_01 {
     width: 95%;
     padding: 0.75rem 2rem;
     background: var(--gradient-background-02-opacity);
@@ -83,8 +85,55 @@
     font-weight: 700;
 }
 
-.questionsbuttonGroup_01>.selected{
-    background: var(--gradient-background-02)!important;
-    color: #a4d6f5;
-    font-weight: 700;
+.questionsbuttonGroup_01>.selected {
+    background: var(--gradient-background-02) !important;
+    color: #a4d6f5
+}
+
+
+ion-modal#questionsModal {
+    --height: auto;
+    --border-radius: 20px;
+    --background: rgb(239, 250, 255);
+    --background-size: contain;
+    align-items: center;
+    padding: 0 5%;
+}
+
+ion-modal#questionsModal::part(backdrop) {
+    background: rgba(0, 0, 0, 0.3);
+    /* Darker semi-transparent background */
+    backdrop-filter: blur(10px);
+    /* Apply blur effect */
+}
+
+ion-accordion-toggle-icon ios{
+    margin: 0;
+}
+
+.questionsAccordion>ion-accordion-group{
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    overflow: scroll;
+}
+
+.questionsAccordion>ion-accordion-group>ion-accordion{
+    background-color: transparent;
+}
+
+.questionsAccordion>ion-accordion-group>ion-accordion>ion-item::part(native) {
+    background: linear-gradient(135deg, rgba(198,231,252,1) 0%, rgba(196,231,250,1) 97%);
+    border-radius: 5px;
+    color: #1764b7;
+    font-weight: 500;
+}
+
+.questionsAccordion>ion-accordion-group>ion-accordion>div{
+    background-color: transparent;
+    
+}
+
+.questionsAccordion>ion-accordion-group>ion-accordion>div>ion-content{
+    block-size: 65vh;
 }

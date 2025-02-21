@@ -17,7 +17,7 @@ import "./Patientcards.css";
 import Axios from "axios";
 
 import userImage from "../../assets/images/profile.png";
-import userImageNew from "../../assets/logo_new/PROFILE_ICON-19.svg";
+import userImageNew from "../../assets/logo_new/PROFILE_ICON-19.png";
 
 interface Patient {
   refUserCustId: string;

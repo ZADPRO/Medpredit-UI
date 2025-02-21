@@ -15,18 +15,18 @@ import React from "react";
 
 const TobaccoInstructions: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Tobacoo/10"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Tobacco Instructions</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Tobacoo/10"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Tobacco Instructions</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonAccordionGroup>
           <IonAccordion value="first">
@@ -413,7 +413,7 @@ const TobaccoInstructions: React.FC = () => {
           </IonAccordion>
         </IonAccordionGroup>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

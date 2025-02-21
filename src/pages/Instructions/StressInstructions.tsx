@@ -16,18 +16,18 @@ import React from "react";
 
 const StressInstructions: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref="questions/Stress/9"
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>Stress Instruction</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    // <IonPage>
+    //   <IonHeader>
+    //     <IonToolbar className="" mode="ios">
+    //       <IonButtons slot="start">
+    //         <IonBackButton
+    //           mode="md"
+    //           defaultHref="questions/Stress/9"
+    //         ></IonBackButton>
+    //       </IonButtons>
+    //       <IonTitle>Stress Instruction</IonTitle>
+    //     </IonToolbar>
+    //   </IonHeader>
       <IonContent className="ion-padding">
         <IonList inset={true} style={{ margin: "0" }}>
           <IonItem lines="none">
@@ -57,7 +57,7 @@ const StressInstructions: React.FC = () => {
           </IonItem>
         </IonList>
       </IonContent>
-    </IonPage>
+    // </IonPage>
   );
 };
 

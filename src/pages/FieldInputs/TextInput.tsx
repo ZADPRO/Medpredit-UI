@@ -21,7 +21,7 @@ const TextInput: React.FC<TextInputProps> = ({
   onChange,
 }) => {
   return (
-    <div className={`custom-text-Input ${error ? "error" : ""}`}>
+    <div className={`custom-text-Input ${error ? "custom-error" : ""}`}>
       <input
         type={type}
         name={name}
