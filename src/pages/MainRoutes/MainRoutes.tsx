@@ -41,7 +41,6 @@ import AddEmployee from "../../components/34-AddEmployee/AddEmployee";
 import SubCategories from "../SubCategories/SubCategories";
 import AddFamilyUser from "../AddFamilyUser/AddFamilyUser";
 import PastReport from "../../components/35-PastReport/PastReport";
-import PastReport1 from "../../components/35-PastReport/PastReport1";
 import AlcoholInfo from "../Information/AlcoholInfo";
 import AlcoholInstructions from "../Instructions/AlcoholInstructions";
 import TobaccoInfo from "../Information/TobaccoInfo";
@@ -92,6 +91,8 @@ const MainRoutes: React.FC = () => {
     let bgcolor = "#ffffff";
     if (path === "/settings") {
       bgcolor = "#0969b3";
+    } else if (path === "/currentReport/:reportDate" || path === "/pastreport/:reportDate") {
+      bgcolor = "#b8e1ff";
     }
     // Change the color (example: blue)
     await StatusBar.setBackgroundColor({ color: bgcolor });
@@ -452,7 +453,7 @@ const MainRoutes: React.FC = () => {
           <AddEmployee />
         </Route>
         <Route path="/pastreport/:reportDate">
-          <PastReport1 />
+          <PastReport />
         </Route>
         {/* <Route path="/pastreport/:pastReport">
           <PastReport />
@@ -493,7 +494,7 @@ const MainRoutes: React.FC = () => {
           <AlcoholInfo />
         </Route>
 
-        <Route path="/currentReport/:patient/:patientId">
+        <Route path="/currentReport/:reportDate">
           <CurrentReport />
         </Route>
 
@@ -555,7 +556,7 @@ const MainRoutes: React.FC = () => {
               href={element.path}
             >
               <img
-                style={{width: "1.5rem"}}
+                style={{ width: "25px", height: "25px" }}
                 src={
                   location.pathname === element.path
                     ? element.sharpIcon
