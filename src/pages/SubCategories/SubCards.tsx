@@ -58,6 +58,7 @@ import urineNew from "../../assets/logo_new/URINE.png";
 import usgNew from "../../assets/logo_new/USG.png";
 
 import { ScoreSlider } from "./ScoreSlider";
+import { FaTruckArrowRight } from "react-icons/fa6";
 //
 
 interface CardData {
@@ -155,6 +156,24 @@ const SubCards: React.FC<SubCardsProps> = ({
         return "https://via.placeholder.com/150";
     }
   };
+
+  function calculateDaysDifference(dateString: any) {
+    // Convert the given date string to a Date object
+    const givenDate: any = new Date(dateString);
+
+    // Get the current date and set time to midnight for accurate day difference
+    const currentDate: any = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+
+    // Calculate the difference in milliseconds
+    const diffInMs = givenDate - currentDate;
+
+    // Convert milliseconds to days
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    return diffInDays;
+  }
 
   const handleremoveScore = () => {
     const tokenString = localStorage.getItem("userDetails");
@@ -422,8 +441,9 @@ const SubCards: React.FC<SubCardsProps> = ({
           setIsModel(false);
         }}
         animated={false}
+
       >
-        <div className="doctor-modal-content ion-padding " style={{ background: "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)" }} >
+        <div className="ion-padding " style={{ background: "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)" }} >
           <div style={{ fontSize: "1rem", color: "#1a3d61", fontWeight: "700", display: "flex", justifyContent: "space-between" }}>
             <div>{modelData.name}</div>
             <div onClick={() => {
@@ -445,140 +465,264 @@ const SubCards: React.FC<SubCardsProps> = ({
 
       <div className="subCardsParent">
         {data.map((card: any) => (
-          <div
-            key={card.refQCategoryId}
-            className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
-            onClick={() => {
-              if (card.refScore === null) {
-                handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-              }
-              else {
-                handleModel(
-                  card.refCategoryLabel,
-                  evaluateScore(card.UserScoreVerify, card.refScore),
-                  // <ScoreVerify
-                  //   userScoreVerify={card.UserScoreVerify}
-                  //   refScore={card.refScore}
-                  // />,
-                  card.refPTcreatedDate.split("T")[0],
-                  addDaysToDate(
-                    card.refPTcreatedDate,
-                    getValidity(card.refQCategoryId)
-                  )
-                )
-              }
-            }}
-            style={{ cursor: "pointer" }}
-          >
+          <>
+            {card.refPTcreatedDate &&
+              getValidity(card.refQCategoryId) >
+              -calculateDaysDifference(card.refPTcreatedDate) ? (<>
 
 
+                <div key={card.refQCategoryId}>
+                  {card.refPTcreatedDate &&
+                    getValidity(card.refQCategoryId) >
+                    -calculateDaysDifference(card.refPTcreatedDate) ? (<>
 
 
+                      <div
+                        key={card.refQCategoryId}
+                        className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                        onClick={() => {
+                          handleModel(
+                            card.refCategoryLabel,
+                            evaluateScore(card.UserScoreVerify, card.refScore),
+                            card.refPTcreatedDate.split("T")[0],
+                            addDaysToDate(
+                              card.refPTcreatedDate,
+                              getValidity(card.refQCategoryId)
+                            )
+                          )
+                        }}>
 
-            {card.refScore === null ? (<>
+                        <div style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "0.5rem"
+                        }}
 
-              <IonRippleEffect></IonRippleEffect>
-              <div style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem"
-              }}>
-                <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-                <div>
-                  <div className="subCardHeader">
-                    <p data-text={card.refCategoryLabel}>
-                      {card.refCategoryLabel.split(" ").length === 2
-                        ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                        : card.refCategoryLabel}
-                    </p>
-                  </div>
-                </div>
-              </div></>) : (<>
-                <div style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "0.5rem"
-                }}
-
-                >
-                  <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-                  <div>
-                    <div className="subCardHeader">
-                      <p data-text={card.refCategoryLabel}>
-                        {card.refCategoryLabel.split(" ").length === 2
-                          ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                          : card.refCategoryLabel}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="subCardSliderBar">
-                  {card.refScore === null ? (
-                    <div style={{ color: "#607274" }}>
-                      <i
-                        className="pi pi-angle-right"
-                        style={{ fontSize: "2rem" }}
-                      ></i>
-                    </div>
-                  ) : (
-                    <>
-                      {
-                        [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+                        >
+                          <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
                           <div>
-                            <ScoreSlider
-                              userScoreVerify={card.UserScoreVerify}
-                              refScore={card.refScore}
-                            />
+                            <div className="subCardHeader">
+                              <p data-text={card.refCategoryLabel}>
+                                {card.refCategoryLabel.split(" ").length === 2
+                                  ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                  : card.refCategoryLabel}
+                              </p>
+                            </div>
                           </div>
-                        ) : null
-                      }
-                    </>
-                  )}
-                </div></>)}
-            {/*} <IonRippleEffect></IonRippleEffect>
-            <div style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "0.5rem"
-            }}>
-            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-            <div>
-              <div className="subCardHeader">
-                <p data-text={card.refCategoryLabel}>
-                  {card.refCategoryLabel.split(" ").length === 2
-                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                    : card.refCategoryLabel}
-                </p>
-              </div>
-            </div>
-            </div>
-            
-            <div className="subCardSliderBar">
-                {card.refScore === null ? (
-                  <div style={{ color: "#607274" }}>
-                    <i
-                      className="pi pi-angle-right"
-                      style={{ fontSize: "2rem" }}
-                    ></i>
+                        </div>
+
+                        <div className="subCardSliderBar">
+                          {card.refScore === null ? (
+                            <div style={{ color: "#607274" }}>
+                              <i
+                                className="pi pi-angle-right"
+                                style={{ fontSize: "2rem" }}
+                              ></i>
+                            </div>
+                          ) : (
+                            <>
+                              {
+                                [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+                                  <div>
+                                    <ScoreSlider
+                                      userScoreVerify={card.UserScoreVerify}
+                                      refScore={card.refScore}
+                                    />
+                                  </div>
+                                ) : null
+                              }
+                            </>
+                          )}
+                        </div>
+
+
+                      </div>
+
+                    </>)
+                    : (
+                      <>
+                        <div
+                          key={card.refQCategoryId}
+                          className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                          onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
+                          <IonRippleEffect></IonRippleEffect>
+                          <div style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "0.5rem"
+                          }}>
+                            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                            <div>
+                              <div className="subCardHeader">
+                                <p data-text={card.refCategoryLabel}>
+                                  {card.refCategoryLabel.split(" ").length === 2
+                                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                    : card.refCategoryLabel}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div></>)}
+                </div>
+
+
+              </>) : (<>
+                <div
+                  key={card.refQCategoryId}
+                  className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                  onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
+                  <IonRippleEffect></IonRippleEffect>
+                  <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "0.5rem"
+                  }}>
+                    <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                    <div>
+                      <div className="subCardHeader">
+                        <p data-text={card.refCategoryLabel}>
+                          {card.refCategoryLabel.split(" ").length === 2
+                            ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                            : card.refCategoryLabel}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                ) : (
-                  <ScoreSlider
-                    userScoreVerify={card.UserScoreVerify}
-                    refScore={card.refScore}
-                  />
-                )}
-              </div>
-            */}
+                </div>
+              </>)}
+          </>
+          // <div
+          //   key={card.refQCategoryId}
+          //   className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+          //   onClick={() => {
+          //     if (card.refScore === null) {
+          //       handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+          //     }
+          //     else {
+          //       if (
+          //         getValidity(card.refQCategoryId) >
+          //         -calculateDaysDifference(card.refPTcreatedDate)) {
+          //         handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+          //       }
+          //       else {
+          //         handleModel(
+          //           card.refCategoryLabel,
+          //           evaluateScore(card.UserScoreVerify, card.refScore),
+          //           // <ScoreVerify
+          //           //   userScoreVerify={card.UserScoreVerify}
+          //           //   refScore={card.refScore}
+          //           // />,
+          //           card.refPTcreatedDate.split("T")[0],
+          //           addDaysToDate(
+          //             card.refPTcreatedDate,
+          //             getValidity(card.refQCategoryId)
+          //           )
+          //         )
+          //       }
+          //     }
+          //   }}
+          //   style={{ cursor: "pointer" }}
+          // >
 
 
-          </div>
+          //   {(card.refScore === null) ? (<>
+
+          //     <IonRippleEffect></IonRippleEffect>
+          //     <div style={{
+          //       display: "flex",
+          //       flexDirection: "column",
+          //       alignItems: "center",
+          //       justifyContent: "center",
+          //       gap: "0.5rem"
+          //     }}>
+          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //       <div>
+          //         <div className="subCardHeader">
+          //           <p data-text={card.refCategoryLabel}>
+          //             {card.refCategoryLabel.split(" ").length === 2
+          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //               : card.refCategoryLabel}
+          //           </p>
+          //         </div>
+          //       </div>
+          //     </div></>) : getValidity(card.refQCategoryId) <
+          //       -calculateDaysDifference(card.refPTcreatedDate) ? (
+          //     <>
+          //       <IonRippleEffect></IonRippleEffect>
+          //       <div style={{
+          //         display: "flex",
+          //         flexDirection: "column",
+          //         alignItems: "center",
+          //         justifyContent: "center",
+          //         gap: "0.5rem"
+          //       }}>
+          //         <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //         <div>
+          //           <div className="subCardHeader">
+          //             <p data-text={card.refCategoryLabel}>
+          //               {card.refCategoryLabel.split(" ").length === 2
+          //                 ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //                 : card.refCategoryLabel}
+          //             </p>
+          //           </div>
+          //         </div>
+          //       </div>
+          //     </>
+          //   ) : (<>
+          //     {getValidity(card.refQCategoryId)}
+          //     {-calculateDaysDifference(card.refPTcreatedDate)}
+          //     {getValidity(card.refQCategoryId) < -calculateDaysDifference(card.refPTcreatedDate) ? "Yes" : "No1"}
+          //     <div style={{
+          //       display: "flex",
+          //       flexDirection: "row",
+          //       alignItems: "center",
+          //       justifyContent: "center",
+          //       gap: "0.5rem"
+          //     }}
+
+          //     >
+          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+          //       <div>
+          //         <div className="subCardHeader">
+          //           <p data-text={card.refCategoryLabel}>
+          //             {card.refCategoryLabel.split(" ").length === 2
+          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+          //               : card.refCategoryLabel}
+          //           </p>
+          //         </div>
+          //       </div>
+          //     </div>
+
+          //     <div className="subCardSliderBar">
+          //       {card.refScore === null ? (
+          //         <div style={{ color: "#607274" }}>
+          //           <i
+          //             className="pi pi-angle-right"
+          //             style={{ fontSize: "2rem" }}
+          //           ></i>
+          //         </div>
+          //       ) : (
+          //         <>
+          //           {
+          //             [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
+          //               <div>
+          //                 <ScoreSlider
+          //                   userScoreVerify={card.UserScoreVerify}
+          //                   refScore={card.refScore}
+          //                 />
+          //               </div>
+          //             ) : null
+          //           }
+          //         </>
+          //       )}
+          //     </div></>)}
+          // </div>
         ))}
       </div>
     </div >

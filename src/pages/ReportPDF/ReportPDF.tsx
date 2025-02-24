@@ -21,7 +21,8 @@ import PopSemiboldItalic from "../../assets/Fonts/Poppins-SemiBoldItalic.ttf";
 import { ScoreVerify } from "../../ScoreVerify";
 
 import backgroundImage1 from "../../assets/PDFTemplate/background-1.png";
-import { IonIcon } from "@ionic/react";
+import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import { IonIcon, IonText, IonToast, isPlatform } from "@ionic/react";
 import { download } from "ionicons/icons";
 
 interface DoctorDetails {
@@ -49,6 +50,9 @@ interface ReportPDFProps {
 }
 
 const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
+
+  const [showToast, setShowToast] = useState(false);
+
   const tokenString: any = localStorage.getItem("userDetails");
 
   const [Loading, setLoading] = useState(false);
@@ -258,6 +262,23 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
   const [allCategory, setAllCategory] = useState([]);
 
+
+  const blobToBase64 = (blob: Blob): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        if (reader.result) {
+          const base64data = reader.result.toString().split(",")[1]; // Extract actual Base64 content
+          resolve(base64data);
+        } else {
+          reject(new Error("Failed to convert Blob to Base64"));
+        }
+      };
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const handleDownloadPDF = async () => {
     const doc = (
       <Document>
@@ -449,7 +470,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                   {/* Doctor Details */}
                   {
-                    tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                    tokenObject.roleType === 4 || tokenObject.roleType === 1 ? (
                       <View
                         style={{
                           width: "45%",
@@ -2585,7 +2606,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
 
                   {/* Doctor Details */}
                   {
-                    tokenObject.roleType === "4" || tokenObject.roleType === "1" ? (
+                    tokenObject.roleType === 4 || tokenObject.roleType === 1 ? (
                       <View
                         style={{
                           width: "45%",
@@ -3720,642 +3741,77 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
       </Document>
     );
 
+    try {
+      // Generate PDF as Blob
+      const pdfBlob = await pdf(doc).toBlob();
 
-    // Generate PDF as Blob
-    const pdfBlob = await pdf(doc).toBlob();
+      // Convert Blob to Base64
+      const base64data = await blobToBase64(pdfBlob);
 
-    // Create a link element and trigger download
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(pdfBlob);
-    link.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
-    link.click();
+      // Save PDF file
+      await Filesystem.writeFile({
+        path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
+        data: base64data,
+        directory: Directory.Documents
+      });
 
-    // Clean up the link element
-    URL.revokeObjectURL(link.href);
+      console.log("PDF saved successfully!");
+    } catch (error) {
+      console.error("Error generating or saving PDF:", error);
+    }
+
+    setShowToast(true);
 
 
-    // // Generate PDF as Blob
-    // const pdfBlob = await pdf(doc).toBlob();
-
-    // // Convert Blob to Base64 string
-    // const reader = new FileReader();
-    // reader.readAsDataURL(pdfBlob);
-    // reader.onloadend = async () => {
-    //   const base64String = reader.result as string;
-
-    //   // Remove the prefix (data:image/png;base64,) to get just the Base64 content
-    //   const base64Data = base64String.split(",")[1];
-
-    //   try {
-    //     // Platform-specific path handling
-    //     if (isPlatform("android")) {
-    //       // For Android, save to external storage (Downloads folder)
-    //       const fileName = `${patientDetails?.refUserCustId}_${score[0].refPTcreatedDate}.pdf`;
-    //       const path = "/storage/emulated/0/Download/" + fileName;
-
-    //       await Filesystem.writeFile({
-    //         path: path,
-    //         data: base64Data,
-    //         directory: Directory.External,
-    //       });
-
-    //       console.log("File saved to Downloads folder on Android.");
-    //     } else if (isPlatform("ios")) {
-    //       // For iOS, save to Documents or use a share sheet
-    //       const fileName = `${patientDetails?.refUserCustId}_${score[0].refPTcreatedDate}.pdf`;
-    //       await Filesystem.writeFile({
-    //         path: fileName,
-    //         data: base64Data,
-    //         directory: Directory.Documents,
-    //       });
-
-    //       console.log("File saved to Documents folder on iOS.");
-    //     }
-    //   } catch (error) {
-    //     console.error("Error saving file:", error);
-    //   }
-    // };
 
     setLoading(false);
   };
 
   function getDaysInMonth(month: any, year: any) {
-    // Month is zero-based (0 = January, 1 = February, etc.)
+
     return new Date(year, month, 0).getDate();
   }
 
   return (
     <div>
-      {/* showToolbar={false} */}
-      {/* <PDFViewer style={{ width: "100%", height: "92vh" }}>
-        <Document>
-          <Page size="A4">
-            <View style={{ margin: 20, padding: 10, paddingBottom: 10 }}>
-              <View style={{ display: "flex", flexDirection: "row" }}>
-                <View style={{ width: "20%" }}>
-                  <Image
-                    src={Logo}
-                    style={{ width: 100, height: "auto", marginTop: "5px" }}
-                  />
-                </View>
-                <View style={{ width: "80%" }}>
-                  <Text
-                    style={{
-                      color: "#000",
-                      textAlign: "center",
-                      fontSize: "12px",
-                      fontFamily: "PopBold",
-                    }}
-                  >
-                    {doctorDetails?.refHospitalName}
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#000",
-                      textAlign: "center",
-                      fontSize: "10px",
-                      fontFamily: "PopBold",
-                    }}
-                  >
-                    Department of Community Medicine
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#000",
-                      textAlign: "center",
-                      fontSize: "10px",
-                      fontFamily: "PopBold",
-                    }}
-                  >
-                    {doctorDetails?.refHospitalAddress},{" "}
-                    {doctorDetails?.refHospitalPincode}
-                  </Text>
-                </View>
-              </View>
 
-              <View style={{ textAlign: "right" }}>
-                <Text
-                  style={{
-                    marginTop: "5px",
-                    fontSize: "10px",
-                    fontFamily: "PopSemiboldItalic",
-                  }}
-                >
-                  Report generated on : {score[0].refPTcreatedDate}
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  border: "1.5px solid #607274",
-                  borderRadius: "5px",
-                  marginTop: "1px",
-                }}
-              >
-                <View
-                  style={{
-                    fontSize: "10px",
-                    width: "50%",
-                    display: "flex",
-                    borderRight: "1.5px solid #607274",
-                    textAlign: "left",
-                  }}
-                >
-                  <Text
-                    style={{
-                      paddingTop: "3px",
-                      paddingBottom: "3px",
-                      borderBottom: "1.5px solid #607274",
-                      textAlign: "center",
-                      backgroundColor: "#1c70b0",
-                      borderTopLeftRadius: "3px",
-                      color: "#fff",
-                      fontSize: "11px",
-                      fontFamily: "PopBold",
-                    }}
-                  >
-                    Doctor Details
-                  </Text>
-                  <View
-                    style={{
-                      padding: "5px",
-                      backgroundColor: "#D3F1DF",
-                      height: "80px",
-                      display: "flex",
-                      justifyContent: "center",
-                      borderBottomLeftRadius: "3px",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Dr. {doctorDetails?.refUserFname}{" "}
-                      {doctorDetails?.refUserLname}{" "}
-                      {doctorDetails?.refEducationSpec} (Community Med)
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      {doctorDetails?.refCRDesignation}
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      REG NO: {doctorDetails?.refMCINo}
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Mail ID: {doctorDetails?.refUserEmail}
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    fontSize: "10px",
-                    width: "50%",
-                    display: "flex",
-                    textAlign: "left",
-                  }}
-                >
-                  <Text
-                    style={{
-                      paddingTop: "3px",
-                      paddingBottom: "3px",
-                      borderBottom: "1.5px solid #607274",
-                      textAlign: "center",
-                      backgroundColor: "#1c70b0",
-                      borderTopRightRadius: "3px",
-                      color: "#fff",
-                      fontSize: "11px",
-                      fontFamily: "PopBold",
-                    }}
-                  >
-                    Patient Details
-                  </Text>
-                  <View
-                    style={{
-                      padding: "5px",
-                      backgroundColor: "#D3F1DF",
-                      height: "80px",
-                      display: "flex",
-                      justifyContent: "center",
-                      borderBottomRightRadius: "3px",
-                    }}
-                  >
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      ID: {patientDetails?.refUserCustId}
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Name: {patientDetails?.refUserFname}{" "}
-                      {patientDetails?.refUserLname}
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Age: {patientDetails?.refDOB}
-                    </Text>
-                    <Text
-                      style={{
-                        padding: "3px",
-                        fontFamily: "PopRegular",
-                        fontSize: "10px",
-                      }}
-                    >
-                      Gender: {patientDetails?.refGender}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-
-              <View
-                style={{
-                  border: "1.5px solid #607274",
-                  marginTop: "10px",
-                  display: "flex",
-                  flexDirection: "row",
-                  borderRadius: "5px",
-                }}
-              >
-                <View
-                  style={{
-                    fontSize: "10px",
-                    width: "35%",
-                    display: "flex",
-                    textAlign: "left",
-                    borderRight: "1.5px solid #607274",
-                  }}
-                >
-                  <View>
-                    <Text
-                      style={{
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        borderBottom: "1.5px solid #607274",
-                        textAlign: "center",
-                        backgroundColor: "#1c70b0",
-                        borderTopLeftRadius: "3px",
-                        color: "#fff",
-                        fontSize: "11px",
-                        fontFamily: "PopBold",
-                      }}
-                    >
-                      Risk Factor
-                    </Text>
-                    <View
-                      style={{
-                        padding: "5px",
-                        height: "130px",
-                        display: "flex",
-                        justifyContent: "center",
-                        backgroundColor: "#D3F1DF",
-                        borderBottomLeftRadius: "3px",
-                      }}
-                    >
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Alcohol:{" "}
-                        {score
-                          .filter(
-                            (element: any) => element.refQCategoryId === "11"
-                          )
-                          .map((element: any) => {
-                            const result = scoreVerify.filter(
-                              (soc: any) => soc.refQCategoryId === "11"
-                            );
-                            return (
-                              <ScoreVerify
-                                userScoreVerify={result}
-                                refScore={element.refPTScore}
-                                status={true}
-                              />
-                            );
-                          })}
-                      </Text>
-
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        BMI:{" "}
-                        {score
-                          .filter(
-                            (element: any) => element.refQCategoryId === "13"
-                          )
-                          .map((element: any) => {
-                            const result = scoreVerify.filter(
-                              (soc: any) => soc.refQCategoryId === "13"
-                            );
-                            return (
-                              <ScoreVerify
-                                userScoreVerify={result}
-                                refScore={element.refPTScore}
-                                status={true}
-                              />
-                            );
-                          })}
-                      </Text>
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Diet:
-                      </Text>
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Physical:{" "}
-                        {score
-                          .filter(
-                            (element: any) => element.refQCategoryId === "8"
-                          )
-                          .map((element: any) => {
-                            const result = scoreVerify.filter(
-                              (soc: any) => soc.refQCategoryId === "8"
-                            );
-                            return (
-                              <ScoreVerify
-                                userScoreVerify={result}
-                                refScore={element.refPTScore}
-                                status={true}
-                              />
-                            );
-                          })}
-                      </Text>
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Sleep:
-                      </Text>
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Stress:{" "}
-                        {score
-                          .filter(
-                            (element: any) => element.refQCategoryId === "9"
-                          )
-                          .map((element: any) => {
-                            const result = scoreVerify.filter(
-                              (soc: any) => soc.refQCategoryId === "9"
-                            );
-                            return (
-                              <ScoreVerify
-                                userScoreVerify={result}
-                                refScore={element.refPTScore}
-                                status={true}
-                              />
-                            );
-                          })}
-                      </Text>
-                      <Text
-                        style={{
-                          padding: "3px",
-                          fontFamily: "PopRegular",
-                          fontSize: "10px",
-                        }}
-                      >
-                        Tobacco:{" "}
-                        {score
-                          .filter(
-                            (element: any) => element.refQCategoryId === "10"
-                          )
-                          .map((element: any) => {
-                            const result = scoreVerify.filter(
-                              (soc: any) => soc.refQCategoryId === "10"
-                            );
-                            return (
-                              <ScoreVerify
-                                userScoreVerify={result}
-                                refScore={element.refPTScore}
-                                status={true}
-                              />
-                            );
-                          })}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    fontSize: "10px",
-                    width: "65%",
-                    display: "flex",
-                    textAlign: "left",
-                  }}
-                >
-                  <View>
-                    <Text
-                      style={{
-                        width: "100%",
-                        paddingTop: "3px",
-                        paddingBottom: "3px",
-                        borderBottom: "1.5px solid #607274",
-                        textAlign: "center",
-                        backgroundColor: "#1c70b0",
-                        borderTopRightRadius: "3px",
-                        color: "#fff",
-                        fontSize: "11px",
-                        fontFamily: "PopBold",
-                      }}
-                    >
-                      Anthropometry--Vitals--Blood Sugar
-                    </Text>
-                    <View
-                      style={{
-                        height: "130px",
-                        display: "flex",
-                        justifyContent: "center",
-                        backgroundColor: "#D3F1DF",
-                        borderBottomRightRadius: "3px",
-                      }}
-                    >
-                      <View style={{ height: "50px" }}>
-                        <View
-                          style={{
-                            padding: "5px 5px",
-                            display: "flex",
-                            flexDirection: "row",
-                          }}
-                        >
-                          <View style={{ width: "50%" }}>
-                            <Text
-                              style={{
-                                fontSize: "10px",
-                                fontFamily: "PopRegular",
-                              }}
-                            >
-                              1. Height:{" "}
-                              {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "22"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
-                              cms
-                            </Text>
-                          </View>
-                          <View style={{ width: "50%" }}>
-                            <Text
-                              style={{
-                                fontSize: "10px",
-                                fontFamily: "PopRegular",
-                              }}
-                            >
-                              2. Weight:{" "}
-                              {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "23"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
-                              kgs
-                            </Text>
-                          </View>
-                        </View>
-                        <View
-                          style={{
-                            padding: "0px 0px 5px 5px",
-                            display: "flex",
-                            flexDirection: "row",
-                            borderBottom: "1px solid #607274",
-                          }}
-                        >
-                          <View style={{ width: "49%" }}>
-                            <Text
-                              style={{
-                                fontSize: "10px",
-                                fontFamily: "PopRegular",
-                              }}
-                            >
-                              3. Waist/ Hip ratio:{" "}
-                              {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "24"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}
-                            </Text>
-                          </View>
-                          <View style={{ width: "51%" }}>
-                            <Text
-                              style={{
-                                fontSize: "10px",
-                                fontFamily: "PopRegular",
-                              }}
-                            >
-                              4. BMI:{" "}
-                              {score
-                                .filter(
-                                  (element: any) =>
-                                    element.refQCategoryId === "13"
-                                )
-                                .map((element: any) => {
-                                  return <Text>{element.refPTScore}</Text>;
-                                })}{" "}
-                              kg/m2
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={{ height: "80px" }}></View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </Page>
-        </Document>
-      </PDFViewer> */}
       {Loading ? (
         <>
           <button
-           style={{
-            backgroundColor: "transparent",
-            color: "#0c436c"
-          }}
+            style={{
+              backgroundColor: "transparent",
+              color: "#0c436c"
+            }}
           >
-            <i style={{fontSize: "xx-large"}} className="pi pi-spin pi-spinner"></i>
+            <i style={{ fontSize: "xx-large" }} className="pi pi-spin pi-spinner"></i>
           </button>
         </>
       ) : (
-        <button
-          onClick={() => {
-            handleDownloadPDF();
-            setLoading(true);
-          }}
-          style={{
-            backgroundColor: "transparent",
-            color: "#0c436c"
-          }}>
-          <IonIcon size="large" icon={download}></IonIcon>
-        </button>
+        <>
+          <IonToast
+            isOpen={showToast}
+            onDidDismiss={() =>
+              setShowToast(false)
+            }
+            message={"File Downloaded in Documents/"}
+            duration={3000}
+          />
+          <button
+            onClick={() => {
+              handleDownloadPDF();
+              setLoading(true);
+            }}
+            style={{
+              backgroundColor: "transparent",
+              color: "#0c436c"
+            }}>
+            <IonIcon size="large" icon={download}></IonIcon>
+          </button>
+        </>
       )}
     </div>
   );
 };
+
 
 export default ReportPDF;
