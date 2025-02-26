@@ -76,6 +76,7 @@ const Tab4: React.FC = () => {
         `${import.meta.env.VITE_API_URL}/getProfile`,
         {
           hospitalId: localStorage.getItem("hospitalId"),
+          roleId: tokenObject.roleType
         },
         {
           headers: {
@@ -94,7 +95,7 @@ const Tab4: React.FC = () => {
           userCustId: data.data.refUserCustId,
           hospitalName: data.data.refHospitalName,
         };
-      
+
         setUserData(tempUserData);
         localStorage.setItem('userProfileData', JSON.stringify(tempUserData));
       });
@@ -326,7 +327,7 @@ const Tab4: React.FC = () => {
                 localStorage.clear();
                 location.replace("/");
               }}
-              //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
+            //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
             >
               <IonRippleEffect></IonRippleEffect>
               {"Logout"}
