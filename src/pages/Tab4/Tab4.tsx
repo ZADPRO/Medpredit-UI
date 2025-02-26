@@ -32,7 +32,7 @@ import {
   arrowBack,
   chevronBack,
   settingsOutline,
-  person
+  person,
 } from "ionicons/icons";
 import SettingsTile from "../SettingsTile/SettingsTile";
 import ListItem from "../ListItem/ListItem";
@@ -61,6 +61,10 @@ const Tab4: React.FC = () => {
     hospitalName: "",
   });
 
+  const history = useHistory();
+
+  console.log(userData);
+
   useEffect(() => {
     const tokenString = localStorage.getItem("userDetails");
 
@@ -72,7 +76,6 @@ const Tab4: React.FC = () => {
         `${import.meta.env.VITE_API_URL}/getProfile`,
         {
           hospitalId: localStorage.getItem("hospitalId"),
-          roleId: tokenObject.roleType
         },
         {
           headers: {
@@ -86,13 +89,14 @@ const Tab4: React.FC = () => {
           response.data[0],
           import.meta.env.VITE_ENCRYPTION_KEY
         );
-        if (data.status) {
-          setUserData({
-            name: data.data.refUserName,
-            userCustId: data.data.refUserCustId,
-            hospitalName: data.data.refHospitalName,
-          });
-        }
+        const tempUserData = {
+          name: data.data.refUserName,
+          userCustId: data.data.refUserCustId,
+          hospitalName: data.data.refHospitalName,
+        };
+      
+        setUserData(tempUserData);
+        localStorage.setItem('userProfileData', JSON.stringify(tempUserData));
       });
     }
   }, []);
@@ -267,23 +271,47 @@ const Tab4: React.FC = () => {
       <IonContent fullscreen>
         <div className="tab4 medpredit-page-background">
           <div className="tab4TopDiv">
-            <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", color: "white", fontSize: "1.2rem" }}>
+            <div
+              className="ion-activatable ripple-parent rectangle"
+              style={{
+                position: "relative",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "90%",
+                color: "white",
+                fontSize: "1.2rem",
+              }}
+            >
               <span style={{ position: "absolute", left: 0 }}></span>
               <span>Profile</span>
-              <IonIcon icon={settingsOutline} style={{ position: "absolute", right: 0 }}></IonIcon>
+              <IonIcon
+                onClick={() => {
+                  history.push("/usersettings", {
+                    direction: "forward",
+                    animation: "slide",
+                  });
+                }}
+                icon={settingsOutline}
+                style={{ position: "absolute", right: 0 }}
+              ></IonIcon>
             </div>
 
-            <div style={{
-              marginTop: "3rem",
-              height: "25vh",
-              width: "25vh"
-            }}>
+            <div
+              style={{
+                marginTop: "3rem",
+                height: "25vh",
+                width: "25vh",
+              }}
+            >
               <img src={profile_new} />
             </div>
 
-            <div style={{
-              color: "white"
-            }}>
+            <div
+              style={{
+                color: "white",
+              }}
+            >
               <h2>{userData.name}</h2>
             </div>
           </div>
@@ -291,16 +319,17 @@ const Tab4: React.FC = () => {
           <div className="tab4BottomDiv">
             <h3>ID: {userData.userCustId}</h3>
             <h3>{userData.hospitalName}</h3>
-            <button style={{ margin: "1rem" }}
-              className="logOutButton gradientBackground02"
+            <button
+              style={{ margin: "1rem" }}
+              className="logOutButton gradientBackground02 ion-activatable ripple-parent rectangle"
               onClick={() => {
                 localStorage.clear();
                 location.replace("/");
               }}
-            //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
+              //className="ion-margin-top ion-margin-bottom ion-activatable ripple-parent rectangle"
             >
               <IonRippleEffect></IonRippleEffect>
-              {'Logout'}
+              {"Logout"}
             </button>
           </div>
         </div>

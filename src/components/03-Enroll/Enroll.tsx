@@ -850,7 +850,7 @@ const Enroll: React.FC = () => {
                 //margin: "3rem 0 2rem 0",
               }}
             >
-              Forget Password?
+              Forgot Password?
             </div>
           </div>
           {showToast && <IonText color="danger">{toastMessage}</IonText>}{" "}

@@ -80,8 +80,10 @@ import configureOutlineNew from "../../assets/logo_new/Configure_Icon_Outline.pn
 import medkitSharpNew from "../../assets/logo_new/Medkit_Icon.png";
 import medkitOutlineNew from "../../assets/logo_new/Medkit_Icon_Outline.png";
 
-
 import "./MainRoutes.css";
+import UserSettings from "../UserSettings/UserSettings";
+import ChangePassword1 from "../../components/04-ChangePassword/ChangePassword1";
+import ChangePhoneNumber from "../../components/06-ChangePhoneNumber/ChangePhoneNumber";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
@@ -89,9 +91,12 @@ const MainRoutes: React.FC = () => {
   const configureStatusBar = async () => {
     const path = location.pathname;
     let bgcolor = "#ffffff";
-    if (path === "/settings") {
+    if (path === "/profile") {
       bgcolor = "#0969b3";
-    } else if (path === "/currentReport/:reportDate" || path === "/pastreport/:reportDate") {
+    } else if (
+      path === "/currentReport/:reportDate" ||
+      path === "/pastreport/:reportDate"
+    ) {
       bgcolor = "#b8e1ff";
     }
     // Change the color (example: blue)
@@ -109,7 +114,7 @@ const MainRoutes: React.FC = () => {
     "/patient",
     "/advice",
     "/disease",
-    "/settings",
+    "/profile",
     "/configure",
     "/checkup",
   ].includes(location.pathname);
@@ -146,7 +151,7 @@ const MainRoutes: React.FC = () => {
     },
     {
       name: "Profile",
-      path: "/settings",
+      path: "/profile",
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
@@ -173,7 +178,7 @@ const MainRoutes: React.FC = () => {
     },
     {
       name: "Profile",
-      path: "/settings",
+      path: "/profile",
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
@@ -200,7 +205,7 @@ const MainRoutes: React.FC = () => {
     },
     {
       name: "Profile",
-      path: "/settings",
+      path: "/profile",
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
@@ -229,11 +234,11 @@ const MainRoutes: React.FC = () => {
       name: "Configure",
       path: "/configure",
       outlineIcon: configureOutlineNew,
-      sharpIcon: configureSharpNew
+      sharpIcon: configureSharpNew,
     },
     {
       name: "Profile",
-      path: "/settings",
+      path: "/profile",
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
@@ -254,7 +259,7 @@ const MainRoutes: React.FC = () => {
     },
     {
       name: "Profile",
-      path: "/settings",
+      path: "/profile",
       outlineIcon: profileOutlineNew,
       sharpIcon: profileSharpNew,
     },
@@ -269,7 +274,7 @@ const MainRoutes: React.FC = () => {
   //   },
   //   {
   //     name: "Profile",
-  //     path: "/settings",
+  //     path: "/profile",
   //     outlineIcon: profileOutlineNew,
   //     sharpIcon: profileSharpNew,
   //   },
@@ -302,7 +307,7 @@ const MainRoutes: React.FC = () => {
   //   },
   //   {
   //     name: "Profile",
-  //     path: "/settings",
+  //     path: "/profile",
   //     outlineIcon: profileOutlineNew,
   //     sharpIcon: profileSharpNew,
   //   },
@@ -335,7 +340,7 @@ const MainRoutes: React.FC = () => {
   //   },
   //   {
   //     name: "Profile",
-  //     path: "/settings",
+  //     path: "/profile",
   //     outlineIcon: profileOutlineNew,
   //     sharpIcon: profileSharpNew,
   //   },
@@ -368,7 +373,7 @@ const MainRoutes: React.FC = () => {
   //   },
   //   {
   //     name: "Profile",
-  //     path: "/settings",
+  //     path: "/profile",
   //     outlineIcon: profileOutlineNew,
   //     sharpIcon: profileSharpNew,
   //   },
@@ -389,7 +394,7 @@ const MainRoutes: React.FC = () => {
   //   },
   //   {
   //     name: "Profile",
-  //     path: "/settings",
+  //     path: "/profile",
   //     outlineIcon: profileOutlineNew,
   //     sharpIcon: profileSharpNew,
   //   },
@@ -404,6 +409,9 @@ const MainRoutes: React.FC = () => {
         <Route path="/changePassword">
           <ChangePassword />
         </Route>
+        <Route path="/changePassword1">
+          <ChangePassword1 />
+        </Route>
         <Route path="/home">
           <Tab1 />
         </Route>
@@ -413,7 +421,7 @@ const MainRoutes: React.FC = () => {
         <Route path="/advice">
           <Tab3 />
         </Route>
-        <Route path="/settings">
+        <Route path="/profile">
           <Tab4 />
         </Route>
         <Route path="/disease">
@@ -530,6 +538,14 @@ const MainRoutes: React.FC = () => {
         <Route path="/manageDoctor">
           <ManageDoctor />
         </Route>
+
+        <Route path="/usersettings">
+          <UserSettings />
+        </Route>
+
+        <Route path="/changePhoneNumber">
+          <ChangePhoneNumber/>
+        </Route>
       </IonRouterOutlet>
 
       {showTabBar && (
@@ -537,14 +553,14 @@ const MainRoutes: React.FC = () => {
           {(roleType === 1
             ? doctor
             : roleType === 2
-              ? assistant
-              : roleType === 3
-                ? patient
-                : roleType === 4
-                  ? doctorAdmin
-                  : roleType === 5
-                    ? Admin
-                    : []
+            ? assistant
+            : roleType === 3
+            ? patient
+            : roleType === 4
+            ? doctorAdmin
+            : roleType === 5
+            ? Admin
+            : []
           ).map((element) => (
             <IonTabButton
               className={

@@ -6,7 +6,7 @@ import { IonContent, IonPage } from "@ionic/react";
 import logo1 from "../../assets/logo/icon.svg";
 import logo2 from "../../assets/logo/logo.svg";
 
-import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg"
+import BACKGROUND02 from "../../assets/images_new/BACKGROUND-02.jpg";
 
 const Splashscreen: React.FC = () => {
   const history = useHistory();
@@ -19,11 +19,18 @@ const Splashscreen: React.FC = () => {
         const tokenObject = JSON.parse(tokenString);
         const roleType = tokenObject.roleType;
 
-        if (roleType === 1 || roleType === 2 || roleType === 3) {
+        // if (roleType === 1 || roleType === 2 || roleType === 3) {
+        //   history.replace("/home");
+        // } else {
+        //   history.replace("/login");
+        // }
+
+        if (roleType != null) {
           history.replace("/home");
         } else {
           history.replace("/login");
         }
+        
       } else {
         history.replace("/login");
       }
@@ -37,14 +44,14 @@ const Splashscreen: React.FC = () => {
       {/*<IonContent fullscreen>
         <div className="splashScreenContents ion-padding-start ion-padding-end">
           <img src={logo2} alt="" />
-          {/* <p>MEDPREDiT</p> */ /*}
+          {/* <p>MEDPREDiT</p> */
+      /*}
         </div>
       </IonContent>*/}
 
-
       <IonContent>
         {/* style={{ backgroundImage: `url(${BACKGROUND02})` }} */}
-        <div className="splashScreenContents ion-padding-start ion-padding-end" >
+        <div className="splashScreenContents ion-padding-start ion-padding-end">
           <img src={logo2} alt="" />
         </div>
       </IonContent>
