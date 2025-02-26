@@ -37,7 +37,7 @@ const MangeDoctor = () => {
           .post(
             `${import.meta.env.VITE_API_URL}/getUserList`,
             {
-              roleId: "1",
+              roleId: "3",
               hospitalId: localStorage.getItem("hospitalId"),
             },
             {
