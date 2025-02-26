@@ -105,7 +105,8 @@ const CheckUp = () => {
                             justifyContent: "center",
                             alignItems: "center",
                             fontSize: "1.2rem",
-                            fontWeight: "600"
+                            fontWeight: "600",
+                            paddingTop:"1rem"
                         }}
 
                     >

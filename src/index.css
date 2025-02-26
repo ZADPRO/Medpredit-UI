@@ -28,7 +28,7 @@ ion-modal#doctorDetailsGraph {
 }
 
 ::-webkit-scrollbar {
-  width: 0px;
+  scrollbar-width: none!important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

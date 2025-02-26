@@ -5,6 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import React, { ChangeEvent, useState } from "react";
 import { useHistory } from "react-router";
+import decrypt from "../../helper";
 
 const ChangePhoneNumber = () => {
   const history = useHistory();
@@ -40,7 +41,7 @@ const ChangePhoneNumber = () => {
 
   const verifyForm = () => {
     if (formData.refUserCurrPassword.length === 0) {
-        setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
       console.log("pass");
       return false;
     } else if (!/^[6-9][0-9]{9}$/.test(formData.refUserMobileno)) {
@@ -57,51 +58,51 @@ const ChangePhoneNumber = () => {
     const tokenObject = JSON.parse(tokenString);
     const token = tokenObject.token;
 
-    //   axios
-    //     .post(
-    //       `${import.meta.env.VITE_API_URL}/changePassword`,
-    //       {
-    //         roleId: tokenObject.roleType,
-    //         pastPassword: formData.refUserCurrPassword,
-    //         currentPassword: formData.refUserNewPassword,
-    //       },
-    //       {
-    //         headers: {
-    //           Authorization: token,
-    //           "Content-Type": "application/json",
-    //         },
-    //       }
-    //     )
-    //     .then((response) => {
-    //       const data = decrypt(
-    //         response.data[1],
-    //         response.data[0],
-    //         import.meta.env.VITE_ENCRYPTION_KEY
-    //       );
+    axios
+      .post(
+        `${import.meta.env.VITE_API_URL}/changeMobilenumber`,
+        {
+          roleId: tokenObject.roleType,
+          newMobileno: formData.refUserMobileno,
+          password: formData.refUserCurrPassword,
+        },
+        {
+          headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => {
+        const data = decrypt(
+          response.data[1],
+          response.data[0],
+          import.meta.env.VITE_ENCRYPTION_KEY
+        );
 
-    //       console.log(data);
+        console.log(data);
 
-    //       if (data.status) {
-        // setToastOpen({
-        //     status: true,
-        //     textColor: "green",
-        //     message: "Number Changed Successfully",
-        //   });
-        //   setFormData({
-        //     refUserCurrPassword: "",
-        //     refUserMobileno: "",
-        //   });
-        // setTimeout(() => {
-        //   history.push("/profile");
-        // }, 2000);
-    //         }else {
-    //         setToastOpen({
-    //           status: true,
-    //           textColor: "red",
-    //           message: data.message,
-    //         });
-    //       }
-    //     });
+        if (data.status) {
+          setToastOpen({
+            status: true,
+            textColor: "green",
+            message: "Number Changed Successfully",
+          });
+          setFormData({
+            refUserCurrPassword: "",
+            refUserMobileno: "",
+          });
+          setTimeout(() => {
+            history.push("/profile");
+          }, 2000);
+        } else {
+          setToastOpen({
+            status: true,
+            textColor: "red",
+            message: data.message,
+          });
+        }
+      });
   }
 
   const [errorStatus, setErrorStatus] = useState({
@@ -176,7 +177,7 @@ const ChangePhoneNumber = () => {
 
             <div className="inputBox">
               <label>
-                Mobile Number <span style={{ color: "red" }}>*</span>
+                New Mobile Number <span style={{ color: "red" }}>*</span>
               </label>
               <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                 {/* <span className="p-inputgroup-addon">
@@ -190,7 +191,7 @@ const ChangePhoneNumber = () => {
                   onChange={handleInputChange}
                   placeholder="Enter Mobile Number"
                   name="refUserMobileno"
-                  // useGrouping={false}
+                // useGrouping={false}
                 />
               </div>
             </div>
