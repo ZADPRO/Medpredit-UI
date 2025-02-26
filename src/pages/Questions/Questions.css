@@ -10,17 +10,24 @@
 }
 
 .questionsHeader {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: bold;
-    padding-bottom: 1rem;
     padding: 0 5% 2% 5%;
-}
+    font-weight: bold;
+  }
+  
+  .questionsHeader span {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
 
 .questionsList {
     padding: 0 5% 0 5%;
-    overflow: scroll;
+    overflow-y: scroll;
     height: 85vh;
 }
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   IonBackButton,
@@ -14,6 +14,8 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
+  useIonAlert,
+  useIonRouter,
 } from "@ionic/react";
 
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -115,26 +117,32 @@ const AddUser: React.FC = () => {
     refUserMobileno: "",
   });
 
-  const [toastOpen, setToastOpen] = useState({
+  interface ToastState {
+    status: boolean;
+    message: string;
+    textColor?: string; // Optional textColor
+  }
+
+  const [toastOpen, setToastOpen] = useState<ToastState>({
     status: false,
     message: "",
   });
 
   const verifyForm1 = () => {
     if (formData.refUserFname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid First Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid First Name" });
       return false;
     } else if (formData.refUserLname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid Last Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Last Name" });
       return false;
     } else if (!formData.refGender) {
-      setToastOpen({ status: true, message: "Select Gender" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Gender" });
       return false;
     } else if (!formData.refDOB) {
-      setToastOpen({ status: true, message: "Enter Date of Birth" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Date of Birth" });
       return false;
     } else if (!formData.refMaritalStatus) {
-      setToastOpen({ status: true, message: "Select Marital Status" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Marital Status" });
       return false;
     }
     return true;
@@ -142,13 +150,13 @@ const AddUser: React.FC = () => {
 
   const verifyForm2 = () => {
     if (formData.refEducation.length === 0) {
-      setToastOpen({ status: true, message: "Select Education" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Education" });
       return false;
     } else if (formData.refProfession.length === 0) {
-      setToastOpen({ status: true, message: "Select Occupation Category" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Occupation Category" });
       return false;
     } else if (formData.refSector.length === 0) {
-      setToastOpen({ status: true, message: "Enter Sector" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Sector" });
       return false;
     }
     return true;
@@ -159,16 +167,16 @@ const AddUser: React.FC = () => {
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
       formData.refUserEmail.length === 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Email" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
       return false;
     } else if (formData.refAddress.length === 0) {
-      setToastOpen({ status: true, message: "Enter Address" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Address" });
       return false;
     } else if (formData.refDistrict.length === 0) {
-      setToastOpen({ status: true, message: "Enter District" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter District" });
       return false;
     } else if (formData.refPincode.length === 0) {
-      setToastOpen({ status: true, message: "Enter Pincode" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Pincode" });
       return false;
     }
     return true;
@@ -179,7 +187,7 @@ const AddUser: React.FC = () => {
       !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
       formData.refUserEmail.length === 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Mobile Number" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
       return false;
     } else if (
       formData.refUserPassword.length === 0 || // Check if password is empty
@@ -189,7 +197,7 @@ const AddUser: React.FC = () => {
       formData.refUserPassword.length < 8 || // Must be at least 8 characters long
       formData.refUserPassword !== formData.refUserConPassword
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Password" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
       return false;
     }
     return true;
@@ -295,7 +303,7 @@ const AddUser: React.FC = () => {
         if (data.status) {
           setToastOpen({
             status: true,
-            message: "Successfully Signup",
+            textColor: "green", message: "Successfully Signup",
           });
 
           setTimeout(() => {
@@ -326,7 +334,7 @@ const AddUser: React.FC = () => {
           setLoading(false);
           setToastOpen({
             status: true,
-            message: "Already Mobile Number Exits",
+            textColor: "red", message: "Already Mobile Number Exits",
           });
         }
       } catch {
@@ -336,6 +344,45 @@ const AddUser: React.FC = () => {
       console.log("Token Invalid");
     }
   };
+
+  const [presentAlert] = useIonAlert();
+    const router: any = useIonRouter();
+  
+    useEffect(() => {
+      const handleBack = (event: PopStateEvent) => {
+        event.preventDefault(); // Stop the default back behavior
+        presentAlert({
+          header: 'Confirm Exit',
+          message: 'Are you sure you want to go back?',
+          buttons: [
+            {
+              text: 'Yes',
+              role: 'confirm',
+              handler: () => {
+                // Allow back navigation
+                history.goBack();
+              }
+            },
+            {
+              text: 'No',
+              role: 'cancel',
+              handler: () => {
+                // Do nothing, stay on the page
+                window.history.pushState(null, '', window.location.href);
+              }
+            }
+          ]
+        });
+      };
+   
+      window.history.pushState(null, '', window.location.href);
+      window.addEventListener('popstate', handleBack);
+   
+      return () => {
+        window.removeEventListener('popstate', handleBack);
+      };
+    }, [router, presentAlert]);
+
 
   return (
     <IonPage>
@@ -551,11 +598,12 @@ const AddUser: React.FC = () => {
             </IonModal>
 
             <div>
-              <div style={{ padding: "0px 15px" }}>
+              <div style={{ padding: "0px 15px"}}>
                 <IonToast
+                  style={{ "--color": toastOpen.textColor || "black", fontWeight: "bold" }}
                   isOpen={toastOpen.status}
                   onDidDismiss={() =>
-                    setToastOpen({ status: false, message: "" })
+                    setToastOpen({ status: false, textColor: "", message: "" })
                   }
                   message={toastOpen.message}
                   duration={3000}
@@ -1104,29 +1152,12 @@ const AddUser: React.FC = () => {
                       <Password
                         style={{ width: "100%", textAlign: "left" }}
                         className="addFamilyInputText"
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
                         value={formData.refUserPassword}
                         onChange={handleInputChange}
                         placeholder="Enter Password"
                         name="refUserPassword"
-                        toggleMask
-                        feedback={false}
-                        tabIndex={1}
-                      />
-                    </div>
-                  </div>
-                  {/* Confirm Password */}
-                  <div className="inputBox">
-                    <label>
-                      Confirm Password <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
-                      <Password
-                        style={{ width: "100%", textAlign: "left" }}
-                        className="addFamilyInputText"
-                        value={formData.refUserConPassword}
-                        onChange={handleInputChange}
-                        placeholder="Enter Confirm Password"
-                        name="refUserConPassword"
                         toggleMask
                         feedback={false}
                         tabIndex={1}
@@ -1319,6 +1350,40 @@ const AddUser: React.FC = () => {
                       )}
                       &nbsp; Minimum 8 Characters
                     </div>
+                  </div>
+
+
+                  {/* Confirm Password */}
+                  <div className="inputBox">
+                    <label>
+                      Confirm Password <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <Password
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        value={formData.refUserConPassword}
+                        onChange={handleInputChange}
+                        placeholder="Enter Confirm Password"
+                        name="refUserConPassword"
+                        toggleMask
+                        feedback={false}
+                        tabIndex={1}
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    className="inputBox"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      fontWeight: "600",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",

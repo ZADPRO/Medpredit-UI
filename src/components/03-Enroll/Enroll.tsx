@@ -103,6 +103,9 @@ const Enroll: React.FC = () => {
       setLoadingStatus(false);
       setUserModel(false);
 
+      console.log(data);
+
+
       if (data.status) {
         const userDetails = {
           roleType: data.roleType,
@@ -145,7 +148,7 @@ const Enroll: React.FC = () => {
         import.meta.env.VITE_ENCRYPTION_KEY
       );
 
-      console.log();
+      console.log(data);
 
       setLoadingStatus(false);
 
@@ -847,7 +850,7 @@ const Enroll: React.FC = () => {
                 //margin: "3rem 0 2rem 0",
               }}
             >
-              Forget Password?
+              Forgot Password?
             </div>
           </div>
           {showToast && <IonText color="danger">{toastMessage}</IonText>}{" "}

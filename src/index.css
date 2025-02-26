@@ -4,6 +4,7 @@
   font-family: "Nunito", serif;
   font-optical-sizing: auto;
   font-style: normal;
+  scrollbar-width:auto!important;
 }
 
 
@@ -26,7 +27,21 @@ ion-modal#doctorDetailsGraph {
   background: white;
 }
 
-/* Header */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background-color: rgb(12, 67, 108);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color:  rgb(164, 214, 245);
+  border-radius: 4px;
+}
+
 .doctor-modal-header {
   font-size: 16px;
   font-weight: 700;
@@ -53,16 +68,16 @@ ion-modal#doctorDetailsGraph {
   height: 3rem;
   margin: 5px 0;
   border-radius: 5px;
-  background: #e6e6e6;
-  color: #000;
+  background-color: #1c70b0;
+  color: white;
   font-size: 16px;
   cursor: pointer;
   border: none;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .doctor-modal-close-btn:hover {
-  background: #d4d4d4;
+  background: rgb(135, 209, 255);
 }
 
 .doctor-modal-close-btn:focus {
@@ -192,6 +207,19 @@ ion-tab-bar {
   );
 }
 
+.medpredit-page-background {
+  background: linear-gradient(
+    227deg,
+    rgba(255, 255, 255, 1) 39%,
+    rgba(255, 255, 255, 1) 61%,
+    rgba(217, 240, 255, 1) 100%
+  );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
 .gradientButton01 {
   background: linear-gradient(
     57deg,
@@ -228,21 +256,54 @@ ion-tab-bar {
   background: rgb(184, 225, 255);
 }
 
-.medpredit-page-background {
-  background: linear-gradient(
-    227deg,
-    rgba(255, 255, 255, 1) 39%,
-    rgba(255, 255, 255, 1) 61%,
-    rgba(217, 240, 255, 1) 100%
-  );
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-
 .boxShadow01{
   -webkit-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
 -moz-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
 box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+}
+
+.boxShadow02-inset{
+  -webkit-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
+-moz-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
+box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
+}
+
+/* Override the alert wrapper */
+.alert-wrapper {
+  background: rgb(225, 248, 255) !important;
+  border-radius: 20px !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  padding: 1rem;
+}
+
+/* Customize header */
+.alert-header {
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+  color: #ff4757 !important;
+}
+
+/* Customize message */
+.alert-message {
+  font-size: 1rem !important;
+  color: #444 !important;
+  padding: 1rem !important;
+}
+
+/* Customize buttons */
+.alert-button {
+  border-radius: 10px !important;
+  padding: 8px 16px !important;
+  font-weight: bold !important;
+  border: none;
+}
+
+.alert-button-role-confirm {
+  background: rgb(177,235,255) !important;
+  color: rgb(15, 149, 232) !important;
+}
+
+.alert-button-role-cancel {
+  background: var(--gradient-button-02)!important;
+  color: rgb(177,235,255) !important;
 }
