@@ -12,6 +12,8 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
+  useIonAlert,
+  useIonRouter,
 } from "@ionic/react";
 import axios from "axios";
 import { Divider } from "primereact/divider";
@@ -19,9 +21,13 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Password } from "primereact/password";
-import React, { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES, useEffect, useState } from "react";
+import React, {
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES,
+  useEffect,
+  useState,
+} from "react";
 import decrypt from "../../helper";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import MonthYear from "../DateInput/MonthYear";
 import { InputNumber } from "primereact/inputnumber";
 import MonthYearPicker from "../DateInput/MonthYear";
@@ -60,10 +66,10 @@ const StaffSignup = () => {
                 localStorage.getItem("createRoleId") === "1"
                   ? "2"
                   : localStorage.getItem("createRoleId") === "2"
-                    ? "1"
-                    : localStorage.getItem("createRoleId") === "4"
-                      ? "2"
-                      : null,
+                  ? "1"
+                  : localStorage.getItem("createRoleId") === "4"
+                  ? "2"
+                  : null,
               hospitalId: localStorage.getItem("hospitalId"),
             },
             {
@@ -174,46 +180,91 @@ const StaffSignup = () => {
     selectedUsers: [],
   });
 
-  const [toastOpen, setToastOpen] = useState({
+  interface ToastState {
+    status: boolean;
+    message: string;
+    textColor?: string; // Optional textColor
+  }
+
+  const [toastOpen, setToastOpen] = useState<ToastState>({
     status: false,
     message: "",
   });
 
   const verifyForm1 = () => {
     if (formData.refUserFname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid First Name" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Valid First Name",
+      });
       return false;
     } else if (formData.refUserLname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid Last Name" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Valid Last Name",
+      });
       return false;
     } else if (!formData.refGender) {
-      setToastOpen({ status: true, message: "Select Gender" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Gender",
+      });
       return false;
     } else if (!formData.refDOB) {
-      setToastOpen({ status: true, message: "Enter Date of Birth" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Date of Birth",
+      });
       return false;
     } else if (!formData.refMaritalStatus) {
-      setToastOpen({ status: true, message: "Select Marital Status" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Marital Status",
+      });
       return false;
     }
     return true;
   };
 
   const verifyForm2 = () => {
-    if (
+    if (formData.refUserEmail.length === 0) {
+      setToastOpen({ status: true, textColor: "red", message: "Enter Email" });
+      return false;
+    } else if (
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) &&
       formData.refUserEmail.length > 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Email" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Valid Email",
+      });
       return false;
     } else if (formData.refAddress.length === 0) {
-      setToastOpen({ status: true, message: "Enter Address" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Address",
+      });
       return false;
     } else if (formData.refDistrict.length === 0) {
-      setToastOpen({ status: true, message: "Enter District" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter District",
+      });
       return false;
     } else if (formData.refPincode.length === 0) {
-      setToastOpen({ status: true, message: "Enter Pincode" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Pincode",
+      });
       return false;
     }
     return true;
@@ -223,28 +274,36 @@ const StaffSignup = () => {
     if (formData.allopathic.length === 0) {
       setToastOpen({
         status: true,
+        textColor: "red",
         message: "Select Allopathic Health System",
       });
       return false;
     } else if (formData.education.length === 0) {
-      setToastOpen({ status: true, message: "Select Education Qualification" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Education Qualification",
+      });
       return false;
     } else if (formData.education === "UG") {
       if (formData.educationSpecialization.length === 0) {
         setToastOpen({
           status: true,
+          textColor: "red",
           message: "Enter Education Qualification Specialization",
         });
         return false;
       } else if (formData.medicalCouncil.length === 0) {
         setToastOpen({
           status: true,
+          textColor: "red",
           message: "Select Medical Council",
         });
         return false;
       } else if (formData.mciRegisteredNo.length === 0) {
         setToastOpen({
           status: true,
+          textColor: "red",
           message: "Enter MCI Number",
         });
         return false;
@@ -253,12 +312,14 @@ const StaffSignup = () => {
       if (formData.educationSpecialization.length === 0) {
         setToastOpen({
           status: true,
+          textColor: "red",
           message: "Enter Education Qualification Specialization",
         });
         return false;
       } else if (formData.superSpecialization.length === 0) {
         setToastOpen({
           status: true,
+          textColor: "red",
           message: "Select Super Specialization",
         });
         return false;
@@ -266,68 +327,77 @@ const StaffSignup = () => {
         if (formData.supSpecialization.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Enter Specialization",
           });
           return false;
         } else if (formData.additionalDegree.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Select Additional Degree",
           });
           return false;
         } else if (formData.degreeType.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Select Degree Type",
           });
           return false;
         } else if (formData.degreeSpecialization.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Enter Specialization",
           });
           return false;
         } else if (formData.medicalCouncil.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Select Medical Council",
           });
           return false;
         } else if (formData.mciRegisteredNo.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Enter MCI Number",
           });
           return false;
         }
       } else if (formData.superSpecialization === "No") {
-        if (formData.additionalDegree.length === 0) {
+        // if (formData.additionalDegree.length === 0) {
+        //   setToastOpen({
+        //     status: true,
+        //     message: "Select Additional Degree",
+        //   });
+        //   return false;
+        // } else if (formData.degreeType.length === 0) {
+        //   setToastOpen({
+        //     status: true,
+        //     message: "Select Degree Type",
+        //   });
+        //   return false;
+        // } else if (formData.degreeSpecialization.length === 0) {
+        //   setToastOpen({
+        //     status: true,
+        //     message: "Enter Specialization",
+        //   });
+        //   return false;
+        // } else
+        if (formData.medicalCouncil.length === 0) {
           setToastOpen({
             status: true,
-            message: "Select Additional Degree",
-          });
-          return false;
-        } else if (formData.degreeType.length === 0) {
-          setToastOpen({
-            status: true,
-            message: "Select Degree Type",
-          });
-          return false;
-        } else if (formData.degreeSpecialization.length === 0) {
-          setToastOpen({
-            status: true,
-            message: "Enter Specialization",
-          });
-          return false;
-        } else if (formData.medicalCouncil.length === 0) {
-          setToastOpen({
-            status: true,
+            textColor: "red",
             message: "Select Medical Council",
           });
           return false;
         } else if (formData.mciRegisteredNo.length === 0) {
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Enter MCI Number",
           });
           return false;
@@ -339,25 +409,53 @@ const StaffSignup = () => {
 
   const verifyForm4 = () => {
     if (formData.typeHealthcare.length === 0) {
-      setToastOpen({ status: true, message: "Select Healthcare System" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Healthcare System",
+      });
       return false;
     } else if (formData.instituteType.length === 0) {
-      setToastOpen({ status: true, message: "Select Institute" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Institute",
+      });
       return false;
     } else if (formData.nameInstitute.length === 0) {
-      setToastOpen({ status: true, message: "Enter Institute Name" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Institute Name",
+      });
       return false;
     } else if (formData.nameInstitute.length === 0) {
-      setToastOpen({ status: true, message: "Enter Institute Name" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Institute Name",
+      });
       return false;
     } else if (formData.designation.length === 0) {
-      setToastOpen({ status: true, message: "Enter Designation" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Designation",
+      });
       return false;
     } else if (formData.department.length === 0) {
-      setToastOpen({ status: true, message: "Enter Department" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Department",
+      });
       return false;
     } else if (formData.instituteAddress.length === 0) {
-      setToastOpen({ status: true, message: "Enter Address" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Address",
+      });
       return false;
     }
     return true;
@@ -371,7 +469,11 @@ const StaffSignup = () => {
       !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
       formData.refUserMobileno.length === 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Mobile Number" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Valid Mobile Number",
+      });
       return false;
     } else if (
       formData.refUserPassword.length === 0 || // Check if password is empty
@@ -381,7 +483,11 @@ const StaffSignup = () => {
       formData.refUserPassword.length < 8 || // Must be at least 8 characters long
       formData.refUserPassword !== formData.refUserConPassword
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Password" });
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Enter Valid Password",
+      });
       return false;
     }
     // else if (formData.selectedUsers.length === 0) {
@@ -631,19 +737,36 @@ const StaffSignup = () => {
         if (data.status) {
           setToastOpen({
             status: true,
+            textColor: "green",
             message: "Successfully Signup",
           });
 
           setTimeout(() => {
-            history.push("/patient", {
-              direction: "backward",
-              animation: "slide",
-            });
+            if (
+              localStorage.getItem("createRoleId") == "1" ||
+              localStorage.getItem("createRoleId") == "4"
+            ) {
+              history.push("/manageDoctor", {
+                direction: "backward",
+                animation: "slide",
+              });
+            } else if (localStorage.getItem("createRoleId") == "2") {
+              history.push("/manageAssistant", {
+                direction: "backward",
+                animation: "slide",
+              });
+            } else {
+              history.push("/patient", {
+                direction: "backward",
+                animation: "slide",
+              });
+            }
           }, 3000);
         } else {
           setLoading(false);
           setToastOpen({
             status: true,
+            textColor: "red",
             message: "Already Mobile Number Exits",
           });
         }
@@ -654,6 +777,44 @@ const StaffSignup = () => {
       console.log("Token Invalid");
     }
   };
+
+  const [presentAlert] = useIonAlert();
+  const router: any = useIonRouter();
+
+  useEffect(() => {
+    const handleBack = (event: PopStateEvent) => {
+      event.preventDefault(); // Stop the default back behavior
+      presentAlert({
+        header: 'Confirm Exit',
+        message: 'Are you sure you want to go back?',
+        buttons: [
+          {
+            text: 'Yes',
+            role: 'confirm',
+            handler: () => {
+              // Allow back navigation
+              history.goBack();
+            }
+          },
+          {
+            text: 'No',
+            role: 'cancel',
+            handler: () => {
+              // Do nothing, stay on the page
+              window.history.pushState(null, '', window.location.href);
+            }
+          }
+        ]
+      });
+    };
+ 
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handleBack);
+ 
+    return () => {
+      window.removeEventListener('popstate', handleBack);
+    };
+  }, [router, presentAlert]);
 
   return (
     <IonPage>
@@ -681,49 +842,66 @@ const StaffSignup = () => {
       </IonHeader>
       <IonContent className="ion-padding"> */}
       <IonContent>
-        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+        <div
+          className="KnowAboutPatient medpredit-page-background"
+          style={{ height: "100vh" }}
+        >
           <div
             style={{
+              position: "relative",
               display: "flex",
-              justifyContent: "space-between",
               alignItems: "center",
+              justifyContent: "space-between",
               fontSize: "1.2rem",
               fontWeight: "600",
-              margin: "1rem",
+              margin: "1rem 1rem 0 1rem",
             }}
-
           >
             <IonIcon
               size="large"
-              onClick={() => history.goBack()}
+              onClick={() => {
+                history.goBack();
+              }}
               icon={chevronBack}
             ></IonIcon>
-            <span>
-              {
-                formPage === 1 ? (
-                  <>
-                    {localStorage.getItem("createRoleId") === "1"
-                      ? "Add Doctor"
-                      : localStorage.getItem("createRoleId") === "2"
-                        ? "Add Assistant"
-                        : localStorage.getItem("createRoleId") === "4"
-                          ? "Add Doctor + Admin"
-                          : null}
-                  </>
-                ) : (
-                  formData.refUserFname + " " + formData.refUserLname
-                )
-              }
+            <span
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {formPage === 1 ? (
+                <>
+                  {localStorage.getItem("createRoleId") === "1"
+                    ? "Add Doctor"
+                    : localStorage.getItem("createRoleId") === "2"
+                    ? "Add Assistant"
+                    : localStorage.getItem("createRoleId") === "4"
+                    ? "Add Doctor + Admin"
+                    : null}
+                </>
+              ) : (
+                formData.refUserFname + " " + formData.refUserLname
+              )}
             </span>
             <span></span>
           </div>
-          <div style={{ margin: "20px 0px" }}>
+          <div
+            className="custom-scrollbar boxShadow02-inset"
+            style={{ margin: "1rem 0px", height: "auto", overflowY: "scroll" }}
+          >
             <div>
-              <div style={{ padding: "0px 15px" }}>
+              <div style={{ padding: "1rem" }}>
                 <IonToast
+                  style={{
+                    "--color": toastOpen.textColor || "black",
+                    fontWeight: "bold",
+                  }}
                   isOpen={toastOpen.status}
                   onDidDismiss={() =>
-                    setToastOpen({ status: false, message: "" })
+                    setToastOpen({ status: false, textColor: "", message: "" })
                   }
                   message={toastOpen.message}
                   duration={3000}
@@ -781,7 +959,7 @@ const StaffSignup = () => {
                           fontWeight: "700",
                         }}
                       >
-                        25%
+                        20%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -816,7 +994,7 @@ const StaffSignup = () => {
                           fontWeight: "700",
                         }}
                       >
-                        50%
+                        40%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -851,7 +1029,7 @@ const StaffSignup = () => {
                           fontWeight: "700",
                         }}
                       >
-                        75%
+                        60%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -886,7 +1064,7 @@ const StaffSignup = () => {
                           fontWeight: "700",
                         }}
                       >
-                        95%
+                        80%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -934,7 +1112,10 @@ const StaffSignup = () => {
             {/* Form Content */}
             <div className="form-page">
               {formPage === 1 && (
-                <div className="addFamilyUserInputs" style={{ padding: "15px", width: "100%" }}>
+                <div
+                  className="addFamilyUserInputs"
+                  style={{ padding: "15px", width: "100%" }}
+                >
                   <div className="inputBox">
                     <label>
                       First Name <span style={{ color: "red" }}>*</span>
@@ -973,11 +1154,14 @@ const StaffSignup = () => {
                     </div>
                   </div>
                   {/* Gender */}
-                  <div className="inputBox" >
+                  <div className="inputBox">
                     <label>
                       Gender <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-mars"></i>
                       </span>
@@ -1086,13 +1270,14 @@ const StaffSignup = () => {
                           onClick={closeModal}
                           style={{
                             width: "40%",
-                            background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
+                            background:
+                              "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                             padding: "15px",
                             textAlign: "center",
                             fontSize: "1rem",
                             color: "#fff",
                             borderRadius: "10px",
-                            fontWeight: "700"
+                            fontWeight: "700",
                           }}
                         >
                           Set
@@ -1105,7 +1290,10 @@ const StaffSignup = () => {
                     <label>
                       Marital Status <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-users"></i>
                       </span>
@@ -1130,7 +1318,9 @@ const StaffSignup = () => {
                 <div style={{ padding: "15px" }}>
                   {/* Education */}
                   <div className="inputBox">
-                    <label>Email</label>
+                    <label>
+                      Email <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-envelope"></i>
@@ -1218,8 +1408,11 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {allopathicOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${formData.allopathic === option.label ? "selected" : ""
-                            }`}
+                          className={`questionsTextOptions_01 ${
+                            formData.allopathic === option.label
+                              ? "selected"
+                              : ""
+                          }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1246,8 +1439,11 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {educationOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${formData.education === option.label ? "selected" : ""
-                            }`}
+                          className={`questionsTextOptions_01 ${
+                            formData.education === option.label
+                              ? "selected"
+                              : ""
+                          }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1296,10 +1492,11 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {superOption?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${formData.superSpecialization === option.label
-                                ? "selected"
-                                : ""
-                                }`}
+                              className={`questionsTextOptions_01 ${
+                                formData.superSpecialization === option.label
+                                  ? "selected"
+                                  : ""
+                              }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1337,24 +1534,25 @@ const StaffSignup = () => {
                         </>
                       ) : null}
 
-                      {/* Additional Degress */}
+                      {/* Additional Degree */}
                       <div
                         style={{ marginTop: "30px" }}
                         className="questions multiInput"
                       >
                         <div className="inputBox">
                           <label>
-                            Additional Degress{" "}
+                            Additional Degree{" "}
                             <span style={{ color: "red" }}>*</span>
                           </label>
                         </div>
                         <div className="questionsbuttonGroup_01">
                           {degreeOptions?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${formData.additionalDegree === option.label
-                                ? "selected"
-                                : ""
-                                }`}
+                              className={`questionsTextOptions_01 ${
+                                formData.additionalDegree === option.label
+                                  ? "selected"
+                                  : ""
+                              }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1383,10 +1581,11 @@ const StaffSignup = () => {
                             <div className="questionsbuttonGroup_01">
                               {degreeTypeOption?.map((option: any) => (
                                 <button
-                                  className={`questionsTextOptions_01 ${formData.degreeType === option.label
-                                    ? "selected"
-                                    : ""
-                                    }`}
+                                  className={`questionsTextOptions_01 ${
+                                    formData.degreeType === option.label
+                                      ? "selected"
+                                      : ""
+                                  }`}
                                   onClick={() => {
                                     setFormData({
                                       ...formData,
@@ -1405,7 +1604,10 @@ const StaffSignup = () => {
                               Specialization{" "}
                               <span style={{ color: "red" }}>*</span>
                             </label>
-                            <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                            <div
+                              className="addFamilyInputField gradientBackground02_opacity"
+                              style={{ width: "100%" }}
+                            >
                               {/* <span className="p-inputgroup-addon">
                                <i className="pi pi-envelope"></i>
                              </span> */}
@@ -1433,7 +1635,10 @@ const StaffSignup = () => {
                       <span style={{ color: "red" }}>*</span>
                     </label>
                     <div className="card flex flex-column md:flex-row gap-1 mb-1 w-full">
-                      <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                      <div
+                        className="addFamilyInputField gradientBackground02_opacity"
+                        style={{ width: "100%" }}
+                      >
                         <Dropdown
                           value={formData.medicalCouncil}
                           onChange={(e) =>
@@ -1497,10 +1702,11 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {typeHealthcareOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${formData.typeHealthcare === option.label
-                            ? "selected"
-                            : ""
-                            }`}
+                          className={`questionsTextOptions_01 ${
+                            formData.typeHealthcare === option.label
+                              ? "selected"
+                              : ""
+                          }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1528,10 +1734,11 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {privateHospital?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${formData.instituteType === option.label
-                                ? "selected"
-                                : ""
-                                }`}
+                              className={`questionsTextOptions_01 ${
+                                formData.instituteType === option.label
+                                  ? "selected"
+                                  : ""
+                              }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1559,10 +1766,11 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {governmentHospital?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${formData.instituteType === option.label
-                                ? "selected"
-                                : ""
-                                }`}
+                              className={`questionsTextOptions_01 ${
+                                formData.instituteType === option.label
+                                  ? "selected"
+                                  : ""
+                              }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1580,7 +1788,9 @@ const StaffSignup = () => {
 
                   {/* Name of Institute */}
                   <div className="inputBox">
-                    <label>Name of Institute</label>
+                    <label>
+                      Name of Institute <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
                       <i className="pi pi-envelope"></i>
@@ -1598,7 +1808,9 @@ const StaffSignup = () => {
 
                   {/* designation */}
                   <div className="inputBox">
-                    <label>Designation</label>
+                    <label>
+                      Designation <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
                       <i className="pi pi-envelope"></i>
@@ -1616,7 +1828,9 @@ const StaffSignup = () => {
 
                   {/* department */}
                   <div className="inputBox">
-                    <label>Department</label>
+                    <label>
+                      Department <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
                       <i className="pi pi-envelope"></i>
@@ -1634,7 +1848,9 @@ const StaffSignup = () => {
 
                   {/* Institute Address */}
                   <div className="inputBox">
-                    <label>Address</label>
+                    <label>
+                      Address <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
                       <i className="pi pi-envelope"></i>
@@ -1803,7 +2019,8 @@ const StaffSignup = () => {
                       justifyContent: "center",
                       borderRadius: "5px",
                       color: "#a4d6f5",
-                      background: "linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%)"
+                      background:
+                        "linear-gradient(-167deg, rgb(15, 149, 232) 0%, rgb(3, 117, 198) 100%)",
                     }}
                   >
                     Add More
@@ -1829,7 +2046,7 @@ const StaffSignup = () => {
                         onChange={handleInputChange}
                         placeholder="Enter Mobile Number"
                         name="refUserMobileno"
-                      // useGrouping={false}
+                        // useGrouping={false}
                       />
                     </div>
                   </div>
@@ -1842,28 +2059,12 @@ const StaffSignup = () => {
                       <Password
                         style={{ width: "100%", textAlign: "left" }}
                         className="addFamilyInputText"
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
                         value={formData.refUserPassword}
                         onChange={handleInputChange}
                         placeholder="Enter Password"
                         name="refUserPassword"
-                        toggleMask
-                        feedback={false}
-                        tabIndex={1}
-                      />
-                    </div>
-                  </div>
-                  {/* Confirm Password */}
-                  <div className="inputBox">
-                    <label>
-                      Confirm Password <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
-                      <Password
-                        value={formData.refUserConPassword}
-                        onChange={handleInputChange}
-                        style={{ borderRadius: "10px" }}
-                        placeholder="Enter Confirm Password"
-                        name="refUserConPassword"
                         toggleMask
                         feedback={false}
                         tabIndex={1}
@@ -1975,7 +2176,9 @@ const StaffSignup = () => {
                         color: "#45474b",
                       }}
                     >
-                      {/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) ? (
+                      {/[!@#$%^&*(),.?":{}|<>]/.test(
+                        formData.refUserPassword
+                      ) ? (
                         <div
                           style={{
                             width: "25px",
@@ -2056,6 +2259,37 @@ const StaffSignup = () => {
                       )}
                       &nbsp; Minimum 8 Characters
                     </div>
+                  </div>
+                  {/* Confirm Password */}
+                  <div className="inputBox">
+                    <label>
+                      Confirm Password <span style={{ color: "red" }}>*</span>
+                    </label>
+                    <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                      <Password
+                        value={formData.refUserConPassword}
+                        onChange={handleInputChange}
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
+                        style={{ borderRadius: "10px" }}
+                        placeholder="Enter Confirm Password"
+                        name="refUserConPassword"
+                        toggleMask
+                        feedback={false}
+                        tabIndex={1}
+                      />
+                    </div>
+                  </div>
+
+                  <div
+                    className="inputBox"
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "10px",
+                      fontWeight: "600",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -2063,8 +2297,9 @@ const StaffSignup = () => {
                         color: "#45474b",
                       }}
                     >
-                      {formData.refUserPassword === formData.refUserConPassword &&
-                        formData.refUserPassword.length > 0 ? (
+                      {formData.refUserPassword ===
+                        formData.refUserConPassword &&
+                      formData.refUserPassword.length > 0 ? (
                         <div
                           style={{
                             width: "25px",
@@ -2110,13 +2345,16 @@ const StaffSignup = () => {
                       {localStorage.getItem("createRoleId") === "1"
                         ? "Assistants"
                         : localStorage.getItem("createRoleId") === "4"
-                          ? "Assistants"
-                          : localStorage.getItem("createRoleId") === "2"
-                            ? "Doctors"
-                            : null}{" "}
+                        ? "Assistants"
+                        : localStorage.getItem("createRoleId") === "2"
+                        ? "Doctors"
+                        : null}{" "}
                       <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <MultiSelect
                         className="addFamilyDropdown"
                         style={{ textAlign: "start" }}
@@ -2129,43 +2367,42 @@ const StaffSignup = () => {
                         }}
                         options={userList}
                         optionLabel="name"
-                        placeholder={`Select  ${localStorage.getItem("createRoleId") === "1"
-                          ? "Assistants"
-                          : localStorage.getItem("createRoleId") === "4"
+                        placeholder={`Select  ${
+                          localStorage.getItem("createRoleId") === "1"
+                            ? "Assistants"
+                            : localStorage.getItem("createRoleId") === "4"
                             ? "Assistants"
                             : localStorage.getItem("createRoleId") === "2"
-                              ? "Doctors"
-                              : null
-                          }`}
+                            ? "Doctors"
+                            : null
+                        }`}
                         maxSelectedLabels={3}
                       />
                     </div>
                   </div>
 
                   {/* Make as Admin */}
-                  {
-                    localStorage.getItem("createRoleId") === "2" ? null : (
-                      <div
-                        className="inputBox"
-                        style={{ display: "flex", flexDirection: "row" }}
+                  {localStorage.getItem("createRoleId") === "2" ? null : (
+                    <div
+                      className="inputBox"
+                      style={{ display: "flex", flexDirection: "row" }}
+                    >
+                      <IonCheckbox
+                        onIonChange={(e) => {
+                          setCheckedAdmin(e.detail.checked);
+                          if (e.detail.checked) {
+                            localStorage.setItem("createRoleId", "4");
+                          } else {
+                            localStorage.setItem("createRoleId", "1");
+                          }
+                        }}
+                        checked={checkedAdmin}
+                        labelPlacement="start"
                       >
-                        <IonCheckbox
-                          onIonChange={(e) => {
-                            setCheckedAdmin(e.detail.checked);
-                            if (e.detail.checked) {
-                              localStorage.setItem("createRoleId", "4");
-                            } else {
-                              localStorage.setItem("createRoleId", "1");
-                            }
-                          }}
-                          checked={checkedAdmin}
-                          labelPlacement="start"
-                        >
-                          <label>Make as Admin</label>
-                        </IonCheckbox>
-                      </div>
-                    )
-                  }
+                        <label>Make as Admin</label>
+                      </IonCheckbox>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

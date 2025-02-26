@@ -232,7 +232,7 @@ const Login: React.FC = () => {
                 <p className="description">
                   MedPredit simplifies and secures medical data management,
                   reducing administrative tasks so you can focus more on what
-                  matters most—your patients. Spend less time on data and more
+                  matters most-your patients. Spend less time on data and more
                   time providing exceptional care with our
                   efficient and secure app.
                 </p>

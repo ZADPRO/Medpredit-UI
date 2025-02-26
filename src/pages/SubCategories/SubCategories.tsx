@@ -153,9 +153,23 @@ const SubCategories: React.FC = () => {
 
       <IonContent fullscreen>
         <div className="subCategories medpredit-page-background">
-          <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", width: "90%", margin: "0 auto", fontWeight: "bold" }}
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "90%",
+              margin: "0 auto",
+              fontWeight: "bold",
+            }}
           >
-            <IonIcon size="large" style={{ position: "absolute", left: 0 }} onClick={() => history.goBack()} icon={chevronBack}></IonIcon>
+            <IonIcon
+              size="large"
+              style={{ position: "absolute", left: 0 }}
+              onClick={() => history.goBack()}
+              icon={chevronBack}
+            ></IonIcon>
             <span>{categroyName}</span>
             <span style={{ position: "absolute", right: 0 }}></span>
           </div>

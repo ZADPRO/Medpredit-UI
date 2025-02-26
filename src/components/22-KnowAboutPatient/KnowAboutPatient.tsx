@@ -192,7 +192,9 @@ const KnowAboutPatient: React.FC = () => {
     // If the selected year is the current year, use the current month
     // Otherwise, default to January
     const selectedMonth =
-      selectedYear === currentYear ? `${selectedYear}-${String(currentMonth).padStart(2, "0")}` : `${selectedYear}-01`;
+      selectedYear === currentYear
+        ? `${selectedYear}-${String(currentMonth).padStart(2, "0")}`
+        : `${selectedYear}-01`;
 
     setSelectedYear(String(selectedYear));
     setSelectedMonth(selectedMonth);
@@ -200,7 +202,6 @@ const KnowAboutPatient: React.FC = () => {
     setIsExpanded(true);
     setShowYearPicker(false);
   };
-
 
   useEffect(() => {
     handleReportFilter(new Date().getFullYear());
@@ -279,7 +280,11 @@ const KnowAboutPatient: React.FC = () => {
   const [allReports, setAllReports] = useState<Report[]>([]);
   const [currentReport, setCurrentReport]: any = useState(false);
   console.log("allreports", allReports);
-  console.log("filter allreports", (allReports?.filter(item => item.refptcreateddate == selectedMonth))[0]?.multipleDate)
+  console.log(
+    "filter allreports",
+    allReports?.filter((item) => item.refptcreateddate == selectedMonth)[0]
+      ?.multipleDate
+  );
 
   const [navCategory, setNavCategory] = useState({
     id: "",
@@ -292,7 +297,7 @@ const KnowAboutPatient: React.FC = () => {
   });
 
   const today = new Date();
-  const formattedDate = today.toISOString().split('T')[0]; // Output: "2025-02-21"
+  const formattedDate = today.toISOString().split("T")[0]; // Output: "2025-02-21"
 
   return (
     <IonPage>
@@ -515,8 +520,12 @@ const KnowAboutPatient: React.FC = () => {
                                           marginBottom: "1rem",
                                           fontSize: "1rem",
                                           fontWeight: "500",
-                                          background: isExpanded ? "var(--gradient-button-02)" : "rgb(184, 225, 255)",
-                                          color: isExpanded ? "white" : "rgb(12, 67, 108)",
+                                          background: isExpanded
+                                            ? "var(--gradient-button-02)"
+                                            : "rgb(184, 225, 255)",
+                                          color: isExpanded
+                                            ? "white"
+                                            : "rgb(12, 67, 108)",
                                           borderRadius: "2.5rem",
                                         }}
                                       >
@@ -566,8 +575,15 @@ const KnowAboutPatient: React.FC = () => {
                                           isOpen={showYearPicker}
                                           trigger="trigger-button"
                                         >
-                                          {[...Array(2025 - new Date().getFullYear() + 1)].map((_, index) => {
-                                            const year = new Date().getFullYear() + index;
+                                          {[
+                                            ...Array(
+                                              2025 -
+                                                new Date().getFullYear() +
+                                                1
+                                            ),
+                                          ].map((_, index) => {
+                                            const year =
+                                              new Date().getFullYear() + index;
                                             return (
                                               <div
                                                 key={year}
@@ -576,7 +592,9 @@ const KnowAboutPatient: React.FC = () => {
                                                   cursor: "pointer",
                                                   textAlign: "center",
                                                   borderBottom:
-                                                    year < 2025 ? "1px solid #ddd" : "none",
+                                                    year < 2025
+                                                      ? "1px solid #ddd"
+                                                      : "none",
                                                 }}
                                                 onClick={() => {
                                                   handleReportFilter(year);
@@ -587,7 +605,6 @@ const KnowAboutPatient: React.FC = () => {
                                             );
                                           })}
                                         </IonPopover>
-
                                       </div>
                                     </div>
 
@@ -620,8 +637,10 @@ const KnowAboutPatient: React.FC = () => {
 
                                               // Show only months up to the current month in the selected year
                                               if (
-                                                Number(selectedYear) > currentYear ||
-                                                (Number(selectedYear) === currentYear &&
+                                                Number(selectedYear) >
+                                                  currentYear ||
+                                                (Number(selectedYear) ===
+                                                  currentYear &&
                                                   i + 1 > currentMonth)
                                               ) {
                                                 return null;
@@ -697,7 +716,7 @@ const KnowAboutPatient: React.FC = () => {
                             alignItems: "flex-start",
                             width: "100vw",
                             height: "40vh",
-                            backgroundColor: "rgb(235, 250, 255)"
+                            backgroundColor: "rgb(235, 250, 255)",
                           }}
                         >
                           {selectedMonth && (
@@ -711,11 +730,15 @@ const KnowAboutPatient: React.FC = () => {
                                 margin: "0 auto",
                               }}
                             >
-                              {allReports
-                                ?.filter((item) => item.refptcreateddate === selectedMonth)[0]
-                                ?.multipleDate.length > 0 ? (
+                              {allReports?.filter(
+                                (item) =>
+                                  item.refptcreateddate === selectedMonth
+                              )[0]?.multipleDate.length > 0 ? (
                                 allReports
-                                  ?.filter((item) => item.refptcreateddate === selectedMonth)[0]
+                                  ?.filter(
+                                    (item) =>
+                                      item.refptcreateddate === selectedMonth
+                                  )[0]
                                   ?.multipleDate.map((muldate, index) => (
                                     <div
                                       key={index}
@@ -728,7 +751,9 @@ const KnowAboutPatient: React.FC = () => {
                                         cursor: "pointer",
                                       }}
                                       onClick={() => {
-                                        history.push(`/pastreport/${muldate.refptcreateddate}`);
+                                        history.push(
+                                          `/pastreport/${muldate.refptcreateddate}`
+                                        );
                                       }}
                                     >
                                       {muldate.refptcreateddate}
@@ -746,7 +771,6 @@ const KnowAboutPatient: React.FC = () => {
                                   No Data Filled
                                 </div>
                               )}
-
                             </div>
                           )}
                         </div>

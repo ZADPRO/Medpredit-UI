@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./PatientSignupForm.css";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { IoBody } from "react-icons/io5";
-import { IonDatetime, IonModal, IonRippleEffect, IonToast } from "@ionic/react";
+import { IonDatetime, IonModal, IonRippleEffect, IonToast, useIonAlert, useIonRouter } from "@ionic/react";
 import { Divider } from "primereact/divider";
 import { InputTextarea } from "primereact/inputtextarea";
 import { InputNumber } from "primereact/inputnumber";
@@ -38,7 +38,7 @@ const PatientSignupForm = () => {
     "Illiteracy",
     "Primary School",
     "Middle",
-    " Higher Secondary",
+    "Higher Secondary",
     "Undergraduate (UG)",
     "Postgraduate (PG)",
   ];
@@ -93,26 +93,33 @@ const PatientSignupForm = () => {
     refUserMobileno: "",
   });
 
-  const [toastOpen, setToastOpen] = useState({
-    status: false,
-    message: "",
-  });
+   interface ToastState {
+      status: boolean;
+      message: string;
+      textColor?: string; // Optional textColor
+    }
+  
+    const [toastOpen, setToastOpen] = useState<ToastState>({
+      status: false,
+      message: "",
+    });
+
 
   const verifyForm1 = () => {
     if (formData.refUserFname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid First Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid First Name" });
       return false;
     } else if (formData.refUserLname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid Last Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Last Name" });
       return false;
     } else if (!formData.refGender) {
-      setToastOpen({ status: true, message: "Select Gender" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Gender" });
       return false;
     } else if (!formData.refDOB) {
-      setToastOpen({ status: true, message: "Enter Date of Birth" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Date of Birth" });
       return false;
     } else if (!formData.refMaritalStatus) {
-      setToastOpen({ status: true, message: "Select Marital Status" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Marital Status" });
       return false;
     }
     return true;
@@ -120,33 +127,27 @@ const PatientSignupForm = () => {
 
   const verifyForm2 = () => {
     if (formData.refEducation.length === 0) {
-      setToastOpen({ status: true, message: "Select Education" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Education" });
       return false;
     } else if (formData.refProfession.length === 0) {
-      setToastOpen({ status: true, message: "Select Occupation Category" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Occupation Category" });
       return false;
     } else if (formData.refSector.length === 0) {
-      setToastOpen({ status: true, message: "Enter Sector" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Sector" });
       return false;
     }
     return true;
   };
 
   const verifyForm3 = () => {
-    if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
-      formData.refUserEmail.length === 0
-    ) {
-      setToastOpen({ status: true, message: "Enter Valid Email" });
-      return false;
-    } else if (formData.refAddress.length === 0) {
-      setToastOpen({ status: true, message: "Enter Address" });
+    if (formData.refAddress.length === 0) {
+      setToastOpen({ status: true, textColor: "red", message: "Enter Address" });
       return false;
     } else if (formData.refDistrict.length === 0) {
-      setToastOpen({ status: true, message: "Enter District" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter District" });
       return false;
     } else if (formData.refPincode.length === 0) {
-      setToastOpen({ status: true, message: "Enter Pincode" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Pincode" });
       return false;
     }
     return true;
@@ -156,7 +157,7 @@ const PatientSignupForm = () => {
     if (
       !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno)
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Mobile Number" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
       return false;
     } else if (
       formData.refUserPassword.length === 0 || // Check if password is empty
@@ -166,7 +167,7 @@ const PatientSignupForm = () => {
       formData.refUserPassword.length < 8 || // Must be at least 8 characters long
       formData.refUserPassword !== formData.refUserConPassword
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Password" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
       return false;
     }
     return true;
@@ -262,6 +263,7 @@ const PatientSignupForm = () => {
       if (data.status) {
         setToastOpen({
           status: true,
+          textColor: "green",
           message: "Successfully Signup",
         });
 
@@ -300,6 +302,44 @@ const PatientSignupForm = () => {
       console.error("tesitng - false");
     }
   };
+
+  const [presentAlert] = useIonAlert();
+    const router: any = useIonRouter();
+  
+    useEffect(() => {
+      const handleBack = (event: PopStateEvent) => {
+        event.preventDefault(); // Stop the default back behavior
+        presentAlert({
+          header: 'Confirm Exit',
+          message: 'Are you sure you want to go back?',
+          buttons: [
+            {
+              text: 'Yes',
+              role: 'confirm',
+              handler: () => {
+                // Allow back navigation
+                history.goBack();
+              }
+            },
+            {
+              text: 'No',
+              role: 'cancel',
+              handler: () => {
+                // Do nothing, stay on the page
+                window.history.pushState(null, '', window.location.href);
+              }
+            }
+          ]
+        });
+      };
+   
+      window.history.pushState(null, '', window.location.href);
+      window.addEventListener('popstate', handleBack);
+   
+      return () => {
+        window.removeEventListener('popstate', handleBack);
+      };
+    }, [router, presentAlert]);
 
   return (
     <div className="ion-padding">
@@ -475,8 +515,14 @@ const PatientSignupForm = () => {
       <div>
         <div style={{ padding: "0px 15px" }}>
           <IonToast
+            style={{
+              "--color": toastOpen.textColor || "black",
+              fontWeight: "bold",
+            }}
             isOpen={toastOpen.status}
-            onDidDismiss={() => setToastOpen({ status: false, message: "" })}
+            onDidDismiss={() =>
+              setToastOpen({ status: false, textColor: "", message: "" })
+            }
             message={toastOpen.message}
             duration={3000}
           />
@@ -695,7 +741,10 @@ const PatientSignupForm = () => {
               <label>
                 Gender <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+              <div
+                className="addFamilyInputField gradientBackground02_opacity"
+                style={{ width: "100%" }}
+              >
                 <span className="addFamilyInputField_Icon">
                   <i className="pi pi-mars"></i>
                 </span>
@@ -787,13 +836,14 @@ const PatientSignupForm = () => {
                     onClick={closeModal}
                     style={{
                       width: "40%",
-                      background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
+                      background:
+                        "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                       padding: "15px",
                       textAlign: "center",
                       fontSize: "1rem",
                       color: "#fff",
                       borderRadius: "10px",
-                      fontWeight: "700"
+                      fontWeight: "700",
                     }}
                   >
                     Set
@@ -807,7 +857,10 @@ const PatientSignupForm = () => {
               <label>
                 Marital Status <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+              <div
+                className="addFamilyInputField gradientBackground02_opacity"
+                style={{ width: "100%" }}
+              >
                 <span className="addFamilyInputField_Icon">
                   <i className="pi pi-users"></i>
                 </span>
@@ -833,7 +886,10 @@ const PatientSignupForm = () => {
               <label>
                 Education <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+              <div
+                className="addFamilyInputField gradientBackground02_opacity"
+                style={{ width: "100%" }}
+              >
                 <span className="addFamilyInputField_Icon">
                   <i className="pi pi-graduation-cap"></i>
                 </span>
@@ -856,7 +912,10 @@ const PatientSignupForm = () => {
               <label>
                 Occupation <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+              <div
+                className="addFamilyInputField gradientBackground02_opacity"
+                style={{ width: "100%" }}
+              >
                 <span className="addFamilyInputField_Icon">
                   <i className="pi pi-briefcase"></i>
                 </span>
@@ -887,7 +946,10 @@ const PatientSignupForm = () => {
               <label>
                 Sector <span style={{ color: "red" }}>*</span>
               </label>
-              <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+              <div
+                className="addFamilyInputField gradientBackground02_opacity"
+                style={{ width: "100%" }}
+              >
                 {/* <span className="p-inputgroup-addon">
                   <i className="pi pi-user"></i>
                 </span> */}
@@ -1009,7 +1071,7 @@ const PatientSignupForm = () => {
                   onChange={handleInputChange}
                   placeholder="Enter Mobile Number"
                   name="refUserMobileno"
-                // useGrouping={false}
+                  // useGrouping={false}
                 />
               </div>
             </div>
@@ -1022,29 +1084,12 @@ const PatientSignupForm = () => {
                 <Password
                   style={{ width: "100%", textAlign: "left" }}
                   className="addFamilyInputText"
+                  onCopy={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
                   value={formData.refUserPassword}
                   onChange={handleInputChange}
                   placeholder="Enter Password"
                   name="refUserPassword"
-                  toggleMask
-                  feedback={false}
-                  tabIndex={1}
-                />
-              </div>
-            </div>
-            {/* Confirm Password */}
-            <div className="inputBox">
-              <label>
-                Confirm Password <span style={{ color: "red" }}>*</span>
-              </label>
-              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
-                <Password
-                  style={{ width: "100%", textAlign: "left" }}
-                  className="addFamilyInputText"
-                  value={formData.refUserConPassword}
-                  onChange={handleInputChange}
-                  placeholder="Enter Confirm Password"
-                  name="refUserConPassword"
                   toggleMask
                   feedback={false}
                   tabIndex={1}
@@ -1221,11 +1266,44 @@ const PatientSignupForm = () => {
                 )}
                 &nbsp; Minimum 8 Characters
               </div>
+            </div>
+
+            {/* Confirm Password */}
+            <div className="inputBox">
+              <label>
+                Confirm Password <span style={{ color: "red" }}>*</span>
+              </label>
+              <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                <Password
+                  style={{ width: "100%", textAlign: "left" }}
+                  className="addFamilyInputText"
+                  onCopy={(e) => e.preventDefault()}
+                  onPaste={(e) => e.preventDefault()}
+                  value={formData.refUserConPassword}
+                  onChange={handleInputChange}
+                  placeholder="Enter Confirm Password"
+                  name="refUserConPassword"
+                  toggleMask
+                  feedback={false}
+                  tabIndex={1}
+                />
+              </div>
+            </div>
+
+            <div
+              className="inputBox"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "10px",
+                fontWeight: "600",
+              }}
+            >
               <div
                 style={{ display: "flex", fontSize: "1rem", color: "#45474b" }}
               >
                 {formData.refUserPassword === formData.refUserConPassword &&
-                  formData.refUserPassword.length > 0 ? (
+                formData.refUserPassword.length > 0 ? (
                   <div
                     style={{
                       width: "25px",

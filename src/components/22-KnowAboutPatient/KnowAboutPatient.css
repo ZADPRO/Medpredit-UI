@@ -25,7 +25,9 @@ ion-segment#KnowAboutPatient_Modal {
     margin-left: 1.5rem;
     background-color: transparent;
     border: none;
+    scrollbar-width: none!important;    /* To hide Ionic default scrollbar */
 }
+
 
 ion-segment#KnowAboutPatient_Modal>ion-segment-button {
     --indicator-color: var(--gradient-button-02);

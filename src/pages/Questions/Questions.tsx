@@ -371,6 +371,7 @@ const Questions: React.FC = () => {
     }
     getNextQuestions(questionId, questionType, refOptionId, forwardQnId);
   };
+  console.log("Visible qns", visibleQuestions);
 
   const handleMultipleSelectEdit = (
     questionId: any,
@@ -786,7 +787,7 @@ const Questions: React.FC = () => {
               ></IonIcon>
             </div>
 
-            <div className="questionsList">
+            <div className="questionsList boxShadow02-inset custom-scrollbar">
               {visibleQuestions.map((question, index) => (
                 <div key={index}>
                   {question.questionType === "6" && (

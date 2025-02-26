@@ -54,7 +54,7 @@ const GraphValues: React.FC<GraphValuesProps> = ({
     field: keyof (typeof data)[0],
     value: any
   ) => {
-    SubmitActive(true);
+    console.log("fffrrs");
     if (data.length > 0) {
       onEdit(label.questionType, data, forwardQId);
     }
@@ -119,9 +119,48 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   };
 
   const addItem = () => {
-    setData([...data, { id: null, date: null, number: null, flag: "ui" }]); // Add a new item
+    // Check if all previous items have both date and number filled
+    const allFieldsFilled = data.every(
+      (item) => item.date !== null && item.number !== null
+    );
+    
+    if (allFieldsFilled) {
+      // If all fields are filled, add a new item
+      setData([...data, { id: null, date: null, number: null, flag: "ui" }]);
+    } 
+    // else {
+    //   // If any field is missing, show an alert or handle it accordingly
+    //   alert("Please fill in all date and number fields before adding a new item.");
+    // }
   };
+  
 
+  useEffect(() => {
+    if (data.length === 1) {
+      const { date, number } = data[0];
+      // Check if both are null or both are filled
+      if (
+        (date === null && number === null) || 
+        (date !== null && number !== null)
+      ) {
+        SubmitActive(false);
+      } else {
+        SubmitActive(true);
+      }
+    }
+    else {
+      const allFieldsFilled = data.every(
+        (item) => item.date !== null && item.number !== null
+      );
+      if (!allFieldsFilled) {
+        SubmitActive(true);
+      } else {
+        SubmitActive(false);
+      }
+    }
+    
+  }, [data]);
+console.log(data);
   useEffect(() => {
     console.log("====================================");
     console.log(label);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   IonBackButton,
@@ -13,6 +13,8 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
+  useIonAlert,
+  useIonRouter,
 } from "@ionic/react";
 
 import "./AddFamilyUser.css"
@@ -121,26 +123,32 @@ const AddFamilyUser: React.FC = () => {
     refUserMobileno: "",
   });
 
-  const [toastOpen, setToastOpen] = useState({
+  interface ToastState {
+    status: boolean;
+    message: string;
+    textColor?: string; // Optional textColor
+  }
+  
+  const [toastOpen, setToastOpen] = useState<ToastState>({
     status: false,
     message: "",
   });
 
   const verifyForm1 = () => {
     if (formData.refUserFname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid First Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid First Name" });
       return false;
     } else if (formData.refUserLname.length === 0) {
-      setToastOpen({ status: true, message: "Enter Valid Last Name" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Last Name" });
       return false;
     } else if (!formData.refGender) {
-      setToastOpen({ status: true, message: "Select Gender" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Gender" });
       return false;
     } else if (!formData.refDOB) {
-      setToastOpen({ status: true, message: "Enter Date of Birth" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Date of Birth" });
       return false;
     } else if (!formData.refMaritalStatus) {
-      setToastOpen({ status: true, message: "Select Marital Status" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Marital Status" });
       return false;
     }
     return true;
@@ -148,13 +156,13 @@ const AddFamilyUser: React.FC = () => {
 
   const verifyForm2 = () => {
     if (formData.refEducation.length === 0) {
-      setToastOpen({ status: true, message: "Select Education" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Education" });
       return false;
     } else if (formData.refProfession.length === 0) {
-      setToastOpen({ status: true, message: "Select Occupation Category" });
+      setToastOpen({ status: true, textColor: "red", message: "Select Occupation Category" });
       return false;
     } else if (formData.refSector.length === 0) {
-      setToastOpen({ status: true, message: "Enter Sector" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Sector" });
       return false;
     }
     return true;
@@ -165,16 +173,16 @@ const AddFamilyUser: React.FC = () => {
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
       formData.refUserEmail.length === 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Email" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
       return false;
     } else if (formData.refAddress.length === 0) {
-      setToastOpen({ status: true, message: "Enter Address" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Address" });
       return false;
     } else if (formData.refDistrict.length === 0) {
-      setToastOpen({ status: true, message: "Enter District" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter District" });
       return false;
     } else if (formData.refPincode.length === 0) {
-      setToastOpen({ status: true, message: "Enter Pincode" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Pincode" });
       return false;
     }
     return true;
@@ -185,7 +193,7 @@ const AddFamilyUser: React.FC = () => {
       !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
       formData.refUserEmail.length === 0
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Mobile Number" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
       return false;
     } else if (
       formData.refUserPassword.length === 0 || // Check if password is empty
@@ -195,7 +203,7 @@ const AddFamilyUser: React.FC = () => {
       formData.refUserPassword.length < 8 || // Must be at least 8 characters long
       formData.refUserPassword !== formData.refUserConPassword
     ) {
-      setToastOpen({ status: true, message: "Enter Valid Password" });
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
       return false;
     }
     return true;
@@ -304,6 +312,7 @@ const AddFamilyUser: React.FC = () => {
         if (data.status) {
           setToastOpen({
             status: true,
+            textColor: "green",
             message: "Successfully Signup",
           });
 
@@ -340,6 +349,44 @@ const AddFamilyUser: React.FC = () => {
     }
   };
 
+const [presentAlert] = useIonAlert();
+  const router: any = useIonRouter();
+
+  useEffect(() => {
+    const handleBack = (event: PopStateEvent) => {
+      event.preventDefault(); // Stop the default back behavior
+      presentAlert({
+        header: 'Confirm Exit',
+        message: 'Are you sure you want to go back?',
+        buttons: [
+          {
+            text: 'Yes',
+            role: 'confirm',
+            handler: () => {
+              // Allow back navigation
+              history.goBack();
+            }
+          },
+          {
+            text: 'No',
+            role: 'cancel',
+            handler: () => {
+              // Do nothing, stay on the page
+              window.history.pushState(null, '', window.location.href);
+            }
+          }
+        ]
+      });
+    };
+ 
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handleBack);
+ 
+    return () => {
+      window.removeEventListener('popstate', handleBack);
+    };
+  }, [router, presentAlert]);
+
   return (
     <IonPage>
       {/* <IonHeader mode="ios">
@@ -351,7 +398,10 @@ const AddFamilyUser: React.FC = () => {
         </IonToolbar>
       </IonHeader> */}
       <IonContent className="addPatientForm">
-        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+        <div
+          className="KnowAboutPatient medpredit-page-background"
+          style={{ height: "100vh", overflow: "auto" }}
+        >
           <div
             style={{
               display: "flex",
@@ -361,16 +411,13 @@ const AddFamilyUser: React.FC = () => {
               fontWeight: "600",
               margin: "1rem",
             }}
-
           >
             <IonIcon
               size="large"
               onClick={() => history.goBack()}
               icon={chevronBack}
             ></IonIcon>
-            <span>
-              Add Family Member
-            </span>
+            <span>Add Family Member</span>
             <span></span>
           </div>
           <div style={{ margin: "20px 0px" }}>
@@ -396,28 +443,71 @@ const AddFamilyUser: React.FC = () => {
                     height: "50vh",
                   }}
                 >
-                  <table className="table custom-table">
+                  <table
+                    className="table custom-table"
+                    style={{
+                      width: "100%",
+                      borderCollapse: "collapse",
+                      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                      borderRadius: "8px",
+                      overflow: "hidden",
+                    }}
+                  >
                     <thead>
-                      <tr>
+                      <tr
+                        style={{
+                          backgroundColor: "#f4f4f9",
+                          textAlign: "left",
+                        }}
+                      >
                         <th
-                          style={{ width: "40%", fontSize: "1rem" }}
-                          className="table-heading"
+                          style={{
+                            width: "40%",
+                            fontSize: "1rem",
+                            padding: "12px",
+                            borderBottom: "1px solid #e0e0e0",
+                          }}
                         >
                           Occupational Category
                         </th>
                         <th
-                          style={{ width: "60%", fontSize: "1rem" }}
-                          className="table-heading"
+                          style={{
+                            width: "60%",
+                            fontSize: "1rem",
+                            padding: "12px",
+                            borderBottom: "1px solid #e0e0e0",
+                          }}
                         >
                           Definition with example
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      {occupationData.map((element: any) => (
-                        <tr>
-                          <td align="center">{element.category}</td>
-                          <td style={{ fontSize: "0.9rem" }}>
+                      {occupationData.map((element: any, index: number) => (
+                        <tr
+                          key={index}
+                          style={{
+                            backgroundColor:
+                              index % 2 === 0 ? "#ffffff" : "#f9f9f9",
+                          }}
+                        >
+                          <td
+                            align="center"
+                            style={{
+                              padding: "10px",
+                              borderBottom: "1px solid #e0e0e0",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {element.category}
+                          </td>
+                          <td
+                            style={{
+                              padding: "10px",
+                              borderBottom: "1px solid #e0e0e0",
+                              fontSize: "0.9rem",
+                            }}
+                          >
                             <div>
                               <b>{element.heading}</b>
                             </div>
@@ -556,6 +646,7 @@ const AddFamilyUser: React.FC = () => {
             <div>
               <div style={{ padding: "0px 15px" }}>
                 <IonToast
+                  style={{ "--color": toastOpen.textColor || "black", fontWeight: "bold" }}
                   isOpen={toastOpen.status}
                   onDidDismiss={() =>
                     setToastOpen({ status: false, message: "" })
@@ -743,7 +834,10 @@ const AddFamilyUser: React.FC = () => {
                     <label>
                       Gender <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-mars"></i>
                       </span>
@@ -836,13 +930,14 @@ const AddFamilyUser: React.FC = () => {
                           onClick={closeModal}
                           style={{
                             width: "40%",
-                            background: "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
+                            background:
+                              "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
                             padding: "15px",
                             textAlign: "center",
                             fontSize: "1rem",
                             color: "#fff",
                             borderRadius: "10px",
-                            fontWeight: "700"
+                            fontWeight: "700",
                           }}
                         >
                           Set
@@ -855,7 +950,10 @@ const AddFamilyUser: React.FC = () => {
                     <label>
                       Marital Status <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-users"></i>
                       </span>
@@ -883,14 +981,19 @@ const AddFamilyUser: React.FC = () => {
                     <label>
                       Education <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-graduation-cap"></i>
                       </span>
                       <Dropdown
                         value={formData.refEducation}
                         name="educationOpt"
-                        onChange={(e) => handleDropdownChange(e, "refEducation")}
+                        onChange={(e) =>
+                          handleDropdownChange(e, "refEducation")
+                        }
                         options={educationOpt}
                         style={{ textAlign: "left" }}
                         optionLabel="name"
@@ -906,7 +1009,10 @@ const AddFamilyUser: React.FC = () => {
                     <label>
                       Occupation <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-briefcase"></i>
                       </span>
@@ -914,7 +1020,9 @@ const AddFamilyUser: React.FC = () => {
                         value={formData.refProfession}
                         name="refProfession"
                         style={{ textAlign: "left" }}
-                        onChange={(e) => handleDropdownChange(e, "refProfession")}
+                        onChange={(e) =>
+                          handleDropdownChange(e, "refProfession")
+                        }
                         options={occupationcategoryOtp}
                         optionLabel="name"
                         placeholder="Occupation Category"
@@ -937,7 +1045,10 @@ const AddFamilyUser: React.FC = () => {
                     <label>
                       Sector <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="addFamilyInputField gradientBackground02_opacity" style={{ width: "100%" }}>
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
                       {/* <span className="p-inputgroup-addon">
                                               <i className="pi pi-user"></i>
                                             </span> */}
@@ -1057,7 +1168,7 @@ const AddFamilyUser: React.FC = () => {
                         onChange={handleInputChange}
                         placeholder="Enter Mobile Number"
                         name="refUserMobileno"
-                      // useGrouping={false}
+                        // useGrouping={false}
                       />
                     </div>
                   </div>
@@ -1070,6 +1181,8 @@ const AddFamilyUser: React.FC = () => {
                       <Password
                         value={formData.refUserPassword}
                         onChange={handleInputChange}
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
                         style={{ borderRadius: "10px" }}
                         placeholder="Enter Password"
                         name="refUserPassword"
@@ -1088,6 +1201,8 @@ const AddFamilyUser: React.FC = () => {
                       <Password
                         value={formData.refUserConPassword}
                         onChange={handleInputChange}
+                        onCopy={(e) => e.preventDefault()}
+                        onPaste={(e) => e.preventDefault()}
                         style={{ borderRadius: "10px" }}
                         placeholder="Enter Confirm Password"
                         name="refUserConPassword"
@@ -1202,7 +1317,9 @@ const AddFamilyUser: React.FC = () => {
                         color: "#45474b",
                       }}
                     >
-                      {/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) ? (
+                      {/[!@#$%^&*(),.?":{}|<>]/.test(
+                        formData.refUserPassword
+                      ) ? (
                         <div
                           style={{
                             width: "25px",
@@ -1290,8 +1407,9 @@ const AddFamilyUser: React.FC = () => {
                         color: "#45474b",
                       }}
                     >
-                      {formData.refUserPassword === formData.refUserConPassword &&
-                        formData.refUserPassword.length > 0 ? (
+                      {formData.refUserPassword ===
+                        formData.refUserConPassword &&
+                      formData.refUserPassword.length > 0 ? (
                         <div
                           style={{
                             width: "25px",
