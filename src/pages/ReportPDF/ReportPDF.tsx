@@ -2138,6 +2138,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
                                         const categoryLabels = score
                                           .filter(
                                             (element: any) =>
+                                              element?.refQCategoryId &&
                                               element.refQCategoryId.toString() ===
                                               refQCategoryId &&
                                               element.refPTScore === "Yes"
@@ -3759,6 +3760,30 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
     } catch (error) {
       console.error("Error generating or saving PDF:", error);
     }
+
+
+    // try {
+    //   // Generate PDF as Blob
+    //   const pdfBlob = await pdf(doc).toBlob();
+
+    //   // Create a URL for the Blob
+    //   const url = URL.createObjectURL(pdfBlob);
+
+    //   // Create an anchor element and trigger download
+    //   const a = document.createElement("a");
+    //   a.href = url;
+    //   a.download = `${patientDetails?.refUserCustId}_${reportDate}.pdf`;
+    //   document.body.appendChild(a);
+    //   a.click();
+
+    //   // Cleanup
+    //   document.body.removeChild(a);
+    //   URL.revokeObjectURL(url);
+
+    //   console.log("PDF downloaded successfully!");
+    // } catch (error) {
+    //   console.error("Error generating or downloading PDF:", error);
+    // }
 
     setShowToast(true);
 
