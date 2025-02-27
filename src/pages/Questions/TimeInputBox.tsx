@@ -80,13 +80,14 @@
 
 // export default TimeInputBox;
 
-
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useState } from "react";
 import Domain from "../Domain/Domain";
 import { IonDatetime, IonModal } from "@ionic/react";
 import TimeInputBox24 from "./TimeInputBox24";
+import TimeKeeper from "react-timekeeper";
+
 import { InputText } from "primereact/inputtext";
 
 interface Option {
@@ -152,9 +153,8 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
     closeModal();
     // handleButtonClick();
   };
-
-
-
+  console.log(localInput);
+  const [time, setTime] = useState("12:34pm");
 
   return (
     <div className="questionsOutline">
@@ -171,11 +171,24 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
           onDidDismiss={closeModal}
           animated={false}
         >
-          <div style={{ width: "100%", background: "#effafe" }}>
-            <IonDatetime
+          <div
+            className="input-react-timekeeper"
+            style={{ width: "100%", background: "#effafe" }}
+          >
+            <TimeKeeper
+              time={localInput}
+              onChange={(newTime) => {
+                setLocalInput(newTime.formatted);
+              }}
+              onDoneClick={() => setIsOpen(false)}
+              switchToMinuteOnHourSelect
+            />
+            {/* <IonDatetime
               presentation="time"
               value={localInput}
               onIonChange={(e) => {
+                console.log("dssdsdfsdf",getFormate(e.detail.value));
+                
                 setLocalInput(e.detail.value);
                 const time = e.detail.value;
                 console.log(time);
@@ -241,17 +254,20 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
               >
                 Set
               </div>
-            </div>
+            </div> */}
           </div>
         </IonModal>
 
         <div className="questionsType inputText">
           <Domain questionId={label.questionId} />
           <p className="questionText">{label.questionText}</p>
-          <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", }}>
+          <div
+            className="p-inputgroup flex-1"
+            style={{ border: "1.5px solid #10416a", borderRadius: "10px" }}
+          >
             <InputText
               id="fullInput"
-              value={localInput ? getFormate(localInput) : ""}
+              value={localInput}
               placeholder="Enter Time"
               onClick={openModal}
               required
@@ -264,8 +280,29 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
               max={59}
               required
             /> */}
-            <div style={{ width: "10%", height: "35px", display: "flex", justifyContent: "center", alignItems: "center", background: "transparent" }}>
-              <button style={{ background: "#10416a", width: "30px", height: "30px", color: "#fff", borderRadius: "50%", padding: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div
+              style={{
+                width: "10%",
+                height: "35px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "transparent",
+              }}
+            >
+              <button
+                style={{
+                  background: "#10416a",
+                  width: "30px",
+                  height: "30px",
+                  color: "#fff",
+                  borderRadius: "50%",
+                  padding: "5px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
                 <i className="pi pi-arrow-right"></i>
               </button>
             </div>

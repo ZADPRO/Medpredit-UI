@@ -45,6 +45,7 @@ import PhysicalInfo from "../Information/PhysicalInfo";
 import TobaccoInfo from "../Information/TobaccoInfo";
 import StressInfo from "../Information/StressInfo";
 import AlcoholInfo from "../Information/AlcoholInfo";
+import SleepInfo from "../Information/SleepInfo";
 
 interface DosageTime {
   dosage: number | null;
@@ -1098,6 +1099,7 @@ const Questions: React.FC = () => {
                   {cardTitle === "10" && <TobaccoInfo />}
                   {cardTitle === "9" && <StressInfo />}
                   {cardTitle === "11" && <AlcoholInfo />}
+                  {cardTitle === "43" && <SleepInfo/>}
                 </div>
               </IonAccordion>
             </IonAccordionGroup>

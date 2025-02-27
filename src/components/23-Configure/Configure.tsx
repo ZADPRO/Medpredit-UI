@@ -76,7 +76,7 @@ const Configure = () => {
                     });
                   }}
                 >
-                  <div className="knowCard gradientButton02 ion-activatable ripple-parent rectangle">
+                  <div className="knowCard gradientButton02 boxShadow01 ion-activatable ripple-parent rectangle">
                     <IonRippleEffect />
                     <div className="knowCardcontent">
                       <img

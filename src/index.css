@@ -27,8 +27,34 @@ ion-modal#doctorDetailsGraph {
   background: white;
 }
 
+.input-react-timekeeper> .react-timekeeper{
+  width: 100%!important;
+  margin: 0!important;
+}
+
+.input-react-timekeeper> .react-timekeeper>div{
+  text-align: center;
+  font-weight: bold!important;
+}
+
+.input-react-timekeeper> .react-timekeeper>div>div{
+  left:0!important;
+  color: rgb(164, 214, 245)!important;
+}
+
+.input-react-timekeeper> .react-timekeeper>span{
+  background: var(--gradient-background-02)!important;
+  color: white!important;
+  font-weight: bold!important;
+  font-size: medium!important;
+}
+
+.input-react-timekeeper> .react-timekeeper .react-timekeeper__clock-wrapper {
+    background: var(--gradient-background-02-opacity)!important;
+}
+
 ::-webkit-scrollbar {
-  width: 0px;
+  scrollbar-width: none!important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -218,7 +244,6 @@ ion-tab-bar {
   background-position: center;
   background-repeat: no-repeat;
 }
-
 
 .gradientButton01 {
   background: linear-gradient(
