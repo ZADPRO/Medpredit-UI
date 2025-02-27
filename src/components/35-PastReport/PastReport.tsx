@@ -263,6 +263,8 @@ const PastReport: React.FC = () => {
     switch (parseInt(questionId)) {
       case 94:
         return 1;
+      case 5:
+        return 1;
       case 6:
         return 1;
       case 8:
@@ -499,7 +501,7 @@ const PastReport: React.FC = () => {
                           <div>{subCategory.refCategoryLabel}</div>
                         </IonItem>
 
-                        {(subCategory.refQCategoryId == 6) && (
+                        {((subCategory.refQCategoryId == 5) || (subCategory.refQCategoryId == 6)) && (
                           <div className="sss" slot="content">
                             {isValidCategory(subCategory.refQCategoryId) ? (
                               <div>
@@ -540,7 +542,7 @@ const PastReport: React.FC = () => {
                                               )}
 
                                             </span>
-                                            <span style={{ color: "grey" }}>
+                                            <span style={{ color: "grey", textAlign: "end" }}>
                                               {
                                                 allScore.find(item => item.refQCategoryId == subCategory_02.refQCategoryId)
                                                   ?.refPTScore === "No Answer"
@@ -792,7 +794,20 @@ const PastReport: React.FC = () => {
                                                       ) : (
                                                         <div style={{ display: "flex", justifyContent: "space-between" }}>
                                                           <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel}`}</span>
-                                                          <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
+                                                          {subCategory_03.refQCategoryId == 21 ? (
+                                                            (() => {
+                                                              const scoreString = allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore;
+                                                              const score = parseInt(scoreString, 10); // Convert to number
+                                                              if (!isNaN(score) && score > 0) {
+                                                                const hours = Math.floor(score / 60);
+                                                                const minutes = score % 60;
+                                                                return <span>{`${hours} hrs ${minutes} min`}</span>;
+                                                              }
+                                                              return <span>{scoreString ?? 'No score'}</span>;
+                                                            })()
+                                                          ) : (
+                                                            <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
+                                                          )}
                                                         </div>
                                                       )}
                                                     </div>

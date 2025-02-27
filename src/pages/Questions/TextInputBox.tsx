@@ -47,7 +47,7 @@ const TextInputBox: React.FC<TextInputBoxProps> = ({
       >
         <div className="questions inputText">
           <Domain questionId={label.questionId} />
-          <p className="question ">{label.questionText}</p>
+          <p className="questionText">{label.questionText}</p>
           <ShowCard questionId={label.questionId} />
           <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", }}>
             <InputText

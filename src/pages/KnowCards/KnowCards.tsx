@@ -20,6 +20,7 @@ import vitalsNew from "../../assets/logo_new/Vital Signs.svg";
 import bloodNew from "../../assets/logo_new/Blood Sugar Level.svg";
 import dyslipidemiaNew from "../../assets/logo_new/Dyslipidemia.svg";
 import renalcomplicationNew from "../../assets/logo_new/Renal Complication.svg";
+import menstrualNew from "../../assets/logo_new/Menstrual.png";
 //
 import "./KnowCards.css";
 import decrypt from "../../helper";
@@ -49,13 +50,13 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
     today.setDate(today.getDate() + daysToAdd); // Add the given number of days
     return today.toLocaleDateString("en-GB"); // Format the date (dd-mm-yyyy)
   }
-
+console.log(latestReport);
   const getImage = (refQCategoryId: number) => {
     switch (refQCategoryId) {
       case 4:
         return riskNew;
       case 5:
-        return menstrual;
+        return menstrualNew;
       case 6:
         return vitalsNew;
       case 7:
@@ -207,21 +208,29 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
   // };
 
   const getVerifyCard = (questionId: any) => {
+    console.log(questionId);
+
     switch (questionId) {
       case 94:
         return true;
       case 6:
         return true;
+      case 5:
+        return 1;
       default:
         return false;
     }
   };
 
   const getValidateDuration = (questionId: any) => {
+    console.log(questionId);
+
     switch (parseInt(questionId)) {
       case 94:
         return 1;
       case 6:
+        return 1;
+      case 5:
         return 1;
       default:
         return 0;
@@ -322,12 +331,12 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                                     src={getImage(card.refQCategoryId)}
                                     alt={card.refCategoryLabel}
                                   />
-                                  <p>{card.refCategoryLabel}</p>
+                                  <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
                                 </div>
                                <div
                                   style={{
                                     
-                                    fontSize: "0.6rem",
+                                    fontSize: "0.5rem",
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "flex-end",
@@ -400,7 +409,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                                     src={getImage(card.refQCategoryId)}
                                     alt={card.refCategoryLabel}
                                   />
-                                  <p>{card.refCategoryLabel}</p>
+                                  <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
                                 </div>
                                 <IonIcon
                                   size="large"
@@ -458,7 +467,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
                           src={getImage(card.refQCategoryId)}
                           alt={card.refCategoryLabel}
                         />
-                        <p>{card.refCategoryLabel}</p>
+                        <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
                       </div>
                       <IonIcon size="large" icon={chevronForward}></IonIcon>
                     </div>
