@@ -56,7 +56,9 @@ const KnowAboutPatient: React.FC = () => {
   const [categories, setCategories] = useState<
     { refQCategoryId: number; refCategoryLabel: string }[]
   >([]);
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>(
+    localStorage.getItem("getMainCat") || "knowabout"
+  );
   const [subCategoryData, setSubCategoryData] = useState<
     { refQCategoryId: number; refCategoryLabel: string }[]
   >([]);
@@ -101,7 +103,7 @@ const KnowAboutPatient: React.FC = () => {
               response.data[0],
               import.meta.env.VITE_ENCRYPTION_KEY
             );
-            setSelectedValue("knowabout");
+            // setSelectedValue("knowabout");
 
             if (data.data) {
               setCategories(data.data);
@@ -341,7 +343,7 @@ const KnowAboutPatient: React.FC = () => {
                 <IonIcon
                   style={{ position: "absolute", left: "0px" }}
                   size="large"
-                  onClick={() => history.goBack()}
+                  onClick={() => {history.goBack(); localStorage.setItem("getMainCat", "") }}
                   icon={chevronBack}
                 ></IonIcon>
                 <span>{patient}</span>
@@ -574,6 +576,7 @@ const KnowAboutPatient: React.FC = () => {
                                           id="yearPicker_Popover"
                                           isOpen={showYearPicker}
                                           trigger="trigger-button"
+                                          onDidDismiss={()=>setShowYearPicker(!showYearPicker)}
                                         >
                                           {[
                                             ...Array(

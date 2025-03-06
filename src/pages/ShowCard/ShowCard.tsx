@@ -6,6 +6,10 @@ import Vigoroustime from "./PhysicalActivity/Vigoroustime";
 import Moderatetime from "./PhysicalActivity/Moderatetime";
 import Smoke from "./Tobacco/Smoke";
 import Smokeaffects from "./Tobacco/Smokeaffects";
+import BMI_Height from "./BMI/BMI_Height";
+import BMI_Weight from "./BMI/BMI_Weight";
+import BMI_Waist from "./BMI/BMI_Waist";
+import BMI_Hip from "./BMI/BMI_Hip";
 
 interface ShowCardProps {
   questionId: string | number;
@@ -24,6 +28,14 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
       case 10:
         return true;
       case 13:
+        return true;
+      case 52:
+        return true;
+      case 53:
+        return true;
+      case 54:
+        return true;
+      case 55:
         return true;
       case 56:
         return true;
@@ -47,6 +59,14 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         return <Vigoroustime view={"showcards"} />;
       case 13:
         return <Moderatetime content={"showcards"} />;
+      case 52:
+        return <BMI_Height content ={"showcards"}/>
+      case 53:
+        return <BMI_Weight content ={"showcards"}/>
+      case 54:
+        return <BMI_Waist content ={"showcards"}/>
+      case 55:
+        return <BMI_Hip content ={"showcards"}/>
       case 56:
         return <Smoke view={"showcards"} />;
       case 59:
@@ -55,6 +75,27 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
         return <Smokeaffects view={"showcards"} />;
       default:
         return null; // Return null if no match, or you can render something else
+    }
+  };
+
+  const verifyExampleCard = (questionId: any) => {
+    switch (questionId) {
+      case 1:
+        return true;
+      case 4:
+        return true;
+      case 10:
+        return true;
+      case 13:
+        return true;
+      case 56:
+        return true;
+      case 59:
+        return true;
+      case 67:
+        return true;
+      default:
+        return false;
     }
   };
 
@@ -161,21 +202,24 @@ const ShowCard: React.FC<ShowCardProps> = ({ questionId }) => {
           >
             Show Card
           </div>
-          <div
-            style={{
-              marginBottom: "10px",
-              textDecoration: "underline",
-              color: "#569baa",
-              cursor: "pointer",
-              fontSize: "0.9rem"
-            }}
-            onClick={() => {
-              setIsExample(true);
-            }}
-          >
-            Example
-          </div>
         </div>
+      ) : null}
+
+      {verifyExampleCard(questionId) ? (
+        <div
+        style={{
+          marginBottom: "10px",
+          textDecoration: "underline",
+          color: "#569baa",
+          cursor: "pointer",
+          fontSize: "0.9rem"
+        }}
+        onClick={() => {
+          setIsExample(true);
+        }}
+      >
+        Example
+      </div>
       ) : null}
     </div>
   );

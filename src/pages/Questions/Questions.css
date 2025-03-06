@@ -97,6 +97,23 @@
     color: #a4d6f5
 }
 
+.questionsTextOptions_02 {
+    width: 95%;
+    padding: 0.75rem 1rem;
+    background: var(--gradient-background-02-opacity);
+    border-radius: 5px;
+    color: #0c436c;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.questionsbuttonGroup_01>.selected {
+    background: var(--gradient-background-02) !important;
+    color: #a4d6f5
+}
 
 ion-modal#questionsModal {
     --height: auto;

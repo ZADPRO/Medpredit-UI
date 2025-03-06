@@ -15,7 +15,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useHistory, useParams } from "react-router-dom";
 import MultiInputBox from "./MultiInputBox";
@@ -35,7 +35,7 @@ import Hrs24 from "./Hrs24";
 import TreatmentDetailsQuestion from "./TreatmentDetailsQuestion";
 import Label from "./Label";
 import GraphValues from "./GraphValues";
-import { chevronBack, information, informationCircle } from "ionicons/icons";
+import { chevronBack, constructOutline, information, informationCircle } from "ionicons/icons";
 import "./Questions.css";
 import PhysicalInstructions from "../Instructions/PhysicalInstructions";
 import TobaccoInstructions from "../Instructions/TobaccoInstructions";
@@ -46,6 +46,8 @@ import TobaccoInfo from "../Information/TobaccoInfo";
 import StressInfo from "../Information/StressInfo";
 import AlcoholInfo from "../Information/AlcoholInfo";
 import SleepInfo from "../Information/SleepInfo";
+import SleepInstructons from "../Instructions/SleepInstructons";
+import BMIInstructions from "../Instructions/BMIInstructions";
 
 interface DosageTime {
   dosage: number | null;
@@ -85,6 +87,7 @@ const Questions: React.FC = () => {
 
   const [submitButton, setSubmitButton] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollIndex, setScrollIndex] = useState(0);
 
   const SubmitActive = (isActive: boolean) => {
     setSubmitButton(isActive);
@@ -276,7 +279,7 @@ const Questions: React.FC = () => {
         ]);
         setEnabledIndex((prevIndex) => prevIndex + 1);
       }
-    }
+    };
   };
 
   const [loadingStatus, setLoadingStatus] = useState(false);
@@ -426,7 +429,8 @@ const Questions: React.FC = () => {
       });
     }
 
-    const resultValue = hrsValue + ":" + minsValue;
+    const resultValue = hrsValue == null && minsValue == null ? null : `${hrsValue}:${minsValue}`;
+
     getNextQuestions(questionId, questionType, resultValue, forwardQnId);
   };
 
@@ -488,9 +492,59 @@ const Questions: React.FC = () => {
     }
   };
 
+  console.log("eee", responses); 
+
+  useEffect(() => {
+    responses.map((item, index) => {
+      if(item.answer == null || item.answer == "") {
+        SubmitActive(true);
+      }
+  })
+  }, [responses]);
+
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  
+  // Refs for each question
+  const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  // Auto-scroll when the enabledIndex changes
+  useEffect(() => {
+    if (questionRefs.current[scrollIndex]) {
+      questionRefs.current[scrollIndex]?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [scrollIndex]);
+
+  useEffect(() => {
+    if (visibleQuestions.length > 0) {
+      handleNextQuestion();
+    }
+  }, [visibleQuestions]); // Runs whenever visibleQuestions updates
+  
+  const handleNextQuestion = () => {
+    if (visibleQuestions.length > 1) {
+      const previousQuestion = visibleQuestions[visibleQuestions.length - 2];
+
+      if (previousQuestion.questionType === "2") {
+        return;
+      }
+    }
+  
+    if (visibleQuestions.length > 0) {
+      setScrollIndex(visibleQuestions.length - 1);
+    }
+  };
+  
+  
+  
+
+  console.log("indexes", scrollIndex, visibleQuestions.length)
+
   return (
     <IonPage>
-      {/*<IonHeader mode="ios">
+      {/* <IonHeader mode="ios">
         <IonToolbar className="" mode="ios">
           <IonButtons slot="start">
             <IonBackButton
@@ -770,7 +824,7 @@ const Questions: React.FC = () => {
             </button>
           )}
         </IonToolbar>
-      </IonFooter>*/}
+      </IonFooter> */}
 
       <IonContent>
         <div className="questionsParent medpredit-page-background">
@@ -783,6 +837,7 @@ const Questions: React.FC = () => {
               ></IonIcon>
               <span>{refCategoryLabel}</span>
               <IonIcon
+                style={{ "font-size": "1.5rem" }}
                 onClick={() => setIsOpen(true)}
                 icon={informationCircle}
               ></IonIcon>
@@ -790,7 +845,7 @@ const Questions: React.FC = () => {
 
             <div className="questionsList boxShadow02-inset custom-scrollbar">
               {visibleQuestions.map((question, index) => (
-                <div key={index}>
+                <div key={index} ref={(el) => (questionRefs.current[index] = el)}>
                   {question.questionType === "6" && (
                     <NumberInputBoxT6
                       type="number"
@@ -866,6 +921,7 @@ const Questions: React.FC = () => {
                     <HrsMins
                       type="text"
                       label={question}
+                      SubmitActive={SubmitActive}
                       onEdit={(
                         questionType,
                         hrsValue,
@@ -1040,8 +1096,9 @@ const Questions: React.FC = () => {
                 <button
                   disabled={submitButton}
                   onClick={submitResponse}
-                  className={`questionSubmitButton ${submitButton ? "disabled" : ""
-                    }`}
+                  className={`questionSubmitButton ${
+                    submitButton ? "disabled" : ""
+                  }`}
                 >
                   <i className="pi pi-spin pi-spinner"></i>
                 </button>
@@ -1061,8 +1118,9 @@ const Questions: React.FC = () => {
               <button
                 disabled={submitButton}
                 onClick={submitResponse}
-                className={`questionSubmitButton ${submitButton ? "disabled" : ""
-                  }`}
+                className={`questionSubmitButton ${
+                  submitButton ? "disabled" : ""
+                }`}
               >
                 Submit
               </button>
@@ -1079,29 +1137,35 @@ const Questions: React.FC = () => {
         >
           <div className="questionsAccordion ion-padding">
             <IonAccordionGroup>
-              <IonAccordion>
-                <IonItem slot="header">Instructions</IonItem>
-                <div
-                  style={{ height: "60vh", overflow: "scroll" }}
-                  slot="content"
-                >
-                  {cardTitle === "8" && <PhysicalInstructions />}
-                  {cardTitle === "10" && <TobaccoInstructions />}
-                  {cardTitle === "9" && <StressInstructions />}
-                  {cardTitle === "11" && <AlcoholInstructions />}
-                </div>
-              </IonAccordion>
+              {["8", "10", "9", "11", "43", "13"].includes(cardTitle) && (
+                <IonAccordion>
+                  <IonItem slot="header">Instructions</IonItem>
+                  <div
+                    style={{ height: "60vh", overflow: "scroll" }}
+                    slot="content"
+                  >
+                    {cardTitle === "8" && <PhysicalInstructions />}
+                    {cardTitle === "10" && <TobaccoInstructions />}
+                    {cardTitle === "9" && <StressInstructions />}
+                    {cardTitle === "11" && <AlcoholInstructions />}
+                    {cardTitle === "43" && <SleepInstructons />}
+                    {cardTitle === "13" && <BMIInstructions />}
+                  </div>
+                </IonAccordion>
+              )}
 
-              <IonAccordion>
-                <IonItem slot="header">Info</IonItem>
-                <div slot="content">
-                  {cardTitle === "8" && <PhysicalInfo />}
-                  {cardTitle === "10" && <TobaccoInfo />}
-                  {cardTitle === "9" && <StressInfo />}
-                  {cardTitle === "11" && <AlcoholInfo />}
-                  {cardTitle === "43" && <SleepInfo/>}
-                </div>
-              </IonAccordion>
+              {["8", "10", "9", "11", "43"].includes(cardTitle) && (
+                <IonAccordion>
+                  <IonItem slot="header">Info</IonItem>
+                  <div slot="content">
+                    {cardTitle === "8" && <PhysicalInfo />}
+                    {cardTitle === "10" && <TobaccoInfo />}
+                    {cardTitle === "9" && <StressInfo />}
+                    {cardTitle === "11" && <AlcoholInfo />}
+                    {cardTitle === "43" && <SleepInfo />}
+                  </div>
+                </IonAccordion>
+              )}
             </IonAccordionGroup>
           </div>
         </IonModal>

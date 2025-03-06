@@ -27,6 +27,7 @@ const ManageAssistant = () => {
 
   const [usersList, setUsersList] = useState([]);
   const [searchTerm, setSearchTerm] = useState(""); // Search state
+  const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
 
   useEffect(() => {
     if (tokenString) {
@@ -59,6 +60,7 @@ const ManageAssistant = () => {
       } catch (error) {
         console.error("Error fetching patient data:", error);
       }
+      setLoadingStatus(false);
     }
   }, []);
 
@@ -81,18 +83,28 @@ const ManageAssistant = () => {
           <IonTitle>Manage Assistant</IonTitle>
         </IonToolbar>
       </IonHeader> */}
+      {loadingStatus ? (
+              <>
+                <IonContent>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100vh",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <i
+                      className="pi pi-spin pi-spinner"
+                      style={{ fontSize: "2rem", color: "#1a70b0" }}
+                    ></i>
+                  </div>
+                </IonContent>
+              </>
+            ) : (
       <IonContent>
         <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
-          {/* <IconField iconPosition="left" style={{ width: "100%" }}>
-          <InputIcon className="pi pi-search"> </InputIcon>
-          <InputText
-            placeholder="Search"
-            style={{ width: "100%" }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </IconField> */}
-
           <div
             style={{
               display: "flex",
@@ -106,7 +118,10 @@ const ManageAssistant = () => {
           >
             <IonIcon
               size="large"
-              onClick={() => history.goBack()}
+              onClick={() => history.replace("/configure", {
+                direction: "backward",
+                animation: "slide",
+              })}
               icon={chevronBack}
             ></IonIcon>
             <span>
@@ -195,7 +210,7 @@ const ManageAssistant = () => {
 
 
         </div>
-      </IonContent>
+      </IonContent> )}
     </IonPage>
   );
 };

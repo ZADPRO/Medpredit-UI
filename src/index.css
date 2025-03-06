@@ -53,20 +53,39 @@ ion-modal#doctorDetailsGraph {
     background: var(--gradient-background-02-opacity)!important;
 }
 
+/* Custom Scrollbar Styles*/
+
 ::-webkit-scrollbar {
   scrollbar-width: none!important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
-  background-color: rgb(12, 67, 108);
+  background-color:  rgb(164, 214, 245);
+
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(12, 67, 108);
+  border-radius: 4px;
+}
+
+
+.custom-scrollbar02::-webkit-scrollbar {
+  width: 3px;
+  background-color: rgb(12, 67, 108);
+  border-radius: 4px;
+}
+
+.custom-scrollbar02::-webkit-scrollbar-thumb {
   background-color:  rgb(164, 214, 245);
   border-radius: 4px;
 }
+
+/* Custom Scrollbar Styles ends*/
+
+
 
 .doctor-modal-header {
   font-size: 16px;
@@ -231,6 +250,11 @@ ion-tab-bar {
     rgba(182, 227, 247, 1) 0%,
     rgba(198, 233, 252, 1) 100%
   );
+  --gradient-background-02-opacity-disabled: linear-gradient(
+    142deg,
+    rgba(182, 227, 247, 0.5) 0%,
+    rgba(198, 233, 252, 0.5) 100%
+  );
 }
 
 .medpredit-page-background {
@@ -277,6 +301,14 @@ ion-tab-bar {
   );
 }
 
+.gradientBackground02_opacity_disabled{
+  background: linear-gradient(
+    142deg,
+    rgba(182, 227, 247, 0.2) 0%,
+    rgba(198, 233, 252, 0.2) 100%
+  );
+}
+
 .backgroundColor01{
   background: rgb(184, 225, 255);
 }
@@ -299,6 +331,7 @@ box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
   border-radius: 20px !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
   padding: 1rem;
+  max-width: 80%!important;
 }
 
 /* Customize header */
@@ -315,12 +348,23 @@ box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
   padding: 1rem !important;
 }
 
+.alert-button-group{
+  justify-content: space-between;
+  gap:0.4rem;
+  flex-wrap: nowrap!important;
+  width: 100%!important;
+  align-items: center;
+}
+
 /* Customize buttons */
 .alert-button {
   border-radius: 10px !important;
   padding: 8px 16px !important;
   font-weight: bold !important;
   border: none;
+  max-width: 40%!important;
+  min-width: 10%!important;
+  border: none!important;
 }
 
 .alert-button-role-confirm {

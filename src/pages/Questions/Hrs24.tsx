@@ -1,6 +1,6 @@
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Domain from "../Domain/Domain";
 import { IonDatetime, IonModal } from "@ionic/react";
 
@@ -34,7 +34,10 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
     const [minsValue, setMinsValue] = useState<number | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    const [localInput, setLocalInput]: any = useState();
+    const [localInput, setLocalInput] = useState<string>(() => {
+        const now = new Date();
+        return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T00:00:00`;
+      });
 
     const handleButtonClick = () => {
         const forwardQId = label.options[0]?.forwardQId || "";
@@ -42,15 +45,42 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
     };
 
     const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
+    const closeModal = () => {
+        const now = new Date();
+        setLocalInput(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T00:00:00`);
+        setIsOpen(false);
+      };
 
     // Set selected hours and minutes from the modal
     const handleSetTime = () => {
         setHrsValue(hrsValue);
         setMinsValue(minsValue);
         closeModal();
-        handleButtonClick();
-    };
+        if(hrsValue !== null && minsValue !== null) {
+          handleButtonClick();
+        }
+        else 
+        if(hrsValue == null && minsValue == null) {
+          setHrsValue(0);
+        setMinsValue(0);
+        }
+      };
+
+    useEffect(() => {
+        if (hrsValue === 0 && minsValue === 0) {
+          handleButtonClick();
+        }
+        else if (hrsValue === null && minsValue === null) {
+          handleButtonClick();
+        }
+      }, [hrsValue, minsValue]);
+      
+    
+      const handleClearTime = () => {
+        setHrsValue(null);
+        setMinsValue(null);
+        closeModal();
+      }
 
     return (
         <div className="questionsOutline">
@@ -73,7 +103,9 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                             hour-cycle="h24"  // Use the hour-cycle prop to control the format
                             value={localInput}
                             onIonChange={(e) => {
-                                setLocalInput(e.detail.value);
+                                if (typeof e.detail.value === 'string') {
+                                    setLocalInput(e.detail.value);
+                                  } 
                                 const time = e.detail.value;
                                 console.log(time);
 
@@ -111,7 +143,7 @@ const Hrs24: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                                 onClick={() => {
                                     setHrsValue(null);
                                     setMinsValue(null);
-                                    closeModal();
+                                    handleClearTime();
                                 }}
                                 style={{
                                     width: "40%",

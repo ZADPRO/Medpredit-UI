@@ -2,6 +2,7 @@ import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
 import Domain from "../Domain/Domain";
+import ShowCard from "../ShowCard/ShowCard";
 
 interface NumberInputBoxT4Props {
   type: string;
@@ -47,6 +48,7 @@ const NumberInputBoxT4: React.FC<NumberInputBoxT4Props> = ({
         <div className="questionsType inputText">
           <Domain questionId={label.questionId} />
           <p className="questionText ">{label.questionText}</p>
+          <ShowCard questionId={label.questionId} />
           <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", }}>
             <InputNumber
               id="fullInput"

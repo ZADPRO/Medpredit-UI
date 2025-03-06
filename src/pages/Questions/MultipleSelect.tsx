@@ -91,11 +91,17 @@ const MultipleSelect: React.FC<MultipleSelectProps> = ({
               onClick={() =>
                 handleButtonClick(option.refOptionId, option.forwardQId)
               }
-              className={`questionsTextOptions_01 ${
+              className={`questionsTextOptions_02 ${
                 selectedValues.includes(option.refOptionId) ? "selected" : ""
               }`}
             >
-              {option.refOptionLabel}
+              <span>{option.refOptionLabel}</span>
+              {selectedValues.includes(option.refOptionId) ? (
+                <i className="pi pi-check"></i>
+              ) : (
+                <i></i>
+              )}
+              
             </button>
           ))}
         </div>

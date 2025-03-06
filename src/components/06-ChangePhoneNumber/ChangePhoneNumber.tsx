@@ -188,10 +188,15 @@ const ChangePhoneNumber = () => {
                   className="addFamilyInputText"
                   type="number"
                   value={formData.refUserMobileno}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    if (/^\d{0,10}$/.test(input)) {
+                      handleInputChange(e);
+                    }
+                  }}
+                  maxLength={10} // Ensures max length of 10
                   placeholder="Enter Mobile Number"
                   name="refUserMobileno"
-                // useGrouping={false}
                 />
               </div>
             </div>
