@@ -32,14 +32,14 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
       />
       <button
         type="button"
-        className="toggle-password"
+        className="custom-toggle-password"
         style={{ backgroundColor: "transparent" }}
         onClick={() => setShowPassword(!showPassword)}
       >
         {showPassword ? (
-          <i className="pi pi-eye" />
+          <i className="pi pi-eye" style={{ fontSize: "1.2rem" }} />
         ) : (
-          <i className="pi pi-eye-slash" />
+          <i className="pi pi-eye-slash" style={{ fontSize: "1.2rem" }} />
         )}
       </button>
     </div>

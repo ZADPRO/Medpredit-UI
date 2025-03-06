@@ -302,7 +302,7 @@ const TreatmentDetailsQuestion: React.FC<TreatmentDetailsQuestionProps> = ({
                 />
                 <Calendar
                   id="fullInput"
-                  style={{ width: "60%" }}
+                  style={{ width: "50%" }}
                   value={set[timeKey as keyof QuestionSet] as Date | null} // Cast to expected type
                   onChange={(e) =>
                     handleInputChange(
@@ -315,6 +315,22 @@ const TreatmentDetailsQuestion: React.FC<TreatmentDetailsQuestionProps> = ({
                   hourFormat="12"
                   placeholder="Time"
                 />
+                <div
+                  style={{
+                    width: "10%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderLeft: "1.5px solid #10416a",
+                  }}
+                  onClick={() => {
+                    handleInputChange(index, dosageKey as keyof QuestionSet, null);
+                    handleInputChange(index, timeKey as keyof QuestionSet, null);
+                  }}
+                
+                >
+                  <i className="pi pi-trash"></i>
+                </div>
               </div>
             </div>
           ))}
@@ -379,7 +395,7 @@ const TreatmentDetailsQuestion: React.FC<TreatmentDetailsQuestionProps> = ({
               <div>Clear</div>
             </button>
           </div>
-          {index != questionIndex && <Divider/>}
+          {index != questionIndex && <Divider />}
         </div>
       ))}
 
@@ -411,7 +427,7 @@ const TreatmentDetailsQuestion: React.FC<TreatmentDetailsQuestionProps> = ({
           Add New Treatment Details
         </button>
       </div>
-      <Divider/>
+      <Divider />
       <IonToast
         style={{ "--color": "red", "font-weight": "bold" }}
         isOpen={toastOpen.status}

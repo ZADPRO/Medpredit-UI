@@ -21,7 +21,7 @@
 
 .custom-password-Input {
   width: 100%;
-  padding: 1rem 2rem 1rem 1rem;
+  padding: 1rem 1rem 1rem 1rem;
   border-radius: 1rem;
   border: 1.2px solid lightgray;
   display: flex;
@@ -40,7 +40,7 @@
   justify-content: space-between;
   border-radius: 200px;
   width: 100%;
-  padding: 0.3rem;
+  padding: 0.5rem;
   background-color: white;
 }
 
@@ -60,6 +60,6 @@
   justify-content: center;
 }
 
-.custom-search-button:hover {
+.custom-search-button>ion-icon {
   color: #007bff;
 }

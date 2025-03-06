@@ -43,7 +43,7 @@ const MultiInputBox: React.FC<MultiInputBoxProps> = ({
   return (
     <div>
       <div className="questions multiInput">
-        <p className="question">{label.questionText}</p>
+        <p className="questionText">{label.questionText}</p>
         {placeholders?.map((placeholder, index) => (
           <InputText
             key={index}

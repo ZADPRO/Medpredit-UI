@@ -4,7 +4,7 @@
 // import { Divider } from "primereact/divider";
 // import ShowCard from "../ShowCard/ShowCard";
 // import Domain from "../Domain/Domain";
-
+ 
 // interface TimeInputBoxProps {
 //   type: string;
 //   label: {
@@ -22,26 +22,26 @@
 //   };
 //   onEdit: (questionType: any, value: any, forwardQId: string) => void;
 // }
-
+ 
 // const TimeInputBox: React.FC<TimeInputBoxProps> = ({ label, type, onEdit }) => {
 //   const [time, setTime] = useState<Nullable<Date>>(null);
-
+ 
 //   const forwardQId = label.options[0]?.forwardQId || "";
-
+ 
 //   const getFormate = (value: any) => {
 //     const formattedTime = value.toLocaleTimeString("en-GB", {
 //       hour: "2-digit",
 //       minute: "2-digit",
 //     });
-
+ 
 //     return formattedTime;
 //   };
-
+ 
 //   // Trigger onEdit whenever time is updated
 //   const handleTimeChange = (e: any) => {
 //     setTime(e.value);
 //   };
-
+ 
 //   return (
 //     <div className="questionsOutline">
 //       <form
@@ -77,9 +77,9 @@
 //     </div>
 //   );
 // };
-
+ 
 // export default TimeInputBox;
-
+ 
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useState } from "react";
@@ -87,23 +87,23 @@ import Domain from "../Domain/Domain";
 import { IonDatetime, IonModal } from "@ionic/react";
 import TimeInputBox24 from "./TimeInputBox24";
 import TimeKeeper from "react-timekeeper";
-
+ 
 import { InputText } from "primereact/inputtext";
-
+ 
 interface Option {
   backwardQId: string;
   forwardQId: string;
   refOptionId: number;
   refOptionLabel: string;
 }
-
+ 
 interface Label {
   questionType: string;
   questionText: string;
   questionId: number;
   options: Option[];
 }
-
+ 
 interface HrsInputBox {
   type: string;
   label: {
@@ -121,31 +121,22 @@ interface HrsInputBox {
   };
   onEdit: (questionType: any, value: any, forwardQId: string) => void;
 }
-
+ 
 const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
   const [hrsValue, setHrsValue] = useState<number | null>(null);
   const [minsValue, setMinsValue] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-
+ 
   const [localInput, setLocalInput]: any = useState();
-
-  const getFormate = (value: any) => {
-    const date = new Date(value);
-    return date.toLocaleTimeString("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: true,
-    });
-  };
-
+ 
   const handleButtonClick = () => {
     const forwardQId = label.options[0]?.forwardQId || "";
-    onEdit(label.questionType, getFormate(localInput), forwardQId);
+    onEdit(label.questionType, localInput, forwardQId);
   };
-
+ 
   const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-
+ 
   // Set selected hours and minutes from the modal
   const handleSetTime = () => {
     setHrsValue(hrsValue);
@@ -155,7 +146,7 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
   };
   console.log(localInput);
   const [time, setTime] = useState("12:34pm");
-
+ 
   return (
     <div className="questionsOutline">
       <form
@@ -178,6 +169,7 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
             <TimeKeeper
               time={localInput}
               onChange={(newTime) => {
+                console.log("===>", newTime.formatted)
                 setLocalInput(newTime.formatted);
               }}
               onDoneClick={() => setIsOpen(false)}
@@ -188,11 +180,11 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
               value={localInput}
               onIonChange={(e) => {
                 console.log("dssdsdfsdf",getFormate(e.detail.value));
-                
+               
                 setLocalInput(e.detail.value);
                 const time = e.detail.value;
                 console.log(time);
-
+ 
                 if (typeof time === "string") {
                   // Extracting only the time part "HH:mm"
                   const timeParts = time.split("T")[1]?.split(":");
@@ -208,8 +200,8 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
                 }
               }}
             />
-
-
+ 
+ 
             <Divider />
             <div
               style={{
@@ -257,7 +249,7 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
             </div> */}
           </div>
         </IonModal>
-
+ 
         <div className="questionsType inputText">
           <Domain questionId={label.questionId} />
           <p className="questionText">{label.questionText}</p>
@@ -318,5 +310,5 @@ const TimeInputBox: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
     </div>
   );
 };
-
+ 
 export default TimeInputBox;

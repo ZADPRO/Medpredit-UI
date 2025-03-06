@@ -4,8 +4,10 @@ import { Calendar } from "primereact/calendar";
 import { InputNumber } from "primereact/inputnumber";
 import React, { useEffect, useState } from "react";
 import decrypt from "../../helper";
-import { IonAlert } from "@ionic/react";
+import { IonAlert, IonDatetime, IonModal } from "@ionic/react";
 import ShowCard from "../ShowCard/ShowCard";
+import { InputText } from "primereact/inputtext";
+import { Divider } from "primereact/divider";
 
 interface GraphValuesProps {
   label: {
@@ -48,7 +50,13 @@ const GraphValues: React.FC<GraphValuesProps> = ({
   ]);
 
   const forwardQId = label.options[0]?.forwardQId || "";
+  const [isOpen, setIsOpen] = useState(false);
+  
+  const [openModalIndex, setOpenModalIndex] = useState<number | null>(null);
 
+  const openModal = (index: number) => setOpenModalIndex(index);
+  const closeModal = () => setOpenModalIndex(null);
+  
   const handleChange = (
     index: number,
     field: keyof (typeof data)[0],
@@ -234,10 +242,10 @@ console.log(data);
       }
     }
   }, [localStorage.getItem("testQuestion")]);
-
+console.log(SubmitActive);
   return (
     <div className="questions inputText">
-      <p className="question">{label.questionText}</p>
+      <p className="questionText">{label.questionText}</p>
 
       <IonAlert
         isOpen={isAlertOpen.status}
@@ -256,7 +264,7 @@ console.log(data);
           {
             text: "No",
             role: "cancel",
-            handler: () => { },
+            handler: () => {},
             cssClass: "no-button",
           },
         ]}
@@ -269,8 +277,16 @@ console.log(data);
             className="questions inputText"
             style={{ display: "flex", flexDirection: "row", width: "100%" }}
           >
-            <div className="p-inputgroup flex-1" style={{ border: "1.5px solid #10416a", borderRadius: "10px", marginBottom: "10px" }}>
-              <Calendar
+            <div
+              className="p-inputgroup flex-1"
+              style={{
+                border: "1.5px solid #10416a",
+                borderRadius: "10px",
+                marginBottom: "10px",
+                backgroundColor: item.flag !== "ui" ? "lightblue" : "transparent",
+              }}
+            >
+              {/* <Calendar
                 id="hrsInputLeft"
                 disabled={item.flag === "perm" || item.flag === "temp"}
                 dateFormat="dd/mm/yy"
@@ -283,7 +299,89 @@ console.log(data);
                   )
                 }
                 placeholder="Date"
+              /> */}
+              <InputText
+                style={{ padding: "0", textAlign: "center" }}
+                id="hrsInputLeft"
+                disabled={item.flag === "perm" || item.flag === "temp"}
+                value={item.date ? new Date(item.date).toISOString().split("T")[0] : ""}
+                placeholder="Date"
+                onClick={() => openModal(index)}
               />
+
+              <IonModal
+                isOpen={openModalIndex === index}
+                id="doctorDetailsGraph"
+                initialBreakpoint={1}
+                onDidDismiss={closeModal}
+                animated={false}
+              >
+                <div style={{ width: "100%", background: "#effafe" }}>
+                  <IonDatetime
+                    presentation="date"
+                    preferWheel={true}
+                    value={
+                      item.date
+                        ? new Date(item.date).toISOString().split("T")[0]
+                        : new Date().toISOString().split("T")[0]
+                    }
+                    onIonChange={(e) => {
+                      const selectedDate = e.detail.value as string; // Cast to string
+                      handleChange(index, "date", selectedDate ? new Date(selectedDate).toISOString() : "");
+                    }}
+                  />
+                  <Divider />
+                  <div
+                    style={{
+                      background: "#effafe",
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      width: "100%",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <div
+                      onClick={() => {
+                        handleChange(index, "date", "");
+                        closeModal();
+                      }}
+                      style={{
+                        width: "40%",
+                        background: "#ceebfb",
+                        padding: "15px",
+                        textAlign: "center",
+                        fontSize: "1.1rem",
+                        color: "#0c3f69",
+                        borderRadius: "10px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Clear
+                    </div>
+                    <div
+                      onClick={() => {
+                        const finalDate = item.date ? new Date(item.date) : new Date();
+                        handleChange(index, "date", finalDate.toISOString());
+                        closeModal();
+                      }}
+                      style={{
+                        width: "40%",
+                        background:
+                          "linear-gradient(27deg, rgba(16, 148, 231, 1) 0%, rgba(7, 117, 197, 1) 100%)",
+                        padding: "15px",
+                        textAlign: "center",
+                        fontSize: "1rem",
+                        color: "#fff",
+                        borderRadius: "10px",
+                        fontWeight: "700",
+                      }}
+                    >
+                      Set
+                    </div>
+                  </div>
+                </div>
+              </IonModal>
+
               <InputNumber
                 id="hrsInput"
                 disabled={item.flag === "perm" || item.flag === "temp"}
@@ -292,15 +390,45 @@ console.log(data);
                 onChange={(e) => handleChange(index, "number", e.value)}
                 placeholder="mg/dl"
               />
-              <div style={{ width: "10%", height: "35px", display: "flex", justifyContent: "center", alignItems: "center", background: "transparent" }}>
-                <button onClick={() => removeItem(index)} style={{ background: "#10416a", width: "30px", height: "30px", color: "#fff", borderRadius: "50%", padding: "5px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <div
+                style={{
+                  width: "10%",
+                  height: "35px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "transparent",
+                }}
+              >
+                <button
+                  onClick={() => removeItem(index)}
+                  style={{
+                    background: "#10416a",
+                    width: "30px",
+                    height: "30px",
+                    color: "#fff",
+                    borderRadius: "50%",
+                    padding: "5px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <i className="pi pi-trash"></i>
                 </button>
               </div>
             </div>
           </div>
         ))}
-        <div className="questionsbuttonGroup_01" style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div
+          className="questionsbuttonGroup_01"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <button
             type="button"
             className="p-button p-component questionsTextOptions_01 selected"

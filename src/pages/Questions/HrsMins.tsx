@@ -1,6 +1,6 @@
 import { Divider } from "primereact/divider";
 import { InputNumber } from "primereact/inputnumber";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Domain from "../Domain/Domain";
 import { IonDatetime, IonModal } from "@ionic/react";
 
@@ -21,6 +21,7 @@ interface Label {
 interface HrsInputBox {
   type: string;
   label: Label;
+  SubmitActive: (active: boolean) => void;
   onEdit: (
     questionType: string,
     hrsValue: number | null,
@@ -29,13 +30,17 @@ interface HrsInputBox {
   ) => void;
 }
 
-const HrsMins: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
+const HrsMins: React.FC<HrsInputBox> = ({ label, type, onEdit, SubmitActive }) => {
   const [hrsValue, setHrsValue] = useState<number | null>(null);
   const [minsValue, setMinsValue] = useState<number | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const isFirstRender = useRef(true);
 
-  const [localInput, setLocalInput]: any = useState();
-
+  const [localInput, setLocalInput] = useState<string>(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T00:00:00`;
+  });
+  
 
 
 
@@ -45,16 +50,50 @@ const HrsMins: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
   };
 
   const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    const now = new Date();
+    setLocalInput(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}T00:00:00`);
+    setIsOpen(false);
+  };
 
   // Set selected hours and minutes from the modal
   const handleSetTime = () => {
     setHrsValue(hrsValue);
     setMinsValue(minsValue);
     closeModal();
-    handleButtonClick();
+    if(hrsValue !== null && minsValue !== null) {
+      handleButtonClick();
+    }
+    else 
+    if(hrsValue == null && minsValue == null) {
+      setHrsValue(0);
+    setMinsValue(0);
+    }
   };
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false; // Mark first render as handled
+      return;
+    }
+  
+    if (hrsValue === 0 && minsValue === 0) {
+      handleButtonClick();
+    } else if (hrsValue === null && minsValue === null) {
+      handleButtonClick();
+    }
+  }, [hrsValue, minsValue]);
+  
+
+  const handleClearTime = () => {
+    setHrsValue(null);
+    setMinsValue(null);
+    closeModal();
+  }
+
+  console.log("localinput" ,localInput);
+  console.log("hrs", hrsValue);
+  console.log("min", minsValue);
   return (
     <div className="questionsOutline">
       <form
@@ -76,7 +115,9 @@ const HrsMins: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
               value={localInput}
               hourCycle="h23"
               onIonChange={(e) => {
-                setLocalInput(e.detail.value);
+                if (typeof e.detail.value === 'string') {
+                  setLocalInput(e.detail.value);
+                }                
                 const time = e.detail.value;
                 console.log(time);
 
@@ -105,11 +146,7 @@ const HrsMins: React.FC<HrsInputBox> = ({ label, type, onEdit }) => {
               }}
             >
               <div
-                onClick={() => {
-                  setHrsValue(null);
-                  setMinsValue(null);
-                  closeModal();
-                }}
+                onClick={() => handleClearTime()}
                 style={{
                   width: "40%",
                   background: "#ceebfb",

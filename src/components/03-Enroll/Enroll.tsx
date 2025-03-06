@@ -820,7 +820,7 @@ const Enroll: React.FC = () => {
           <img src={logo_new} alt="MEDPRiT_logo" />
           <div className="signInWelcome">
             <h2>Welcome to Medpredit!</h2>
-            <p>Let's Sign You In</p>
+            <p>Let's Sign In</p>
             {/* <p>URL: {import.meta.env.VITE_API_URL}</p>
             <p>KEY: {import.meta.env.VITE_ENCRYPTION_KEY}</p> */}
           </div>

@@ -26,7 +26,7 @@ const Label: React.FC<LabelProps> = ({ label, onEdit }) => {
   }, [forwardQId]);
   return (
     <div className="questions inputText">
-      <p className="question ">{label.questionText}</p>
+      <p className="questionText">{label.questionText}</p>
       <ShowCard questionId={label.questionId} />
     </div>
   );
