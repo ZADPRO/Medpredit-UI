@@ -356,7 +356,7 @@ const SubCards: React.FC<SubCardsProps> = ({
       case 43:
         return 14;
       case 51:
-        return 14;
+        return 30;
       case 202:
         return 1;
       case 203:
@@ -425,7 +425,7 @@ const SubCards: React.FC<SubCardsProps> = ({
           {
             text: "No",
             role: "cancel",
-            handler: () => {},
+            handler: () => { },
             cssClass: "no-button",
           },
         ]}
@@ -501,12 +501,12 @@ const SubCards: React.FC<SubCardsProps> = ({
         {data.map((card: any) => (
           <>
             {card.refPTcreatedDate &&
-            getValidity(card.refQCategoryId) >
+              getValidity(card.refQCategoryId) >
               -calculateDaysDifference(card.refPTcreatedDate) ? (
               <>
                 <div key={card.refQCategoryId}>
                   {card.refPTcreatedDate &&
-                  getValidity(card.refQCategoryId) >
+                    getValidity(card.refQCategoryId) >
                     -calculateDaysDifference(card.refPTcreatedDate) ? (
                     <>
                       <div
@@ -546,10 +546,10 @@ const SubCards: React.FC<SubCardsProps> = ({
                                 <div className="subCardHeader">
                                   <p data-text={card.refCategoryLabel}>
                                     {card.refCategoryLabel.split(" ").length ===
-                                    2
+                                      2
                                       ? card.refCategoryLabel
-                                          .split(" ")
-                                          .join("\n") // Force a line break for two words
+                                        .split(" ")
+                                        .join("\n") // Force a line break for two words
                                       : card.refCategoryLabel}
                                   </p>
                                 </div>
@@ -582,30 +582,30 @@ const SubCards: React.FC<SubCardsProps> = ({
                           </>
                         ) : (
                           <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "0.5rem",
-                            opacity: "0.2",
-                          }}
-                        >
-                          <img
-                            src={getImage(card.refQCategoryId)}
-                            alt="Card Thumbnail"
-                          />
-                          <div>
-                            <div className="subCardHeader">
-                              <p data-text={card.refCategoryLabel}>
-                                {card.refCategoryLabel.split(" ").length === 2
-                                  ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                                  : card.refCategoryLabel}
-                              </p>
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: "0.5rem",
+                              opacity: "0.2",
+                            }}
+                          >
+                            <img
+                              src={getImage(card.refQCategoryId)}
+                              alt="Card Thumbnail"
+                            />
+                            <div>
+                              <div className="subCardHeader">
+                                <p data-text={card.refCategoryLabel}>
+                                  {card.refCategoryLabel.split(" ").length === 2
+                                    ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                    : card.refCategoryLabel}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        ) }
+                        )}
                       </div>
                     </>
                   ) : (
@@ -686,131 +686,6 @@ const SubCards: React.FC<SubCardsProps> = ({
               </>
             )}
           </>
-          // <div
-          //   key={card.refQCategoryId}
-          //   className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
-          //   onClick={() => {
-          //     if (card.refScore === null) {
-          //       handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-          //     }
-          //     else {
-          //       if (
-          //         getValidity(card.refQCategoryId) >
-          //         -calculateDaysDifference(card.refPTcreatedDate)) {
-          //         handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-          //       }
-          //       else {
-          //         handleModel(
-          //           card.refCategoryLabel,
-          //           evaluateScore(card.UserScoreVerify, card.refScore),
-          //           // <ScoreVerify
-          //           //   userScoreVerify={card.UserScoreVerify}
-          //           //   refScore={card.refScore}
-          //           // />,
-          //           card.refPTcreatedDate.split("T")[0],
-          //           addDaysToDate(
-          //             card.refPTcreatedDate,
-          //             getValidity(card.refQCategoryId)
-          //           )
-          //         )
-          //       }
-          //     }
-          //   }}
-          //   style={{ cursor: "pointer" }}
-          // >
-
-          //   {(card.refScore === null) ? (<>
-
-          //     <IonRippleEffect></IonRippleEffect>
-          //     <div style={{
-          //       display: "flex",
-          //       flexDirection: "column",
-          //       alignItems: "center",
-          //       justifyContent: "center",
-          //       gap: "0.5rem"
-          //     }}>
-          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //       <div>
-          //         <div className="subCardHeader">
-          //           <p data-text={card.refCategoryLabel}>
-          //             {card.refCategoryLabel.split(" ").length === 2
-          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //               : card.refCategoryLabel}
-          //           </p>
-          //         </div>
-          //       </div>
-          //     </div></>) : getValidity(card.refQCategoryId) <
-          //       -calculateDaysDifference(card.refPTcreatedDate) ? (
-          //     <>
-          //       <IonRippleEffect></IonRippleEffect>
-          //       <div style={{
-          //         display: "flex",
-          //         flexDirection: "column",
-          //         alignItems: "center",
-          //         justifyContent: "center",
-          //         gap: "0.5rem"
-          //       }}>
-          //         <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //         <div>
-          //           <div className="subCardHeader">
-          //             <p data-text={card.refCategoryLabel}>
-          //               {card.refCategoryLabel.split(" ").length === 2
-          //                 ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //                 : card.refCategoryLabel}
-          //             </p>
-          //           </div>
-          //         </div>
-          //       </div>
-          //     </>
-          //   ) : (<>
-          //     {getValidity(card.refQCategoryId)}
-          //     {-calculateDaysDifference(card.refPTcreatedDate)}
-          //     {getValidity(card.refQCategoryId) < -calculateDaysDifference(card.refPTcreatedDate) ? "Yes" : "No1"}
-          //     <div style={{
-          //       display: "flex",
-          //       flexDirection: "row",
-          //       alignItems: "center",
-          //       justifyContent: "center",
-          //       gap: "0.5rem"
-          //     }}
-
-          //     >
-          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //       <div>
-          //         <div className="subCardHeader">
-          //           <p data-text={card.refCategoryLabel}>
-          //             {card.refCategoryLabel.split(" ").length === 2
-          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //               : card.refCategoryLabel}
-          //           </p>
-          //         </div>
-          //       </div>
-          //     </div>
-
-          //     <div className="subCardSliderBar">
-          //       {card.refScore === null ? (
-          //         <div style={{ color: "#607274" }}>
-          //           <i
-          //             className="pi pi-angle-right"
-          //             style={{ fontSize: "2rem" }}
-          //           ></i>
-          //         </div>
-          //       ) : (
-          //         <>
-          //           {
-          //             [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
-          //               <div>
-          //                 <ScoreSlider
-          //                   userScoreVerify={card.UserScoreVerify}
-          //                   refScore={card.refScore}
-          //                 />
-          //               </div>
-          //             ) : null
-          //           }
-          //         </>
-          //       )}
-          //     </div></>)}
-          // </div>
         ))}
       </div>
     </div>

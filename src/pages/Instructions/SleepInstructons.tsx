@@ -7,12 +7,12 @@ const SleepInstructons = () => {
       <div>
         <ul>
           <li>The following questions relate to your usual sleep habits during the{" "}
-          <u>past month only</u>. Your answers should indicate the most accurate
-          reply for the <u>majority</u> of days and nights in the past month.{" "}
+            <u>past month only</u>.
           </li>
-
+          <li>Your answers should indicate the most accurate
+            reply for the <u>majority</u> of days and nights in the past month.{" "}</li>
           <li>
-          <b>Please answer all questions</b>.
+            <b>Please answer all questions</b>.
           </li>
         </ul>
       </div>

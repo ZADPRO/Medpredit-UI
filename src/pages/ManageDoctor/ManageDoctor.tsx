@@ -258,9 +258,8 @@ const MangeDoctor = () => {
                             fontSize: "0.7rem",
                             borderRadius: "5px",
                           }}
-                          className={`questionsTextOptions_01 ${
-                            element.activeStatus === "active" ? "selected" : ""
-                          }`}
+                          className={`questionsTextOptions_01 ${element.activeStatus === "active" ? "selected" : ""
+                            }`}
                           onClick={() => {
                             handleActiveStatus(index, "active", element.Id);
                           }}
@@ -274,11 +273,10 @@ const MangeDoctor = () => {
                             fontSize: "0.7rem",
                             borderRadius: "5px",
                           }}
-                          className={`questionsTextOptions_01 ${
-                            element.activeStatus === "inactive"
+                          className={`questionsTextOptions_01 ${element.activeStatus === "inactive"
                               ? "selected"
                               : ""
-                          }`}
+                            }`}
                           onClick={() => {
                             handleActiveStatus(index, "inactive", element.Id);
                           }}

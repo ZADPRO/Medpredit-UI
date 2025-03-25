@@ -170,8 +170,8 @@ const AddFamilyUser: React.FC = () => {
 
   const verifyForm3 = () => {
     if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
-      formData.refUserEmail.length === 0
+      (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
+      formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
     ) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
       return false;
@@ -1455,7 +1455,7 @@ const [presentAlert] = useIonAlert();
                           ></i>
                         </div>
                       )}
-                      &nbsp;Match Confirm Password
+                      &nbsp;Password Must Match
                     </div>
                   </div>
                 </div>

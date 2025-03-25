@@ -25,7 +25,11 @@ import decrypt from "../../helper";
 import { ScoreVerify } from "../../ScoreVerify";
 import ReportPDF from "../../pages/ReportPDF/ReportPDF";
 import Graph from "../../pages/Graph/Graph";
-import { chevronBack} from "ionicons/icons";
+import { chevronBack } from "ionicons/icons";
+import GraphThree from "../../pages/Graph/GraphThree";
+import GraphTwo from "../../pages/Graph/GraphTwo";
+import "./CurrentReport.css";
+import GraphKidney from "../../pages/Graph/GraphKidney";
 
 const CurrentReport: React.FC = () => {
   const history = useHistory();
@@ -92,6 +96,13 @@ const CurrentReport: React.FC = () => {
   const [urinealbumin, setUrinealbumin] = useState<any[]>([]);
 
   const [urineketones, setUrineketones] = useState<any[]>([]);
+
+  const [kidneyRight, setKidneyRight] = useState<any[]>([]);
+
+  const [kidneyLeft, setKidneyLeft] = useState<any[]>([]);
+
+  const [echogenicity, setEchogenicity] = useState<any[]>([]);
+
   console.log("localStorage", localStorage);
   useEffect(() => {
     console.log("---------------------->", reportDate);
@@ -180,6 +191,10 @@ const CurrentReport: React.FC = () => {
 
             setUrineketones(data.urineketones);
 
+            setKidneyLeft(data.kidneyLeft)
+
+            setKidneyRight(data.kidneyRight)
+
             setAllScoreVerify(data.allScoreVerify);
 
             setAllCategory(data.allCategory);
@@ -198,7 +213,6 @@ const CurrentReport: React.FC = () => {
       console.error("No token found in localStorage.");
     }
   }, []);
-  console.log("-------------------------------94", allScore.find(item => item.refQCategoryId == 199));
 
   function structureCategories(data: any[]) {
     const categoryMap = new Map<number, any>();
@@ -250,11 +264,8 @@ const CurrentReport: React.FC = () => {
   }
 
 
-
-  console.log("structuredCategories", structuredCategories);
-
   const getSleepStatus = (questionId: any, scoreValue: any) => {
-    if(parseInt(questionId) === 47) {
+    if (parseInt(questionId) === 47) {
       switch (true) {
         case parseInt(scoreValue) > 85:
           return "No Difficulty";
@@ -265,7 +276,7 @@ const CurrentReport: React.FC = () => {
         case parseInt(scoreValue) < 65:
           return "Severe Difficulty";
         default:
-            return "";
+          return "";
       }
     }
     else {
@@ -279,16 +290,16 @@ const CurrentReport: React.FC = () => {
         case "3":
           return "Severe Difficulty";
         default:
-            return "";
+          return "";
       }
     };
   }
 
-  const getBMIstatus = (questionId: any, scoreValue: any)=> {
-    if(questionId === 22) {
+  const getBMIstatus = (questionId: any, scoreValue: any) => {
+    if (questionId === 22) {
       return "cm"
     }
-    else if(questionId === 23){
+    else if (questionId === 23) {
       return "kg"
     }
     else if (questionId === 24) {
@@ -327,16 +338,35 @@ const CurrentReport: React.FC = () => {
     else {
       return "";
     }
-  } 
+  }
+
+  const getTobaccoStatus = (questionId: any, scoreValue: any) => {
+    if (questionId === 39) {
+      switch (true) {
+        case parseFloat(scoreValue) == 0:
+          return "- No risk";
+        case parseFloat(scoreValue) <= 1:
+          return "- Low risk";
+        case parseFloat(scoreValue) >= 2.0 && parseFloat(scoreValue) <= 5.0:
+          return "- Moderate risk";
+        case parseInt(scoreValue) > 5.0:
+          return "- Severe risk";
+        default:
+          return "";
+      }
+    } else {
+      return "";
+    }
+  }
 
   const getValidateDuration = (questionId: any) => {
     console.log("questionId: ", questionId);
 
     switch (parseInt(questionId)) {
       case 94:
-        return 1;
+        return 30;
       case 5:
-        return 1;
+        return 30;
       case 6:
         return 1;
       case 8:
@@ -354,9 +384,7 @@ const CurrentReport: React.FC = () => {
       case 43:
         return 14;
       case 51:
-        return 14;
-      case 201:
-        return 1;
+        return 30;
       case 202:
         return 1;
       case 203:
@@ -421,7 +449,11 @@ const CurrentReport: React.FC = () => {
       220: { data: egfr, label: "eGFR" },
       221: { data: urinesugar, label: "Urine- sugar" },
       222: { data: urinealbumin, label: "Urine Albumin" },
-      223: { data: urineketones, label: "Urine ketones" }
+      223: { data: urineketones, label: "Urine ketones" },
+      228: { data: kr, label: "KidneyRight" },
+      225: { data: kl, label: "kidneyLeft" },
+      231: { data: echo, label: "Echogenicity" },
+      234: { data: cortico, label: "Cortico Medulary Differentiation" }
     };
     return categoryMapping[refQCategoryId] || { data: null, label: "" };
   };
@@ -507,6 +539,36 @@ const CurrentReport: React.FC = () => {
 
     return `${displayHour}:${displayMinutes} ${ampm}`;
   };
+
+  const Section = ({ title, ids, startIndex, sectionIndex, subcategories }: any) => (
+    <div className="pastReport_AccCont_div2" style={{ marginTop: "10px" }}>
+      <span>{`${sectionIndex}. ${title}`}</span>
+      {subcategories
+        .filter((subCategory_03: any) => ids.includes(subCategory_03.refQCategoryId))
+        .map((subCategory_03: any, subIndex_03: any) => (
+          <div
+            className="pastReport_AccCont_div2_list"
+            key={subCategory_03.refQCategoryId}
+          >
+            <span style={{ paddingLeft: "1rem" }}>
+              {`${sectionIndex}.${subIndex_03 - startIndex} ${subCategory_03.refCategoryLabel}`}
+            </span>
+            <div
+              className="pastReport_AccCont_div2_sublist"
+              style={{ paddingLeft: "2rem" }}
+            >
+              <span>
+                {allScore.find(
+                  (item) => item.refQCategoryId.toString() === subCategory_03.refQCategoryId.toString()
+                )?.refPTScore || "N/A"}
+              </span>
+            </div>
+          </div>
+        ))}
+      <div style={{ width: "100%", borderBottom: "1px solid lightgrey" }}></div>
+    </div>
+  );
+
 
 
   return (
@@ -641,71 +703,6 @@ const CurrentReport: React.FC = () => {
                           </div>
                         )}
 
-                        {/* {((subCategory.refQCategoryId == 7) && (subCategory.refQCategoryId == 211) && (subCategory.refQCategoryId == 212)) && (
-                          <div slot="content">
-                            {isValidCategory(subCategory.refQCategoryId)? (
-                              <div>
-                                  {subCategory?.subcategories?.length > 0 && (
-                              subCategory.subcategories.map(
-                                (subCategory_02: any, subIndex_02: any) => (
-                                  <>
-                                  <div
-                                      className="pastReport_AccCont"
-                                      key={subCategory_02.refQCategoryId}
-                                    >
-                                      <div className="pastReport_AccCont_div1">
-                                        <span>
-                                          {subCategory_02.refCategoryLabel}
-                                        </span>
-                                        <span>
-                                        {allScore.map((answer) => {
-                                          if (answer.refQCategoryId === subCategory_02.refQCategoryId.toString()) {
-                                            const totalScore: any = [];
-                                            allScorVerify.forEach((scoresVerify) => {
-                                              if (scoresVerify.refQCategoryId == subCategory_02.refQCategoryId) {
-                                                totalScore.push(scoresVerify);
-                                              }
-                                            }
-                                          );
-                                        return (
-                                          <div
-                                              key={answer.refQCategoryId}>
-                                              <ScoreVerify
-                                                userScoreVerify={totalScore} // Pass the totalScore directly
-                                                refScore={answer.refPTScore}
-                                              />
-                                          </div>
-                                          );
-                                        }
-                                        return null;
-                                       }
-                                    )}
-                                        
-                                        </span>
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          borderBottom: "1px solid #0c436c",
-                                        }}
-                                      />
-                                      
-                                      <div className="pastReport_AccCont_charts">
-                                        <Graph
-                                          data={getGraphProps(subCategory_02.refQCategoryId).data}
-                                          label={getGraphProps(subCategory_02.refQCategoryId).label}
-                                        />
-                                      </div>
-                                    </div>
-                                  </>
-                                )
-                              )
-                            )}
-                            </div>) : (<div>{"No Data Filled"}</div>)}
-                            
-                          </div>
-                        )} */}
-
                         {((subCategory.refQCategoryId == 7) || (subCategory.refQCategoryId == 211) || (subCategory.refQCategoryId == 212)) && (
                           <div slot="content">
                             {subCategory?.subcategories?.length > 0 && (
@@ -752,16 +749,191 @@ const CurrentReport: React.FC = () => {
                                             }} />
                                           {subCategory_02?.subcategories.map(
                                             (subCategory_03: any, subIndex_03: any) => (
-                                              <div style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
-                                                <span>{subCategory_03.refCategoryLabel}</span>
-                                                <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
-                                              </div>
+
+                                              <>
+
+                                                {subCategory_03.refQCategoryId === 225 ? (
+                                                  <>
+                                                    <div className="pt-3" style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
+                                                      <span>{subCategory_03.refCategoryLabel}</span>
+                                                      {/* <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span> */}
+                                                    </div>
+                                                    <GraphKidney
+                                                      data={getGraphProps(225).data}
+                                                      label={getGraphProps(225).label}
+                                                    />
+                                                  </>
+                                                ) : subCategory_03.refQCategoryId === 228 ? (
+                                                  <>
+                                                    <div className="pt-3" style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
+                                                      <span>{subCategory_03.refCategoryLabel}</span>
+                                                      {/* <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span> */}
+                                                    </div>
+                                                    <GraphKidney
+                                                      data={getGraphProps(228).data}
+                                                      label={getGraphProps(228).label}
+                                                    />
+                                                  </>
+                                                ) : subCategory_03.refQCategoryId === 234 ? (
+                                                  <>
+                                                    <div className="pt-3" style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
+                                                      <span>{subCategory_03.refCategoryLabel}</span>
+                                                      {/* <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span> */}
+                                                    </div>
+                                                    <table className="Prevtable">
+                                                      <thead >
+                                                        <tr >
+                                                          <th >
+                                                            Date
+                                                          </th>
+                                                          <th>
+                                                            Previous Value Thickness
+                                                          </th>
+                                                          <th>
+                                                            Previous Value
+                                                          </th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        {getGraphProps(234).data.map((element: any) => (
+                                                          <tr>
+                                                            <th>{element.refIVDDate.split("T")[0]}</th>
+                                                            <th>{element.refIVDScore}</th>
+                                                            <th>{element.ref1hrs}</th>
+                                                          </tr>
+                                                        ))}
+                                                      </tbody>
+                                                    </table>
+                                                  </>
+                                                ) : subCategory_03.refQCategoryId === 231 ? (
+                                                  <>
+                                                    <div className="pt-3" style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
+                                                      <span>{subCategory_03.refCategoryLabel}</span>
+                                                      {/* <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span> */}
+                                                    </div>
+                                                    <table className="Prevtable">
+                                                      <thead >
+                                                        <tr >
+                                                          <th >
+                                                            Date
+                                                          </th>
+                                                          <th>
+                                                            Previous Value
+                                                          </th>
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        {getGraphProps(231).data.map((element: any) => (
+                                                          <tr>
+                                                            <th>{element.refIVDDate.split("T")[0]}</th>
+                                                            <th>{element.refIVDScore}</th>
+                                                          </tr>
+                                                        ))}
+                                                      </tbody>
+                                                    </table>
+                                                  </>
+                                                ) : (
+                                                  <>
+                                                    <div style={{ display: "flex", justifyContent: "space-between", width: "85%", margin: "0 auto" }}>
+                                                      <span>{subCategory_03.refCategoryLabel}</span>
+                                                      <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
+                                                    </div>
+                                                  </>
+                                                )}
+
+                                              </>
+
                                             ))}
                                           <div className="pastReport_AccCont_charts">
-                                            <Graph
-                                              data={getGraphProps(subCategory_02.refQCategoryId).data}
-                                              label={getGraphProps(subCategory_02.refQCategoryId).label}
-                                            />
+                                            {subCategory_02.refQCategoryId === 205 ? (
+                                              <GraphThree
+                                                data={getGraphProps(subCategory_02.refQCategoryId).data}
+                                                label={getGraphProps(subCategory_02.refQCategoryId).label}
+                                              />
+                                            ) : subCategory_02.refQCategoryId === 206 ? (
+                                              <GraphTwo
+                                                data={getGraphProps(subCategory_02.refQCategoryId).data}
+                                                label={getGraphProps(subCategory_02.refQCategoryId).label}
+                                              />
+                                            ) : subCategory_02.refQCategoryId === 221 || subCategory_02.refQCategoryId === 222 || subCategory_02.refQCategoryId === 223 ? (
+                                              <>
+                                                <table className="Prevtable">
+                                                  <thead >
+                                                    <tr >
+                                                      <th >
+                                                        Date
+                                                      </th>
+                                                      <th>
+                                                        Previous Value
+                                                      </th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody>
+                                                    {getGraphProps(subCategory_02.refQCategoryId).data.map((element: any) => (
+                                                      <tr>
+                                                        <th>{element.refIVDDate.split("T")[0]}</th>
+                                                        <th>{element.refIVDScore}</th>
+                                                      </tr>
+                                                    ))}
+                                                  </tbody>
+                                                </table>
+                                              </>
+                                            ) : subCategory_02.refQCategoryId === 224 ? (<></>) : (
+                                              <>
+                                                <Graph
+                                                  data={getGraphProps(subCategory_02.refQCategoryId).data}
+                                                  label={getGraphProps(subCategory_02.refQCategoryId).label}
+                                                />
+                                                {
+                                                  subCategory_02.refQCategoryId === 216 ? (
+                                                    <>
+                                                      <div className="pastReport_AccCont_div1 pt-5 pb-2">
+                                                        <span>TC / HDL Ratio</span>
+                                                        <span>
+                                                          {allScore.map((answer) => {
+                                                            if (answer.refQCategoryId === "217") {
+                                                              const totalScore: any = [];
+                                                              allScorVerify.forEach((scoresVerify) => {
+                                                                if (scoresVerify.refQCategoryId == 217) {
+                                                                  totalScore.push(scoresVerify);
+                                                                }
+                                                              }
+                                                              );
+                                                              return (
+                                                                <div
+                                                                  key={answer.refQCategoryId}>
+                                                                  <ScoreVerify
+                                                                    userScoreVerify={totalScore} // Pass the totalScore directly
+                                                                    refScore={answer.refPTScore}
+                                                                  />
+                                                                </div>
+                                                              );
+                                                            }
+                                                            return null;
+                                                          }
+                                                          )}
+                                                        </span>
+
+                                                      </div>
+                                                      <div
+                                                        style={{
+                                                          width: "100%",
+                                                          borderBottom: "1px solid #0c436c",
+                                                        }} />
+
+                                                      <div className="pt-2">
+                                                        <Graph
+                                                          data={getGraphProps(217).data}
+                                                          label={getGraphProps(217).label}
+                                                        />
+                                                      </div>
+
+                                                    </>
+                                                  ) : null
+                                                }
+                                              </>
+                                            )}
+
                                           </div>
                                         </>
                                       ) : (<>
@@ -817,8 +989,7 @@ const CurrentReport: React.FC = () => {
                                                   );
                                                   return (
                                                     <div
-                                                      key={answer.refQCategoryId}>
-                                                      <ScoreVerify
+                                                      key={answer.refQCategoryId}><ScoreVerify
                                                         userScoreVerify={totalScore} // Pass the totalScore directly
                                                         refScore={answer.refPTScore}
                                                       />
@@ -857,7 +1028,7 @@ const CurrentReport: React.FC = () => {
                                                                   key={subCategory_04.refQCategoryId}
                                                                 >
                                                                   <span>{subCategory_04.refCategoryLabel}</span>
-                                                                  <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
+                                                                  <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore} mins</span>
                                                                 </div>
                                                               )
                                                             )}
@@ -909,7 +1080,7 @@ const CurrentReport: React.FC = () => {
                                                       <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
                                                         }`}</span>
 
-                                                      <div className="pastReport_AccCont_div2_sublist">
+                                                      <div className="pastReport_AccCont_div2_sublist" style={{ flexDirection: "column" }}>
                                                         {(
                                                           allScore.find(
                                                             (item: { refQCategoryId: string }) =>
@@ -991,96 +1162,149 @@ const CurrentReport: React.FC = () => {
                                             </div>
                                           ) : ((subCategory_02.refQCategoryId == 13) ? (
                                             <div className="pastReport_AccCont_div2">
-                                            {subCategory_02?.subcategories.map(
-                                              (subCategory_03: any, subIndex_03: any) => (
-                                                <>
-                                                  <div
-                                                    className="pastReport_AccCont_div2_list"
-                                                    key={subCategory_03.refQCategoryId}
-                                                  >
-                                                    <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
-                                                      }`}</span>
-                                                    {subCategory_03.subcategories.length > 0 ? (
-                                                      <div>
-                                                        {subCategory_03?.subcategories.map(
-                                                          (subCategory_04: any, subIndex_04: any) => (
-                                                            <div
-                                                              className="pastReport_AccCont_div2_sublist"
-                                                              key={subCategory_04.refQCategoryId}
-                                                            >
-                                                              <span>{subCategory_04.refCategoryLabel}</span>
-                                                              <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
-                                                            </div>
-                                                          )
-                                                        )}
-                                                      </div>
-                                                    ) : (
-                                                      <div className="pastReport_AccCont_div2_sublist">
-                                                        <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore + " " + 
-                                                              getBMIstatus(subCategory_03.refQCategoryId, allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore)}
-                                                        </span>
-                                                      </div>
-                                                    )}
+                                              {subCategory_02?.subcategories.map(
+                                                (subCategory_03: any, subIndex_03: any) => (
+                                                  <>
+                                                    <div
+                                                      className="pastReport_AccCont_div2_list"
+                                                      key={subCategory_03.refQCategoryId}
+                                                    >
+                                                      <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
+                                                        }`}</span>
+                                                      {subCategory_03.subcategories.length > 0 ? (
+                                                        <div>
+                                                          {subCategory_03?.subcategories.map(
+                                                            (subCategory_04: any, subIndex_04: any) => (
+                                                              <div
+                                                                className="pastReport_AccCont_div2_sublist"
+                                                                key={subCategory_04.refQCategoryId}
+                                                              >
+                                                                <span>{subCategory_04.refCategoryLabel}</span>
+                                                                <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
+                                                              </div>
+                                                            )
+                                                          )}
+                                                        </div>
+                                                      ) : (
+                                                        <div className="pastReport_AccCont_div2_sublist">
+                                                          <span>
+                                                            {allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore + " " + getBMIstatus(subCategory_03.refQCategoryId, allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore)}
+                                                          </span>
+                                                        </div>
+                                                      )}
 
-                                                  </div>
-                                                  <div
-                                                    style={{
-                                                      width: "100%",
-                                                      borderBottom:
-                                                        "1px solid lightgrey",
-                                                    }}
-                                                  ></div>
-                                                </>
-                                              )
-                                            )}
-                                          </div>
-                                          ):(
+                                                    </div>
+                                                    <div
+                                                      style={{
+                                                        width: "100%",
+                                                        borderBottom:
+                                                          "1px solid lightgrey",
+                                                      }}
+                                                    ></div>
+                                                  </>
+                                                )
+                                              )}
+                                            </div>
+                                          ) : subCategory_02.refQCategoryId == 10 ? (
                                             <div className="pastReport_AccCont_div2">
-                                            {subCategory_02?.subcategories.map(
-                                              (subCategory_03: any, subIndex_03: any) => (
-                                                <>
-                                                  <div
-                                                    className="pastReport_AccCont_div2_list"
-                                                    key={subCategory_03.refQCategoryId}
-                                                  >
-                                                    <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
-                                                      }`}</span>
-                                                    {subCategory_03.subcategories.length > 0 ? (
-                                                      <div>
-                                                        {subCategory_03?.subcategories.map(
-                                                          (subCategory_04: any, subIndex_04: any) => (
-                                                            <div
-                                                              className="pastReport_AccCont_div2_sublist"
-                                                              key={subCategory_04.refQCategoryId}
-                                                            >
-                                                              <span>{subCategory_04.refCategoryLabel}</span>
-                                                              <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
-                                                            </div>
-                                                          )
-                                                        )}
-                                                      </div>
-                                                    ) : (
-                                                      <div className="pastReport_AccCont_div2_sublist">
-                                                        <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
-                                                      </div>
-                                                    )}
+                                              {subCategory_02?.subcategories.map(
+                                                (subCategory_03: any, subIndex_03: any) => (
+                                                  <>
+                                                    <div
+                                                      className="pastReport_AccCont_div2_list"
+                                                      key={subCategory_03.refQCategoryId}
+                                                    >
+                                                      <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
+                                                        }`}</span>
+                                                      {subCategory_03.subcategories.length > 0 ? (
+                                                        <div>
+                                                          {subCategory_03?.subcategories.map(
+                                                            (subCategory_04: any, subIndex_04: any) => (
+                                                              <div
+                                                                className="pastReport_AccCont_div2_sublist"
+                                                                key={subCategory_04.refQCategoryId}
+                                                              >
+                                                                <span>{subCategory_04.refCategoryLabel}</span>
+                                                                <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
+                                                              </div>
+                                                            )
+                                                          )}
+                                                        </div>
+                                                      ) : (
+                                                        <div className="pastReport_AccCont_div2_sublist">
+                                                          <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore} {subCategory_03.refQCategoryId === 39 ? "PY" : ""} {getTobaccoStatus(subCategory_03.refQCategoryId, allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore)}</span>
+                                                        </div>
+                                                      )}
 
-                                                  </div>
-                                                  <div
-                                                    style={{
-                                                      width: "100%",
-                                                      borderBottom:
-                                                        "1px solid lightgrey",
-                                                    }}
-                                                  ></div>
-                                                </>
-                                              )
-                                            )}
-                                          </div>
-                                          ) )
+                                                    </div>
+                                                    <div
+                                                      style={{
+                                                        width: "100%",
+                                                        borderBottom:
+                                                          "1px solid lightgrey",
+                                                      }}
+                                                    ></div>
+                                                  </>
+                                                )
+                                              )}
+                                            </div>
+                                          ) : subCategory_02.refQCategoryId == 12 ? (
+                                            <>
+                                              <Section title="Snack-Refresher-Starters" ids={[66, 67, 68, 69]} startIndex={-1} sectionIndex={1} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Meal Composition" ids={[70, 71, 72, 73]} startIndex={-1} sectionIndex={2} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Oil Intake" ids={[74, 75]} startIndex={-1} sectionIndex={3} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Salt Intake" ids={[76, 77]} startIndex={-1} sectionIndex={4} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Dairy Products" ids={[78]} startIndex={-1} sectionIndex={5} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Meal Timing" ids={[79, 80]} startIndex={-1} sectionIndex={6} subcategories={subCategory_02?.subcategories} />
+                                              <Section title="Meal Practices" ids={[81, 82, 83]} startIndex={-1} sectionIndex={7} subcategories={subCategory_02?.subcategories} />
+                                            </>
+                                          ) : (
+                                            <div className="pastReport_AccCont_div2">
+                                              {subCategory_02?.subcategories.map(
+                                                (subCategory_03: any, subIndex_03: any) => (
+                                                  <>
+                                                    <div
+                                                      className="pastReport_AccCont_div2_list"
+                                                      key={subCategory_03.refQCategoryId}
+                                                    >
+                                                      <span>{`${subIndex_03 + 1}. ${subCategory_03.refCategoryLabel
+                                                        }`}</span>
+                                                      {subCategory_03.subcategories.length > 0 ? (
+                                                        <div>
+                                                          {subCategory_03?.subcategories.map(
+                                                            (subCategory_04: any, subIndex_04: any) => (
+                                                              <div
+                                                                className="pastReport_AccCont_div2_sublist"
+                                                                key={subCategory_04.refQCategoryId}
+                                                              >
+                                                                <span>{subCategory_04.refCategoryLabel}</span>
+                                                                <span>{allScore.find(item => item.refQCategoryId == subCategory_04.refQCategoryId)?.refPTScore}</span>
+                                                              </div>
+                                                            )
+                                                          )}
+                                                        </div>
+                                                      ) : (
+                                                        <div className="pastReport_AccCont_div2_sublist">
+                                                          <span>{allScore.find(item => item.refQCategoryId == subCategory_03.refQCategoryId)?.refPTScore}</span>
+                                                        </div>
+                                                      )}
+
+                                                    </div>
+                                                    <div
+                                                      style={{
+                                                        width: "100%",
+                                                        borderBottom:
+                                                          "1px solid lightgrey",
+                                                      }}
+                                                    ></div>
+                                                  </>
+                                                )
+                                              )}
+                                            </div>
                                           ))
-                                            
-                                        }
+                                          ))
+
+                                          }
                                         </>) : (
                                         <>
                                           <div className="pastReport_AccCont_div1">
@@ -1222,116 +1446,112 @@ const CurrentReport: React.FC = () => {
 
                         {(subCategory.refQCategoryId === 201) && (
                           <div slot="content">
-                            {isValidCategory(subCategory.refQCategoryId) ? (
-                              <div
-                                className="pastReport_AccCont"
-                                key={subCategory.refQCategoryId}
-                              >
-                                {treatmentDetails?.length > 0 ? (
-                                  treatmentDetails.map((treatmentInfo, treatmentIndex) => (
-                                    <div key={treatmentInfo.id}> {/* Make sure to use a unique key */}
-                                      <div className="pastReport_AccCont_div1">
-                                        <span>
-                                          {subCategory.refCategoryLabel + " " + (treatmentIndex + 1)}
-                                        </span>
-                                      </div>
-                                      <div
-                                        style={{
-                                          width: "100%",
-                                          borderBottom: "1px solid #0c436c",
-                                        }}
-                                      ></div>
-                                      <>
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>1. Name of Medicine</span>
-                                            <span>{treatmentInfo.refTDMedName}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>2. Category</span>
-                                            <span>{treatmentInfo.refTDCat}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>3. Strength (mg)</span>
-                                            <span>{treatmentInfo.refTDStrength}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>4. ROA</span>
-                                            <span>{treatmentInfo.refTDROA}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>5. Relation to Food</span>
-                                            <span>{treatmentInfo.refTDRTF}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>6. Morning Dosage</span>
-                                          </div>
-                                          <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
-                                            <span>{"Dosage: " + (treatmentInfo.refTDMorningDosage ? treatmentInfo.refTDMorningDosage : "-")}</span>
-                                            <span>{"Dosage Time: " + (treatmentInfo.refTDMorningDosageTime ? formatTime(new Date(treatmentInfo.refTDMorningDosageTime)) : "-")}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>7. Afternoon Dosage</span>
-                                          </div>
-                                          <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
-                                            <span>{"Dosage: " + (treatmentInfo.refTDAfternoonDosage ? treatmentInfo.refTDAfternoonDosage : "-")}</span>
-                                            <span>{"Dosage Time: " + (treatmentInfo.refTDAfternoonDosageTime ? formatTime(new Date(treatmentInfo.refTDAfternoonDosageTime)) : "-")}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>8. Night Dosage</span>
-                                          </div>
-                                          <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
-                                            <span>{"Dosage: " + (treatmentInfo.refTDNightDosage ? treatmentInfo.refTDNightDosage : "-")}</span>
-                                            <span>{"Dosage Time: " + (treatmentInfo.refTDNightDosageTime ? formatTime(new Date(treatmentInfo.refTDNightDosageTime)) : "-")}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-
-                                        <div className="pastReport_AccCont_Treatment_div2">
-                                          <div>
-                                            <span>9. Duration</span>
-                                          </div>
-                                          <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
-                                            <span>{"Month: " + (treatmentInfo.refTDDurationMonth ? treatmentInfo.refTDDurationMonth : "-")}</span>
-                                            <span>{"Year: " + (treatmentInfo.refTDDurationYear ? formatTime(new Date(treatmentInfo.refTDDurationYear)) : "-")}</span>
-                                          </div>
-                                          <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
-                                        </div>
-                                      </>
-
+                            <div
+                              className="pastReport_AccCont"
+                              key={subCategory.refQCategoryId}
+                            >
+                              {treatmentDetails?.length > 0 ? (
+                                treatmentDetails.map((treatmentInfo, treatmentIndex) => (
+                                  <div key={treatmentInfo.id}> {/* Make sure to use a unique key */}
+                                    <div className="pastReport_AccCont_div1">
+                                      <span>
+                                        {subCategory.refCategoryLabel + " " + (treatmentIndex + 1)}
+                                      </span>
                                     </div>
-                                  ))
-                                ) : (
-                                  <></>
-                                )}
+                                    <div
+                                      style={{
+                                        width: "100%",
+                                        borderBottom: "1px solid #0c436c",
+                                      }}
+                                    ></div>
+                                    <>
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>1. Name of Medicine</span>
+                                          <span>{treatmentInfo.refTDMedName}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>2. Category</span>
+                                          <span>{treatmentInfo.refTDCat}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>3. Strength (mg)</span>
+                                          <span>{treatmentInfo.refTDStrength}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>4. ROA</span>
+                                          <span>{treatmentInfo.refTDROA}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>5. Relation to Food</span>
+                                          <span>{treatmentInfo.refTDRTF}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
 
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>6. Morning Dosage</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
+                                          <span>{"Dosage: " + (treatmentInfo.refTDMorningDosage ? treatmentInfo.refTDMorningDosage : "-")}</span>
+                                          <span>{"Dosage Time: " + (treatmentInfo.refTDMorningDosageTime ? formatTime(new Date(treatmentInfo.refTDMorningDosageTime)) : "-")}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
 
-                              </div>
-                            ) : (<div>{"No Data Found"}</div>)}
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>7. Afternoon Dosage</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
+                                          <span>{"Dosage: " + (treatmentInfo.refTDAfternoonDosage ? treatmentInfo.refTDAfternoonDosage : "-")}</span>
+                                          <span>{"Dosage Time: " + (treatmentInfo.refTDAfternoonDosageTime ? formatTime(new Date(treatmentInfo.refTDAfternoonDosageTime)) : "-")}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>8. Night Dosage</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
+                                          <span>{"Dosage: " + (treatmentInfo.refTDNightDosage ? treatmentInfo.refTDNightDosage : "-")}</span>
+                                          <span>{"Dosage Time: " + (treatmentInfo.refTDNightDosageTime ? formatTime(new Date(treatmentInfo.refTDNightDosageTime)) : "-")}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+
+                                      <div className="pastReport_AccCont_Treatment_div2">
+                                        <div>
+                                          <span>9. Duration</span>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "column", marginLeft: "0.5rem" }}>
+                                          <span>{"Month: " + (treatmentInfo.refTDDurationMonth ? treatmentInfo.refTDDurationMonth : "-")}</span>
+                                          <span>{"Year: " + (treatmentInfo.refTDDurationYear ? formatTime(new Date(treatmentInfo.refTDDurationYear)) : "-")}</span>
+                                        </div>
+                                        <div style={{ width: "100%", paddingTop: "0.5rem", borderBottom: "1px solid lightgrey", }}></div>
+                                      </div>
+                                    </>
+
+                                  </div>
+                                ))
+                              ) : (
+                                <><div>{"No Data Found"}</div></>
+                              )}
+                            </div>
                           </div>
                         )}
                       </IonAccordion>

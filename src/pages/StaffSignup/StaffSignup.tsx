@@ -1818,7 +1818,7 @@ const StaffSignup = () => {
                   {/* designation */}
                   <div className="inputBox">
                     <label>
-                      Designation <span style={{ color: "red" }}>*</span>
+                      Designation / Specialization <span style={{ color: "red" }}>*</span>
                     </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
@@ -2348,7 +2348,7 @@ const StaffSignup = () => {
                           ></i>
                         </div>
                       )}
-                      &nbsp;Match Confirm Password
+                      &nbsp;Password Must Match
                     </div>
                   </div>
 

@@ -141,7 +141,13 @@ const PatientSignupForm = () => {
   };
 
   const verifyForm3 = () => {
-    if (formData.refAddress.length === 0) {
+    if (
+      (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
+      formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
+    ) {
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
+      return false;
+    } else if (formData.refAddress.length === 0) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Address" });
       return false;
     } else if (formData.refDistrict.length === 0) {
@@ -1412,7 +1418,7 @@ const PatientSignupForm = () => {
                     ></i>
                   </div>
                 )}
-                &nbsp;Match Confirm Password
+                &nbsp;Password Must Match
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import React, { useEffect, useState } from "react";
+import Domain from "../Domain/Domain";
 interface SingleInputBoxProps {
   type: string;
   label: {
@@ -42,6 +43,7 @@ const SingleInputBox: React.FC<SingleInputBoxProps> = ({
     <div className="questionsOutline">
       {/* <p className="questionNumber">1</p> */}
       <div className="questions inputText">
+      <Domain questionId={label.questionId} />
         <p className="question ">{label.questionText}</p>
         <div className="p-inputgroup flex-1">
           <InputText

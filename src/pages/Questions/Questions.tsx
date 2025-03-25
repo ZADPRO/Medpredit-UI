@@ -1,19 +1,11 @@
 import {
   IonAccordion,
   IonAccordionGroup,
-  IonAlert,
-  IonBackButton,
-  IonButton,
-  IonButtons,
   IonContent,
-  IonFooter,
-  IonHeader,
   IonIcon,
   IonItem,
   IonModal,
   IonPage,
-  IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -48,6 +40,20 @@ import AlcoholInfo from "../Information/AlcoholInfo";
 import SleepInfo from "../Information/SleepInfo";
 import SleepInstructons from "../Instructions/SleepInstructons";
 import BMIInstructions from "../Instructions/BMIInstructions";
+import YearNMonth from "./YearNMonth";
+import MultipleSelectInput from "./MultipleSelectInput";
+import DietaryInsTructions from "../Instructions/DietaryInstructions";
+import DietaryInfo from "../Information/DietaryInfo";
+import FamilyHistoryInstruction from "../Instructions/FamilyHistoryInstructions";
+import YearNMonthActual from "./YearNMonthActual";
+import Q3Graphvalues from "./Q3GraphValues";
+import Q2Graphvalues from "./Q2GraphValues";
+import UrineSugarPrev from "./UrineSugarPrev";
+import UrineAlbuminPrev from "./UrineAlbuminPrev";
+import UrineKetonesPrev from "./UrineKetonesPrev";
+import KidneySizePrev from "./KidneySizePrev";
+import EchogenicityPrev from "./EchogenicityPrev";
+import CorticoPrev from "./CorticoPrev";
 
 interface DosageTime {
   dosage: number | null;
@@ -212,6 +218,7 @@ const Questions: React.FC = () => {
           answer: value.answer,
         })
       );
+
 
       // Submit the final updated responses if no next question exists
       if (!nextQuestionId) {
@@ -492,18 +499,25 @@ const Questions: React.FC = () => {
     }
   };
 
-  console.log("eee", responses); 
+  const excludedQuestionIds = [269, 272, 275, 281, 286, 289, 292, 295, 298, 302, 309, 312, 315, 318, 321, 324, 345];
 
   useEffect(() => {
-    responses.map((item, index) => {
-      if(item.answer == null || item.answer == "") {
-        SubmitActive(true);
+    responses.map((item) => {
+      if (!excludedQuestionIds.includes(item.questionId)) {
+        console.log(item.questionId)
+        if (item.answer == null || item.answer == "") {
+          SubmitActive(true);
+        }
+      } else {
+        if (item.questionId === 345) {
+          SubmitActive(false)
+        }
       }
-  })
+    })
   }, [responses]);
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  
+
   // Refs for each question
   const questionRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -522,7 +536,7 @@ const Questions: React.FC = () => {
       handleNextQuestion();
     }
   }, [visibleQuestions]); // Runs whenever visibleQuestions updates
-  
+
   const handleNextQuestion = () => {
     if (visibleQuestions.length > 1) {
       const previousQuestion = visibleQuestions[visibleQuestions.length - 2];
@@ -531,300 +545,19 @@ const Questions: React.FC = () => {
         return;
       }
     }
-  
+
     if (visibleQuestions.length > 0) {
       setScrollIndex(visibleQuestions.length - 1);
     }
   };
-  
-  
-  
+
+
+
 
   console.log("indexes", scrollIndex, visibleQuestions.length)
 
   return (
     <IonPage>
-      {/* <IonHeader mode="ios">
-        <IonToolbar className="" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref={`/subCategories/${backwardQ.id}/${backwardQ.label}`}
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>{refCategoryLabel}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      {cardTitle !== "12" &&
-        cardTitle !== "13" &&
-        cardTitle !== "43" &&
-        cardTitle !== "51" &&
-        cardTitle !== "201" && (
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={handleInfoClick}>Info</IonButton>
-              </IonButtons>
-              <IonButtons slot="end">
-                <IonButton onClick={handleInstructionsClick}>
-                  Instructions
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-        )}
-      <IonContent fullscreen>
-        <div className="questionContainers">
-          {visibleQuestions.map((question, index) => (
-            <div key={index}>
-              {question.questionType === "6" && (
-                <NumberInputBoxT6
-                  type="number"
-                  label={question}
-                  onClickOpt={(value, questionId, forwardQId) => {
-                    if (index === enabledIndex) {
-                      console.log("-------------------->onEdit Triggered");
-                      // getNextQuestions(
-                      //   questionId,
-                      //   question.questionType,
-                      //   parseInt(value),
-                      //   forwardQId
-                      // );
-                    }
-                  }}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "1" && (
-                <YesNo
-                  label={question}
-                  onOptionSelect={(refOptionId, forwardQId) => {
-                    if (index === enabledIndex) {
-                      // getNextQuestions(
-                      //   question.questionId,
-                      //   refOptionId,
-                      //   forwardQId
-                      // );
-                    }
-                  }}
-                  onEdit={(questionType, refOptionId, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      refOptionId,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-              {question.questionType === "2" && (
-                <MultipleSelect
-                  label={question}
-                  onOptionSelect={(selectedOptions, forwardQId) => {
-                    if (index === enabledIndex) {
-                      // getNextQuestions(
-                      //   question.questionId,
-                      //   refOptionId,
-                      //   forwardQId
-                      // );
-                    }
-                  }}
-                  onEdit={(selectedOptions, forwardQId) => {
-                    handleMultipleSelectEdit(
-                      question.questionId,
-                      question.questionType,
-                      selectedOptions,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "5" && (
-                <HrsMins
-                  type="text"
-                  label={question}
-                  onEdit={(questionType, hrsValue, minsValue, forwardQId) => {
-                    handleHrsEdit(
-                      question.questionId,
-                      questionType,
-                      hrsValue,
-                      minsValue,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "4" && (
-                <NumberInputBoxT4
-                  type="number"
-                  label={question}
-                  onClickOpt={(value, questionId, forwardQId) => {
-                    if (index === enabledIndex) {
-                      console.log("-------------------->onEdit Triggered");
-                      // getNextQuestions(
-                      //   questionId,
-                      //   question.questionType,
-                      //   parseInt(value),
-                      //   forwardQId
-                      // );
-                    }
-                  }}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "3" && (
-                <TextInputBox
-                  type="text"
-                  label={question}
-                  onClickOpt={(value, questionId, forwardQId) => {
-                    if (index === enabledIndex) {
-                      console.log("-------------------->onEdit Triggered");
-                      // getNextQuestions(
-                      //   questionId,
-                      //   question.questionType,
-                      //   parseInt(value),
-                      //   forwardQId
-                      // );
-                    }
-                  }}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "7" && (
-                <TimeInputBox
-                  type="text"
-                  label={question}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "8" && (
-                <TimeInputBox24
-                  type="text"
-                  label={question}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "9" && (
-                <Label
-                  label={question}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "10" && (
-                <GraphValues
-                  SubmitActive={SubmitActive}
-                  label={question}
-                  onEdit={(questionType, value, forwardQId) => {
-                    handleQuestionEdit(
-                      question.questionId,
-                      questionType,
-                      value,
-                      forwardQId
-                    );
-                  }}
-                />
-              )}
-
-              {question.questionType === "99" && (
-                <TreatmentDetailsQuestion
-                  SubmitActive={SubmitActive}
-                  handleData={handleData}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      </IonContent>
-      <IonFooter>
-        <IonToolbar>
-          {loadingStatus ? (
-            <>
-              <button
-                style={{
-                  background: "linear-gradient(160deg, #077556, #2f9f97)",
-                  fontSize: "16px",
-                  color: "#fff",
-                  width: "100%",
-                  height: "3rem",
-                  margin: "5px 0px",
-                  borderRadius: "5px",
-                }}
-              >
-                <i className="pi pi-spin pi-spinner"></i>
-              </button>
-            </>
-          ) : (
-            <button
-              disabled={submitButton}
-              onClick={submitResponse}
-              style={{
-                width: "100%",
-                height: "3rem",
-                margin: "5px 0px",
-                borderRadius: "5px",
-                background: submitButton
-                  ? "linear-gradient(160deg, #d3d3d3, #e0e0e0)" // Gray for disabled
-                  : "linear-gradient(160deg, #077556, #2f9f97)", // Green for enabled
-                color: submitButton ? "#a0a0a0" : "#fff", // Lighter text color for disabled
-                fontSize: "16px",
-                cursor: submitButton ? "not-allowed" : "pointer", // Change cursor for disabled
-              }}
-            >
-              Submit
-            </button>
-          )}
-        </IonToolbar>
-      </IonFooter> */}
 
       <IonContent>
         <div className="questionsParent medpredit-page-background">
@@ -1037,7 +770,7 @@ const Questions: React.FC = () => {
 
                   {question.questionType === "10" && (
                     <GraphValues
-                      SubmitActive={SubmitActive}
+                      // SubmitActive={SubmitActive}
                       label={question}
                       onEdit={(questionType, value, forwardQId) => {
                         handleQuestionEdit(
@@ -1049,6 +782,7 @@ const Questions: React.FC = () => {
                       }}
                     />
                   )}
+
 
                   {question.questionType === "11" && (
                     <Hrs24
@@ -1070,6 +804,208 @@ const Questions: React.FC = () => {
                       }}
                     />
                   )}
+
+
+                  {question.questionType === "12" && (
+                    <YearNMonth
+                      type="text"
+                      label={question}
+                      onClickOpt={(value, questionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          console.log("-------------------->onEdit Triggered");
+                          // getNextQuestions(
+                          //   questionId,
+                          //   question.questionType,
+                          //   parseInt(value),
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "13" && (
+                    <MultipleSelectInput
+                      label={question}
+                      onOptionSelect={(selectedOptions, forwardQId) => {
+                        if (index === enabledIndex) {
+                          // getNextQuestions(
+                          //   question.questionId,
+                          //   refOptionId,
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(selectedOptions, forwardQId) => {
+                        handleMultipleSelectEdit(
+                          question.questionId,
+                          question.questionType,
+                          selectedOptions,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+
+                  {question.questionType === "14" && (
+                    <YearNMonthActual
+                      type="text"
+                      label={question}
+                      onClickOpt={(value, questionId, forwardQId) => {
+                        if (index === enabledIndex) {
+                          console.log("-------------------->onEdit Triggered");
+                          // getNextQuestions(
+                          //   questionId,
+                          //   question.questionType,
+                          //   parseInt(value),
+                          //   forwardQId
+                          // );
+                        }
+                      }}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "15" && (
+                    <Q3Graphvalues
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+
+                  {question.questionType === "16" && (
+                    <Q2Graphvalues
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "17" && (
+                    <UrineSugarPrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "18" && (
+                    <UrineAlbuminPrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+                  {question.questionType === "19" && (
+                    <UrineKetonesPrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+
+                  {question.questionType === "20" && (
+                    <KidneySizePrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+
+                  {question.questionType === "21" && (
+                    <EchogenicityPrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
+
+                  {question.questionType === "22" && (
+                    <CorticoPrev
+                      // SubmitActive={SubmitActive}
+                      label={question}
+                      onEdit={(questionType, value, forwardQId) => {
+                        handleQuestionEdit(
+                          question.questionId,
+                          questionType,
+                          value,
+                          forwardQId
+                        );
+                      }}
+                    />
+                  )}
+
 
                   {question.questionType === "99" && (
                     <TreatmentDetailsQuestion
@@ -1096,9 +1032,8 @@ const Questions: React.FC = () => {
                 <button
                   disabled={submitButton}
                   onClick={submitResponse}
-                  className={`questionSubmitButton ${
-                    submitButton ? "disabled" : ""
-                  }`}
+                  className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                    }`}
                 >
                   <i className="pi pi-spin pi-spinner"></i>
                 </button>
@@ -1118,9 +1053,8 @@ const Questions: React.FC = () => {
               <button
                 disabled={submitButton}
                 onClick={submitResponse}
-                className={`questionSubmitButton ${
-                  submitButton ? "disabled" : ""
-                }`}
+                className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                  }`}
               >
                 Submit
               </button>
@@ -1137,7 +1071,7 @@ const Questions: React.FC = () => {
         >
           <div className="questionsAccordion ion-padding">
             <IonAccordionGroup>
-              {["8", "10", "9", "11", "43", "13"].includes(cardTitle) && (
+              {["8", "9", "11", "43", "13", "12", "51"].includes(cardTitle) && (
                 <IonAccordion>
                   <IonItem slot="header">Instructions</IonItem>
                   <div
@@ -1150,11 +1084,13 @@ const Questions: React.FC = () => {
                     {cardTitle === "11" && <AlcoholInstructions />}
                     {cardTitle === "43" && <SleepInstructons />}
                     {cardTitle === "13" && <BMIInstructions />}
+                    {cardTitle === "12" && <DietaryInsTructions />}
+                    {cardTitle === "51" && <FamilyHistoryInstruction />}
                   </div>
                 </IonAccordion>
               )}
 
-              {["8", "10", "9", "11", "43"].includes(cardTitle) && (
+              {["8", "10", "9", "11", "43", "12"].includes(cardTitle) && (
                 <IonAccordion>
                   <IonItem slot="header">Info</IonItem>
                   <div slot="content">
@@ -1163,6 +1099,7 @@ const Questions: React.FC = () => {
                     {cardTitle === "9" && <StressInfo />}
                     {cardTitle === "11" && <AlcoholInfo />}
                     {cardTitle === "43" && <SleepInfo />}
+                    {cardTitle === "12" && <DietaryInfo />}
                   </div>
                 </IonAccordion>
               )}

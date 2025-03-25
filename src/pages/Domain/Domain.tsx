@@ -5,6 +5,7 @@ import Travel from "./PhysicalActivity/Travel";
 import Recreation from "./PhysicalActivity/Recreation";
 import Sedentary from "./PhysicalActivity/Sedentary";
 import { informationCircle } from "ionicons/icons";
+import BloodPressure from "./Vital/BloodPressure";
 
 interface ShowCardProps {
     questionId: string | number;
@@ -15,6 +16,7 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
     const [isExample, setIsExample] = useState(false);
 
     const verifyShowCard = (questionId: any) => {
+
         switch (questionId) {
             case 1:
                 return true;
@@ -23,6 +25,22 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
             case 10:
                 return true;
             case 16:
+                return true;
+            case 122:
+                return true;
+            case 126:
+                return true;
+            case 135:
+                return true;
+            case 141:
+                return true;
+            case 143:
+                return true;
+            case 144:
+                return true;
+            case 146:
+                return true;
+            case 156:
                 return true;
             default:
                 return false;
@@ -39,6 +57,8 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                 return <Recreation />;
             case 16:
                 return <Sedentary />;
+            case 156:
+                return <BloodPressure />;
             default:
                 return null; // Return null if no match, or you can render something else
         }
@@ -55,6 +75,22 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                 return <>Recreational Activities</>
             case 16:
                 return <>Sedentary Behavior</>
+            case 122:
+                return <>Snack-Refresher-Starters</>
+            case 126:
+                return <>Meal Composition</>
+            case 135:
+                return <>Oil Intake</>
+            case 141:
+                return <>Salt Intake</>
+            case 143:
+                return <>Dairy Products</>
+            case 144:
+                return <>Meal Timing</>
+            case 146:
+                return <>Meal Practices</>
+            case 156:
+                return <>Blood Pressure</>
             default:
                 return null; // Return null if no match, or you can render something else
         }
@@ -94,6 +130,7 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
             {verifyShowCard(questionId) ? (
                 <div
                     style={{
+                        height: "2.5rem",
                         display: "flex",
                         flex: "flex-row",
                         width: "100%",
@@ -116,22 +153,26 @@ const Domain: React.FC<ShowCardProps> = ({ questionId }) => {
                     >
                         {getHeading()}
                     </div>
-                    <div
-                        style={{
-                            fontSize: "1.5rem",
-                            fontWeight: "600",
-                            cursor: "pointer",
-                            color: "#fff",
-                            marginTop: "10px"
-                        }}
-                        onClick={() => {
-                            setIsModel(true);
-                        }}
-                    >
-                        <IonIcon
-                            icon={informationCircle}
-                        ></IonIcon>
-                    </div>
+                    {
+                        getShowCard() ? (
+                            <div
+                                style={{
+                                    fontSize: "1.5rem",
+                                    fontWeight: "600",
+                                    cursor: "pointer",
+                                    color: "#fff",
+                                    marginTop: "10px"
+                                }}
+                                onClick={() => {
+                                    setIsModel(true);
+                                }}
+                            >
+                                <IonIcon
+                                    icon={informationCircle}
+                                ></IonIcon>
+                            </div>
+                        ) : null
+                    }
 
                 </div>
             ) : null}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ShowCard from "../ShowCard/ShowCard";
+import Domain from "../Domain/Domain";
 
 interface LabelProps {
   label: {
@@ -26,6 +27,7 @@ const Label: React.FC<LabelProps> = ({ label, onEdit }) => {
   }, [forwardQId]);
   return (
     <div className="questions inputText">
+      <Domain questionId={label.questionId} />
       <p className="questionText">{label.questionText}</p>
       <ShowCard questionId={label.questionId} />
     </div>
