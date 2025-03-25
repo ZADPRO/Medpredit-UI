@@ -132,12 +132,6 @@ const MainRoutes: React.FC = () => {
 
   const patient = [
     {
-      name: "Home",
-      path: "/home",
-      outlineIcon: homeOutlineNew,
-      sharpIcon: homeSharpNew,
-    },
-    {
       name: "CheckList",
       path: "/checkup",
       outlineIcon: medkitOutlineNew,
@@ -246,12 +240,6 @@ const MainRoutes: React.FC = () => {
 
   const Admin = [
     {
-      name: "Home",
-      path: "/home",
-      outlineIcon: homeOutlineNew,
-      sharpIcon: homeSharpNew,
-    },
-    {
       name: "Configure",
       path: "/configure",
       outlineIcon: configureOutlineNew,
@@ -265,140 +253,6 @@ const MainRoutes: React.FC = () => {
     },
   ];
 
-  // const patient = [
-  //   {
-  //     name: "Home",
-  //     path: "/home",
-  //     outlineIcon: homeOutlineNew,
-  //     sharpIcon: homeSharpNew,
-  //   },
-  //   {
-  //     name: "Profile",
-  //     path: "/profile",
-  //     outlineIcon: profileOutlineNew,
-  //     sharpIcon: profileSharpNew,
-  //   },
-  //   {
-  //     name: "Disease",
-  //     path: "/disease",
-  //     outlineIcon: knowAboutOutlineNew,
-  //     sharpIcon: knowAboutSharpNew,
-  //   },
-  // ];
-
-  // const assistant = [
-  //   {
-  //     name: "Home",
-  //     path: "/home",
-  //     outlineIcon: homeOutlineNew,
-  //     sharpIcon: homeSharpNew,
-  //   },
-  //   {
-  //     name: "Disease",
-  //     path: "/disease",
-  //     outlineIcon: knowAboutOutlineNew,
-  //     sharpIcon: knowAboutSharpNew,
-  //   },
-  //   {
-  //     name: "Patient",
-  //     path: "/patient",
-  //     outlineIcon: patientOutlineNew,
-  //     sharpIcon: patientSharpNew,
-  //   },
-  //   {
-  //     name: "Profile",
-  //     path: "/profile",
-  //     outlineIcon: profileOutlineNew,
-  //     sharpIcon: profileSharpNew,
-  //   },
-  // ];
-
-  // const doctor = [
-  //   {
-  //     name: "Home",
-  //     path: "/home",
-  //     outlineIcon: homeOutlineNew,
-  //     sharpIcon: homeSharpNew,
-  //   },
-  //   {
-  //     name: "Patient",
-  //     path: "/patient",
-  //     outlineIcon: patientOutlineNew,
-  //     sharpIcon: patientSharpNew,
-  //   },
-  //   {
-  //     name: "Disease",
-  //     path: "/disease",
-  //     outlineIcon: knowAboutOutlineNew,
-  //     sharpIcon: knowAboutSharpNew,
-  //   },
-  //   {
-  //     name: "Advice",
-  //     path: "/advice",
-  //     outlineIcon: adviceOutlineNew,
-  //     sharpIcon: adviceSharpNew,
-  //   },
-  //   {
-  //     name: "Profile",
-  //     path: "/profile",
-  //     outlineIcon: profileOutlineNew,
-  //     sharpIcon: profileSharpNew,
-  //   },
-  // ];
-
-  // const doctorAdmin = [
-  //   {
-  //     name: "Home",
-  //     path: "/home",
-  //     outlineIcon: homeOutlineNew,
-  //     sharpIcon: homeSharpNew,
-  //   },
-  //   {
-  //     name: "Patient",
-  //     path: "/patient",
-  //     outlineIcon: patientOutlineNew,
-  //     sharpIcon: patientSharpNew,
-  //   },
-  //   {
-  //     name: "Disease",
-  //     path: "/disease",
-  //     outlineIcon: knowAboutOutlineNew,
-  //     sharpIcon: knowAboutSharpNew,
-  //   },
-  //   {
-  //     name: "Configure",
-  //     path: "/configure",
-  //     outlineIcon: settingsOutline,
-  //     sharpIcon: settingsSharp,
-  //   },
-  //   {
-  //     name: "Profile",
-  //     path: "/profile",
-  //     outlineIcon: profileOutlineNew,
-  //     sharpIcon: profileSharpNew,
-  //   },
-  // ];
-
-  // const Admin = [
-  //   {
-  //     name: "Home",
-  //     path: "/home",
-  //     outlineIcon: homeOutlineNew,
-  //     sharpIcon: homeSharpNew,
-  //   },
-  //   {
-  //     name: "Configure",
-  //     path: "/configure",
-  //     outlineIcon: settingsOutline,
-  //     sharpIcon: settingsSharp,
-  //   },
-  //   {
-  //     name: "Profile",
-  //     path: "/profile",
-  //     outlineIcon: profileOutlineNew,
-  //     sharpIcon: profileSharpNew,
-  //   },
-  // ];
 
   return (
     <IonTabs>
@@ -511,7 +365,7 @@ const MainRoutes: React.FC = () => {
         </Route>
 
         <Route path="/testingPdf">
-          <TestingPdf reportDate={"2025-02-07"} />
+          <TestingPdf reportDate={"2025-03-14"} />
           {/* <TestingPdf type="pastReport" fromDate="2024-12-1" toDate="2024-12-16" refPMId="5" /> */}
         </Route>
 
@@ -544,7 +398,7 @@ const MainRoutes: React.FC = () => {
         </Route>
 
         <Route path="/changePhoneNumber">
-          <ChangePhoneNumber/>
+          <ChangePhoneNumber />
         </Route>
       </IonRouterOutlet>
 
@@ -553,14 +407,14 @@ const MainRoutes: React.FC = () => {
           {(roleType === 1
             ? doctor
             : roleType === 2
-            ? assistant
-            : roleType === 3
-            ? patient
-            : roleType === 4
-            ? doctorAdmin
-            : roleType === 5
-            ? Admin
-            : []
+              ? assistant
+              : roleType === 3
+                ? patient
+                : roleType === 4
+                  ? doctorAdmin
+                  : roleType === 5
+                    ? Admin
+                    : []
           ).map((element) => (
             <IonTabButton
               className={

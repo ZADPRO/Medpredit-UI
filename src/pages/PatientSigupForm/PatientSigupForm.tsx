@@ -11,6 +11,7 @@ import { Password } from "primereact/password";
 import axios from "axios";
 import decrypt from "../../helper";
 import { useHistory } from "react-router";
+import { RadioButton } from "primereact/radiobutton";
 
 const PatientSignupForm = () => {
   const history = useHistory();
@@ -140,7 +141,13 @@ const PatientSignupForm = () => {
   };
 
   const verifyForm3 = () => {
-    if (formData.refAddress.length === 0) {
+    if (
+      (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
+      formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
+    ) {
+      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
+      return false;
+    } else if (formData.refAddress.length === 0) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Address" });
       return false;
     } else if (formData.refDistrict.length === 0) {
@@ -333,12 +340,15 @@ const PatientSignupForm = () => {
         });
       };
    
-      window.history.pushState(null, '', window.location.href);
-      window.addEventListener('popstate', handleBack);
-   
-      return () => {
-        window.removeEventListener('popstate', handleBack);
-      };
+      // Prevent back only if the user is on the signup page
+    if (location.pathname === "/patientSignUp") {
+      window.history.pushState(null, "", window.location.href);
+      window.addEventListener("popstate", handleBack);
+    }
+
+    return () => {
+      window.removeEventListener("popstate", handleBack);
+    };
     }, [router, presentAlert]);
 
   return (
@@ -736,8 +746,34 @@ const PatientSignupForm = () => {
                 />
               </div>
             </div>
+
             {/* Gender */}
             <div className="inputBox">
+              <label>
+                Gender <span style={{ color: "red" }}>*</span>
+              </label>
+              <div style={{ width: "100%", paddingLeft: "1rem" }}>
+                {genderOpt.map((category, index) => {
+                  return (
+                    <div key={index} className="flex">
+                      <RadioButton
+                        inputId={category}
+                        name="category"
+                        value={category}
+                        onChange={(e) => handleDropdownChange(e, "refGender")}
+                        checked={formData.refGender === category}
+                      />
+                      <label htmlFor={category} className="ml-2">
+                        {category}
+                      </label>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Gender */}
+            {/* <div className="inputBox">
               <label>
                 Gender <span style={{ color: "red" }}>*</span>
               </label>
@@ -760,7 +796,7 @@ const PatientSignupForm = () => {
                   highlightOnSelect={false}
                 />
               </div>
-            </div>
+            </div> */}
             {/* Date of Birth */}
             <div className="inputBox">
               <label>
@@ -853,7 +889,7 @@ const PatientSignupForm = () => {
             </IonModal>
 
             {/* Marital Status */}
-            <div className="inputBox">
+            {/* <div className="inputBox">
               <label>
                 Marital Status <span style={{ color: "red" }}>*</span>
               </label>
@@ -875,6 +911,39 @@ const PatientSignupForm = () => {
                   checkmark={true}
                   highlightOnSelect={false}
                 />
+              </div>
+            </div> */}
+
+            {/* Marital Status */}
+            <div className="inputBox">
+              <label>
+                Marital Status <span style={{ color: "red" }}>*</span>
+              </label>
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "space-around",
+                }}
+              >
+                {refMaritalStatus.map((category, index) => {
+                  return (
+                    <div key={index} className="flex">
+                      <RadioButton
+                        inputId={category}
+                        name="category"
+                        value={category}
+                        onChange={(e) =>
+                          handleDropdownChange(e, "refMaritalStatus")
+                        }
+                        checked={formData.refMaritalStatus === category}
+                      />
+                      <label htmlFor={category} className="ml-2">
+                        {category}
+                      </label>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -1044,7 +1113,13 @@ const PatientSignupForm = () => {
                   className="addFamilyInputText"
                   type="number"
                   value={formData.refPincode}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const inputValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                    if (inputValue.length <= 6) {
+                      handleInputChange(e);
+                    }
+                  }}
+                  maxLength={6}
                   placeholder="Enter Pincode"
                   name="refPincode"
                 />
@@ -1068,10 +1143,15 @@ const PatientSignupForm = () => {
                   className="addFamilyInputText"
                   type="number"
                   value={formData.refUserMobileno}
-                  onChange={handleInputChange}
+                  onChange={(e) => {
+                    const input = e.target.value;
+                    if (/^\d{0,10}$/.test(input)) {
+                      handleInputChange(e);
+                    }
+                  }}
+                  maxLength={10} // Ensures max length of 10
                   placeholder="Enter Mobile Number"
                   name="refUserMobileno"
-                  // useGrouping={false}
                 />
               </div>
             </div>
@@ -1338,7 +1418,7 @@ const PatientSignupForm = () => {
                     ></i>
                   </div>
                 )}
-                &nbsp;Match Confirm Password
+                &nbsp;Password Must Match
               </div>
             </div>
           </div>

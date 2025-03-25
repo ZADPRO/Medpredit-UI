@@ -478,7 +478,7 @@ const ChangePassword1 = () => {
                     ></i>
                   </div>
                 )}
-                &nbsp;Match Confirm Password
+                &nbsp;Password Must Match
               </div>
             </div>
           </div>

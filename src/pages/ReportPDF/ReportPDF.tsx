@@ -7,7 +7,6 @@ import {
   Image,
   Page,
   pdf,
-  PDFViewer,
   Text,
   View,
 } from "@react-pdf/renderer";
@@ -118,7 +117,9 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
   const getValidateDuration = (questionId: any) => {
     switch (parseInt(questionId)) {
       case 94:
-        return 1;
+        return 30;
+      case 5:
+        return 30;
       case 6:
         return 1;
       case 8:
@@ -136,7 +137,7 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
       case 43:
         return 14;
       case 51:
-        return 14;
+        return 30;
       case 202:
         return 1;
       case 203:
@@ -172,24 +173,6 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
       case 223:
         return 1;
       case 224:
-        return 1;
-      case 237:
-        return 1;
-      case 238:
-        return 1;
-      case 22:
-        return 14;
-      case 23:
-        return 14;
-      case 24:
-        return 14;
-      case 89:
-        return 1;
-      case 92:
-        return 1;
-      case 84:
-        return 1;
-      case 90:
         return 1;
       default:
         return 0;

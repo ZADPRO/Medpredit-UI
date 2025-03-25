@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chart } from "primereact/chart";
 
 interface GraphProps {
-  data: Array<{ refIVDDate: string; refIVDScore: number }> | null; // Add refIVDScore
+  data: Array<{ refIVDDate: string; refIVDScore: number }> | null; // Include refIVDScore
   label: string;
 }
 
@@ -47,8 +47,8 @@ const Graph: React.FC<GraphProps> = ({ data, label }) => {
 
     // Set chart options
     const updatedOptions = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.6,
+      maintainAspectRatio: false, // Allow custom height
+      responsive: true, // Ensure the chart is responsive
       plugins: {
         legend: {
           labels: {
@@ -80,12 +80,13 @@ const Graph: React.FC<GraphProps> = ({ data, label }) => {
     setChartOptions(updatedOptions);
   }, [data]); // Recalculate chart data when `data` changes
 
-
   return (
-    <div className="card">
+    <div className="card" style={{ height: '10rem' }}> {/* Set fixed height here */}
       {data && data.length > 0 ? (
         <Chart type="line" data={chartData} options={chartOptions} />
-      ) : null}
+      ) : (
+        <p>No data available to display the chart.</p> // Fallback message
+      )}
     </div>
   );
 };

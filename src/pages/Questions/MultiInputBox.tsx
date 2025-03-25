@@ -1,6 +1,7 @@
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import React, { useEffect, useState } from "react";
+import Domain from "../Domain/Domain";
 
 interface MultiInputBoxProps {
   type: string;
@@ -43,7 +44,8 @@ const MultiInputBox: React.FC<MultiInputBoxProps> = ({
   return (
     <div>
       <div className="questions multiInput">
-        <p className="question">{label.questionText}</p>
+        <Domain questionId={label.questionId} />
+        <p className="questionText">{label.questionText}</p>
         {placeholders?.map((placeholder, index) => (
           <InputText
             key={index}

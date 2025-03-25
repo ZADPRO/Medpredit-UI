@@ -50,7 +50,7 @@ const KnowCards: React.FC<KnowCardsValues> = ({ cardData, latestReport }) => {
     today.setDate(today.getDate() + daysToAdd); // Add the given number of days
     return today.toLocaleDateString("en-GB"); // Format the date (dd-mm-yyyy)
   }
-console.log(latestReport);
+  console.log(latestReport);
   const getImage = (refQCategoryId: number) => {
     switch (refQCategoryId) {
       case 4:
@@ -99,114 +99,6 @@ console.log(latestReport);
     return diffInDays;
   }
 
-  // const checkSore = (refQCategoryId: any, refCategoryLabel: any) => {
-  //   const tokenString = localStorage.getItem("userDetails");
-
-  //   if (tokenString) {
-  //     try {
-  //       const tokenObject = JSON.parse(tokenString);
-  //       const token = tokenObject.token;
-
-  //       Axios.post(
-  //         `${import.meta.env.VITE_API_URL}/getQuestionScore `,
-  //         {
-  //           patientId: localStorage.getItem("currentPatientId"),
-  //           categoryId: refQCategoryId,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: token,
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       ).then((response) => {
-  //         const data = decrypt(
-  //           response.data[1],
-  //           response.data[0],
-  //           import.meta.env.VITE_ENCRYPTION_KEY
-  //         );
-
-  //         if (data.status) {
-  //           setIsAlertOpen(true);
-  //           setSelectedData({
-  //             refScoreId: "0",
-  //             refCategoryLabel: refCategoryLabel,
-  //             cardTitle: refQCategoryId,
-  //             refQCategoryId: refQCategoryId,
-  //           });
-  //         } else {
-  //           localStorage.setItem(
-  //             "getCategory",
-  //             JSON.stringify({ id: refQCategoryId, label: refCategoryLabel })
-  //           );
-  //           history.push(`/questions/${refCategoryLabel}/${refQCategoryId}`);
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.error("Error parsing token:", error);
-  //     }
-  //   } else {
-  //     console.error("No token found in localStorage.");
-  //   }
-  // };
-
-  // const [isAlertOpen, setIsAlertOpen] = useState(false);
-
-  // const [selectedData, setSelectedData] = useState({
-  //   cardTitle: "",
-  //   refCategoryLabel: 0,
-  //   refScoreId: "",
-  //   refQCategoryId: 0,
-  // });
-
-  // console.log(latestReport);
-
-  // const handleremoveScore = () => {
-  //   const tokenString = localStorage.getItem("userDetails");
-
-  //   if (tokenString) {
-  //     try {
-  //       const tokenObject = JSON.parse(tokenString);
-  //       const token = tokenObject.token;
-
-  //       Axios.post(
-  //         `${import.meta.env.VITE_API_URL}/resetScore `,
-  //         {
-  //           refPatientId: localStorage.getItem("currentPatientId"),
-  //           refQCategoryId: selectedData.refQCategoryId,
-  //           refHospitalId: localStorage.getItem("hospitalId"),
-  //           employeeId:
-  //             tokenObject.roleType === 1
-  //               ? null
-  //               : localStorage.getItem("currentDoctorId"),
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: token,
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       ).then((response) => {
-  //         const data = decrypt(
-  //           response.data[1],
-  //           response.data[0],
-  //           import.meta.env.VITE_ENCRYPTION_KEY
-  //         );
-
-  //         if (data.status) {
-  //           history.push(
-  //             `/questions/${selectedData.refCategoryLabel}/${selectedData.refQCategoryId}`
-  //           );
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.error("Error parsing token:", error);
-  //     }
-  //   } else {
-  //     console.error("No token found in localStorage.");
-  //   }
-  // };
-
   const getVerifyCard = (questionId: any) => {
     console.log(questionId);
 
@@ -227,11 +119,11 @@ console.log(latestReport);
 
     switch (parseInt(questionId)) {
       case 94:
-        return 1;
+        return 30;
       case 6:
         return 1;
       case 5:
-        return 1;
+        return 30;
       default:
         return 0;
     }
@@ -239,72 +131,19 @@ console.log(latestReport);
 
   return (
     <>
-      {/* <IonAlert
-        isOpen={isAlertOpen}
-        cssClass="custom-alert"
-        header="Do you want to re-enter the question?"
-        backdropDismiss={false}
-        buttons={[
-          {
-            text: "Yes-->",
-            role: "confirm",
-            handler: () => {
-              setIsAlertOpen(false);
-              handleremoveScore();
-            },
-            cssClass: "yes-button",
-          },
-          {
-            text: "No",
-            role: "cancel",
-            handler: () => {},
-            cssClass: "no-button",
-          },
-        ]}
-        onDidDismiss={() => setIsAlertOpen(false)}
-      /> */}
-      {/* <div>
-        {latestReport > 14 || latestReport === null ? (
-          <></>
-        ) : (
-          <div
-            style={{
-              color: "#000",
-              fontSize: "14px",
-              textAlign: "center",
-               dding: "10px",
-              margin: "10px",
-              background: "#e6e6e6",
-              borderRadius: "5px",
-            }}
-          >
-            <div>
-              The current report is valid till{" "}
-              {calculateFutureDate(14 - latestReport)}
-            </div>
-            <div>
-              {" "}
-              New assessment take on{" "}
-              {calculateFutureDate(14 - latestReport + 1)}
-            </div>
-          </div>
-        )}
-      </div> */}
-      {/* <div className="listView"></div> */}
-
       <div className="grid-container ion-padding">
         {cardData.map((card) => (
           <>
             {localStorage.getItem("currentPatientGender") === "male" &&
-            card.refQCategoryId.toString() === "5" ? (
+              card.refQCategoryId.toString() === "5" ? (
               <></>
             ) : (
               <>
                 {getVerifyCard(card.refQCategoryId) &&
-                latestReport.find(
-                  (item) =>
-                    item.refQCategoryId === card.refQCategoryId.toString()
-                ) ? (
+                  latestReport.find(
+                    (item) =>
+                      item.refQCategoryId === card.refQCategoryId.toString()
+                  ) ? (
                   (() => {
                     // Store the found report in a variable to avoid redundant find calls
                     const reportItem = latestReport.find(
@@ -315,7 +154,7 @@ console.log(latestReport);
                     return (
                       <>
                         {reportItem?.refPTcreatedDate &&
-                        getValidateDuration(card.refQCategoryId) >
+                          getValidateDuration(card.refQCategoryId) >
                           -calculateDaysDifference(
                             reportItem.refPTcreatedDate
                           ) ? (
@@ -324,18 +163,18 @@ console.log(latestReport);
                               className="knowCardParent grid-item"
                               key={card.refQCategoryId}
                             >
-                              <div style={{color: "rgb(12, 67, 108)"}} className="knowCard boxShadow01 backgroundColor01 ion-activatable ripple-parent rectangle">
+                              <div style={{ color: "rgb(12, 67, 108)" }} className="knowCard boxShadow01 backgroundColor01 ion-activatable ripple-parent rectangle">
                                 {/* <IonRippleEffect /> */}
                                 <div className="knowCardcontent">
                                   <img
                                     src={getImage(card.refQCategoryId)}
                                     alt={card.refCategoryLabel}
                                   />
-                                  <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
+                                  <p style={{ fontSize: "1rem" }}>{card.refCategoryLabel}</p>
                                 </div>
-                               <div
+                                <div
                                   style={{
-                                    
+
                                     fontSize: "0.5rem",
                                     display: "flex",
                                     flexDirection: "column",
@@ -357,7 +196,7 @@ console.log(latestReport);
                                         reportItem.refQCategoryId
                                       )
                                     )).toLocaleDateString("en-GB")
-                                    .replace(/\//g, "-")}
+                                      .replace(/\//g, "-")}
                                   </div>
                                 </div>
                               </div>
@@ -409,7 +248,7 @@ console.log(latestReport);
                                     src={getImage(card.refQCategoryId)}
                                     alt={card.refCategoryLabel}
                                   />
-                                  <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
+                                  <p style={{ fontSize: "1rem" }}>{card.refCategoryLabel}</p>
                                 </div>
                                 <IonIcon
                                   size="large"
@@ -467,7 +306,7 @@ console.log(latestReport);
                           src={getImage(card.refQCategoryId)}
                           alt={card.refCategoryLabel}
                         />
-                        <p style={{fontSize: "1rem"}}>{card.refCategoryLabel}</p>
+                        <p style={{ fontSize: "1rem" }}>{card.refCategoryLabel}</p>
                       </div>
                       <IonIcon size="large" icon={chevronForward}></IonIcon>
                     </div>

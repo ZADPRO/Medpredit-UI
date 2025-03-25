@@ -109,48 +109,7 @@ const SubCategories: React.FC = () => {
 
   return (
     <IonPage>
-      {/*}
-      <IonHeader mode="ios">
-        <IonToolbar className="pt-1 pb-1" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton
-              mode="md"
-              defaultHref={`knowAbout/${backwardQ.label}/${backwardQ.id}`}
-            ></IonBackButton>
-          </IonButtons>
-          <IonTitle>{categroyName}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        {loadingStatus ? (
-          <>
-            <div
-              style={{
-                width: "100%",
-                height: "90vh",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <i
-                className="pi pi-spin pi-spinner"
-                style={{ fontSize: "2rem", color: "#1a70b0" }}
-              ></i>
-            </div>
-          </>
-        ) : (
-          <>
-            <SubCards
-              data={categories}
-              categoryId={categoryId}
-              categroyName={categroyName}
-            />
-          </>
-        )}
-      </IonContent>
-      */}
-
+      
       <IonContent fullscreen>
         <div className="subCategories medpredit-page-background">
           <div

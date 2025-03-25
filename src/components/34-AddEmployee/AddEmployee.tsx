@@ -343,7 +343,13 @@ const AddEmployee: React.FC = () => {
                 placeholder="Pincode"
                 value={formData.refPincode}
                 name="refPincode"
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  const inputValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                  if (inputValue.length <= 6) {
+                    handleInputChange(e);
+                  }
+                }}
+                maxLength={6}
               />
             </div>
 
@@ -356,7 +362,13 @@ const AddEmployee: React.FC = () => {
                 placeholder="Mobile"
                 value={formData.refUserMobileno}
                 name="refUserMobileno"
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  const input = e.target.value;
+                  if (/^\d{0,10}$/.test(input)) {
+                    handleInputChange(e);
+                  }
+                }}
+                maxLength={10}
               />
             </div>
           </div>

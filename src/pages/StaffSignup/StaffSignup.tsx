@@ -680,7 +680,7 @@ const StaffSignup = () => {
     setPreviousWork(updatedWork);
   };
 
-  const handleSigup = async () => {
+  const handleSignup = async () => {
     const tokenString = localStorage.getItem("userDetails");
     if (tokenString) {
       try {
@@ -746,17 +746,17 @@ const StaffSignup = () => {
               localStorage.getItem("createRoleId") == "1" ||
               localStorage.getItem("createRoleId") == "4"
             ) {
-              history.push("/manageDoctor", {
+              history.replace("/manageDoctor", {
                 direction: "backward",
                 animation: "slide",
               });
             } else if (localStorage.getItem("createRoleId") == "2") {
-              history.push("/manageAssistant", {
+              history.replace("/manageAssistant", {
                 direction: "backward",
                 animation: "slide",
               });
             } else {
-              history.push("/patient", {
+              history.replace("/patient", {
                 direction: "backward",
                 animation: "slide",
               });
@@ -808,11 +808,14 @@ const StaffSignup = () => {
       });
     };
  
-    window.history.pushState(null, '', window.location.href);
-    window.addEventListener('popstate', handleBack);
- 
+    // Prevent back only if the user is on the signup page
+    if (location.pathname === "/addDoctor") {
+      window.history.pushState(null, "", window.location.href);
+      window.addEventListener("popstate", handleBack);
+    }
+
     return () => {
-      window.removeEventListener('popstate', handleBack);
+      window.removeEventListener("popstate", handleBack);
     };
   }, [router, presentAlert]);
 
@@ -1387,7 +1390,13 @@ const StaffSignup = () => {
                         className="addFamilyInputText"
                         type="number"
                         value={formData.refPincode}
-                        onChange={handleInputChange}
+                        onChange={(e) => {
+                          const inputValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                          if (inputValue.length <= 6) {
+                            handleInputChange(e);
+                          }
+                        }}
+                        maxLength={6}
                         placeholder="Enter Pincode"
                         name="refPincode"
                       />
@@ -1809,7 +1818,7 @@ const StaffSignup = () => {
                   {/* designation */}
                   <div className="inputBox">
                     <label>
-                      Designation <span style={{ color: "red" }}>*</span>
+                      Designation / Specialization <span style={{ color: "red" }}>*</span>
                     </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
@@ -2043,10 +2052,15 @@ const StaffSignup = () => {
                         className="addFamilyInputText"
                         type="number"
                         value={formData.refUserMobileno}
-                        onChange={handleInputChange}
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          if (/^\d{0,10}$/.test(input)) {
+                            handleInputChange(e);
+                          }
+                        }}
+                        maxLength={10} // Ensures max length of 10
                         placeholder="Enter Mobile Number"
                         name="refUserMobileno"
-                        // useGrouping={false}
                       />
                     </div>
                   </div>
@@ -2334,7 +2348,7 @@ const StaffSignup = () => {
                           ></i>
                         </div>
                       )}
-                      &nbsp;Match Confirm Password
+                      &nbsp;Password Must Match
                     </div>
                   </div>
 
@@ -2441,7 +2455,7 @@ const StaffSignup = () => {
                         if (formPage === 5) {
                           if (verifyForm5()) {
                             setLoading(true);
-                            handleSigup();
+                            handleSignup();
                             console.log("SignUp Success");
                           }
                         }

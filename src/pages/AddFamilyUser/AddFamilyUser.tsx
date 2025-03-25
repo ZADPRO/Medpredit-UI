@@ -170,8 +170,8 @@ const AddFamilyUser: React.FC = () => {
 
   const verifyForm3 = () => {
     if (
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
-      formData.refUserEmail.length === 0
+      (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
+      formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
     ) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
       return false;
@@ -1143,7 +1143,13 @@ const [presentAlert] = useIonAlert();
                         className="addFamilyInputText"
                         type="number"
                         value={formData.refPincode}
-                        onChange={handleInputChange}
+                        onChange={(e) => {
+                          const inputValue = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                          if (inputValue.length <= 6) {
+                            handleInputChange(e);
+                          }
+                        }}
+                        maxLength={6}
                         placeholder="Enter Pincode"
                         name="refPincode"
                       />
@@ -1165,10 +1171,15 @@ const [presentAlert] = useIonAlert();
                       <InputText
                         type="number"
                         value={formData.refUserMobileno}
-                        onChange={handleInputChange}
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          if (/^\d{0,10}$/.test(input)) {
+                            handleInputChange(e);
+                          }
+                        }}
+                        maxLength={10} // Ensures max length of 10
                         placeholder="Enter Mobile Number"
                         name="refUserMobileno"
-                        // useGrouping={false}
                       />
                     </div>
                   </div>
@@ -1444,7 +1455,7 @@ const [presentAlert] = useIonAlert();
                           ></i>
                         </div>
                       )}
-                      &nbsp;Match Confirm Password
+                      &nbsp;Password Must Match
                     </div>
                   </div>
                 </div>

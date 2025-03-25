@@ -56,7 +56,9 @@ const KnowAboutPatient: React.FC = () => {
   const [categories, setCategories] = useState<
     { refQCategoryId: number; refCategoryLabel: string }[]
   >([]);
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>(
+    localStorage.getItem("getMainCat") || "knowabout"
+  );
   const [subCategoryData, setSubCategoryData] = useState<
     { refQCategoryId: number; refCategoryLabel: string }[]
   >([]);
@@ -75,7 +77,8 @@ const KnowAboutPatient: React.FC = () => {
 
   const [overAllLoading, setOverAllLoading] = useState(true);
 
-  useEffect(() => {
+
+  const loadData = () => {
     if (tokenString) {
       try {
         axios
@@ -101,7 +104,9 @@ const KnowAboutPatient: React.FC = () => {
               response.data[0],
               import.meta.env.VITE_ENCRYPTION_KEY
             );
-            setSelectedValue("knowabout");
+            // setSelectedValue("knowabout");
+
+            console.log("Line -108", data)
 
             if (data.data) {
               setCategories(data.data);
@@ -111,8 +116,21 @@ const KnowAboutPatient: React.FC = () => {
               });
               getReport();
 
-              const firstCategory = data.data[0];
-              subMainCategory(firstCategory.refQCategoryId);
+              const value = localStorage.getItem("getMainCat");
+
+              const selectedCategory = categories.find(
+                (category) => category.refCategoryLabel === value
+              );
+
+              if (value === "knowabout") {
+                console.log("-------------Hello");
+                getReport();
+              } else {
+                if (selectedCategory) {
+                  subMainCategory(selectedCategory.refQCategoryId);
+                }
+              }
+
             } else {
               subMainCategory(4);
               getReport();
@@ -123,6 +141,15 @@ const KnowAboutPatient: React.FC = () => {
         console.error("Error fetching patient data:", error);
       }
     }
+
+  }
+
+  useEffect(() => {
+
+    if (history.location.pathname.split('/')[1] === "knowAbout") {
+      loadData();
+    }
+
   }, [history.location.pathname]);
 
   const subMainCategory = async (categoryId: number) => {
@@ -341,7 +368,7 @@ const KnowAboutPatient: React.FC = () => {
                 <IonIcon
                   style={{ position: "absolute", left: "0px" }}
                   size="large"
-                  onClick={() => history.goBack()}
+                  onClick={() => { history.goBack(); localStorage.setItem("getMainCat", "") }}
                   icon={chevronBack}
                 ></IonIcon>
                 <span>{patient}</span>
@@ -353,7 +380,7 @@ const KnowAboutPatient: React.FC = () => {
                 mode="ios"
                 value={selectedValue}
                 scrollable={true}
-                onIonChange={(e) => handleSegmentChange(e.detail.value!)}
+                onIonChange={(e) => { console.log(e.detail); handleSegmentChange(e.detail.value!) }}
               >
                 <IonSegmentButton
                   key="knowabout"
@@ -436,48 +463,6 @@ const KnowAboutPatient: React.FC = () => {
                             </>
                           ) : null}
 
-                          {/* <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            width: "100%",
-                          }}
-                        >
-                          <div style={{ width: "80%" }}>
-                            <DateSelector
-                              value={pastreport}
-                              onChange={(date: any) => {
-                                setPastReport(date);
-                              }} 
-                              placeholder="Select a date"
-                            />
-                          </div>
-
-                          <div style={{ width: "18%" }}>
-                            <button
-                              disabled={pastreport.length === 0}
-                              style={{
-                                width: "100%",
-                                height: "2.8rem",
-                                borderRadius: "5px",
-                                background:
-                                  "linear-gradient(160deg, #077556, #2f9f97)",
-                                color: "#fff",
-                                fontSize: "16px",
-                                cursor: "pointer",
-                                opacity: pastreport.length === 0 ? 0.5 : 1,
-                              }}
-                              onClick={() => {
-                                history.push(`/pastreport/${pastreport}`);
-                              }}
-                            >
-                              <i
-                                style={{ fontSize: "1rem" }}
-                                className="pi pi-arrow-right"
-                              ></i>
-                            </button>
-                          </div>
-                        </div> */}
                           {allReports.length > 0 ? (
                             <>
                               <div
@@ -574,12 +559,13 @@ const KnowAboutPatient: React.FC = () => {
                                           id="yearPicker_Popover"
                                           isOpen={showYearPicker}
                                           trigger="trigger-button"
+                                          onDidDismiss={() => setShowYearPicker(!showYearPicker)}
                                         >
                                           {[
                                             ...Array(
                                               2025 -
-                                                new Date().getFullYear() +
-                                                1
+                                              new Date().getFullYear() +
+                                              1
                                             ),
                                           ].map((_, index) => {
                                             const year =
@@ -638,7 +624,7 @@ const KnowAboutPatient: React.FC = () => {
                                               // Show only months up to the current month in the selected year
                                               if (
                                                 Number(selectedYear) >
-                                                  currentYear ||
+                                                currentYear ||
                                                 (Number(selectedYear) ===
                                                   currentYear &&
                                                   i + 1 > currentMonth)
@@ -680,31 +666,7 @@ const KnowAboutPatient: React.FC = () => {
                             </>
                           ) : (
                             <>
-                              {/* <div
-                                style={{
-                                  width: "100%",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  flexDirection: "column",
-                                }}
-                              >
-                              <img
-                                src={patientListImg}
-                                style={{ width: "70%" }}
-                                alt="No Past Report"
-                              />
-                                <div
-                                  style={{
-                                    marginTop: "10px",
-                                    fontWeight: "500",
-                                    fontSize: "20px",
-                                    color: "#939185",
-                                  }}
-                                >
-                                  No Reports Found
-                                </div>
-                              </div> */}
+
                             </>
                           )}
                         </div>

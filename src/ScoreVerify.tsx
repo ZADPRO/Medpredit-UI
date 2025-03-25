@@ -134,9 +134,8 @@ export const ScoreVerify: React.FC<HandleScoreValueProps> = ({
               textAlign: "center"
             }}
           >
-            {/* <div>Score: {scoreValue}</div> */}
             <div>
-              <b>{label}</b>
+              <b>{scoreValue} - {label}</b>
             </div>
           </div>
         </>

@@ -356,7 +356,7 @@ const SubCards: React.FC<SubCardsProps> = ({
       case 43:
         return 14;
       case 51:
-        return 14;
+        return 30;
       case 202:
         return 1;
       case 203:
@@ -432,7 +432,6 @@ const SubCards: React.FC<SubCardsProps> = ({
         onDidDismiss={() => setIsAlertOpen(false)}
       />
 
-
       <IonModal
         isOpen={isModel}
         id="doctorDetailsGraph"
@@ -441,45 +440,78 @@ const SubCards: React.FC<SubCardsProps> = ({
           setIsModel(false);
         }}
         animated={false}
-
       >
-        <div className="ion-padding " style={{ background: "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)" }} >
-          <div style={{ fontSize: "1rem", color: "#1a3d61", fontWeight: "700", display: "flex", justifyContent: "space-between" }}>
+        <div
+          className="ion-padding "
+          style={{
+            background:
+              "linear-gradient(227deg,rgba(255, 255, 255, 1) 39%,rgba(255, 255, 255, 1) 61%,rgba(217, 240, 255, 1) 100%)",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "1rem",
+              color: "#1a3d61",
+              fontWeight: "700",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
             <div>{modelData.name}</div>
-            <div onClick={() => {
-              setIsModel(false);
-            }}> <i className="pi pi-times"></i> </div>
+            <div
+              onClick={() => {
+                setIsModel(false);
+              }}
+            >
+              {" "}
+              <i className="pi pi-times"></i>{" "}
+            </div>
           </div>
 
-          <div style={{ textAlign: "center", fontSize: "1.4rem", fontWeight: "700", marginTop: "10px", marginBottom: "10px", color: "#1a3d61" }}>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "1.4rem",
+              fontWeight: "700",
+              marginTop: "10px",
+              marginBottom: "10px",
+              color: "#1a3d61",
+            }}
+          >
             {modelData.status}
           </div>
 
-          <div style={{ color: "#5194ae", fontSize: "1rem", fontWeight: "700", textAlign: "center" }}>
+          <div
+            style={{
+              color: "#5194ae",
+              fontSize: "1rem",
+              fontWeight: "700",
+              textAlign: "center",
+            }}
+          >
             <div>This report valid for</div>
-            <div>( {modelData.fromDate} to {modelData.toDate} )</div>
+            <div>
+              ( {modelData.fromDate} to {modelData.toDate} )
+            </div>
           </div>
         </div>
       </IonModal>
-
 
       <div className="subCardsParent">
         {data.map((card: any) => (
           <>
             {card.refPTcreatedDate &&
               getValidity(card.refQCategoryId) >
-              -calculateDaysDifference(card.refPTcreatedDate) ? (<>
-
-
+              -calculateDaysDifference(card.refPTcreatedDate) ? (
+              <>
                 <div key={card.refQCategoryId}>
                   {card.refPTcreatedDate &&
                     getValidity(card.refQCategoryId) >
-                    -calculateDaysDifference(card.refPTcreatedDate) ? (<>
-
-
+                    -calculateDaysDifference(card.refPTcreatedDate) ? (
+                    <>
                       <div
                         key={card.refQCategoryId}
-                        className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                        className="subCard gradientBackground02_opacity_disabled ion-activatable ripple-parent rectangle"
                         onClick={() => {
                           handleModel(
                             card.refCategoryLabel,
@@ -489,73 +521,80 @@ const SubCards: React.FC<SubCardsProps> = ({
                               card.refPTcreatedDate,
                               getValidity(card.refQCategoryId)
                             )
-                          )
-                        }}>
-
-                        <div style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          gap: "0.5rem"
+                          );
                         }}
-
-                        >
-                          <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-                          <div>
-                            <div className="subCardHeader">
-                              <p data-text={card.refCategoryLabel}>
-                                {card.refCategoryLabel.split(" ").length === 2
-                                  ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-                                  : card.refCategoryLabel}
-                              </p>
+                      >
+                        {[8, 9, 10, 11, 12, 13, 43, 51].includes(
+                          card.refQCategoryId
+                        ) ? (
+                          <>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                gap: "0.5rem",
+                                opacity: "0.2",
+                              }}
+                            >
+                              <img
+                                src={getImage(card.refQCategoryId)}
+                                alt="Card Thumbnail"
+                              />
+                              <div>
+                                <div className="subCardHeader">
+                                  <p data-text={card.refCategoryLabel}>
+                                    {card.refCategoryLabel.split(" ").length ===
+                                      2
+                                      ? card.refCategoryLabel
+                                        .split(" ")
+                                        .join("\n") // Force a line break for two words
+                                      : card.refCategoryLabel}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
 
-                        <div className="subCardSliderBar">
-                          {card.refScore === null ? (
-                            <div style={{ color: "#607274" }}>
-                              <i
-                                className="pi pi-angle-right"
-                                style={{ fontSize: "2rem" }}
-                              ></i>
+                            <div className="subCardSliderBar">
+                              {card.refScore === null ? (
+                                <div style={{ color: "#607274" }}>
+                                  <i
+                                    className="pi pi-angle-right"
+                                    style={{ fontSize: "2rem" }}
+                                  ></i>
+                                </div>
+                              ) : (
+                                <>
+                                  {[8, 9, 10, 11, 12, 13, 43, 51].includes(
+                                    card.refQCategoryId
+                                  ) ? (
+                                    <div>
+                                      <ScoreSlider
+                                        userScoreVerify={card.UserScoreVerify}
+                                        refScore={card.refScore}
+                                      />
+                                    </div>
+                                  ) : null}
+                                </>
+                              )}
                             </div>
-                          ) : (
-                            <>
-                              {
-                                [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
-                                  <div>
-                                    <ScoreSlider
-                                      userScoreVerify={card.UserScoreVerify}
-                                      refScore={card.refScore}
-                                    />
-                                  </div>
-                                ) : null
-                              }
-                            </>
-                          )}
-                        </div>
-
-
-                      </div>
-
-                    </>)
-                    : (
-                      <>
-                        <div
-                          key={card.refQCategoryId}
-                          className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
-                          onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
-                          <IonRippleEffect></IonRippleEffect>
-                          <div style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            gap: "0.5rem"
-                          }}>
-                            <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                          </>
+                        ) : (
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: "0.5rem",
+                              opacity: "0.2",
+                            }}
+                          >
+                            <img
+                              src={getImage(card.refQCategoryId)}
+                              alt="Card Thumbnail"
+                            />
                             <div>
                               <div className="subCardHeader">
                                 <p data-text={card.refCategoryLabel}>
@@ -566,24 +605,73 @@ const SubCards: React.FC<SubCardsProps> = ({
                               </div>
                             </div>
                           </div>
-                        </div></>)}
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        key={card.refQCategoryId}
+                        className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
+                        onClick={() => {
+                          handleCardClick(
+                            card.refQCategoryId,
+                            card.refCategoryLabel
+                          );
+                        }}
+                      >
+                        <IonRippleEffect></IonRippleEffect>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          <img
+                            src={getImage(card.refQCategoryId)}
+                            alt="Card Thumbnail"
+                          />
+                          <div>
+                            <div className="subCardHeader">
+                              <p data-text={card.refCategoryLabel}>
+                                {card.refCategoryLabel.split(" ").length === 2
+                                  ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
+                                  : card.refCategoryLabel}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-
-
-              </>) : (<>
+              </>
+            ) : (
+              <>
                 <div
                   key={card.refQCategoryId}
                   className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
-                  onClick={() => { handleCardClick(card.refQCategoryId, card.refCategoryLabel); }}>
+                  onClick={() => {
+                    handleCardClick(card.refQCategoryId, card.refCategoryLabel);
+                  }}
+                >
                   <IonRippleEffect></IonRippleEffect>
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "0.5rem"
-                  }}>
-                    <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <img
+                      src={getImage(card.refQCategoryId)}
+                      alt="Card Thumbnail"
+                    />
                     <div>
                       <div className="subCardHeader">
                         <p data-text={card.refCategoryLabel}>
@@ -595,137 +683,12 @@ const SubCards: React.FC<SubCardsProps> = ({
                     </div>
                   </div>
                 </div>
-              </>)}
+              </>
+            )}
           </>
-          // <div
-          //   key={card.refQCategoryId}
-          //   className="subCard gradientBackground02_opacity ion-activatable ripple-parent rectangle"
-          //   onClick={() => {
-          //     if (card.refScore === null) {
-          //       handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-          //     }
-          //     else {
-          //       if (
-          //         getValidity(card.refQCategoryId) >
-          //         -calculateDaysDifference(card.refPTcreatedDate)) {
-          //         handleCardClick(card.refQCategoryId, card.refCategoryLabel);
-          //       }
-          //       else {
-          //         handleModel(
-          //           card.refCategoryLabel,
-          //           evaluateScore(card.UserScoreVerify, card.refScore),
-          //           // <ScoreVerify
-          //           //   userScoreVerify={card.UserScoreVerify}
-          //           //   refScore={card.refScore}
-          //           // />,
-          //           card.refPTcreatedDate.split("T")[0],
-          //           addDaysToDate(
-          //             card.refPTcreatedDate,
-          //             getValidity(card.refQCategoryId)
-          //           )
-          //         )
-          //       }
-          //     }
-          //   }}
-          //   style={{ cursor: "pointer" }}
-          // >
-
-
-          //   {(card.refScore === null) ? (<>
-
-          //     <IonRippleEffect></IonRippleEffect>
-          //     <div style={{
-          //       display: "flex",
-          //       flexDirection: "column",
-          //       alignItems: "center",
-          //       justifyContent: "center",
-          //       gap: "0.5rem"
-          //     }}>
-          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //       <div>
-          //         <div className="subCardHeader">
-          //           <p data-text={card.refCategoryLabel}>
-          //             {card.refCategoryLabel.split(" ").length === 2
-          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //               : card.refCategoryLabel}
-          //           </p>
-          //         </div>
-          //       </div>
-          //     </div></>) : getValidity(card.refQCategoryId) <
-          //       -calculateDaysDifference(card.refPTcreatedDate) ? (
-          //     <>
-          //       <IonRippleEffect></IonRippleEffect>
-          //       <div style={{
-          //         display: "flex",
-          //         flexDirection: "column",
-          //         alignItems: "center",
-          //         justifyContent: "center",
-          //         gap: "0.5rem"
-          //       }}>
-          //         <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //         <div>
-          //           <div className="subCardHeader">
-          //             <p data-text={card.refCategoryLabel}>
-          //               {card.refCategoryLabel.split(" ").length === 2
-          //                 ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //                 : card.refCategoryLabel}
-          //             </p>
-          //           </div>
-          //         </div>
-          //       </div>
-          //     </>
-          //   ) : (<>
-          //     {getValidity(card.refQCategoryId)}
-          //     {-calculateDaysDifference(card.refPTcreatedDate)}
-          //     {getValidity(card.refQCategoryId) < -calculateDaysDifference(card.refPTcreatedDate) ? "Yes" : "No1"}
-          //     <div style={{
-          //       display: "flex",
-          //       flexDirection: "row",
-          //       alignItems: "center",
-          //       justifyContent: "center",
-          //       gap: "0.5rem"
-          //     }}
-
-          //     >
-          //       <img src={getImage(card.refQCategoryId)} alt="Card Thumbnail" />
-          //       <div>
-          //         <div className="subCardHeader">
-          //           <p data-text={card.refCategoryLabel}>
-          //             {card.refCategoryLabel.split(" ").length === 2
-          //               ? card.refCategoryLabel.split(" ").join("\n") // Force a line break for two words
-          //               : card.refCategoryLabel}
-          //           </p>
-          //         </div>
-          //       </div>
-          //     </div>
-
-          //     <div className="subCardSliderBar">
-          //       {card.refScore === null ? (
-          //         <div style={{ color: "#607274" }}>
-          //           <i
-          //             className="pi pi-angle-right"
-          //             style={{ fontSize: "2rem" }}
-          //           ></i>
-          //         </div>
-          //       ) : (
-          //         <>
-          //           {
-          //             [8, 9, 10, 11, 12, 13, 43, 51].includes(card.refQCategoryId) ? (
-          //               <div>
-          //                 <ScoreSlider
-          //                   userScoreVerify={card.UserScoreVerify}
-          //                   refScore={card.refScore}
-          //                 />
-          //               </div>
-          //             ) : null
-          //           }
-          //         </>
-          //       )}
-          //     </div></>)}
-          // </div>
         ))}
       </div>
-    </div >
+    </div>
   );
 };
 
