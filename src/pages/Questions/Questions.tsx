@@ -155,12 +155,16 @@ const Questions: React.FC = () => {
   const token = tokenObject.token;
 
   const getQuestions = () => {
+
+    console.log("_=_=-+-+=>", cardTitle)
+
     axios
       .post(
         `${import.meta.env.VITE_API_URL}/getQuestions`,
         {
           questionId: cardTitle,
           patientId: patientId,
+          refLanCode: localStorage.getItem("refLanCode")
         },
         {
           headers: {
@@ -175,6 +179,9 @@ const Questions: React.FC = () => {
           response.data[0],
           import.meta.env.VITE_ENCRYPTION_KEY
         );
+
+        console.log("Line180", data)
+
         if (data.status) {
           console.log(data.questions);
 
@@ -307,6 +314,7 @@ const Questions: React.FC = () => {
             hospitalId: localStorage.getItem("hospitalId")
               ? localStorage.getItem("hospitalId")
               : null,
+            refLanCode: localStorage.getItem("refLanCode")
           },
           {
             headers: {

@@ -20,6 +20,10 @@ ion-modal#doctorDetailsGraph {
   overflow: auto; /* Allow scrolling if needed */
 }
 
+.p-inputswitch:not(.p-disabled):has(.p-inputswitch-input:hover).p-highlight .p-inputswitch-slider{
+  background-color: #1c70b0 !important;
+}
+
 /* Modal Content */
 .doctor-modal-content {
   padding: 10px;

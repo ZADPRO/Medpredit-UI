@@ -87,6 +87,7 @@ const MangeDoctor = () => {
               {
                 doctorId: doctorId,
                 value: value,
+                hospitalId: localStorage.getItem("hospitalId")
               },
               {
                 headers: {
@@ -176,7 +177,7 @@ const MangeDoctor = () => {
                 placeholder="Enter Name or ID"
                 value={searchTerm}
                 className="gradientBackground02_opacity"
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => { setSearchTerm(e.target.value); console.log(e.target.value) }}
                 onClear={() => {
                   setSearchTerm("");
                 }}
@@ -258,10 +259,10 @@ const MangeDoctor = () => {
                             fontSize: "0.7rem",
                             borderRadius: "5px",
                           }}
-                          className={`questionsTextOptions_01 ${element.activeStatus === "active" ? "selected" : ""
+                          className={`questionsTextOptions_01 ${element.activeStatus === "true" ? "selected" : ""
                             }`}
                           onClick={() => {
-                            handleActiveStatus(index, "active", element.Id);
+                            handleActiveStatus(index, "true", element.Id);
                           }}
                         >
                           Active
@@ -273,12 +274,12 @@ const MangeDoctor = () => {
                             fontSize: "0.7rem",
                             borderRadius: "5px",
                           }}
-                          className={`questionsTextOptions_01 ${element.activeStatus === "inactive"
-                              ? "selected"
-                              : ""
+                          className={`questionsTextOptions_01 ${element.activeStatus === "false"
+                            ? "selected"
+                            : ""
                             }`}
                           onClick={() => {
-                            handleActiveStatus(index, "inactive", element.Id);
+                            handleActiveStatus(index, "false", element.Id);
                           }}
                         >
                           Inactive

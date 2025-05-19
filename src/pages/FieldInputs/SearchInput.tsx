@@ -23,9 +23,9 @@ const SearchInput: React.FC<SearchBarProps> = ({
   onClear
 }) => {const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   // Ensure only numbers and limit to 10 digits
-  if (/^\d{0,10}$/.test(e.target.value)) {
+  // if (/^\d{0,10}$/.test(e.target.value)) {
     onChange(e);
-  }
+  // }
 };
 
 return (

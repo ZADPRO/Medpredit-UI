@@ -62,6 +62,7 @@ const SubCategories: React.FC = () => {
                   ? null
                   : localStorage.getItem("currentDoctorId"),
               hospitalId: localStorage.getItem("hospitalId"),
+              refLanCode: localStorage.getItem("refLanCode")
             },
             {
               headers: {
@@ -109,7 +110,7 @@ const SubCategories: React.FC = () => {
 
   return (
     <IonPage>
-      
+
       <IonContent fullscreen>
         <div className="subCategories medpredit-page-background">
           <div

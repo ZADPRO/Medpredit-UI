@@ -320,10 +320,12 @@ const Tab2: React.FC = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   gap: "0.5rem",
+                  opacity: patientsData.length > 6 ? 0.5 : 1,
                 }}
                 onClick={() => {
                   history.push("/addfamilyuser/" + urlMobileNo + "/" + urluserId);
                 }}
+                disabled={patientsData.length > 6}
               >
                 <i
                   className="pi pi-users"
