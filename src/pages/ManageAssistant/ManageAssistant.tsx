@@ -53,6 +53,8 @@ const ManageAssistant = () => {
               import.meta.env.VITE_ENCRYPTION_KEY
             );
 
+            console.log(data)
+
             if (data.status) {
               setUsersList(data.userList);
             }

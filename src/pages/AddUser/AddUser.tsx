@@ -185,7 +185,7 @@ const AddUser: React.FC = () => {
   const verifyForm4 = () => {
     if (
       !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
-      formData.refUserEmail.length === 0
+      formData.refUserMobileno.length === 0
     ) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
       return false;
@@ -967,7 +967,7 @@ const AddUser: React.FC = () => {
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-graduation-cap"></i>
                       </span>
-                      <Dropdown
+                      {/* <Dropdown
                         value={formData.refEducation}
                         name="educationOpt"
                         style={{ textAlign: "left" }}
@@ -978,6 +978,14 @@ const AddUser: React.FC = () => {
                         className="addFamilyDropdown"
                         checkmark={true}
                         highlightOnSelect={false}
+                      /> */}
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refEducation}
+                        onChange={handleInputChange}
+                        placeholder="Enter Education"
+                        name="refEducation"
                       />
                     </div>
                   </div>
@@ -990,7 +998,15 @@ const AddUser: React.FC = () => {
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-briefcase"></i>
                       </span>
-                      <Dropdown
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refProfession}
+                        onChange={handleInputChange}
+                        placeholder="Enter Occupation Category"
+                        name="refProfession"
+                      />
+                      {/* <Dropdown
                         value={formData.refProfession}
                         style={{ textAlign: "left" }}
                         name="refProfession"
@@ -1001,16 +1017,16 @@ const AddUser: React.FC = () => {
                         className="addFamilyDropdown"
                         checkmark={true}
                         highlightOnSelect={false}
-                      />
+                      /> */}
                     </div>
-                    <label
+                    {/* <label
                       onClick={() => {
                         setOccupationModel(true);
                       }}
                       style={{ marginTop: "10px", textDecoration: "underline" }}
                     >
                       Example
-                    </label>
+                    </label> */}
                   </div>
                   {/* Sector */}
                   <div className="inputBox">
@@ -1030,14 +1046,14 @@ const AddUser: React.FC = () => {
                         name="refSector"
                       />
                     </div>
-                    <label
+                    {/* <label
                       onClick={() => {
                         setOccupationalSector(true);
                       }}
                       style={{ marginTop: "10px", textDecoration: "underline" }}
                     >
                       Example
-                    </label>
+                    </label> */}
                   </div>
                 </div>
               )}

@@ -22,7 +22,6 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Password } from "primereact/password";
 import React, {
-  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_REACT_NODES,
   useEffect,
   useState,
 } from "react";
@@ -47,6 +46,9 @@ interface WorkEntry {
 const StaffSignup = () => {
   const history = useHistory();
 
+  const [otherMedical, setOtherMedical] = useState(false);
+  const [otherMedicalName, setOtherMedicalName] = useState("");
+
   const [checkedAdmin, setCheckedAdmin] = useState<boolean>(false);
 
   useEffect(() => {
@@ -66,10 +68,10 @@ const StaffSignup = () => {
                 localStorage.getItem("createRoleId") === "1"
                   ? "2"
                   : localStorage.getItem("createRoleId") === "2"
-                  ? "1"
-                  : localStorage.getItem("createRoleId") === "4"
-                  ? "2"
-                  : null,
+                    ? "1"
+                    : localStorage.getItem("createRoleId") === "4"
+                      ? "2"
+                      : null,
               hospitalId: localStorage.getItem("hospitalId"),
             },
             {
@@ -271,6 +273,9 @@ const StaffSignup = () => {
   };
 
   const verifyForm3 = () => {
+    console.log("====================================", formData.medicalCouncil === "Others" && otherMedicalName.length === 0);
+    console.log("====================================", formData.medicalCouncil);
+    console.log("====================================", otherMedicalName);
     if (formData.allopathic.length === 0) {
       setToastOpen({
         status: true,
@@ -300,6 +305,13 @@ const StaffSignup = () => {
           message: "Select Medical Council",
         });
         return false;
+      } else if (formData.medicalCouncil === "Others" && otherMedicalName.length === 0) {
+        setToastOpen({
+          status: true,
+          textColor: "red",
+          message: "Enter the Name of Other Medical Council",
+        });
+        return false
       } else if (formData.mciRegisteredNo.length === 0) {
         setToastOpen({
           status: true,
@@ -394,6 +406,13 @@ const StaffSignup = () => {
             message: "Select Medical Council",
           });
           return false;
+        } else if (formData.medicalCouncil === "Others" && otherMedicalName.length === 0) {
+          setToastOpen({
+            status: true,
+            textColor: "red",
+            message: "Enter the Name of Medical Council",
+          });
+          return false
         } else if (formData.mciRegisteredNo.length === 0) {
           setToastOpen({
             status: true,
@@ -487,6 +506,13 @@ const StaffSignup = () => {
         status: true,
         textColor: "red",
         message: "Enter Valid Password",
+      });
+      return false;
+    } else if (localStorage.getItem("createRoleId") === "2" && formData.selectedUsers.length === 0) {
+      setToastOpen({
+        status: true,
+        textColor: "red",
+        message: "Select Atleast One Doctors",
       });
       return false;
     }
@@ -646,6 +672,39 @@ const StaffSignup = () => {
     "West Bengal Medical Council",
   ];
 
+  const medicalCouncilOptionAst = [
+    "Andhra Pradesh Medical Council",
+    "Arunachal Pradesh Medical Council",
+    "Assam Medical Council",
+    "Bihar Medical Council",
+    "Chattisgarh Medical Council",
+    "Delhi Medical Council",
+    "Goa Medical Council",
+    "Gujarat Medical Council",
+    "Haryana Dental and Medical Council",
+    "Himachal Pradesh Medical Council",
+    "Jammu and Kashmir Medical Council",
+    "Jharkhand Medical Council",
+    "Karnataka Medical Council",
+    "Madhya Pradesh Medical Council",
+    "Maharashtra Medical Council",
+    "Medical Council of India",
+    "Nagaland Medical Council",
+    "Orissa Council of Medical Registration",
+    "Punjab Medical Council",
+    "Rajasthan Medical Council",
+    "Sikkim Medical Council",
+    "TamilNadu Medical Council",
+    "Travancore Medical Council",
+    "Telangana Medical Council",
+    "Tripura Medical Council",
+    "Uttar Pradesh Medical Council",
+    "Uttrakhand Medical Council",
+    "West Bengal Medical Council",
+    "Others"
+  ];
+
+
   const [previousWork, setPreviousWork] = useState<WorkEntry[]>([]);
 
   // Handle input change
@@ -709,7 +768,7 @@ const StaffSignup = () => {
             additionalDegree: formData.additionalDegree,
             degreeType: formData.degreeType,
             degreeSpecialization: formData.degreeSpecialization,
-            medicalCouncil: formData.medicalCouncil,
+            medicalCouncil: formData.medicalCouncil === "Others" ? otherMedicalName : formData.medicalCouncil,
             mciRegisteredNo: formData.mciRegisteredNo,
             typeHealthcare: formData.typeHealthcare,
             instituteType: formData.instituteType,
@@ -807,7 +866,7 @@ const StaffSignup = () => {
         ]
       });
     };
- 
+
     // Prevent back only if the user is on the signup page
     if (location.pathname === "/addDoctor") {
       window.history.pushState(null, "", window.location.href);
@@ -880,10 +939,10 @@ const StaffSignup = () => {
                   {localStorage.getItem("createRoleId") === "1"
                     ? "Add Doctor"
                     : localStorage.getItem("createRoleId") === "2"
-                    ? "Add Assistant"
-                    : localStorage.getItem("createRoleId") === "4"
-                    ? "Add Doctor + Admin"
-                    : null}
+                      ? "Add Assistant"
+                      : localStorage.getItem("createRoleId") === "4"
+                        ? "Add Doctor + Admin"
+                        : null}
                 </>
               ) : (
                 formData.refUserFname + " " + formData.refUserLname
@@ -1417,11 +1476,10 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {allopathicOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${
-                            formData.allopathic === option.label
-                              ? "selected"
-                              : ""
-                          }`}
+                          className={`questionsTextOptions_01 ${formData.allopathic === option.label
+                            ? "selected"
+                            : ""
+                            }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1448,11 +1506,10 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {educationOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${
-                            formData.education === option.label
-                              ? "selected"
-                              : ""
-                          }`}
+                          className={`questionsTextOptions_01 ${formData.education === option.label
+                            ? "selected"
+                            : ""
+                            }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1501,11 +1558,10 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {superOption?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${
-                                formData.superSpecialization === option.label
-                                  ? "selected"
-                                  : ""
-                              }`}
+                              className={`questionsTextOptions_01 ${formData.superSpecialization === option.label
+                                ? "selected"
+                                : ""
+                                }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1557,11 +1613,10 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {degreeOptions?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${
-                                formData.additionalDegree === option.label
-                                  ? "selected"
-                                  : ""
-                              }`}
+                              className={`questionsTextOptions_01 ${formData.additionalDegree === option.label
+                                ? "selected"
+                                : ""
+                                }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1590,11 +1645,10 @@ const StaffSignup = () => {
                             <div className="questionsbuttonGroup_01">
                               {degreeTypeOption?.map((option: any) => (
                                 <button
-                                  className={`questionsTextOptions_01 ${
-                                    formData.degreeType === option.label
-                                      ? "selected"
-                                      : ""
-                                  }`}
+                                  className={`questionsTextOptions_01 ${formData.degreeType === option.label
+                                    ? "selected"
+                                    : ""
+                                    }`}
                                   onClick={() => {
                                     setFormData({
                                       ...formData,
@@ -1638,31 +1692,112 @@ const StaffSignup = () => {
                   )}
 
                   {/* Medical Council */}
-                  <div className="inputBox">
-                    <label>
-                      Name of Registered Medical Council{" "}
-                      <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="card flex flex-column md:flex-row gap-1 mb-1 w-full">
-                      <div
-                        className="addFamilyInputField gradientBackground02_opacity"
-                        style={{ width: "100%" }}
-                      >
-                        <Dropdown
-                          value={formData.medicalCouncil}
-                          onChange={(e) =>
-                            handleDropdownChange(e, "medicalCouncil")
-                          }
-                          options={medicalCouncilOption}
-                          placeholder="Select Medical Council"
-                          name="medicalCouncil"
-                          className="addFamilyDropdown"
-                          checkmark={true}
-                          highlightOnSelect={false}
-                        />
+
+                  {
+                    localStorage.getItem("createRoleId") === "2" ? (<>
+                      <div className="inputBox">
+                        <label>
+                          Name of Registered Medical Council{" "}
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <div className="card flex flex-column md:flex-row gap-1 mb-1 w-full">
+                          <div
+                            className="addFamilyInputField gradientBackground02_opacity"
+                            style={{ width: "100%" }}
+                          >
+                            <Dropdown
+                              value={formData.medicalCouncil}
+                              onChange={(e) => {
+
+                                if (e.value === "Others") {
+
+                                  setOtherMedical(true)
+                                } else {
+                                  setOtherMedical(false)
+                                }
+                                handleDropdownChange(e, "medicalCouncil")
+                              }}
+                              options={medicalCouncilOptionAst}
+                              placeholder="Select Medical Council"
+                              name="medicalCouncil"
+                              className="addFamilyDropdown"
+                              checkmark={true}
+                              highlightOnSelect={false}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                      {
+                        otherMedical && (
+                          <div className="inputBox">
+                            <label>
+                              Enter Other Registered Medical Council{" "}
+                              <span style={{ color: "red" }}>*</span>
+                            </label>
+                            <div className="card flex flex-column md:flex-row gap-1 mb-1 w-full">
+                              <div
+                                className="addFamilyInputField gradientBackground02_opacity"
+                                style={{ width: "100%" }}
+                              >
+                                <InputText
+                                  style={{ width: "100%", textAlign: "left" }}
+                                  className="addFamilyInputText"
+                                  value={otherMedicalName}
+                                  onChange={(e: any) => {
+                                    setOtherMedicalName(e.target.value)
+                                  }}
+                                  placeholder="Enter Other Registered Medical Council"
+                                  name="degreeSpecialization"
+                                />
+                                {/* <Dropdown
+                                  value={formData.medicalCouncil}
+                                  onChange={(e) => {
+                                    setOtherMedicalName({
+                                      ...otherMedicalName,
+                                      medicalCouncil: e.value
+                                    })
+                                  }}
+                                  options={medicalCouncilOptionAst}
+                                  placeholder="Select Medical Council"
+                                  name="medicalCouncil"
+                                  className="addFamilyDropdown"
+                                  checkmark={true}
+                                  highlightOnSelect={false}
+                                /> */}
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      }
+                    </>) : (
+                      <div className="inputBox">
+                        <label>
+                          Name of Registered Medical Council{" "}
+                          <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <div className="card flex flex-column md:flex-row gap-1 mb-1 w-full">
+                          <div
+                            className="addFamilyInputField gradientBackground02_opacity"
+                            style={{ width: "100%" }}
+                          >
+                            <Dropdown
+                              value={formData.medicalCouncil}
+                              onChange={(e) =>
+                                handleDropdownChange(e, "medicalCouncil")
+                              }
+                              options={medicalCouncilOption}
+                              placeholder="Select Medical Council"
+                              name="medicalCouncil"
+                              className="addFamilyDropdown"
+                              checkmark={true}
+                              highlightOnSelect={false}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
+
 
                   {/* MCI Registration */}
                   <div className="inputBox">
@@ -1711,11 +1846,10 @@ const StaffSignup = () => {
                     <div className="questionsbuttonGroup_01">
                       {typeHealthcareOption?.map((option: any) => (
                         <button
-                          className={`questionsTextOptions_01 ${
-                            formData.typeHealthcare === option.label
-                              ? "selected"
-                              : ""
-                          }`}
+                          className={`questionsTextOptions_01 ${formData.typeHealthcare === option.label
+                            ? "selected"
+                            : ""
+                            }`}
                           onClick={() => {
                             setFormData({
                               ...formData,
@@ -1743,11 +1877,10 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {privateHospital?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${
-                                formData.instituteType === option.label
-                                  ? "selected"
-                                  : ""
-                              }`}
+                              className={`questionsTextOptions_01 ${formData.instituteType === option.label
+                                ? "selected"
+                                : ""
+                                }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -1775,11 +1908,10 @@ const StaffSignup = () => {
                         <div className="questionsbuttonGroup_01">
                           {governmentHospital?.map((option: any) => (
                             <button
-                              className={`questionsTextOptions_01 ${
-                                formData.instituteType === option.label
-                                  ? "selected"
-                                  : ""
-                              }`}
+                              className={`questionsTextOptions_01 ${formData.instituteType === option.label
+                                ? "selected"
+                                : ""
+                                }`}
                               onClick={() => {
                                 setFormData({
                                   ...formData,
@@ -2045,13 +2177,13 @@ const StaffSignup = () => {
                     </label>
                     <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
                       {/* <span className="p-inputgroup-addon">
-                                 <i className="pi pi-envelope"></i>
-                               </span> */}
+                                           <i className="pi pi-envelope"></i>
+                                         </span> */}
                       <InputText
-                        style={{ width: "100%", textAlign: "left" }}
-                        className="addFamilyInputText"
                         type="number"
+                        style={{ width: "100%", textAlign: "left" }}
                         value={formData.refUserMobileno}
+                        className="addFamilyInputText"
                         onChange={(e) => {
                           const input = e.target.value;
                           if (/^\d{0,10}$/.test(input)) {
@@ -2313,7 +2445,7 @@ const StaffSignup = () => {
                     >
                       {formData.refUserPassword ===
                         formData.refUserConPassword &&
-                      formData.refUserPassword.length > 0 ? (
+                        formData.refUserPassword.length > 0 ? (
                         <div
                           style={{
                             width: "25px",
@@ -2359,11 +2491,13 @@ const StaffSignup = () => {
                       {localStorage.getItem("createRoleId") === "1"
                         ? "Assistants"
                         : localStorage.getItem("createRoleId") === "4"
-                        ? "Assistants"
-                        : localStorage.getItem("createRoleId") === "2"
-                        ? "Doctors"
-                        : null}{" "}
-                      <span style={{ color: "red" }}>*</span>
+                          ? "Assistants"
+                          : localStorage.getItem("createRoleId") === "2"
+                            ? "Doctors"
+                            : null}{" "}
+                      {
+                        localStorage.getItem("createRoleId") === "2" && (<span style={{ color: "red" }}>*</span>)
+                      }
                     </label>
                     <div
                       className="addFamilyInputField gradientBackground02_opacity"
@@ -2381,15 +2515,14 @@ const StaffSignup = () => {
                         }}
                         options={userList}
                         optionLabel="name"
-                        placeholder={`Select  ${
-                          localStorage.getItem("createRoleId") === "1"
-                            ? "Assistants"
-                            : localStorage.getItem("createRoleId") === "4"
+                        placeholder={`Select  ${localStorage.getItem("createRoleId") === "1"
+                          ? "Assistants"
+                          : localStorage.getItem("createRoleId") === "4"
                             ? "Assistants"
                             : localStorage.getItem("createRoleId") === "2"
-                            ? "Doctors"
-                            : null
-                        }`}
+                              ? "Doctors"
+                              : null
+                          }`}
                         maxSelectedLabels={3}
                       />
                     </div>

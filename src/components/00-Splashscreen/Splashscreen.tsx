@@ -26,11 +26,15 @@ const Splashscreen: React.FC = () => {
         // }
 
         if (roleType != null) {
-          history.replace("/home");
+          if (roleType === 5) {
+            history.replace("/configure");
+          } else {
+            history.replace("/home");
+          }
         } else {
           history.replace("/login");
         }
-        
+
       } else {
         history.replace("/login");
       }

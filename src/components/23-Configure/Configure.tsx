@@ -38,7 +38,7 @@ const Configure = () => {
       icon: ManageAssisatnt,
       name: "Manage Assistant",
       link: "/manageAssistant",
-      roleId: "2",
+      roleId: "4",
     },
   ];
 

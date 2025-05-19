@@ -90,6 +90,7 @@ const MapAssistant = () => {
             {
               doctorId: mapId,
               assistantId: assistantId,
+              hospitalId: localStorage.getItem("hospitalId")
             },
             {
               headers: {
@@ -222,202 +223,202 @@ const MapAssistant = () => {
             </div>
 
             <div className="ion-padding">
-            <div
-              style={{
-                display: "flex",
-                padding: "10px",
-                borderRadius: "5px",
-                fontWeight: "700",
-                gap: "10px",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
               <div
                 style={{
-                  width: "100%",
                   display: "flex",
-                  flexDirection: "column",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  fontWeight: "700",
                   gap: "10px",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
                 }}
               >
                 <div
-                  className="questionsbuttonGroup_01"
                   style={{
                     width: "100%",
                     display: "flex",
-                    justifyContent: "space-between",
+                    flexDirection: "column",
+                    gap: "10px",
                   }}
                 >
-                  <button
-                    style={{ width: "48%" }}
-                    className={`questionsTextOptions_01 ${activeStatus === "active" ? "selected" : ""
-                      }`}
-                    onClick={() => {
-                      handleActiveStatus("active", assistantId);
+                  <div
+                    className="questionsbuttonGroup_01"
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
                     }}
                   >
-                    Active
-                  </button>
-                  <button
-                    style={{ width: "48%" }}
-                    className={`questionsTextOptions_01 ${activeStatus === "inactive" ? "selected" : ""
-                      }`}
-                    onClick={() => {
-                      handleActiveStatus("inactive", assistantId);
-                    }}
-                  >
-                    Inactive
-                  </button>
+                    <button
+                      style={{ width: "48%" }}
+                      className={`questionsTextOptions_01 ${activeStatus === "active" ? "selected" : ""
+                        }`}
+                      onClick={() => {
+                        handleActiveStatus("active", assistantId);
+                      }}
+                    >
+                      Active
+                    </button>
+                    <button
+                      style={{ width: "48%" }}
+                      className={`questionsTextOptions_01 ${activeStatus === "inactive" ? "selected" : ""
+                        }`}
+                      onClick={() => {
+                        handleActiveStatus("inactive", assistantId);
+                      }}
+                    >
+                      Inactive
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center", alignItems: "center", width: "100%" }}>
-              <IonAccordionGroup style={{ width: "100%", paddingBottom: "10px", display: "flex", gap: "10px", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-                <IonAccordion value="first" style={{ background: "transparent" }}>
-                  <IonItem slot="header" color="dark" >
-                    <IonLabel>Mapped Doctors</IonLabel>
-                  </IonItem>
-                  <div className="ion-padding" slot="content">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px",
-                        color: "#10416a",
-                        fontSize: "0.9rem",
-                        textAlign: "center"
-                      }}
-                    >
-                      {doctorList.filter((user: any) => user.hasassistant === true)
-                        .length === 0 ? (
-                        <>No Result Found</>
-                      ) : null}
-                      {doctorList.map((element: any) => (
-                        <>
-                          {element.hasassistant ? (
-                            <>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  background: "#e1f3fd",
-                                  padding: "10px",
-                                  borderRadius: "5px",
-                                  fontWeight: "700",
-                                  gap: "10px",
-                                  flexDirection: "row",
-                                  justifyContent: "space-between",
-                                }}
-                                className="ion-activatable ripple-parent rectangle"
-                              >
-                                <IonRippleEffect></IonRippleEffect>
+              <div style={{ marginTop: "20px", display: "flex", gap: "10px", justifyContent: "center", alignItems: "center", width: "100%" }}>
+                <IonAccordionGroup style={{ width: "100%", paddingBottom: "10px", display: "flex", gap: "10px", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+                  <IonAccordion value="first" style={{ background: "transparent" }}>
+                    <IonItem slot="header" color="dark" >
+                      <IonLabel>Mapped Doctors</IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                          color: "#10416a",
+                          fontSize: "0.9rem",
+                          textAlign: "center"
+                        }}
+                      >
+                        {doctorList.filter((user: any) => user.hasassistant === true)
+                          .length === 0 ? (
+                          <>No Result Found</>
+                        ) : null}
+                        {doctorList.map((element: any) => (
+                          <>
+                            {element.hasassistant ? (
+                              <>
                                 <div
                                   style={{
                                     display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "start",
-                                    flexDirection: "column",
-                                    gap: "5px",
-                                    color: "#10416a"
+                                    background: "#e1f3fd",
+                                    padding: "10px",
+                                    borderRadius: "5px",
+                                    fontWeight: "700",
+                                    gap: "10px",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
                                   }}
+                                  className="ion-activatable ripple-parent rectangle"
                                 >
-                                  <div style={{ fontSize: "1rem" }}>{element.doctorname}</div>
-                                  <div style={{ fontSize: "0.8rem" }}>{element.refUserCustId}</div>
-                                </div>
-                              </div>
-                            </>
-                          ) : null}
-                        </>
-                      ))}
-                    </div>
-                  </div>
-                </IonAccordion>
-                <IonAccordion value="second" style={{ background: "transparent" }}>
-                  <IonItem slot="header" color="dark" >
-                    <IonLabel>Unmapped Doctors</IonLabel>
-                  </IonItem>
-                  <div className="ion-padding" slot="content">
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "10px",
-                        color: "#10416a",
-                        fontSize: "0.9rem",
-                        textAlign: "center"
-                      }}
-                    >
-                      {doctorList.filter((user: any) => user.hasassistant === false)
-                        .length === 0 ? (
-                        <>No Result Found</>
-                      ) : null}
-                      {doctorList.map((element: any) => (
-                        <>
-                          {!element.hasassistant ? (
-                            <>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  background: "#e1f3fd",
-                                  padding: "10px",
-                                  borderRadius: "5px",
-                                  fontWeight: "700",
-                                  gap: "10px",
-                                  flexDirection: "row",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "center",
-                                    alignItems: "start",
-                                    gap: "5px",
-                                    color: "#10416a"
-                                  }}
-                                >
-                                  <div style={{ fontSize: "1rem" }}>{element.doctorname}</div>
-                                  <div style={{ fontSize: "0.8rem" }}>{element.refUserCustId}</div>
-                                </div>
-                                <div
-                                  className="questionsbuttonGroup_01"
-                                  style={{
-                                    fontSize: "1rem",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                  }}
-                                >
-                                  <button
-                                    className="questionsTextOptions_01 selected"
-                                    onClick={() => {
-                                      setModel(true);
-                                      setMapId(element.refUserId);
-                                    }}
+                                  <IonRippleEffect></IonRippleEffect>
+                                  <div
                                     style={{
-                                      width: "100%",
-                                      height: "2rem",
-                                      borderRadius: "5px",
-                                      color: "#fff",
-                                      fontSize: "16px",
-                                      cursor: "pointer",
-                                      padding: "0px 5px",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "start",
+                                      flexDirection: "column",
+                                      gap: "5px",
+                                      color: "#10416a"
                                     }}
                                   >
-                                    Map
-                                  </button>
+                                    <div style={{ fontSize: "1rem" }}>{element.doctorname}</div>
+                                    <div style={{ fontSize: "0.8rem" }}>{element.refUserCustId}</div>
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          ) : null}
-                        </>
-                      ))}
+                              </>
+                            ) : null}
+                          </>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </IonAccordion>
-              </IonAccordionGroup>
-            </div>
+                  </IonAccordion>
+                  <IonAccordion value="second" style={{ background: "transparent" }}>
+                    <IonItem slot="header" color="dark" >
+                      <IonLabel>Unmapped Doctors</IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "10px",
+                          color: "#10416a",
+                          fontSize: "0.9rem",
+                          textAlign: "center"
+                        }}
+                      >
+                        {doctorList.filter((user: any) => user.hasassistant === false)
+                          .length === 0 ? (
+                          <>No Result Found</>
+                        ) : null}
+                        {doctorList.map((element: any) => (
+                          <>
+                            {!element.hasassistant ? (
+                              <>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    background: "#e1f3fd",
+                                    padding: "10px",
+                                    borderRadius: "5px",
+                                    fontWeight: "700",
+                                    gap: "10px",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      justifyContent: "center",
+                                      alignItems: "start",
+                                      gap: "5px",
+                                      color: "#10416a"
+                                    }}
+                                  >
+                                    <div style={{ fontSize: "1rem" }}>{element.doctorname}</div>
+                                    <div style={{ fontSize: "0.8rem" }}>{element.refUserCustId}</div>
+                                  </div>
+                                  <div
+                                    className="questionsbuttonGroup_01"
+                                    style={{
+                                      fontSize: "1rem",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    <button
+                                      className="questionsTextOptions_01 selected"
+                                      onClick={() => {
+                                        setModel(true);
+                                        setMapId(element.refUserId);
+                                      }}
+                                      style={{
+                                        width: "100%",
+                                        height: "2rem",
+                                        borderRadius: "5px",
+                                        color: "#fff",
+                                        fontSize: "16px",
+                                        cursor: "pointer",
+                                        padding: "0px 5px",
+                                      }}
+                                    >
+                                      Map
+                                    </button>
+                                  </div>
+                                </div>
+                              </>
+                            ) : null}
+                          </>
+                        ))}
+                      </div>
+                    </div>
+                  </IonAccordion>
+                </IonAccordionGroup>
+              </div>
             </div>
           </div>
         </div>

@@ -90,6 +90,7 @@ const KnowAboutPatient: React.FC = () => {
                 ? localStorage.getItem("currentDoctorId")
                 : null,
               hospitalId: localStorage.getItem("hospitalId"),
+              refLanCode: localStorage.getItem("refLanCode")
             },
             {
               headers: {
@@ -163,6 +164,7 @@ const KnowAboutPatient: React.FC = () => {
           employeeId: localStorage.getItem("currentDoctorId")
             ? localStorage.getItem("currentDoctorId")
             : null,
+            refLanCode: localStorage.getItem("refLanCode")
         },
         {
           headers: {

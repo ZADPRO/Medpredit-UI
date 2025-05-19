@@ -35,6 +35,7 @@ import axios from "axios";
 import decrypt, { formatDate } from "../../helper";
 import { Divider } from "primereact/divider";
 import { InputTextarea } from "primereact/inputtextarea";
+import { InputSwitch } from "primereact/inputswitch";
 
 const AddFamilyUser: React.FC = () => {
   const { urlMobileNo, urluserId } = useParams<{
@@ -46,7 +47,7 @@ const AddFamilyUser: React.FC = () => {
 
   const [formPage, setFormPage] = useState(1);
   const [direction, setDirection] = useState("next"); // Tracks slide direction
-  const steps = [1, 2, 3]; // Define steps for the form
+  const steps = [1, 2, 3, 4]; // Define steps for the form
 
   const handleNextPage = () => {
     if (formPage < steps.length) {
@@ -63,6 +64,16 @@ const AddFamilyUser: React.FC = () => {
   };
 
   const genderOpt: string[] = ["Male", "Female", "Transgender"];
+  const familyRelationOpt: { label: string; value: string }[] = [
+    { label: "Father", value: "Father" },
+    { label: "Mother", value: "Mother" },
+    { label: "Brother", value: "Brother" },
+    { label: "Sister", value: "Sister" },
+    { label: "Spouse", value: "Spouse" },
+    { label: "Son", value: "Son" },
+    { label: "Daughter", value: "Daughter" },
+    { label: "Other", value: "Other" }
+  ];
   const refMaritalStatus: string[] = ["Married", "Unmarried"];
   const educationOpt: string[] = [
     "Illiteracy",
@@ -105,6 +116,9 @@ const AddFamilyUser: React.FC = () => {
     });
   };
 
+  const [relationOther, setRelationOther] = useState(false);
+  const [relationTypeValue, setRelationTypeValue] = useState("");
+
   const [formData, setFormData] = useState({
     refUserFname: "",
     refUserLname: "",
@@ -121,6 +135,8 @@ const AddFamilyUser: React.FC = () => {
     refDistrict: "",
     refPincode: null as any | null,
     refUserMobileno: "",
+    refRelationType: "",
+    sameMobileNumber: false,
   });
 
   interface ToastState {
@@ -128,7 +144,7 @@ const AddFamilyUser: React.FC = () => {
     message: string;
     textColor?: string; // Optional textColor
   }
-  
+
   const [toastOpen, setToastOpen] = useState<ToastState>({
     status: false,
     message: "",
@@ -171,7 +187,7 @@ const AddFamilyUser: React.FC = () => {
   const verifyForm3 = () => {
     if (
       (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.refUserEmail) ||
-      formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
+        formData.refUserEmail.length === 0) && (formData.refUserEmail.length > 0)
     ) {
       setToastOpen({ status: true, textColor: "red", message: "Enter Valid Email" });
       return false;
@@ -189,22 +205,32 @@ const AddFamilyUser: React.FC = () => {
   };
 
   const verifyForm4 = () => {
-    if (
-      !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
-      formData.refUserEmail.length === 0
-    ) {
-      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
+    if (formData.refRelationType.length === 0) {
+      setToastOpen({ status: true, textColor: "red", message: "Select Relation Type" });
       return false;
-    } else if (
-      formData.refUserPassword.length === 0 || // Check if password is empty
-      !/[a-zA-Z]/.test(formData.refUserPassword) || // Must contain at least one letter
-      !/\d/.test(formData.refUserPassword) || // Must contain at least one digit
-      !/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) || // Must contain at least one special character
-      formData.refUserPassword.length < 8 || // Must be at least 8 characters long
-      formData.refUserPassword !== formData.refUserConPassword
-    ) {
-      setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
+    } else if (formData.refRelationType === "Other" && relationTypeValue.length === 0) {
+      setToastOpen({ status: true, textColor: "red", message: "Enter Other Relation Type" });
       return false;
+    } else if (!formData.sameMobileNumber) {
+      console.log(!/^[6-9][0-9]{9}$/.test(formData.refUserMobileno))
+      console.log(formData.refUserMobileno.length)
+      if (
+        !/^[6-9][0-9]{9}$/.test(formData.refUserMobileno) ||
+        formData.refUserMobileno.length === 0
+      ) {
+        setToastOpen({ status: true, textColor: "red", message: "Enter Valid Mobile Number" });
+        return false;
+      } else if (
+        formData.refUserPassword.length === 0 || // Check if password is empty
+        !/[a-zA-Z]/.test(formData.refUserPassword) || // Must contain at least one letter
+        !/\d/.test(formData.refUserPassword) || // Must contain at least one digit
+        !/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) || // Must contain at least one special character
+        formData.refUserPassword.length < 8 || // Must be at least 8 characters long
+        formData.refUserPassword !== formData.refUserConPassword
+      ) {
+        setToastOpen({ status: true, textColor: "red", message: "Enter Valid Password" });
+        return false;
+      }
     }
     return true;
   };
@@ -293,6 +319,10 @@ const AddFamilyUser: React.FC = () => {
             refPincode: formData.refPincode,
             refUserMobileno: urlMobileNo,
             refGender: formData.refGender,
+            isSame: formData.sameMobileNumber,
+            mobilenumber: formData.sameMobileNumber ? urlMobileNo : formData.refUserMobileno,
+            userpassword: formData.refUserPassword,
+            realtionType: formData.refRelationType == "Other" ? relationTypeValue : formData.refRelationType
           },
           {
             headers: {
@@ -338,7 +368,10 @@ const AddFamilyUser: React.FC = () => {
               refDistrict: "",
               refPincode: null as any | null,
               refUserMobileno: "",
+              refRelationType: "",
+              sameMobileNumber: false,
             });
+            setFormPage(1);
           }, 3000);
         }
       } catch {
@@ -349,7 +382,7 @@ const AddFamilyUser: React.FC = () => {
     }
   };
 
-const [presentAlert] = useIonAlert();
+  const [presentAlert] = useIonAlert();
   const router: any = useIonRouter();
 
   useEffect(() => {
@@ -378,10 +411,10 @@ const [presentAlert] = useIonAlert();
         ]
       });
     };
- 
+
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', handleBack);
- 
+
     return () => {
       window.removeEventListener('popstate', handleBack);
     };
@@ -707,7 +740,7 @@ const [presentAlert] = useIonAlert();
                           fontWeight: "700",
                         }}
                       >
-                        50%
+                        25%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -742,7 +775,7 @@ const [presentAlert] = useIonAlert();
                           fontWeight: "700",
                         }}
                       >
-                        75%
+                        50%
                       </div>
                       <div>Complete</div>
                     </div>
@@ -757,6 +790,41 @@ const [presentAlert] = useIonAlert();
                       }}
                     >
                       Communication Details
+                    </div>
+                  </>
+                ) : formPage === 4 ? (
+                  <>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "end",
+                        paddingTop: "0px",
+                        paddingBottom: "5px",
+                        color: "#45474b",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "1.3rem",
+                          paddingRight: "5px",
+                          fontWeight: "700",
+                        }}
+                      >
+                        75%
+                      </div>
+                      <div>Complete</div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: "1.3rem",
+                        paddingRight: "5px",
+                        fontWeight: "700",
+                        paddingBottom: "20px",
+                        color: "#45474b",
+                      }}
+                    >
+                      Authentication Details
                     </div>
                   </>
                 ) : (
@@ -988,7 +1056,15 @@ const [presentAlert] = useIonAlert();
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-graduation-cap"></i>
                       </span>
-                      <Dropdown
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refEducation}
+                        onChange={handleInputChange}
+                        placeholder="Enter Education"
+                        name="refEducation"
+                      />
+                      {/* <Dropdown
                         value={formData.refEducation}
                         name="educationOpt"
                         onChange={(e) =>
@@ -1001,7 +1077,7 @@ const [presentAlert] = useIonAlert();
                         className="addFamilyDropdown"
                         checkmark={true}
                         highlightOnSelect={false}
-                      />
+                      /> */}
                     </div>
                   </div>
                   {/* Occupation */}
@@ -1016,7 +1092,15 @@ const [presentAlert] = useIonAlert();
                       <span className="addFamilyInputField_Icon">
                         <i className="pi pi-briefcase"></i>
                       </span>
-                      <Dropdown
+                      <InputText
+                        style={{ width: "100%", textAlign: "left" }}
+                        className="addFamilyInputText"
+                        value={formData.refProfession}
+                        onChange={handleInputChange}
+                        placeholder="Enter Occupation"
+                        name="refProfession"
+                      />
+                      {/* <Dropdown
                         value={formData.refProfession}
                         name="refProfession"
                         style={{ textAlign: "left" }}
@@ -1029,16 +1113,16 @@ const [presentAlert] = useIonAlert();
                         className="addFamilyDropdown"
                         checkmark={true}
                         highlightOnSelect={false}
-                      />
+                      /> */}
                     </div>
-                    <label
+                    {/* <label
                       onClick={() => {
                         setOccupationModel(true);
                       }}
                       style={{ marginTop: "10px", textDecoration: "underline" }}
                     >
                       Example
-                    </label>
+                    </label> */}
                   </div>
                   {/* Sector */}
                   <div className="inputBox">
@@ -1061,14 +1145,14 @@ const [presentAlert] = useIonAlert();
                         name="refSector"
                       />
                     </div>
-                    <label
+                    {/* <label
                       onClick={() => {
                         setOccupationalSector(true);
                       }}
                       style={{ marginTop: "10px", textDecoration: "underline" }}
                     >
                       Example
-                    </label>
+                    </label> */}
                   </div>
                 </div>
               )}
@@ -1159,305 +1243,389 @@ const [presentAlert] = useIonAlert();
               )}
               {formPage === 4 && (
                 <div style={{ padding: "15px" }}>
-                  {/* Mobile Number */}
+                  {/* Relation Type */}
                   <div className="inputBox">
                     <label>
-                      Mobile Number <span style={{ color: "red" }}>*</span>
+                      Relation Type <span style={{ color: "red" }}>*</span>
                     </label>
-                    <div className="p-inputgroup">
-                      {/* <span className="p-inputgroup-addon">
-                          <i className="pi pi-envelope"></i>
-                        </span> */}
-                      <InputText
-                        type="number"
-                        value={formData.refUserMobileno}
+                    <div
+                      className="addFamilyInputField gradientBackground02_opacity"
+                      style={{ width: "100%" }}
+                    >
+                      <span className="addFamilyInputField_Icon">
+                        <i className="pi pi-user"></i>
+                      </span>
+                      <Dropdown
+                        value={formData.refRelationType}
                         onChange={(e) => {
-                          const input = e.target.value;
-                          if (/^\d{0,10}$/.test(input)) {
-                            handleInputChange(e);
+                          if (e.value === "Other") {
+                            setRelationOther(true)
+                          } else {
+                            setRelationOther(false)
                           }
+                          handleDropdownChange(e, "refRelationType")
                         }}
-                        maxLength={10} // Ensures max length of 10
-                        placeholder="Enter Mobile Number"
-                        name="refUserMobileno"
+                        options={familyRelationOpt}
+                        style={{ textAlign: "left" }}
+                        placeholder="Select Relation Type"
+                        name="refRelationType"
+                        className="addFamilyDropdown"
+                        checkmark={true}
+                        highlightOnSelect={false}
                       />
                     </div>
                   </div>
-                  {/* Password */}
-                  <div className="inputBox">
-                    <label>
-                      Password <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="p-inputgroup">
-                      <Password
-                        value={formData.refUserPassword}
-                        onChange={handleInputChange}
-                        onCopy={(e) => e.preventDefault()}
-                        onPaste={(e) => e.preventDefault()}
-                        style={{ borderRadius: "10px" }}
-                        placeholder="Enter Password"
-                        name="refUserPassword"
-                        toggleMask
-                        feedback={false}
-                        tabIndex={1}
-                      />
-                    </div>
-                  </div>
-                  {/* Confirm Password */}
-                  <div className="inputBox">
-                    <label>
-                      Confirm Password <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <div className="p-inputgroup">
-                      <Password
-                        value={formData.refUserConPassword}
-                        onChange={handleInputChange}
-                        onCopy={(e) => e.preventDefault()}
-                        onPaste={(e) => e.preventDefault()}
-                        style={{ borderRadius: "10px" }}
-                        placeholder="Enter Confirm Password"
-                        name="refUserConPassword"
-                        toggleMask
-                        feedback={false}
-                        tabIndex={1}
-                      />
-                    </div>
-                  </div>
+                  {
+                    relationOther && (
+                      <div className="inputBox">
+                        <label>
+                          Enter Other Relation <span style={{ color: "red" }}>*</span>
+                        </label>
+                        <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                          <InputText
+                            style={{ width: "100%", textAlign: "left" }}
+                            className="addFamilyInputText"
+                            type="text"
+                            value={relationTypeValue}
+                            onChange={(e: any) => {
+                              setRelationTypeValue(e.target.value)
+                            }}
+                            placeholder="Enter Other Relation"
+                            name="refPincode"
+                          />
+                        </div>
+                      </div>
+                    )
 
-                  <div
-                    className="inputBox"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "10px",
-                      fontWeight: "600",
-                    }}
-                  >
+                  }
+                  {/* Same Account Login */}
+                  <div className="inputBox">
+                    <label>
+                      Use Same Account Login <span style={{ color: "red" }}>*</span>
+                    </label>
                     <div
-                      style={{
-                        display: "flex",
-                        fontSize: "1rem",
-                        color: "#45474b",
-                      }}
+                      className="addFamilyInputField"
+                      style={{ width: "100%", fontSize: "1rem", color: "#45474b" }}
                     >
-                      {/[a-zA-Z]/.test(formData.refUserPassword) ? (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "green",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-check"
-                          ></i>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-times"
-                          ></i>
-                        </div>
-                      )}
-                      &nbsp; Atleast One Character
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        fontSize: "1rem",
-                        color: "#45474b",
-                      }}
-                    >
-                      {/\d/.test(formData.refUserPassword) ? (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "green",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-check"
-                          ></i>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-times"
-                          ></i>
-                        </div>
-                      )}
-                      &nbsp; Atleast One Number
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        fontSize: "1rem",
-                        color: "#45474b",
-                      }}
-                    >
-                      {/[!@#$%^&*(),.?":{}|<>]/.test(
-                        formData.refUserPassword
-                      ) ? (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "green",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-check"
-                          ></i>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-times"
-                          ></i>
-                        </div>
-                      )}
-                      &nbsp; Atleast One Special Character
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        fontSize: "1rem",
-                        color: "#45474b",
-                      }}
-                    >
-                      {formData.refUserPassword.length > 7 ? (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "green",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-check"
-                          ></i>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-times"
-                          ></i>
-                        </div>
-                      )}
-                      &nbsp; Minimum 8 Characters
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        fontSize: "1rem",
-                        color: "#45474b",
-                      }}
-                    >
-                      {formData.refUserPassword ===
-                        formData.refUserConPassword &&
-                      formData.refUserPassword.length > 0 ? (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "green",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-check"
-                          ></i>
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            width: "25px",
-                            height: "25px",
-                            background: "red",
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderRadius: "50%",
-                          }}
-                        >
-                          <i
-                            style={{ fontSize: "15px", color: "#fff" }}
-                            className="pi pi-times"
-                          ></i>
-                        </div>
-                      )}
-                      &nbsp;Password Must Match
+                      <InputSwitch checked={formData.sameMobileNumber} onChange={() => { setFormData({ ...formData, sameMobileNumber: !formData.sameMobileNumber }) }} className="custom-switch" />
+                      ({urlMobileNo})
                     </div>
                   </div>
+                  {
+                    !formData.sameMobileNumber && (
+                      <>
+                        {/* Mobile Number */}
+                        <div className="inputBox">
+                          <label>
+                            Mobile Number <span style={{ color: "red" }}>*</span>
+                          </label>
+                          <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                            {/* <span className="p-inputgroup-addon">
+                                         <i className="pi pi-envelope"></i>
+                                       </span> */}
+                            <InputText
+                              style={{ width: "100%", textAlign: "left" }}
+                              className="addFamilyInputText"
+                              type="number"
+                              value={formData.refUserMobileno}
+                              onChange={(e) => {
+                                const input = e.target.value;
+                                if (/^\d{0,10}$/.test(input)) {
+                                  handleInputChange(e);
+                                }
+                              }}
+                              maxLength={10} // Ensures max length of 10
+                              placeholder="Enter Mobile Number"
+                              name="refUserMobileno"
+                            />
+                          </div>
+                        </div>
+                        {/* Password */}
+                        <div className="inputBox">
+                          <label>
+                            Password <span style={{ color: "red" }}>*</span>
+                          </label>
+                          <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                            <Password
+                              style={{ width: "100%", textAlign: "left" }}
+                              className="addFamilyInputText"
+                              onCopy={(e) => e.preventDefault()}
+                              onPaste={(e) => e.preventDefault()}
+                              value={formData.refUserPassword}
+                              onChange={handleInputChange}
+                              placeholder="Enter Password"
+                              name="refUserPassword"
+                              toggleMask
+                              feedback={false}
+                              tabIndex={1}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="inputBox"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "10px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              fontSize: "1rem",
+                              color: "#45474b",
+                            }}
+                          >
+                            {/[a-zA-Z]/.test(formData.refUserPassword) ? (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "green",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-check"
+                                ></i>
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-times"
+                                ></i>
+                              </div>
+                            )}
+                            &nbsp; Atleast One Character
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              fontSize: "1rem",
+                              color: "#45474b",
+                            }}
+                          >
+                            {/\d/.test(formData.refUserPassword) ? (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "green",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-check"
+                                ></i>
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-times"
+                                ></i>
+                              </div>
+                            )}
+                            &nbsp; Atleast One Number
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              fontSize: "1rem",
+                              color: "#45474b",
+                            }}
+                          >
+                            {/[!@#$%^&*(),.?":{}|<>]/.test(formData.refUserPassword) ? (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "green",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-check"
+                                ></i>
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-times"
+                                ></i>
+                              </div>
+                            )}
+                            &nbsp; Atleast One Special Character
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              fontSize: "1rem",
+                              color: "#45474b",
+                            }}
+                          >
+                            {formData.refUserPassword.length > 7 ? (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "green",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-check"
+                                ></i>
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-times"
+                                ></i>
+                              </div>
+                            )}
+                            &nbsp; Minimum 8 Characters
+                          </div>
+                        </div>
+                        {/* Confirm Password */}
+                        <div className="inputBox">
+                          <label>
+                            Confirm Password <span style={{ color: "red" }}>*</span>
+                          </label>
+                          <div className="p-inputgroup addFamilyInputField gradientBackground02_opacity">
+                            <Password
+                              style={{ width: "100%", textAlign: "left" }}
+                              className="addFamilyInputText"
+                              onCopy={(e) => e.preventDefault()}
+                              onPaste={(e) => e.preventDefault()}
+                              value={formData.refUserConPassword}
+                              onChange={handleInputChange}
+                              placeholder="Enter Confirm Password"
+                              name="refUserConPassword"
+                              toggleMask
+                              feedback={false}
+                              tabIndex={1}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className="inputBox"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "10px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              fontSize: "1rem",
+                              color: "#45474b",
+                            }}
+                          >
+                            {formData.refUserPassword === formData.refUserConPassword &&
+                              formData.refUserPassword.length > 0 ? (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "green",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-check"
+                                ></i>
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  width: "25px",
+                                  height: "25px",
+                                  background: "red",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  borderRadius: "50%",
+                                }}
+                              >
+                                <i
+                                  style={{ fontSize: "15px", color: "#fff" }}
+                                  className="pi pi-times"
+                                ></i>
+                              </div>
+                            )}
+                            &nbsp;Password Must Match
+                          </div>
+                        </div>
+                      </>
+                    )
+                  }
                 </div>
               )}
             </div>
@@ -1483,7 +1651,7 @@ const [presentAlert] = useIonAlert();
                   <i className="pi pi-arrow-left"></i>
                 </button>
               )}
-              {formPage === 3 ? (
+              {formPage === 4 ? (
                 <>
                   {loading ? (
                     <button className="submitbtn">
@@ -1493,8 +1661,8 @@ const [presentAlert] = useIonAlert();
                     <button
                       className="submitbtn"
                       onClick={() => {
-                        if (formPage === 3) {
-                          if (verifyForm3()) {
+                        if (formPage === 4) {
+                          if (verifyForm4()) {
                             setLoading(true);
                             handleSigup();
                             console.log("SignUp Success");
@@ -1516,6 +1684,11 @@ const [presentAlert] = useIonAlert();
                       }
                     } else if (formPage === 2) {
                       if (verifyForm2()) {
+                        handleNextPage();
+                      }
+                    } else if (formPage === 3) {
+                      if (verifyForm3()) {
+                        console.log("sfhdfg")
                         handleNextPage();
                       }
                     }

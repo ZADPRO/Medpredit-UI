@@ -131,6 +131,8 @@ const Enroll: React.FC = () => {
           token: "Bearer " + data.token,
         };
 
+        localStorage.setItem("refLanCode", "1");
+
         localStorage.setItem("currentPatientId", userId);
 
         localStorage.setItem("userDetails", JSON.stringify(userDetails));
@@ -153,6 +155,9 @@ const Enroll: React.FC = () => {
     }
   };
 
+
+  const [accessToken, setAccessToken] = useState(null);
+
   const handleSignIn = async () => {
     setLoadingStatus(true);
     try {
@@ -167,93 +172,74 @@ const Enroll: React.FC = () => {
         import.meta.env.VITE_ENCRYPTION_KEY
       );
 
-      console.log(data);
+      console.log("Line 173", data);
 
       setLoadingStatus(false);
 
       if (data.status) {
 
-        console.log(data.roleType);
-
-        if (data.roleType === 1) {
-          console.log(data.action);
-
-          if (data.action === "single") {
+        if (data.action === "single") {
+          if (data.roleId === 1 || data.roleId == 4) {
             const userDetails = {
-              roleType: data.roleType,
+              roleType: data.roleId,
               token: "Bearer " + data.token,
             };
 
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
-            localStorage.setItem("hospitalId", data.hospitaId);
+            localStorage.setItem("hospitalId", data.userData[0].refHospitalId);
+            localStorage.setItem("refLanCode", "1");
 
             history.push("/home", {
               direction: "forward",
               animation: "slide",
             });
-          } else if (data.action === "multiple") {
-            console.log(data);
+          } else if (data.roleId === 5) {
             const userDetails = {
-              roleType: data.roleType,
+              roleType: data.roleId,
               token: "Bearer " + data.token,
             };
 
             localStorage.setItem("userDetails", JSON.stringify(userDetails));
-            setHospitalData(data.hospitals);
-            setHospitalModel(true);
+            localStorage.setItem("hospitalId", data.userData[0].refHospitalId);
+            localStorage.setItem("refLanCode", "1");
+
+            history.push("/configure", {
+              direction: "forward",
+              animation: "slide",
+            });
+          } else if (data.roleId === 2) {
+            const userDetails = {
+              roleType: data.roleId,
+              token: "Bearer " + data.token,
+            };
+
+            localStorage.setItem("userDetails", JSON.stringify(userDetails));
+            localStorage.setItem("hospitalId", data.hospitalId);
+            localStorage.setItem("refLanCode", "1");
+
+            history.push("/home", {
+              direction: "forward",
+              animation: "slide",
+            });
+          } else {
+            setErrorMessage("Invalid username or password");
+
+            setToastMessage("*Invalid username or password");
+            setShowToast(true);
           }
-        } else if (data.roleType === 3) {
-          // if (data.action === "single") {
-          //   const userDetails = {
-          //     roleType: data.roleType,
-          //     token: "Bearer " + data.token,
-          //   };
+        } else if (data.action === "multiple") {
+          if (data.roleId === 1 || data.roleId == 4) {
+            setAccessToken(data.token);
+            setHospitalData(data.userData);
+            setHospitalModel(true);
+          } else {
+            setErrorMessage("Invalid username or password");
 
-          //   localStorage.setItem("currentPatientId", data.users[0].refUserId);
-
-          //   localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          //   localStorage.setItem("hospitalId", data.hospitaId);
-
-          //   history.push("/checkup", {
-          //     direction: "forward",
-          //     animation: "slide",
-          //   });
-          // } else if (data.action === "multiple") {
-          //   setUsersList(data.users);
-          //   setUserModel(true);
-          //   setLoadingStatus(true);
-          // }
-          setErrorMessage("Invalid username or password");
-
-          setToastMessage("*Invalid username or password");
-          setShowToast(true);
-        } else if (data.roleType === 5) {
-          const userDetails = {
-            roleType: data.roleType,
-            token: "Bearer " + data.token,
-          };
-
-          localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          localStorage.setItem("hospitalId", data.hospitaId);
-
-          history.push("/configure", {
-            direction: "forward",
-            animation: "slide",
-          });
-        } else {
-          const userDetails = {
-            roleType: data.roleType,
-            token: "Bearer " + data.token,
-          };
-
-          localStorage.setItem("userDetails", JSON.stringify(userDetails));
-          localStorage.setItem("hospitalId", data.hospitaId);
-
-          history.push("/home", {
-            direction: "forward",
-            animation: "slide",
-          });
+            setToastMessage("*Invalid username or password");
+            setShowToast(true);
+          }
         }
+
       } else {
         setErrorMessage("Invalid username or password");
 
@@ -292,27 +278,18 @@ const Enroll: React.FC = () => {
 
   const [hospitalsData, setHospitalData] = useState<HospitalData[]>([]);
 
-  const hospitalsDataSample = [
-    {
-      refHospitalName: "KMCH Hostpital",
-      FullAddress: "Salem, Salem, Salem, Salem",
-      refHospitalId: "0001",
-    },
-    {
-      refHospitalName: "Kauvery Hostpital",
-      FullAddress: "Salem, Salem, Salem, Salem",
-      refHospitalId: "0002",
-    },
-    {
-      refHospitalName: "Lotus Hostpital",
-      FullAddress: "Salem, Salem, Salem, Salem",
-      refHospitalId: "0003",
-    },
-  ];
+  const handleChooseLanguage = (hospitalId: any, roleId: any) => {
 
-  const handleChooseLanguage = (hospitalId: any) => {
-    setHospitalModel(false);
+    const userDetails = {
+      roleType: parseInt(roleId),
+      token: "Bearer " + accessToken,
+    };
+
+    localStorage.setItem("userDetails", JSON.stringify(userDetails));
     localStorage.setItem("hospitalId", hospitalId);
+    localStorage.setItem("refLanCode", "1")
+
+    setHospitalModel(false);
 
     history.push("/home", {
       direction: "forward",
@@ -429,10 +406,10 @@ const Enroll: React.FC = () => {
                   gap: "0.5rem",
                 }}
               >
-                {hospitalsData.map((hospitalData, index) => (
+                {hospitalsData.map((hospitalData: any, index) => (
                   <div
                     onClick={() => {
-                      handleChooseLanguage(hospitalData.refHospitalId);
+                      handleChooseLanguage(hospitalData.refHospitalId, hospitalData.refDMRoleId);
                     }}
                     key={index}
                     style={{
@@ -530,7 +507,7 @@ const Enroll: React.FC = () => {
               onChange={(e) => handleInputChange(e, true)}
               error={errorMessage ? true : false}
             />
-            <div
+            {/* <div
               style={{
                 fontSize: "1.3rem",
                 fontWeight: "500",
@@ -539,7 +516,7 @@ const Enroll: React.FC = () => {
               }}
             >
               Forgot Password?
-            </div>
+            </div> */}
           </div>
           {showToast && <IonText color="danger">{toastMessage}</IonText>}{" "}
           <div className="signInFooter">
@@ -556,7 +533,7 @@ const Enroll: React.FC = () => {
               )}
             </button>
 
-            <p>
+            {/* <p>
               Don't have an Account?{" "}
               <span
                 onClick={() => {
@@ -565,7 +542,7 @@ const Enroll: React.FC = () => {
               >
                 SignUp
               </span>
-            </p>
+            </p> */}
           </div>
         </div>
       </IonContent>

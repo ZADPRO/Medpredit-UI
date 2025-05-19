@@ -120,6 +120,7 @@ const PastReport: React.FC = () => {
                   : localStorage.getItem("currentDoctorId"),
               hospitalId: localStorage.getItem("hospitalId"),
               reportDate: reportDate,
+              refLanCode: localStorage.getItem("refLanCode")
             },
             {
               headers: {
