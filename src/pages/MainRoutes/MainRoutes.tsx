@@ -7,7 +7,7 @@ import {
   IonTabButton,
   IonTabBar,
 } from "@ionic/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Redirect, Route, useHistory, useLocation } from "react-router";
 import Tab1 from "../Tab1/Tab1";
 import Tab2 from "../Tab2/Tab2";
@@ -84,30 +84,43 @@ import "./MainRoutes.css";
 import UserSettings from "../UserSettings/UserSettings";
 import ChangePassword1 from "../../components/04-ChangePassword/ChangePassword1";
 import ChangePhoneNumber from "../../components/06-ChangePhoneNumber/ChangePhoneNumber";
+import { Capacitor } from "@capacitor/core";
 
 const MainRoutes: React.FC = () => {
   const location = useLocation();
 
-  const configureStatusBar = async () => {
-    const path = location.pathname;
-    let bgcolor = "#ffffff";
-    if (path === "/profile") {
-      bgcolor = "#0969b3";
-    } else if (
-      path === "/currentReport/:reportDate" ||
-      path === "/pastreport/:reportDate"
-    ) {
-      bgcolor = "#b8e1ff";
+  useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      StatusBar.setOverlaysWebView({ overlay: false });
+      StatusBar.setStyle({ style: Style.Light });
+      StatusBar.setBackgroundColor({ color: "#ffffff" });
+
+      return () => {
+        StatusBar.setOverlaysWebView({ overlay: true });
+      };
     }
-    // Change the color (example: blue)
-    await StatusBar.setBackgroundColor({ color: bgcolor });
+  }, []);
 
-    // Optional: Set the style (light or dark content)
-    await StatusBar.setStyle({ style: Style.Light });
-  };
+  // const configureStatusBar = async () => {
+  //   const path = location.pathname;
+  //   let bgcolor = "#ffffff";
+  //   if (path === "/profile") {
+  //     bgcolor = "#0969b3";
+  //   } else if (
+  //     path === "/currentReport/:reportDate" ||
+  //     path === "/pastreport/:reportDate"
+  //   ) {
+  //     bgcolor = "#b8e1ff";
+  //   }
+  //   // Change the color (example: blue)
+  //   await StatusBar.setBackgroundColor({ color: bgcolor });
 
-  // Call the function on app startup
-  configureStatusBar();
+  //   // Optional: Set the style (light or dark content)
+  //   await StatusBar.setStyle({ style: Style.Light });
+  // };
+
+  // // Call the function on app startup
+  // configureStatusBar();
 
   const showTabBar = [
     "/home",

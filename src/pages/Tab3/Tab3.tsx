@@ -16,7 +16,7 @@ const Tab3: React.FC = () => {
         </IonToolbar>
       </IonHeader> */}
       <IonPage>
-        <IonContent fullscreen>
+        <IonContent>
           <div
             style={{
               width: "100%",

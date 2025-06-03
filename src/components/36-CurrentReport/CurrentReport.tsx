@@ -595,9 +595,44 @@ const CurrentReport: React.FC = () => {
         </>
       ) : (
         <>
-          <IonContent fullscreen>
+          <IonHeader>
+            <IonToolbar>
+              <div
+                style={{
+                  height:"8vh",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  background: "#b8e1ff",
+                  alignItems: "center",
+                  width: "100%",
+                  fontSize: "0.9rem",
+                  fontWeight: "600",
+                  padding: "1rem",
+                }}
+              >
+                <span>
+                  <button
+                  style={{
+                    background:"transparent"
+                  }}
+                    onClick={() => {
+                      history.goBack();
+                    }}
+                  >
+                    <IonIcon size="large" icon={chevronBack}></IonIcon>
+                  </button>
+                </span>
+                <span> Report Date: {reportDate}</span>
+                <span>
+                  <ReportPDF reportDate={reportDate} />
+                </span>
+              </div>
+            </IonToolbar>
+          </IonHeader>
+
+          <IonContent>
             <div className="pastReport medpredit-page-background">
-              <div className="pastReport_toolBar ">
+              {/* <div className="pastReport_toolBar ">
                 <button
                   onClick={() => {
                     history.goBack();
@@ -609,7 +644,7 @@ const CurrentReport: React.FC = () => {
                   Report Date: {reportDate}
                 </div>
                 <ReportPDF reportDate={reportDate} />
-              </div>
+              </div> */}
 
               <div className="pastReport_MainCategory">
                 {structuredCategories.map(

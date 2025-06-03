@@ -200,7 +200,7 @@ const AddEmployee: React.FC = () => {
           </IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <Carousel
           autoPlay={false}
           infiniteLoop={false}

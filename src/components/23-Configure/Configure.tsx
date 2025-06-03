@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonPage,
   IonRippleEffect,
+  IonToolbar,
 } from "@ionic/react";
 import { useHistory } from "react-router";
 import { chevronForward } from "ionicons/icons";
@@ -44,10 +45,30 @@ const Configure = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              padding: "1rem",
+            }}
+          >
+            <span></span>
+            <span>Configure</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
         <div className="tab2 medpredit-page-background">
           <div className="">
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -61,7 +82,7 @@ const Configure = () => {
               <span></span>
               <span>Configure</span>
               <span></span>
-            </div>
+            </div> */}
 
             <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
               {view.map((element, index) => (

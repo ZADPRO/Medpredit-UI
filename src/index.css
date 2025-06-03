@@ -4,7 +4,7 @@
   font-family: "Nunito", serif;
   font-optical-sizing: auto;
   font-style: normal;
-  scrollbar-width:auto!important;
+  scrollbar-width: auto !important;
 }
 
 
@@ -16,11 +16,13 @@ ion-modal#doctorDetailsGraph {
   /* --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4); */
   --justify-content: start;
   --align-items: start;
-  --max-height: 90vh; /* Prevent overflow */
-  overflow: auto; /* Allow scrolling if needed */
+  --max-height: 90vh;
+  /* Prevent overflow */
+  overflow: auto;
+  /* Allow scrolling if needed */
 }
 
-.p-inputswitch:not(.p-disabled):has(.p-inputswitch-input:hover).p-highlight .p-inputswitch-slider{
+.p-inputswitch:not(.p-disabled):has(.p-inputswitch-input:hover).p-highlight .p-inputswitch-slider {
   background-color: #1c70b0 !important;
 }
 
@@ -31,41 +33,41 @@ ion-modal#doctorDetailsGraph {
   background: white;
 }
 
-.input-react-timekeeper> .react-timekeeper{
-  width: 100%!important;
-  margin: 0!important;
+.input-react-timekeeper>.react-timekeeper {
+  width: 100% !important;
+  margin: 0 !important;
 }
 
-.input-react-timekeeper> .react-timekeeper>div{
+.input-react-timekeeper>.react-timekeeper>div {
   text-align: center;
-  font-weight: bold!important;
+  font-weight: bold !important;
 }
 
-.input-react-timekeeper> .react-timekeeper>div>div{
-  left:0!important;
-  color: rgb(164, 214, 245)!important;
+.input-react-timekeeper>.react-timekeeper>div>div {
+  left: 0 !important;
+  color: rgb(164, 214, 245) !important;
 }
 
-.input-react-timekeeper> .react-timekeeper>span{
-  background: var(--gradient-background-02)!important;
-  color: white!important;
-  font-weight: bold!important;
-  font-size: medium!important;
+.input-react-timekeeper>.react-timekeeper>span {
+  background: var(--gradient-background-02) !important;
+  color: white !important;
+  font-weight: bold !important;
+  font-size: medium !important;
 }
 
-.input-react-timekeeper> .react-timekeeper .react-timekeeper__clock-wrapper {
-    background: var(--gradient-background-02-opacity)!important;
+.input-react-timekeeper>.react-timekeeper .react-timekeeper__clock-wrapper {
+  background: var(--gradient-background-02-opacity) !important;
 }
 
 /* Custom Scrollbar Styles*/
 
 ::-webkit-scrollbar {
-  scrollbar-width: none!important;
+  scrollbar-width: none !important;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
   width: 8px;
-  background-color:  rgb(164, 214, 245);
+  background-color: rgb(164, 214, 245);
 
   border-radius: 4px;
 }
@@ -83,7 +85,7 @@ ion-modal#doctorDetailsGraph {
 }
 
 .custom-scrollbar02::-webkit-scrollbar-thumb {
-  background-color:  rgb(164, 214, 245);
+  background-color: rgb(164, 214, 245);
   border-radius: 4px;
 }
 
@@ -185,8 +187,7 @@ textarea:focus {
   outline: none;
 }
 
-.p-checkbox:not(.p-disabled):has(.p-checkbox-input:hover).p-highlight
-  .p-checkbox-box {
+.p-checkbox:not(.p-disabled):has(.p-checkbox-input:hover).p-highlight .p-checkbox-box {
   border-color: #6b7280;
   background-color: black;
 }
@@ -209,11 +210,8 @@ ion-checkbox::part(container) {
   gap: 1rem;
 }
 
-.p-password.p-component.p-inputwrapper.p-input-icon-right
-  .p-icon-field.p-icon-field-right,
-.p-password.p-component.p-inputwrapper.p-input-icon-right
-  .p-icon-field.p-icon-field-right
-  .p-password-input.p-inputtext.p-component {
+.p-password.p-component.p-inputwrapper.p-input-icon-right .p-icon-field.p-icon-field-right,
+.p-password.p-component.p-inputwrapper.p-input-icon-right .p-icon-field.p-icon-field-right .p-password-input.p-inputtext.p-component {
   inline-size: 100%;
   border-start-start-radius: 0px;
   border-end-start-radius: 0px;
@@ -229,104 +227,80 @@ ion-tab-bar {
 }
 
 :root {
-  --gradient-button-01: linear-gradient(
-    57deg,
-    rgb(15, 149, 232) 0%,
-    rgb(3, 117, 198) 100%
-  );
-  --gradient-button-02: linear-gradient(
-    230deg,
-    rgb(15, 149, 232) 0%,
-    rgb(3, 117, 198) 100%
-  );
-  --gradient-button-02-opacity: linear-gradient(
-    230deg,
-    rgba(15, 149, 232, 0.4) 0%,
-    rgba(3, 117, 198, 0.4) 100%
-  );
-  --gradient-background-02: linear-gradient(
-    -167deg,
-    rgb(15, 149, 232) 0%,
-    rgb(3, 117, 198) 100%
-  );
-  --gradient-background-02-opacity: linear-gradient(
-    142deg,
-    rgba(182, 227, 247, 1) 0%,
-    rgba(198, 233, 252, 1) 100%
-  );
-  --gradient-background-02-opacity-disabled: linear-gradient(
-    142deg,
-    rgba(182, 227, 247, 0.5) 0%,
-    rgba(198, 233, 252, 0.5) 100%
-  );
+  --gradient-button-01: linear-gradient(57deg,
+      rgb(15, 149, 232) 0%,
+      rgb(3, 117, 198) 100%);
+  --gradient-button-02: linear-gradient(230deg,
+      rgb(15, 149, 232) 0%,
+      rgb(3, 117, 198) 100%);
+  --gradient-button-02-opacity: linear-gradient(230deg,
+      rgba(15, 149, 232, 0.4) 0%,
+      rgba(3, 117, 198, 0.4) 100%);
+  --gradient-background-02: linear-gradient(-167deg,
+      rgb(15, 149, 232) 0%,
+      rgb(3, 117, 198) 100%);
+  --gradient-background-02-opacity: linear-gradient(142deg,
+      rgba(182, 227, 247, 1) 0%,
+      rgba(198, 233, 252, 1) 100%);
+  --gradient-background-02-opacity-disabled: linear-gradient(142deg,
+      rgba(182, 227, 247, 0.5) 0%,
+      rgba(198, 233, 252, 0.5) 100%);
 }
 
 .medpredit-page-background {
-  background: linear-gradient(
-    227deg,
-    rgba(255, 255, 255, 1) 39%,
-    rgba(255, 255, 255, 1) 61%,
-    rgba(217, 240, 255, 1) 100%
-  );
+  background: linear-gradient(227deg,
+      rgba(255, 255, 255, 1) 39%,
+      rgba(255, 255, 255, 1) 61%,
+      rgba(217, 240, 255, 1) 100%);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .gradientButton01 {
-  background: linear-gradient(
-    57deg,
-    rgba(14, 149, 231, 1) 0%,
-    rgb(3, 118, 199) 100%
-  );
+  background: linear-gradient(57deg,
+      rgba(14, 149, 231, 1) 0%,
+      rgb(3, 118, 199) 100%);
 }
 
 .gradientButton02 {
-  background: linear-gradient(
-    230deg,
-    rgb(15, 149, 232) 0%,
-    rgb(3, 117, 198) 100%
-  );
+  background: linear-gradient(230deg,
+      rgb(15, 149, 232) 0%,
+      rgb(3, 117, 198) 100%);
 }
 
 .gradientBackground02 {
-  background: linear-gradient(
-    -167deg,
-    rgb(15, 149, 232) 0%,
-    rgb(3, 117, 198) 100%
-  );
+  background: linear-gradient(-167deg,
+      rgb(15, 149, 232) 0%,
+      rgb(3, 117, 198) 100%);
 }
 
 .gradientBackground02_opacity {
-  background: linear-gradient(
-    -167deg,
-    rgba(15, 149, 232, 0.35) 0%,
-    rgba(3, 117, 198, 0.35) 100%
-  );
+  background: linear-gradient(-167deg,
+      rgba(15, 149, 232, 0.35) 0%,
+      rgba(3, 117, 198, 0.35) 100%);
 }
 
-.gradientBackground02_opacity_disabled{
-  background: linear-gradient(
-    142deg,
-    rgba(182, 227, 247, 0.2) 0%,
-    rgba(198, 233, 252, 0.2) 100%
-  );
+.gradientBackground02_opacity_disabled {
+  background: linear-gradient(142deg,
+      rgba(182, 227, 247, 0.2) 0%,
+      rgba(198, 233, 252, 0.2) 100%);
 }
 
-.backgroundColor01{
+.backgroundColor01 {
   background: rgb(184, 225, 255);
 }
 
-.boxShadow01{
-  -webkit-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
-box-shadow: 0px 14px 18px -15px rgba(0,0,0,0.75);
+.boxShadow01 {
+  -webkit-box-shadow: 0px 14px 18px -15px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 14px 18px -15px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 14px 18px -15px rgba(0, 0, 0, 0.75);
 }
 
-.boxShadow02-inset{
-  -webkit-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
--moz-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
-box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
+.boxShadow02-inset {
+  -webkit-box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0px 0px 6px 0px rgba(0, 0, 0, 0.2);
 }
 
 /* Override the alert wrapper */
@@ -335,7 +309,7 @@ box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
   border-radius: 20px !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
   padding: 1rem;
-  max-width: 80%!important;
+  max-width: 80% !important;
 }
 
 /* Customize header */
@@ -352,11 +326,11 @@ box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
   padding: 1rem !important;
 }
 
-.alert-button-group{
+.alert-button-group {
   justify-content: space-between;
-  gap:0.4rem;
-  flex-wrap: nowrap!important;
-  width: 100%!important;
+  gap: 0.4rem;
+  flex-wrap: nowrap !important;
+  width: 100% !important;
   align-items: center;
 }
 
@@ -366,17 +340,28 @@ box-shadow: inset 0px 0px 6px 0px rgba(0,0,0,0.2);
   padding: 8px 16px !important;
   font-weight: bold !important;
   border: none;
-  max-width: 40%!important;
-  min-width: 10%!important;
-  border: none!important;
+  max-width: 40% !important;
+  min-width: 10% !important;
+  border: none !important;
 }
 
 .alert-button-role-confirm {
-  background: rgb(177,235,255) !important;
+  background: rgb(177, 235, 255) !important;
   color: rgb(15, 149, 232) !important;
 }
 
 .alert-button-role-cancel {
-  background: var(--gradient-button-02)!important;
-  color: rgb(177,235,255) !important;
+  background: var(--gradient-button-02) !important;
+  color: rgb(177, 235, 255) !important;
+}
+
+ion-header, ion-toolbar {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --inner-padding-top: 0;
+  --inner-padding-bottom: 0;
 }

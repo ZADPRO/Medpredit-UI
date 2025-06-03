@@ -164,7 +164,7 @@ const KnowAboutPatient: React.FC = () => {
           employeeId: localStorage.getItem("currentDoctorId")
             ? localStorage.getItem("currentDoctorId")
             : null,
-            refLanCode: localStorage.getItem("refLanCode")
+          refLanCode: localStorage.getItem("refLanCode")
         },
         {
           headers: {
@@ -351,9 +351,33 @@ const KnowAboutPatient: React.FC = () => {
         </>
       ) : (
         <>
-          <IonContent>
-            <div className="KnowAboutPatient medpredit-page-background">
+          <IonHeader>
+            <IonToolbar>
               <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  background: "#fff",
+                  alignItems: "center",
+                  width: "100%",
+                  fontSize: "1.2rem",
+                  fontWeight: "600",
+                  padding: "1rem",
+                }}
+              >
+                <span> <IonIcon
+                  size="large"
+                  onClick={() => { history.goBack(); localStorage.setItem("getMainCat", "") }}
+                  icon={chevronBack}
+                ></IonIcon></span>
+                <span>{patient}</span>
+                <span></span>
+              </div>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <div className=" medpredit-page-background">
+              {/* <div
                 style={{
                   paddingTop: "15px",
                   paddingBottom: "10px",
@@ -375,7 +399,7 @@ const KnowAboutPatient: React.FC = () => {
                 ></IonIcon>
                 <span>{patient}</span>
                 <span style={{ position: "absolute", right: "0px" }}></span>
-              </div>
+              </div> */}
 
               <IonSegment
                 id="KnowAboutPatient_Modal"
@@ -561,7 +585,7 @@ const KnowAboutPatient: React.FC = () => {
                                           id="yearPicker_Popover"
                                           isOpen={showYearPicker}
                                           trigger="trigger-button"
-                                          onDidDismiss={() => setShowYearPicker(!showYearPicker)}
+                                          onDidDismiss={() => setShowYearPicker(false)}
                                         >
                                           {[
                                             ...Array(

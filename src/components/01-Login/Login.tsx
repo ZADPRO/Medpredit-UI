@@ -13,7 +13,7 @@ import BACKGROUND_LearnAbout from "../../assets/images_new/BACKGROUND_LearnAbout
 import BACKGROUND_Effortless from "../../assets/images_new/BACKGROUND_Effortless.png";
 
 import "./Login.css";
-import { IonContent, IonIcon, IonPage, IonRippleEffect } from "@ionic/react";
+import { IonContent, IonHeader, IonIcon, IonPage, IonRippleEffect, IonTitle, IonToolbar } from "@ionic/react";
 import { chevronBackCircle, chevronForwardCircle } from "ionicons/icons";
 import { useHistory } from "react-router";
 
@@ -53,7 +53,7 @@ const Login: React.FC = () => {
 
   return (
     <IonPage>
-      {/*<IonContent fullscreen>
+      {/*<IonContent>
         <div className="skipButton ">
           <p
             className="ion-activatable ripple-parent rectangle"
@@ -147,7 +147,7 @@ const Login: React.FC = () => {
         </div>
       </IonContent>*/}
 
-      <IonContent fullscreen>
+      <IonContent>
         <Carousel
           autoPlay={false}
           infiniteLoop={false}

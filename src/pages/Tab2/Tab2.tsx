@@ -1,6 +1,9 @@
 import {
   IonContent,
+  IonHeader,
   IonPage,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
 import "./Tab2.css";
 import { useRef, useState } from "react";
@@ -109,10 +112,30 @@ const Tab2: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen ref={contentRef}>
+      <IonHeader>
+        <IonToolbar>
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                background: "#fff",
+                alignItems: "center",
+                width: "100%",
+                fontSize: "1.2rem",
+                fontWeight: "600",
+                padding: "1rem",
+              }}
+            >
+              <span></span>
+              <span>Patient</span>
+              <span></span>
+            </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
         <div className="tab2 medpredit-page-background">
           <div className="tab2TopDiv">
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -126,7 +149,7 @@ const Tab2: React.FC = () => {
               <span></span>
               <span>Patient</span>
               <span></span>
-            </div>
+            </div> */}
 
             <SearchInput
               type="number"

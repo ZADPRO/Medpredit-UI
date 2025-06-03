@@ -1,4 +1,4 @@
-import { IonContent, IonIcon, IonPage } from "@ionic/react";
+import { IonContent, IonHeader, IonIcon, IonPage, IonToolbar } from "@ionic/react";
 import { chevronBack } from "ionicons/icons";
 import React from "react";
 import { useHistory } from "react-router";
@@ -11,25 +11,53 @@ const UserSettings = () => {
 
   const settingOptions = [
     {
-        optionID: 1,
+      optionID: 1,
       title: "Change Phone Number",
       path: "/changePhoneNumber"
     },
     {
-        optionID: 2,
-        title: "Change Password",
-        path: "/changePassword1"
-      },
+      optionID: 2,
+      title: "Change Password",
+      path: "/changePassword1"
+    },
   ];
 
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              height: "8vh",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom: "1px solid #0c436c"
+            }}
+          >
+            <span><IonIcon
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span>Profile</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
         <div
-          style={{ height: "100vh", width: "100vw" }}
+          style={{ height: "92vh", width: "100vw" }}
           className="KnowAboutPatient medpredit-page-background"
         >
-          <div
+          {/* <div
             style={{
               position: "relative",
               display: "flex",
@@ -58,7 +86,7 @@ const UserSettings = () => {
               Profile
             </span>
             <span></span>
-          </div>
+          </div> */}
 
           <div
             style={{

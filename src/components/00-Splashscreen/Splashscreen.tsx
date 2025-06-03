@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import "./Splashscreen.css";
-import { IonContent, IonPage } from "@ionic/react";
+import { IonContent, IonHeader, IonPage } from "@ionic/react";
 
 import logo1 from "../../assets/logo/icon.svg";
 import logo2 from "../../assets/logo/logo.svg";
@@ -25,7 +25,7 @@ const Splashscreen: React.FC = () => {
         //   history.replace("/login");
         // }
 
-        if (roleType != null) {
+        if (roleType !== 1 || roleType !== 2 || roleType !== 3 || roleType !== 4 || roleType !== 5) {
           if (roleType === 5) {
             history.replace("/configure");
           } else {
@@ -45,13 +45,14 @@ const Splashscreen: React.FC = () => {
 
   return (
     <IonPage>
-      {/*<IonContent fullscreen>
+      {/*<IonContent>
         <div className="splashScreenContents ion-padding-start ion-padding-end">
           <img src={logo2} alt="" />
           {/* <p>MEDPREDiT</p> */
       /*}
         </div>
       </IonContent>*/}
+      <IonHeader></IonHeader>
 
       <IonContent>
         {/* style={{ backgroundImage: `url(${BACKGROUND02})` }} */}

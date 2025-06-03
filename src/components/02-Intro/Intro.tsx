@@ -20,7 +20,7 @@ const Intro: React.FC = () => {
   return (
     <IonPage>
       {/*
-      <IonContent fullscreen>
+      <IonContent>
         <div className="loginScreen">
           <img src={introImgSvg} alt="" />
           <div className="loginContents">
@@ -55,7 +55,7 @@ const Intro: React.FC = () => {
       </IonContent>
       */}
 
-      <IonContent fullscreen>
+      <IonContent>
         <div className="loginScreen">
           <h2>Welcome to </h2>
           <h1 className="Medprit">MEDPREDiT</h1>

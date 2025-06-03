@@ -144,156 +144,186 @@ const MangeDoctor = () => {
           </IonContent>
         </>
       ) : (
-        <IonContent>
-          <div
-            className="KnowAboutPatient medpredit-page-background"
-            style={{ height: "100vh", overflow: "auto" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                fontSize: "1.2rem",
-                fontWeight: "600",
-                margin: "1rem",
-              }}
-            >
-              <IonIcon
-                size="large"
-                onClick={() => history.replace("/configure", {
-                  direction: "backward",
-                  animation: "slide",
-                })}
-                icon={chevronBack}
-              ></IonIcon>
-              <span>Manage Doctor</span>
-              <span></span>
-            </div>
-
-            <div className="ion-padding">
-              <SearchInput
-                type="text"
-                placeholder="Enter Name or ID"
-                value={searchTerm}
-                className="gradientBackground02_opacity"
-                onChange={(e) => { setSearchTerm(e.target.value); console.log(e.target.value) }}
-                onClear={() => {
-                  setSearchTerm("");
-                }}
-              />
+        <>
+          <IonHeader>
+            <IonToolbar>
               <div
                 style={{
-                  marginTop: "20px",
                   display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
+                  justifyContent: "space-between",
+                  background: "#fff",
+                  alignItems: "center",
+                  width: "100%",
+                  fontSize: "1.2rem",
+                  height: "8vh",
+                  fontWeight: "600",
+                  padding: "1rem",
+                  borderBottom: "1px solid #0c436c"
                 }}
               >
-                {filteredUsers.length > 0 ? (
-                  filteredUsers.map((element: any, index: number) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        padding: "10px",
-                        fontWeight: "700",
-                        gap: "10px",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        borderBottom: "1px solid #21446c",
-                      }}
-                    >
+                <span><IonIcon
+                  size="large"
+                  onClick={() => {
+                    history.goBack();
+                  }}
+                  icon={chevronBack}
+                ></IonIcon></span>
+                <span>Manage Doctor</span>
+                <span></span>
+              </div>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <div
+              className="KnowAboutPatient medpredit-page-background"
+              style={{ height: "92vh", overflow: "auto" }}
+            >
+              {/* <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontSize: "1.2rem",
+                  fontWeight: "600",
+                  margin: "1rem",
+                }}
+              >
+                <IonIcon
+                  size="large"
+                  onClick={() => history.replace("/configure", {
+                    direction: "backward",
+                    animation: "slide",
+                  })}
+                  icon={chevronBack}
+                ></IonIcon>
+                <span>Manage Doctor</span>
+                <span></span>
+              </div> */}
+
+              <div className="ion-padding">
+                <SearchInput
+                  type="text"
+                  placeholder="Enter Name or ID"
+                  value={searchTerm}
+                  className="gradientBackground02_opacity"
+                  onChange={(e) => { setSearchTerm(e.target.value); console.log(e.target.value) }}
+                  onClear={() => {
+                    setSearchTerm("");
+                  }}
+                />
+                <div
+                  style={{
+                    marginTop: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                  }}
+                >
+                  {filteredUsers.length > 0 ? (
+                    filteredUsers.map((element: any, index: number) => (
                       <div
+                        key={index}
                         style={{
                           display: "flex",
-                          flexDirection: "row",
-                          width: "75%",
+                          padding: "10px",
+                          fontWeight: "700",
                           gap: "10px",
-                          alignItems: "center",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          borderBottom: "1px solid #21446c",
                         }}
                       >
                         <div
                           style={{
-                            width: "50px",
-                            height: "50px",
-                            backgroundColor: "#a9d5f1",
-                            borderRadius: "100%",
                             display: "flex",
-                            justifyContent: "center",
+                            flexDirection: "row",
+                            width: "75%",
+                            gap: "10px",
                             alignItems: "center",
                           }}
                         >
-                          <img
-                            src={DoctorLogo}
-                            style={{ width: "30px" }}
-                            alt={element.refUserCustId}
-                          />
+                          <div
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              backgroundColor: "#a9d5f1",
+                              borderRadius: "100%",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              src={DoctorLogo}
+                              style={{ width: "30px" }}
+                              alt={element.refUserCustId}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "5px",
+                              fontSize: "0.8rem",
+                            }}
+                          >
+                            <div>{element.name}</div>
+                            <div>{element.refUserCustId}</div>
+                          </div>
                         </div>
                         <div
+                          className="questionsbuttonGroup_01"
                           style={{
+                            width: "25%",
                             display: "flex",
+                            justifyContent: "center",
                             flexDirection: "column",
                             gap: "5px",
-                            fontSize: "0.8rem",
                           }}
                         >
-                          <div>{element.name}</div>
-                          <div>{element.refUserCustId}</div>
+                          <button
+                            style={{
+                              width: "100%",
+                              padding: "3px",
+                              fontSize: "0.7rem",
+                              borderRadius: "5px",
+                            }}
+                            className={`questionsTextOptions_01 ${element.activeStatus === "true" ? "selected" : ""
+                              }`}
+                            onClick={() => {
+                              handleActiveStatus(index, "true", element.Id);
+                            }}
+                          >
+                            Active
+                          </button>
+                          <button
+                            style={{
+                              width: "100%",
+                              padding: "3px",
+                              fontSize: "0.7rem",
+                              borderRadius: "5px",
+                            }}
+                            className={`questionsTextOptions_01 ${element.activeStatus === "false"
+                              ? "selected"
+                              : ""
+                              }`}
+                            onClick={() => {
+                              handleActiveStatus(index, "false", element.Id);
+                            }}
+                          >
+                            Inactive
+                          </button>
                         </div>
                       </div>
-                      <div
-                        className="questionsbuttonGroup_01"
-                        style={{
-                          width: "25%",
-                          display: "flex",
-                          justifyContent: "center",
-                          flexDirection: "column",
-                          gap: "5px",
-                        }}
-                      >
-                        <button
-                          style={{
-                            width: "100%",
-                            padding: "3px",
-                            fontSize: "0.7rem",
-                            borderRadius: "5px",
-                          }}
-                          className={`questionsTextOptions_01 ${element.activeStatus === "true" ? "selected" : ""
-                            }`}
-                          onClick={() => {
-                            handleActiveStatus(index, "true", element.Id);
-                          }}
-                        >
-                          Active
-                        </button>
-                        <button
-                          style={{
-                            width: "100%",
-                            padding: "3px",
-                            fontSize: "0.7rem",
-                            borderRadius: "5px",
-                          }}
-                          className={`questionsTextOptions_01 ${element.activeStatus === "false"
-                            ? "selected"
-                            : ""
-                            }`}
-                          onClick={() => {
-                            handleActiveStatus(index, "false", element.Id);
-                          }}
-                        >
-                          Inactive
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div>No results found</div>
-                )}
+                    ))
+                  ) : (
+                    <div>No results found</div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </IonContent>
+          </IonContent>
+        </>
       )}
     </IonPage>
   );

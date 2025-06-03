@@ -7,19 +7,19 @@
 }
 
 .tab5TopDiv{
-    height: 50vh;
+    /* height: 50vh; */
     inline-size: 100%;
     background: rgb(86, 193, 217);
     background: linear-gradient(0deg, rgba(31,162,202,1) 0%, rgba(216, 245, 253, 1) 60%, rgba(185, 236, 255, 1) 100%);
     border-radius: 0 0 40px 40px;
-    padding: 1rem 0;
+    padding: 0rem 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 }
 
 .tab5IonSegment{
-    padding: 1rem 0 1rem 1rem;
+    padding: 0rem 0 1rem 1rem;
 }
 
 .tab5IonSegment>ion-segment>ion-segment-button {

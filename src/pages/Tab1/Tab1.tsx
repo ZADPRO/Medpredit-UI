@@ -1,5 +1,6 @@
 import {
   IonContent,
+  IonHeader,
   IonPage,
   IonSearchbar,
   IonTitle,
@@ -47,11 +48,11 @@ const Tab1: React.FC = () => {
       });
 
 
-      localStorage.removeItem("getMainCat");
+    localStorage.removeItem("getMainCat");
 
   }, [location.pathname === "/home"]);
 
-  
+
 
 
   const [loadingStatus, setLoadingStatus] = useState<boolean>(true);
@@ -84,19 +85,24 @@ const Tab1: React.FC = () => {
         ) : (
           <>
             <AppExitHandler />
-            <IonContent fullscreen>
+            <IonHeader>
+              <IonToolbar>
+                <div style={{ width: "100%", background: "#0969b3"}}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "20vh", padding: "0px 20px" }}>
+                    <div>
+                      <div style={{ fontSize: "1rem", fontWeight: "700", color: "white" }}>Hi,</div>
+                      <div style={{ fontSize: "0.9rem", fontWeight: "600", color: "white" }}>{tokenObject.roleType === 1 || tokenObject.roleType === 4 ? "Dr. " : ""}{userData ? userData.profileName.refUserName : ""}</div>
+                      <div style={{ fontSize: "0.7rem", fontWeight: "600", color: "white" }}>{userData ? userData.profileName.refUserCustId : ""}</div>
+                    </div>
+                    <div><img src={profileImg} style={{ width: "4rem" }} alt="profile" /></div>
+                  </div>
+                </div>
+              </IonToolbar>
+            </IonHeader>
+            <IonContent>
               <div className="tab2 medpredit-page-background">
                 <div style={{ height: "100vh", width: "100%" }}>
-                  <div style={{ height: "20vh", width: "100%", background: "#0969b3", borderBottomLeftRadius: "30px", borderBottomRightRadius: "30px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", height: "20vh", padding: "0px 20px" }}>
-                      <div>
-                        <div style={{ fontSize: "1rem", fontWeight: "700", color: "white" }}>Hi,</div>
-                        <div style={{ fontSize: "0.9rem", fontWeight: "600", color: "white" }}>{tokenObject.roleType === 1 || tokenObject.roleType === 4 ? "Dr. " : ""}{userData ? userData.profileName.refUserName : ""}</div>
-                        <div style={{ fontSize: "0.7rem", fontWeight: "600", color: "white" }}>{userData ? userData.profileName.refUserCustId : ""}</div>
-                      </div>
-                      <div><img src={profileImg} style={{ width: "4rem" }} alt="profile" /></div>
-                    </div>
-                  </div>
+
                   <div style={{ height: "80vh", overflow: "auto" }}>
 
                     <div style={{ fontSize: "1rem", padding: "1rem", fontWeight: "700", color: "#4b6172", }}>Patient Attended Count</div>

@@ -2,10 +2,13 @@ import {
   IonAccordion,
   IonAccordionGroup,
   IonContent,
+  IonFooter,
+  IonHeader,
   IonIcon,
   IonItem,
   IonModal,
   IonPage,
+  IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -566,11 +569,39 @@ const Questions: React.FC = () => {
 
   return (
     <IonPage>
-
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom:"1px solid #0c436c"
+            }}
+          >
+            <span> <IonIcon
+              size="large"
+              onClick={() => history.goBack()}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span>{refCategoryLabel}</span>
+            <span> <IonIcon
+              style={{ "font-size": "1.5rem" }}
+              onClick={() => setIsOpen(true)}
+              icon={informationCircle}
+            ></IonIcon></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
         <div className="questionsParent medpredit-page-background">
-          <div>
-            <div className="questionsHeader">
+          {/* <div> */}
+          {/* <div className="questionsHeader">
               <IonIcon
                 size="large"
                 onClick={() => history.goBack()}
@@ -582,492 +613,450 @@ const Questions: React.FC = () => {
                 onClick={() => setIsOpen(true)}
                 icon={informationCircle}
               ></IonIcon>
-            </div>
+            </div> */}
 
-            <div className="questionsList boxShadow02-inset custom-scrollbar">
-              {visibleQuestions.map((question, index) => (
-                <div key={index} ref={(el) => (questionRefs.current[index] = el)}>
-                  {question.questionType === "6" && (
-                    <NumberInputBoxT6
-                      type="number"
-                      label={question}
-                      onClickOpt={(value, questionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          console.log("-------------------->onEdit Triggered");
-                          // getNextQuestions(
-                          //   questionId,
-                          //   question.questionType,
-                          //   parseInt(value),
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+          <div className="questionsList  custom-scrollbar">
+            {visibleQuestions.map((question, index) => (
+              <div key={index} ref={(el) => (questionRefs.current[index] = el)}>
+                {question.questionType === "6" && (
+                  <NumberInputBoxT6
+                    type="number"
+                    label={question}
+                    onClickOpt={(value, questionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        console.log("-------------------->onEdit Triggered");
+                        // getNextQuestions(
+                        //   questionId,
+                        //   question.questionType,
+                        //   parseInt(value),
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "1" && (
-                    <YesNo
-                      label={question}
-                      onOptionSelect={(refOptionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          // getNextQuestions(
-                          //   question.questionId,
-                          //   refOptionId,
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, refOptionId, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          refOptionId,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
-                  {question.questionType === "2" && (
-                    <MultipleSelect
-                      label={question}
-                      onOptionSelect={(selectedOptions, forwardQId) => {
-                        if (index === enabledIndex) {
-                          // getNextQuestions(
-                          //   question.questionId,
-                          //   refOptionId,
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(selectedOptions, forwardQId) => {
-                        handleMultipleSelectEdit(
-                          question.questionId,
-                          question.questionType,
-                          selectedOptions,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "1" && (
+                  <YesNo
+                    label={question}
+                    onOptionSelect={(refOptionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        // getNextQuestions(
+                        //   question.questionId,
+                        //   refOptionId,
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, refOptionId, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        refOptionId,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
+                {question.questionType === "2" && (
+                  <MultipleSelect
+                    label={question}
+                    onOptionSelect={(selectedOptions, forwardQId) => {
+                      if (index === enabledIndex) {
+                        // getNextQuestions(
+                        //   question.questionId,
+                        //   refOptionId,
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(selectedOptions, forwardQId) => {
+                      handleMultipleSelectEdit(
+                        question.questionId,
+                        question.questionType,
+                        selectedOptions,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "5" && (
-                    <HrsMins
-                      type="text"
-                      label={question}
-                      SubmitActive={SubmitActive}
-                      onEdit={(
+                {question.questionType === "5" && (
+                  <HrsMins
+                    type="text"
+                    label={question}
+                    SubmitActive={SubmitActive}
+                    onEdit={(
+                      questionType,
+                      hrsValue,
+                      minsValue,
+                      forwardQId
+                    ) => {
+                      handleHrsEdit(
+                        question.questionId,
                         questionType,
                         hrsValue,
                         minsValue,
                         forwardQId
-                      ) => {
-                        handleHrsEdit(
-                          question.questionId,
-                          questionType,
-                          hrsValue,
-                          minsValue,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "4" && (
-                    <NumberInputBoxT4
-                      type="number"
-                      label={question}
-                      onClickOpt={(value, questionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          console.log("-------------------->onEdit Triggered");
-                          // getNextQuestions(
-                          //   questionId,
-                          //   question.questionType,
-                          //   parseInt(value),
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "4" && (
+                  <NumberInputBoxT4
+                    type="number"
+                    label={question}
+                    onClickOpt={(value, questionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        console.log("-------------------->onEdit Triggered");
+                        // getNextQuestions(
+                        //   questionId,
+                        //   question.questionType,
+                        //   parseInt(value),
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "3" && (
-                    <TextInputBox
-                      type="text"
-                      label={question}
-                      onClickOpt={(value, questionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          console.log("-------------------->onEdit Triggered");
-                          // getNextQuestions(
-                          //   questionId,
-                          //   question.questionType,
-                          //   parseInt(value),
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "3" && (
+                  <TextInputBox
+                    type="text"
+                    label={question}
+                    onClickOpt={(value, questionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        console.log("-------------------->onEdit Triggered");
+                        // getNextQuestions(
+                        //   questionId,
+                        //   question.questionType,
+                        //   parseInt(value),
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "7" && (
-                    <TimeInputBox
-                      type="text"
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "7" && (
+                  <TimeInputBox
+                    type="text"
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "8" && (
-                    <TimeInputBox24
-                      type="text"
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "8" && (
+                  <TimeInputBox24
+                    type="text"
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "9" && (
-                    <Label
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "9" && (
+                  <Label
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "10" && (
-                    <GraphValues
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "10" && (
+                  <GraphValues
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "11" && (
-                    <Hrs24
-                      type="text"
-                      label={question}
-                      onEdit={(
+                {question.questionType === "11" && (
+                  <Hrs24
+                    type="text"
+                    label={question}
+                    onEdit={(
+                      questionType,
+                      hrsValue,
+                      minsValue,
+                      forwardQId
+                    ) => {
+                      handleHrsEdit(
+                        question.questionId,
                         questionType,
                         hrsValue,
                         minsValue,
                         forwardQId
-                      ) => {
-                        handleHrsEdit(
-                          question.questionId,
-                          questionType,
-                          hrsValue,
-                          minsValue,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "12" && (
-                    <YearNMonth
-                      type="text"
-                      label={question}
-                      onClickOpt={(value, questionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          console.log("-------------------->onEdit Triggered");
-                          // getNextQuestions(
-                          //   questionId,
-                          //   question.questionType,
-                          //   parseInt(value),
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "12" && (
+                  <YearNMonth
+                    type="text"
+                    label={question}
+                    onClickOpt={(value, questionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        console.log("-------------------->onEdit Triggered");
+                        // getNextQuestions(
+                        //   questionId,
+                        //   question.questionType,
+                        //   parseInt(value),
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "13" && (
-                    <MultipleSelectInput
-                      label={question}
-                      onOptionSelect={(selectedOptions, forwardQId) => {
-                        if (index === enabledIndex) {
-                          // getNextQuestions(
-                          //   question.questionId,
-                          //   refOptionId,
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(selectedOptions, forwardQId) => {
-                        handleMultipleSelectEdit(
-                          question.questionId,
-                          question.questionType,
-                          selectedOptions,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
-
-
-                  {question.questionType === "14" && (
-                    <YearNMonthActual
-                      type="text"
-                      label={question}
-                      onClickOpt={(value, questionId, forwardQId) => {
-                        if (index === enabledIndex) {
-                          console.log("-------------------->onEdit Triggered");
-                          // getNextQuestions(
-                          //   questionId,
-                          //   question.questionType,
-                          //   parseInt(value),
-                          //   forwardQId
-                          // );
-                        }
-                      }}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
-
-                  {question.questionType === "15" && (
-                    <Q3Graphvalues
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "13" && (
+                  <MultipleSelectInput
+                    label={question}
+                    onOptionSelect={(selectedOptions, forwardQId) => {
+                      if (index === enabledIndex) {
+                        // getNextQuestions(
+                        //   question.questionId,
+                        //   refOptionId,
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(selectedOptions, forwardQId) => {
+                      handleMultipleSelectEdit(
+                        question.questionId,
+                        question.questionType,
+                        selectedOptions,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "16" && (
-                    <Q2Graphvalues
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "14" && (
+                  <YearNMonthActual
+                    type="text"
+                    label={question}
+                    onClickOpt={(value, questionId, forwardQId) => {
+                      if (index === enabledIndex) {
+                        console.log("-------------------->onEdit Triggered");
+                        // getNextQuestions(
+                        //   questionId,
+                        //   question.questionType,
+                        //   parseInt(value),
+                        //   forwardQId
+                        // );
+                      }
+                    }}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
-                  {question.questionType === "17" && (
-                    <UrineSugarPrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
-
-                  {question.questionType === "18" && (
-                    <UrineAlbuminPrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
-
-                  {question.questionType === "19" && (
-                    <UrineKetonesPrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "15" && (
+                  <Q3Graphvalues
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "20" && (
-                    <KidneySizePrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "16" && (
+                  <Q2Graphvalues
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
+
+                {question.questionType === "17" && (
+                  <UrineSugarPrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
+
+                {question.questionType === "18" && (
+                  <UrineAlbuminPrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
+
+                {question.questionType === "19" && (
+                  <UrineKetonesPrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "21" && (
-                    <EchogenicityPrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "20" && (
+                  <KidneySizePrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "22" && (
-                    <CorticoPrev
-                      // SubmitActive={SubmitActive}
-                      label={question}
-                      onEdit={(questionType, value, forwardQId) => {
-                        handleQuestionEdit(
-                          question.questionId,
-                          questionType,
-                          value,
-                          forwardQId
-                        );
-                      }}
-                    />
-                  )}
+                {question.questionType === "21" && (
+                  <EchogenicityPrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
 
 
-                  {question.questionType === "99" && (
-                    <TreatmentDetailsQuestion
-                      SubmitActive={SubmitActive}
-                      handleData={handleData}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-          {loadingStatus ? (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%", // Ensures vertical centering if the parent has a defined height
-                  background: "#effafe",
-                  borderRadius: "5% 5% 0 0",
-                }}
-              >
-                <button
-                  disabled={submitButton}
-                  onClick={submitResponse}
-                  className={`questionSubmitButton ${submitButton ? "disabled" : ""
-                    }`}
-                >
-                  <i className="pi pi-spin pi-spinner"></i>
-                </button>
+                {question.questionType === "22" && (
+                  <CorticoPrev
+                    // SubmitActive={SubmitActive}
+                    label={question}
+                    onEdit={(questionType, value, forwardQId) => {
+                      handleQuestionEdit(
+                        question.questionId,
+                        questionType,
+                        value,
+                        forwardQId
+                      );
+                    }}
+                  />
+                )}
+
+
+                {question.questionType === "99" && (
+                  <TreatmentDetailsQuestion
+                    SubmitActive={SubmitActive}
+                    handleData={handleData}
+                  />
+                )}
               </div>
-            </>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%", // Ensures vertical centering if the parent has a defined height
-                background: "#effafe",
-                borderRadius: "5% 5% 0 0",
-              }}
-            >
-              <button
-                disabled={submitButton}
-                onClick={submitResponse}
-                className={`questionSubmitButton ${submitButton ? "disabled" : ""
-                  }`}
-              >
-                Submit
-              </button>
-            </div>
-          )}
+            ))}
+          </div>
+          {/* </div> */}
+
         </div>
 
         <IonModal
@@ -1115,6 +1104,53 @@ const Questions: React.FC = () => {
           </div>
         </IonModal>
       </IonContent>
+      <IonFooter>
+        {loadingStatus ? (
+          <>
+            <div
+              style={{
+                display: "flex",
+                padding: "10px 0px 10px 0px",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%", // Ensures vertical centering if the parent has a defined height
+                background: "#effafe",
+                borderRadius: "5% 5% 0 0",
+              }}
+            >
+              <button
+                disabled={submitButton}
+                onClick={submitResponse}
+                className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                  }`}
+              >
+                <i className="pi pi-spin pi-spinner"></i>
+              </button>
+            </div>
+          </>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              padding: "10px 0px 10px 0px",
+              alignItems: "center",
+              height: "100%", // Ensures vertical centering if the parent has a defined height
+              background: "#effafe",
+              borderRadius: "5% 5% 0 0",
+            }}
+          >
+            <button
+              disabled={submitButton}
+              onClick={submitResponse}
+              className={`questionSubmitButton ${submitButton ? "disabled" : ""
+                }`}
+            >
+              Submit
+            </button>
+          </div>
+        )}
+      </IonFooter>
     </IonPage>
   );
 };

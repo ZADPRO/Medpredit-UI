@@ -93,7 +93,7 @@ const ChangePassword: React.FC = () => {
           <IonTitle>Change Password</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent>
         <div className="flex flex-row ion-padding-start ion-padding-end ion-padding-top">
           <div className="p-inputgroup flex-1">
             <span className="p-inputgroup-addon">
@@ -159,23 +159,21 @@ const ChangePassword: React.FC = () => {
         ) : null}
       </IonContent>
       <IonFooter>
-        <IonToolbar>
-          <button
-            style={{
-              width: "100%",
-              height: "3rem",
-              margin: "5px 0px",
-              borderRadius: "5px",
-              background: "linear-gradient(160deg, #077556, #2f9f97)", // Green for enabled
-              color: "#fff", // Lighter text color for disabled
-              fontSize: "16px",
-              cursor: "pointer", // Change cursor for disabled
-            }}
-            onClick={handleSubmit}
-          >
-            Change Password
-          </button>
-        </IonToolbar>
+        <button
+          style={{
+            width: "100%",
+            height: "3rem",
+            margin: "5px 0px",
+            borderRadius: "5px",
+            background: "linear-gradient(160deg, #077556, #2f9f97)", // Green for enabled
+            color: "#fff", // Lighter text color for disabled
+            fontSize: "16px",
+            cursor: "pointer", // Change cursor for disabled
+          }}
+          onClick={handleSubmit}
+        >
+          Change Password
+        </button>
       </IonFooter>
     </IonPage>
   );

@@ -49,7 +49,7 @@ const Tab5: React.FC = () => {
   return (
     <IonPage>
       {/*
-      <IonContent fullscreen>
+      <IonContent>
         <div
           style={{
             width: "100%",
@@ -239,12 +239,31 @@ const Tab5: React.FC = () => {
       </IonContent> */}
 
 
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#bbecff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              padding: "1rem",
+            }}
+          >
+            <span></span>
+            <span>Know About Disease</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
 
-
-      <IonContent fullscreen>
+      <IonContent>
         <div className="tab5 medpredit-page-background">
           <div className="tab5TopDiv">
-            <h2
+            {/* <h2
               style={{
                 margin: "0",
                 fontSize: "1.2rem",
@@ -252,7 +271,7 @@ const Tab5: React.FC = () => {
                 color: "#0c436c"
               }}>
               Know About Disease
-            </h2>
+            </h2> */}
             <div className="tab5IonSegment">
               <IonSegment scrollable={true} onIonChange={(e) => setActiveDisease(e.detail.value as string)} mode="md" value={activeDisease}>
                 <IonSegmentButton value="Diabetes" contentId="1">

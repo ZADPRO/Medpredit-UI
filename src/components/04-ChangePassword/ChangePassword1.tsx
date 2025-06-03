@@ -1,4 +1,4 @@
-import { IonContent, IonIcon, IonPage, IonToast } from "@ionic/react";
+import { IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToast, IonToolbar } from "@ionic/react";
 import { chevronBack } from "ionicons/icons";
 import { Password } from "primereact/password";
 import React, { ChangeEvent, useState } from "react";
@@ -84,20 +84,20 @@ const ChangePassword1 = () => {
 
           if (data.status) {
             setToastOpen({
-                status: true,
-                textColor: "green",
-                message: "Password Changed Successfully",
-              });
-              setFormData({
-                refUserCurrPassword: "",
-                refUserNewPassword: "",
-                refUserConPassword: ""
-              });
+              status: true,
+              textColor: "green",
+              message: "Password Changed Successfully",
+            });
+            setFormData({
+              refUserCurrPassword: "",
+              refUserNewPassword: "",
+              refUserConPassword: ""
+            });
             setTimeout(() => {
               history.push("/profile");
             }, 2000);
           }
-           else {
+          else {
             setToastOpen({
               status: true,
               textColor: "red",
@@ -137,12 +137,39 @@ const ChangePassword1 = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <div
-          style={{ height: "100vh", width: "100vw" }}
-          className="KnowAboutPatient medpredit-page-background"
-        >
+      <IonHeader>
+        <IonToolbar>
           <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              height: "8vh",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom: "1px solid #0c436c"
+            }}
+          >
+            <span><IonIcon
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span>Change Password</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <div
+          className="KnowAboutPatient "
+        >
+          {/* <div
             style={{
               position: "relative",
               display: "flex",
@@ -172,11 +199,10 @@ const ChangePassword1 = () => {
               Change Password
             </span>
             <span></span>
-          </div>
+          </div> */}
 
           <div
-            style={{ minHeight: "83vh" }}
-            className="form-page ion-padding boxShadow02-inset"
+            className="form-page ion-padding"
           >
             <div className="inputBox">
               <label>
@@ -443,7 +469,7 @@ const ChangePassword1 = () => {
                 }}
               >
                 {formData.refUserNewPassword === formData.refUserConPassword &&
-                formData.refUserNewPassword.length > 0 ? (
+                  formData.refUserNewPassword.length > 0 ? (
                   <div
                     style={{
                       width: "25px",
@@ -482,23 +508,8 @@ const ChangePassword1 = () => {
               </div>
             </div>
           </div>
-          
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "7vh", // Ensures vertical centering if the parent has a defined height
-              borderRadius: "5% 5% 0 0",
-            }}
-          >
-            <button
-              className="changePassSubmitButton"
-              onClick={() => verifyForm()}
-            >
-              Submit
-            </button>
-          </div>
+
+
         </div>
         <IonToast
           style={{
@@ -513,6 +524,24 @@ const ChangePassword1 = () => {
           duration={1500}
         />
       </IonContent>
+      <IonFooter>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "7vh", // Ensures vertical centering if the parent has a defined height
+            borderRadius: "5% 5% 0 0",
+          }}
+        >
+          <button
+            className="changePassSubmitButton"
+            onClick={() => verifyForm()}
+          >
+            Submit
+          </button>
+        </div>
+      </IonFooter>
     </IonPage>
   );
 };

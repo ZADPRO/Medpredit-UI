@@ -169,8 +169,35 @@ const MapAssistant = () => {
           <IonTitle>Map Assistant</IonTitle>
         </IonToolbar>
       </IonHeader> */}
+      <IonHeader>
+        <IonToolbar>
+          <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                background: "#fff",
+                alignItems: "center",
+                width: "100%",
+                height:"8vh",
+                fontSize: "1.2rem",
+                fontWeight: "600",
+                padding: "1rem",
+                borderBottom: "1px solid #0c436c"
+              }}
+            >
+              <span> <IonIcon
+                size="large"
+                onClick={() => history.goBack()}
+                icon={chevronBack}
+              ></IonIcon></span>
+              <span style={{display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column"}}><div style={{ fontSize: "1rem" }}>{assistantName}</div>
+                <div style={{ fontSize: "0.8rem" }}>{assistantCustId}</div></span>
+              <span></span>
+            </div>
+        </IonToolbar>
+      </IonHeader>
       <IonContent >
-        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "92vh", overflow: "auto" }}  >
           <div >
             <IonAlert
               isOpen={model}
@@ -199,7 +226,7 @@ const MapAssistant = () => {
               onDidDismiss={() => setModel(false)}
             />
 
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -220,7 +247,7 @@ const MapAssistant = () => {
                 <div style={{ fontSize: "0.8rem" }}>{assistantCustId}</div>
               </span>
               <span></span>
-            </div>
+            </div> */}
 
             <div className="ion-padding">
               <div

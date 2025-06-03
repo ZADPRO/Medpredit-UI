@@ -20,7 +20,7 @@ const AddQuestions: React.FC = () => {
           <IonTitle>Add Questions</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen></IonContent>
+      <IonContent></IonContent>
     </IonPage>
   );
 };

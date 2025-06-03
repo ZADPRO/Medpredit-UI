@@ -23,6 +23,7 @@ import backgroundImage1 from "../../assets/PDFTemplate/background-1.png";
 import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
 import { IonIcon, IonText, IonToast, isPlatform } from "@ionic/react";
 import { download } from "ionicons/icons";
+import { FileOpener } from "@capacitor-community/file-opener";
 
 interface DoctorDetails {
   refHospitalName: any;
@@ -3737,6 +3738,19 @@ const ReportPDF: React.FC<ReportPDFProps> = ({ reportDate }) => {
         path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
         data: base64data,
         directory: Directory.Documents
+      });
+
+      const fileUri = await Filesystem.getUri({
+        path: `${patientDetails?.refUserCustId}_${reportDate}.pdf`,
+        directory: Directory.Documents,
+      });
+
+      // On Android/iOS, you might need to convert the URI to a path
+      const filePath = fileUri.uri.replace('file://', ''); // Adjust if needed
+
+      await FileOpener.open({
+        filePath: filePath,
+        contentType: 'application/pdf',
       });
 
       console.log("PDF saved successfully!");

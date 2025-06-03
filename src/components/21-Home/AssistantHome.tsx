@@ -7,7 +7,7 @@ const AssistantHome: React.FC = () => {
   return (
     <div>
       <IonPage>
-        <IonContent fullscreen></IonContent>
+        <IonContent></IonContent>
       </IonPage>
     </div>
   );

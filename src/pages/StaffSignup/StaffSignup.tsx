@@ -860,7 +860,8 @@ const StaffSignup = () => {
             role: 'cancel',
             handler: () => {
               // Do nothing, stay on the page
-              window.history.pushState(null, '', window.location.href);
+              history.push("/addDoctor")
+              // window.history.pushState(null, '', window.location.href);
             }
           }
         ]
@@ -880,13 +881,30 @@ const StaffSignup = () => {
 
   return (
     <IonPage>
-      {/* <IonHeader mode="ios">
-        <IonToolbar className="pt-1 pb-1" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton mode="md" defaultHref="/configure"></IonBackButton>
-          </IonButtons>
-          <IonTitle>
-            {formPage === 1 ? (
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              height: "8vh",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom: "1px solid #0c436c"
+            }}
+          >
+            <span><IonIcon
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span> {formPage === 1 ? (
               <>
                 {localStorage.getItem("createRoleId") === "1"
                   ? "Add Doctor"
@@ -898,17 +916,17 @@ const StaffSignup = () => {
               </>
             ) : (
               formData.refUserFname + " " + formData.refUserLname
-            )}
-          </IonTitle>
+            )}</span>
+            <span></span>
+          </div>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding"> */}
       <IonContent>
         <div
           className="KnowAboutPatient medpredit-page-background"
-          style={{ height: "100vh" }}
+          style={{ height: "92vh" }}
         >
-          <div
+          {/* <div
             style={{
               position: "relative",
               display: "flex",
@@ -949,10 +967,10 @@ const StaffSignup = () => {
               )}
             </span>
             <span></span>
-          </div>
+          </div> */}
           <div
-            className="custom-scrollbar boxShadow02-inset"
-            style={{ margin: "1rem 0px", height: "auto", overflowY: "scroll" }}
+            className="custom-scrollbar"
+            style={{ margin: "0rem 0px", height: "auto", overflowY: "scroll" }}
           >
             <div>
               <div style={{ padding: "1rem" }}>

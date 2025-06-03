@@ -1,4 +1,4 @@
-import { IonContent, IonIcon, IonPage, IonToast } from "@ionic/react";
+import { IonContent, IonFooter, IonHeader, IonIcon, IonPage, IonToast, IonToolbar } from "@ionic/react";
 import axios from "axios";
 import { chevronBack } from "ionicons/icons";
 import { InputText } from "primereact/inputtext";
@@ -114,12 +114,39 @@ const ChangePhoneNumber = () => {
 
   return (
     <IonPage>
-      <IonContent fullscreen>
-        <div
-          style={{ height: "100vh", width: "100vw" }}
-          className="KnowAboutPatient medpredit-page-background"
-        >
+      <IonHeader>
+        <IonToolbar>
           <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              height: "8vh",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom: "1px solid #0c436c"
+            }}
+          >
+            <span><IonIcon
+              size="large"
+              onClick={() => {
+                history.goBack();
+              }}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span>Change Phone Number</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <div
+          className="KnowAboutPatient"
+        >
+          {/* <div
             style={{
               position: "relative",
               display: "flex",
@@ -149,11 +176,10 @@ const ChangePhoneNumber = () => {
               Change Phone Number
             </span>
             <span></span>
-          </div>
+          </div> */}
 
           <div
-            style={{ height: "83vh" }}
-            className="form-page ion-padding boxShadow02-inset"
+            className="form-page ion-padding "
           >
             <div className="inputBox">
               <label>
@@ -214,22 +240,7 @@ const ChangePhoneNumber = () => {
           ) : (
             <div></div>
           )}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "7vh", // Ensures vertical centering if the parent has a defined height
-              borderRadius: "5% 5% 0 0",
-            }}
-          >
-            <button
-              className="changePassSubmitButton"
-              onClick={() => verifyForm()}
-            >
-              Submit
-            </button>
-          </div>
+         
         </div>
 
         <IonToast
@@ -245,6 +256,24 @@ const ChangePhoneNumber = () => {
           duration={1500}
         />
       </IonContent>
+      <IonFooter>
+         <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "7vh", // Ensures vertical centering if the parent has a defined height
+              borderRadius: "5% 5% 0 0",
+            }}
+          >
+            <button
+              className="changePassSubmitButton"
+              onClick={() => verifyForm()}
+            >
+              Submit
+            </button>
+          </div>
+      </IonFooter>
     </IonPage>
   );
 };

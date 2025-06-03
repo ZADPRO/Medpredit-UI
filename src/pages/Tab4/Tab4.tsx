@@ -105,7 +105,7 @@ const Tab4: React.FC = () => {
   return (
     <IonPage>
       {/*
-      <IonContent fullscreen>
+      <IonContent>
         <div style={{ width: "100%", height: "93vh", background: "#f4f4f4" }}>
           <div
             style={{
@@ -269,38 +269,45 @@ const Tab4: React.FC = () => {
         </div>
       </IonContent> */}
 
-      <IonContent fullscreen>
+
+      <IonHeader>
+        <IonToolbar>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#0969b3",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              padding: "1rem",
+              color: "#fff"
+            }}
+          >
+            <span></span>
+            <span>Profile</span>
+            <span><IonIcon
+              onClick={() => {
+                history.push("/usersettings", {
+                  direction: "forward",
+                  animation: "slide",
+                });
+              }}
+              icon={settingsOutline}
+            ></IonIcon></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent>
         <div className="tab4 medpredit-page-background">
           <div className="tab4TopDiv">
-            <div
-              className="ion-activatable ripple-parent rectangle"
-              style={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "90%",
-                color: "white",
-                fontSize: "1.2rem",
-              }}
-            >
-              <span style={{ position: "absolute", left: 0 }}></span>
-              <span>Profile</span>
-              <IonIcon
-                onClick={() => {
-                  history.push("/usersettings", {
-                    direction: "forward",
-                    animation: "slide",
-                  });
-                }}
-                icon={settingsOutline}
-                style={{ position: "absolute", right: 0 }}
-              ></IonIcon>
-            </div>
+
 
             <div
               style={{
-                marginTop: "3rem",
+                marginTop: "1rem",
                 height: "25vh",
                 width: "25vh",
               }}
