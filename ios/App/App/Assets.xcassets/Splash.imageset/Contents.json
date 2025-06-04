@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "MED_ICON_512.jpg",
+      "filename" : "FlashScreen.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "MED_ICON_512 1.jpg",
+      "filename" : "FlashScreen 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "MED_ICON_512 2.jpg",
+      "filename" : "FlashScreen 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
