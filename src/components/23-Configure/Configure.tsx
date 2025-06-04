@@ -66,7 +66,7 @@ const Configure = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="tab2 medpredit-page-background">
+        <div className="tab2">
           <div className="">
             {/* <div
               style={{

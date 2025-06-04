@@ -115,25 +115,26 @@ const Tab2: React.FC = () => {
       <IonHeader>
         <IonToolbar>
           <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                background: "#fff",
-                alignItems: "center",
-                width: "100%",
-                fontSize: "1.2rem",
-                fontWeight: "600",
-                padding: "1rem",
-              }}
-            >
-              <span></span>
-              <span>Patient</span>
-              <span></span>
-            </div>
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              height: "8vh",
+              fontSize: "1.2rem",
+              fontWeight: "600",
+              padding: "1rem",
+            }}
+          >
+            <span></span>
+            <span>Patient</span>
+            <span></span>
+          </div>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <div className="tab2 medpredit-page-background">
+        <div className="tab2 ">
           <div className="tab2TopDiv">
             {/* <div
               style={{
@@ -177,9 +178,9 @@ const Tab2: React.FC = () => {
                 <div
                   style={{
                     width: "100%",
-                    height: "90vh",
                     display: "flex",
                     justifyContent: "center",
+                    margin:"10px 10px",
                     alignItems: "center",
                   }}
                 >
@@ -195,7 +196,7 @@ const Tab2: React.FC = () => {
                   <div
                     style={{
                       width: "100%",
-                      height: "82vh",
+                      margin: "20px 20px",
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -225,7 +226,6 @@ const Tab2: React.FC = () => {
                       <div
                         style={{
                           width: "100%",
-                          height: "82vh",
                           overflow: "auto",
                           gap: "5px",
                         }}
@@ -242,7 +242,8 @@ const Tab2: React.FC = () => {
                         <div
                           style={{
                             width: "100%",
-                            height: "82vh",
+                            // height: "82vh",
+                            margin: "20px 20px",
                             display: "flex",
                             justifyContent: "center",
                             alignItems: "center",
@@ -343,6 +344,7 @@ const Tab2: React.FC = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   gap: "0.5rem",
+                  marginTop: "20px",
                   opacity: patientsData.length > 6 ? 0.5 : 1,
                 }}
                 onClick={() => {

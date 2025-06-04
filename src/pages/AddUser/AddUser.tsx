@@ -386,17 +386,35 @@ const AddUser: React.FC = () => {
 
   return (
     <IonPage>
-      {/* <IonHeader mode="ios">
-        <IonToolbar className="pt-1 pb-1" mode="ios">
-          <IonButtons slot="start">
-            <IonBackButton mode="md" defaultHref="/patient"></IonBackButton>
-          </IonButtons>
-          <IonTitle>Add Patient</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
-      <IonContent className="addPatientForm">
-        <div className="KnowAboutPatient medpredit-page-background" style={{ height: "100vh", overflow: "auto" }}  >
+      <IonHeader>
+        <IonToolbar>
           <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              background: "#fff",
+              alignItems: "center",
+              width: "100%",
+              fontSize: "1.2rem",
+              height: "8vh",
+              fontWeight: "600",
+              padding: "1rem",
+              borderBottom: "1px solid #0c436c"
+            }}
+          >
+            <span> <IonIcon
+              size="large"
+              onClick={() => history.goBack()}
+              icon={chevronBack}
+            ></IonIcon></span>
+            <span>Add Patient</span>
+            <span></span>
+          </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className="addPatientForm">
+        <div className="KnowAboutPatient medpredit-page-background" style={{ overflow: "auto" }}  >
+          {/* <div
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -416,7 +434,7 @@ const AddUser: React.FC = () => {
               Add Patient
             </span>
             <span></span>
-          </div>
+          </div> */}
           <div style={{ margin: "20px 0px" }}>
             {/* Occupation Model */}
             <IonModal
